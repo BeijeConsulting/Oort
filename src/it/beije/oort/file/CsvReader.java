@@ -3,7 +3,6 @@ package it.beije.oort.file;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.StringTokenizer;
 
 public class CsvReader {
 
@@ -31,6 +30,7 @@ public class CsvReader {
 		
 		while (bufferedReader.ready()) {
 			//System.out.println(bufferedReader.readLine());
+			@SuppressWarnings("unused")
 			String riga = bufferedReader.readLine();
 //			String[] campi = riga.split(";");
 //			
@@ -47,6 +47,8 @@ public class CsvReader {
 //			System.out.println("email : " + tokenizer.nextToken());
 
 			System.out.println();
+			
+			bufferedReader.close();
 		}
 	}
 
