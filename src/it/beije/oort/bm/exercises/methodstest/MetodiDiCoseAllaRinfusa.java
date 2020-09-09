@@ -1,7 +1,7 @@
 package it.beije.oort.bm.exercises.methodstest;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 public class MetodiDiCoseAllaRinfusa {
 
@@ -31,15 +31,76 @@ public class MetodiDiCoseAllaRinfusa {
 		System.out.println("#########  Array Multidimensionale #########");
 		System.out.println("############################################");
 		System.out.println();
+		System.out.println("Regular:");
+		String alphabet = "abcdefghijklmnopqrstuvwxyz";
 		char [][] chars = new char[5][10];
 		for(char[] row : chars) {
-			for(char cc : row) {
-				cc = (char)(Math.random()*10000000%Character.MAX_VALUE);
+			for (int i = 0; i < row.length; i++) {
+				row[i] = alphabet.charAt((int)(Math.random()*1000%alphabet.length()));
 			}
 		}
 		for(char[] row : chars) {
 			System.out.println(Arrays.toString(row));
 		}
+		System.out.println();
+		System.out.println("Not regular (probably):");
+		chars = new char[5][];
+		for(int i = 0; i<chars.length; i++) {
+			chars[i] = new char[(int)(Math.random()*10)];
+		}
+		for(char[] row : chars) {
+			for (int i = 0; i < row.length; i++) {
+				row[i] = alphabet.charAt((int)(Math.random()*1000%alphabet.length()));
+			}
+		}
+		for(char[] row : chars) {
+			System.out.println(Arrays.toString(row));
+		}
+		System.out.println();
+		System.out.println();
+		System.out.println("############################################");
+		System.out.println("############  ArrayList Methods ############");
+		System.out.println("############################################");
+		System.out.println();
+		System.out.println();
+		ArrayList<String> lista = new ArrayList<>();
+		System.out.println("Nuova lista:");
+		System.out.println(lista);
+		String el1 = "INANI", el2 = "LEMANI", el3 = "LENARI";
+		System.out.println("Aggiungo " + el1 + ":");
+		lista.add(el1);
+		System.out.println(lista);
+		System.out.println("Aggiungo " + el2 + ":");
+		lista.add(el2);
+		System.out.println(lista);
+		System.out.println("Aggiungo " + el3 + " nel mezzo:");
+		lista.add(1,el3);
+		System.out.println(lista);
+		System.out.println("Elimino il primo elemento:");
+		lista.remove(0);
+		System.out.println(lista);
+		System.out.println("Pulizia!");
+		lista.clear();
+		System.out.println(lista);
+		System.out.println("E' vuota? " + (lista.size() == 0 ? "Sì":"No"));
+		System.out.println("Aggiungo " + el1 + ":");
+		lista.add(el1);
+		System.out.println(lista);
+		System.out.println("Sostituisco " + el1 + " con " + el2 + ":");
+		lista.set(0, el2);
+		System.out.println(lista);
+		System.out.println("E' vuota? " + (lista.size() == 0 ? "Sì":"No"));
+		System.out.println("Contiene " + el1 + "? " + (lista.contains(el1) ? "Sì":"No"));
+		System.out.println("Contiene " + el1 + "? " + (lista.contains(el1) ? "Sì":"No"));
+		System.out.println("Creo nuova lista con " + el2 + ":");
+		ArrayList<String> lista2 = new ArrayList<>();
+		lista2.add(el2);
+		System.out.println(lista2);
+		System.out.println("Le due liste sono uguali? " + (lista.equals(lista2) ? "Sì":"No"));
+		System.out.println("Aggiungo " + el1 + " alla prima lista:");
+		lista.add(el1);
+		System.out.println("Sono ancora uguali? " + (lista.equals(lista2) ? "Sì":"No"));
+		System.out.println(lista + " | " + lista2);
 
 	}
 
