@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.StringTokenizer;
 
 public class CsvReader {
 
@@ -32,6 +31,7 @@ public class CsvReader {
 		
 		while (bufferedReader.ready()) {
 			//System.out.println(bufferedReader.readLine());
+			@SuppressWarnings("unused")
 			String riga = bufferedReader.readLine();
 //			String[] campi = riga.split(";");
 //			
@@ -49,6 +49,7 @@ public class CsvReader {
 
 			System.out.println();
 		}
+		bufferedReader.close();
 	}
 
 	
@@ -62,6 +63,7 @@ public class CsvReader {
 			builder.append(bufferedReader.readLine()).append('\n');
 		}
 		
+		bufferedReader.close();
 		return builder.toString();
 	}
 
