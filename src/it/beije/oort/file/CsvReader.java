@@ -3,6 +3,11 @@ package it.beije.oort.file;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+<<<<<<< HEAD
+=======
+import java.io.IOException;
+import java.util.StringTokenizer;
+>>>>>>> refs/remotes/origin/master
 
 public class CsvReader {
 
@@ -50,6 +55,20 @@ public class CsvReader {
 			
 			bufferedReader.close();
 		}
+	}
+
+	
+	public static String getContent(File file) throws IOException {
+		FileReader fileReader = new FileReader(file);
+		StringBuilder builder = new StringBuilder();
+		
+		BufferedReader bufferedReader = new BufferedReader(fileReader);
+		
+		while (bufferedReader.ready()) {
+			builder.append(bufferedReader.readLine()).append('\n');
+		}
+		
+		return builder.toString();
 	}
 
 }
