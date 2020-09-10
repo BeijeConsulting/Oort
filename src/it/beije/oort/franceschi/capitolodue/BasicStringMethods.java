@@ -1,4 +1,4 @@
-package it.beije.oort.progetti.string;
+package it.beije.oort.franceschi.capitolodue;
 
 public class BasicStringMethods {
 
