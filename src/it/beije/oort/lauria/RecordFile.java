@@ -9,30 +9,19 @@ public class RecordFile {
 		
 	private static final String PATH_FILES = "C:\\Users\\Padawan06\\Documenti\\temp\\";
 	
-	// lettura file
-	public static String getContent(File file) throws IOException {
-		FileReader fileReader = new FileReader(file);
-		StringBuilder builder = new StringBuilder();		
-		BufferedReader bufferedReader = new BufferedReader(fileReader);
-		
-		while (bufferedReader.ready()) {
-			builder.append(bufferedReader.readLine()).append('\n');
-		}
-		
-		return builder.toString();	
-	}
+//	// lettura file
+//	public static String getContent(File file) throws IOException {
+//		FileReader fileReader = new FileReader(file);
+//		StringBuilder builder = new StringBuilder();		
+//		BufferedReader bufferedReader = new BufferedReader(fileReader);
+//		
+//		while (bufferedReader.ready()) {
+//			builder.append(bufferedReader.readLine()).append('\n');
+//		}
+//		
+//		return builder.toString();	
+//	}
 
-	// lettura e memorizzazione record	
-	public static List<String> memContent(File file, List<String> record ) throws IOException {			
-		FileReader fileReader = new FileReader(file);			
-		BufferedReader bufferedReader = new BufferedReader(fileReader);			
-		
-		while (bufferedReader.ready()) {
-			record.add(bufferedReader.readLine());
-		}
-
-		return record;
-	}
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -52,20 +41,18 @@ public class RecordFile {
 		recordNomitemp = RecordFile.memContent(fileNomi, recordNomitemp);
 		recordCognomitemp = RecordFile.memContent(fileCognomi, recordCognomitemp);
 
-		int i;
-		int j; 
 		
+		// randomizzazione
 		for(int k = 0; k < 1000; k++) {
-			i = (int) (Math.random()*recordNomitemp.size()); 
-			j = (int) (Math.random()*recordCognomitemp.size());			
+			int i = (int) (Math.random()*recordNomitemp.size()); 
+			int j = (int) (Math.random()*recordCognomitemp.size());			
 			recordNomi.add(recordNomitemp.get(i));
 			recordCognomi.add(recordCognomitemp.get(j));
 			recordTel.add(RecordFile.generaNumero());
 			recordMail.add(RecordFile.generaMail(recordNomi.get(k), recordCognomi.get(k)));
 		}
 		
-		
-		
+				
 		// fase di scrittura	
 		File output = new File(PATH_FILES + "rubrica.txt");
 		FileWriter writer = new FileWriter(output);
@@ -84,15 +71,21 @@ public class RecordFile {
 		writer.flush();
 		writer.close();
 		
+		System.out.println("Creazione della rubrica, completata.");
 	}
 	
-	// scrittura record sui file
-	private static FileWriter aggiungiRiga(FileWriter writer, String nome, String cognome, String numero, String email) throws IOException {
-		StringBuilder riga = new StringBuilder();
-		riga.append(nome).append(';').append(cognome).append(';').append(numero).append(';').append(email);
-		writer.write(riga.toString());
-		return writer;
+	// lettura e memorizzazione record	
+	public static List<String> memContent(File file, List<String> record ) throws IOException {			
+		FileReader fileReader = new FileReader(file);			
+		BufferedReader bufferedReader = new BufferedReader(fileReader);			
+		
+		while (bufferedReader.ready()) {
+			record.add(bufferedReader.readLine());
+		}
+		bufferedReader.close();
+		return record;
 	}
+	
 	
 	// genera Numero di telefono
 	private static String generaNumero() {
@@ -108,15 +101,47 @@ public class RecordFile {
 		
 		return s.toString();
 	}
+
+	// generatore di email
+//	private static String generaMail(String nome, String cognome) {
+//		String[] dominio = {"gmail.com", "hotmail.com", "hotmail.it", "libero.it", "yahoo.com", "virgilio.it", "tim.it", "alice.it"};
+//		StringBuilder s = new StringBuilder();
+//		
+//		nome = nome.replace(" ", "").replace("'", "");
+//		cognome = cognome.replace(" ", "").replace("'", "");
+//		
+//		s.append(nome.toLowerCase()).append('.').append(cognome.toLowerCase()).append('@');
+//		
+//		int indexDominio = (int) (Math.random() * dominio.length);
+//		s.append(dominio[indexDominio]);
+//		
+//		return s.toString();
+//		
+//	}
 	
 	private static String generaMail(String nome, String cognome) {
 		String[] dominio = {"gmail.com", "hotmail.com", "hotmail.it", "libero.it", "yahoo.com", "virgilio.it", "tim.it", "alice.it"};
 		StringBuilder s = new StringBuilder();
 		
-		nome = nome.replace(" ", "").replace("'", "");
-		cognome = cognome.replace(" ", "").replace("'", "");
+		nome = nome.replace(" ", "").replace("'", "").toLowerCase();
+		cognome = cognome.replace(" ", "").replace("'", "").toLowerCase();
 		
-		s.append(nome.toLowerCase()).append('.').append(cognome.toLowerCase()).append('@');
+		if((int) (Math.random()*5 + 1) != 1) {
+			s.append(nome);
+		}
+		if((int) (Math.random()*3 + 1) != 1) {
+			if(s.length() > 0) {
+				s.append('.');
+			}
+			
+		}
+		if(s.length()==0) {
+			int numero = (int) (Math.random() * 14) + 6;
+			for(int index = 0; index < numero; index++) {
+				
+			}
+		}
+		s.append(nome).append('.').append(cognome).append('@');
 		
 		int indexDominio = (int) (Math.random() * dominio.length);
 		s.append(dominio[indexDominio]);
@@ -124,5 +149,14 @@ public class RecordFile {
 		return s.toString();
 		
 	}
+	
+	// scrittura record sui file
+	private static FileWriter aggiungiRiga(FileWriter writer, String nome, String cognome, String numero, String email) throws IOException {
+		StringBuilder riga = new StringBuilder();
+		riga.append(nome).append(';').append(cognome).append(';').append(numero).append(';').append(email);
+		writer.write(riga.toString());
+		return writer;
+	}
+
 
 }
