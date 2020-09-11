@@ -66,5 +66,34 @@ public class GeneratoreRubrica {
 				"C:/Users/Padawan12/Desktop/nomi.txt",
 				"C:/Users/Padawan12/Desktop/cognomi.txt");
 	}
-
+	
+	
+	private static String generaMail(String nome, String cognome, String dominio) {
+		String email = "";
+		Random r = new Random();
+		int rand = r.nextInt(10);
+		if (!usaNome() && !usaCognome()) {
+			for(int i =0;i<r.nextInt(16);i++) {
+				
+			}
+		} else if (!usaNome()) {
+			if (rand != 1) email = GeneratoreRubrica.removeSpace(cognome) + r.nextInt(10) + r.nextInt(10) + "@" + dominio;
+			else email = GeneratoreRubrica.removeSpace(cognome) + "@" + dominio;
+		} else if (!usaCognome()){
+			if (rand != 1) email = GeneratoreRubrica.removeSpace(nome) + r.nextInt(10) + r.nextInt(10) + "@" + dominio;
+			else email = GeneratoreRubrica.removeSpace(nome) + "@" + dominio;
+		}
+	}
+	
+	static boolean usaNome() {
+		Random r = new Random();
+		int v = r.nextInt(5);
+		return (v == 1) ? false : true;
+	}
+	
+	static boolean usaCognome() {
+		Random r = new Random();
+		int v = r.nextInt(3);
+		return (v == 1) ? false : true;
+	}
 }
