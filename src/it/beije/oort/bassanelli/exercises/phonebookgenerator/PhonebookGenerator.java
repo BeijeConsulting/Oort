@@ -101,4 +101,17 @@ public class PhonebookGenerator {
 		str = newFirst + suffisso;
 		return str;
 	}
+	
+	public static String mailGenerator(String name, String surname, String domain) {
+		Random r = new Random();
+		String email;
+//		if(r.nextInt(5) + 1 == 1) {
+//			
+//		} else if(r.nextInt(3) + 1 == 1) {
+//			
+//		}
+		email = name.replace(" ", "_") + "." + surname.replace(" ", "_") + "@" + domain;
+		email = email.toLowerCase();
+		return email;
+	}
 }
