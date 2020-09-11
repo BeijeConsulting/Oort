@@ -79,10 +79,13 @@ public class PhonebookGenerator {
 	
 	
 	public static String generazioneNumero(List<String> args) {
-		Random posizionePrefisso = new Random();
-		Random suffisso = new Random();
-		String prefisso = args.get(posizionePrefisso.nextInt(5));
-		String risultato = "" + prefisso + suffisso.nextInt(9999999);
+		Random random = new Random();
+		int suffisso = random.nextInt(9999999);
+		while (suffisso < 1000000) {
+			suffisso = random.nextInt(9999999);
+		}
+		String prefisso = args.get(random.nextInt(5));
+		String risultato = "" + prefisso + suffisso;
 		return risultato;
 	}
 }
