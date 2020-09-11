@@ -8,9 +8,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class myRubrica {
+public class Rubrica {
+	public static final int NUM_RECORDS = 1000;
 	public static ArrayList<String> nomi = new ArrayList<>();
 	public static ArrayList<String> cognomi = new ArrayList<>();
+	public static ArrayList<Record> records = new ArrayList<>();
 	
 	public static void listaNomi() throws IOException {
 		File file = new File("/temp/lista_nomi.txt");
@@ -21,12 +23,11 @@ public class myRubrica {
 			while (bufferedReader.ready()) {
 				nomi.add(bufferedReader.readLine());
 			}
-					
+			
+			bufferedReader.close();					
 		}
-		else 
-				System.out.println("Il file non esiste!");
-		
-	 	}
+		else System.out.println("Il file non esiste!");
+	}
 	
 	public static void listaCognomi() throws IOException {
 		File file = new File("/temp/lista_cognomi.txt");
@@ -37,19 +38,17 @@ public class myRubrica {
 			while (bufferedReader.ready()) {
 				cognomi.add(bufferedReader.readLine());
 			}
-					
+			
+			bufferedReader.close();					
 		}
-		else 
-				System.out.println("Il file non esiste!");
-		
-	 	}
+		else System.out.println("Il file non esiste!");
+	}
 	
-	public static void scritturaFile() {
+	public static void scritturaFile() throws IOException {
 		File file = new File("/temp/rubrica.txt");
 		FileWriter fileWriter = new FileWriter(file);
 		BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 		
-		ArrayList<Record> records = new ArrayList<>();
 		for(int i=0; i<records.size(); i++) {
 			String name = records.get(i).getNome();
 			String surname = records.get(i).getCognome();
@@ -58,13 +57,24 @@ public class myRubrica {
 			bufferedWriter.append(name + ";" + surname + ";" + phone + ";" + email + "\n");
 		}
 		
-		
+		bufferedWriter.flush();
+		bufferedWriter.close();
 	}
 
-	public static void main(String[] args) throws IOException {
-		
-		
+	public static void main(String[] args) throws IOException {		
+		Rubrica.listaNomi();
+		Rubrica.listaCognomi();
 
+		
+		for(int i = 0; i < NUM_RECORDS; i++) {
+			Record record = new Record();
+			record.generateNome(nomi);
+			record.generateCognome(cognomi);
+			record.generateTelefono();
+			record.generateMail();
+			records.add(record);
+		}
+		
+		Rubrica.scritturaFile();
 	}
-
 }
