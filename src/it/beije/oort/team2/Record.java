@@ -42,6 +42,7 @@ public class Record {
 	
 	public void generateMail() {
 		Random random = new Random();
+		
 		this.mail = this.getNome() + "." + this.getCognome() + "@" + DOMINI[random.nextInt(DOMINI.length)];
 	}
 	
