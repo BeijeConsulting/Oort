@@ -10,8 +10,9 @@ public class ScannerExample {
 		Scanner s = new Scanner(System.in);
 		String st = s.next();
 		while (!st.equalsIgnoreCase("Q")) {
-			st = s.next();
 			System.out.println(st);
+			st = s.next();
+			
 			
 			//...
 		}
