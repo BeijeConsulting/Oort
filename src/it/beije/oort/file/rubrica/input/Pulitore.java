@@ -6,6 +6,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
+/*
+ * Classe utility per sanificare gli input prima dell'utilizzo.
+ * Rimuove spazi in eccesso, caratteri speciali ed eventuali caratteri pre e post parola.
+ */
 public class Pulitore {
 
 	public static void main(String[] args) throws Exception{
