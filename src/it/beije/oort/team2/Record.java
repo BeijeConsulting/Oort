@@ -18,13 +18,6 @@ public class Record {
 	
 	public Record() {}
 	
-	public Record(String nome, String cognome, String telefono, String mail) {
-		this.nome = nome;
-		this.cognome = cognome;
-		this.telefono = telefono;
-		this.mail = mail;
-	}
-
 	public String getNome() {
 		return nome;
 	}
@@ -54,12 +47,12 @@ public class Record {
 	
 	public void generateNome(ArrayList<String> nomi) {
 		Random random = new Random();
-		this.nome = nomi.get(random.nextInt(nomi.size()));
+		this.nome = nomi.get(random.nextInt(nomi.size())).trim();
 	}
 	
 	public void generateCognome(ArrayList<String> cognomi) {
 		Random random = new Random();
-		this.cognome = cognomi.get(random.nextInt(cognomi.size()));
+		this.cognome = cognomi.get(random.nextInt(cognomi.size())).trim();
 	}
 
 }
