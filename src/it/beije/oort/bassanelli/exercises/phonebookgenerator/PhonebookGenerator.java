@@ -28,13 +28,18 @@ public class PhonebookGenerator {
 		String domain = "";
 		String email = "";
 	
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 10; i++) {
 			r = new Random();
 			name = namesList.get(r.nextInt(namesSize));
+			name = name.trim();
+			name = toUpper(name);
 			surname = surnamesList.get(r.nextInt(surnamesSize));
+			surname = surname.trim();
+			surname = toUpper(surname);
 			phonenumber = generazioneNumero(prefixsList);
 			domain = domainsList.get(r.nextInt(domainsSize));
-			email = name + "." + surname + "@" + domain;
+			email = name.replace(" ", "_") + "." + surname.replace(" ", "_") + "@" + domain;
+			email = email.toLowerCase();
 			
 			record = name + ";" + surname + ";" + phonenumber + ";" + email + "\n";
 			
@@ -87,5 +92,13 @@ public class PhonebookGenerator {
 		String prefisso = args.get(random.nextInt(5));
 		String risultato = "" + prefisso + suffisso;
 		return risultato;
+	}
+	
+	public static String toUpper(String str) {
+		String first = "" + str.charAt(0);
+		String newFirst = first.toUpperCase();
+		String suffisso = str.substring(1);
+		str = newFirst + suffisso;
+		return str;
 	}
 }
