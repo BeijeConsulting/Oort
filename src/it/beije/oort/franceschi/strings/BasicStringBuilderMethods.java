@@ -1,4 +1,4 @@
-package it.beije.oort.franceschi.capitolodue;
+package it.beije.oort.franceschi.strings;
 public class BasicStringBuilderMethods {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {		

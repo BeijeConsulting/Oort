@@ -1,4 +1,4 @@
-package it.beije.oort.franceschi.capitolouno;
+package it.beije.oort.franceschi.basics;
 import java.util.Scanner;
 
 public class RockPaperScissors {

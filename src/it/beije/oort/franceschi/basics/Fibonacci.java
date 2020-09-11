@@ -1,4 +1,4 @@
-package it.beije.oort.franceschi.capitolouno;
+package it.beije.oort.franceschi.basics;
 
 public class Fibonacci {
 
