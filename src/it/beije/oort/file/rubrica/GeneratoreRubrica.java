@@ -1,8 +1,10 @@
 package it.beije.oort.file.rubrica;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.util.ArrayList;
+import java.time.*;
 
 public class GeneratoreRubrica {
 	
@@ -164,9 +166,11 @@ public class GeneratoreRubrica {
 		String[] domini = {"gmail.com", "hotmail.com", "hotmail.it", 
 				"libero.it", "yahoo.com", "virgilio.it", "tim.it", "alice.it"};
 		//try-catch per IOException
-		BufferedWriter bf = new BufferedWriter(new FileWriter(filename, true));
+		//BufferedWriter bf = new BufferedWriter(new FileWriter(filename, true));
+		BufferedWriter bf = new BufferedWriter(new OutputStreamWriter(
+				new FileOutputStream(filename, true), StandardCharsets.UTF_8));
 		bf.write("NOME;COGNOME;TELEFONO;EMAIL;\n");
-		for(int i=0;i<1000;i++) {
+		for(int i=0;i<100_000;i++) {
 			bf.write(GeneratoreRubrica.generaIdentita(nomi.get(r.nextInt(nomi.size())),
 					cognomi.get(r.nextInt(cognomi.size())), prefissi[r.nextInt(5)],
 					domini[r.nextInt(8)]));
@@ -191,10 +195,12 @@ public class GeneratoreRubrica {
 		GeneratoreRubrica.writeRubrica(filename, nomi, cognomi);
 	}
 	
-	public static void main(String[] args) throws IOException{	
+	public static void main(String[] args) throws IOException{
+		System.out.println(LocalTime.now());
 		GeneratoreRubrica.generaRubrica("C:/Users/Padawan12/Desktop/rubrica.txt",
 				"C:/Users/Padawan12/Desktop/nomi.txt",
 				"C:/Users/Padawan12/Desktop/cognomi.txt");
+		System.out.println(LocalTime.now());
 	}
 	
 	
