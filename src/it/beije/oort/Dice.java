@@ -7,7 +7,7 @@ public class Dice
       // getta il dado dieci volte
 
       for (int i = 1; i <= 10; i++)
-      {  int d = 1 + generator.nextInt(6);
+      {  int d = 1 + generator.nextInt(5);
          System.out.print(d + " ");
       }
       System.out.println();
