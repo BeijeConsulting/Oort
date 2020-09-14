@@ -59,12 +59,12 @@ public class RecordFile {
 		writer.write("NOME;COGNOME;TELEFONO;E-MAIL");
 		for (int arrayIndex = 0; arrayIndex < recordNomi.size(); arrayIndex++) {
 			writer.write("\n");
-			RecordFile.aggiungiRiga(
-					writer,
+			writer.write(RecordFile.costruisciRiga(
 					recordNomi.get(arrayIndex),
 					recordCognomi.get(arrayIndex),
 					recordTel.get(arrayIndex),
-					recordMail.get(arrayIndex));
+					recordMail.get(arrayIndex)
+					));
 		}
 		
 		writer.flush();
@@ -146,11 +146,13 @@ public class RecordFile {
 //	}
 	
 	// scrittura record sui file
-	private static FileWriter aggiungiRiga(FileWriter writer, String nome, String cognome, String numero, String email) throws IOException {
+	private static String costruisciRiga(String... campi) {
 		StringBuilder riga = new StringBuilder();
-		riga.append(nome).append(';').append(cognome).append(';').append(numero).append(';').append(email);
-		writer.write(riga.toString());
-		return writer;
+		for(String campo : campi) {
+			riga.append(campo).append(';');
+		}
+		riga.deleteCharAt(riga.length() - 1);
+		return riga.toString();
 	}
 
 }
