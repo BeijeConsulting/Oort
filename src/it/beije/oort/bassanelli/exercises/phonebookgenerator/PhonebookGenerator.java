@@ -27,37 +27,40 @@ public class PhonebookGenerator {
 		String domain = "";
 		String email = "";
 
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 100_000_000; i++) {
 			r = new Random();
+			
 			name = namesList.get(r.nextInt(namesSize));
 			name = name.trim();
 			name = toUpper(name);
+			
 			surname = surnamesList.get(r.nextInt(surnamesSize));
 			surname = surname.trim();
 			surname = toUpper(surname);
+			
 			phonenumber = generazioneNumero(prefixsList);
+			
 			domain = domainsList.get(r.nextInt(domainsSize));
-//			email = name.replace(" ", "_") + "." + surname.replace(" ", "_") + "@" + domain;
+			
 			email = mailGenerator(name, surname, domain);
 			email = email.toLowerCase();
 
 			record = name + ";" + surname + ";" + phonenumber + ";" + email + "\n";
 
-			// System.out.println(record);
 			recordsList.add(record);
+			
 		}
 
-		String row = "NOMI;COGNOMI;TELEFONO;EMAIL\n";
-		for (String arg : recordsList) {
-			// System.out.println(arg);
-			row += arg;
-		}
-
+		
 		File file = new File("/temp/records.csv");
 
 		FileWriter writer = new FileWriter(file);
-
+		
+		String row = "NOMI;COGNOMI;TELEFONO;EMAIL\n";
 		writer.write(row);
+		for (String arg : recordsList) {
+			writer.write(arg);
+		}
 
 		writer.flush();
 		writer.close();
