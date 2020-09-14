@@ -19,9 +19,23 @@ public class EmailGenerator {
 			ret += b + genNum();
 		}else if(!cognome) { //manca solo il cognome
 			ret += a + genNum();
-		}else { //ci sono sia nome che cognome
-			ret += a + "." + b;
-		}
+		}else {	//ci sono sia nome che cognome
+			String separatore="";
+			int n3 = r.nextInt(10)+1;
+			if(n3>3 && n3<=7) separatore = ".";
+			else if(n3>=8) separatore = "-";
+			int n4 = r.nextInt(10)+1;
+			if(n4<=2) {
+				a = a.substring(0,1);
+			} else if(n4<=5) {
+				a=a.substring(0,primaVoc(a));
+			}			
+			if(r.nextInt(4)+1==1) {
+				ret += b + separatore + a;
+			} else { 
+				ret += a + separatore + b;				
+			}
+		}	
 		ret += "@" + suffix.getNext();
 		return ret;
 	}
@@ -37,4 +51,22 @@ public class EmailGenerator {
 		}
 		return genStr;
 	}
+
+	private static boolean isVowel(char a) {
+		String vocali = "aeiou";
+		return vocali.contains(a+"");
+	}
+	
+	private static int primaVoc(String a) {
+		int ind;
+		for(ind = 1; ind < a.length(); ind++) {
+			if(isVowel(a.charAt(ind))) {
+				ind++; 
+				break;
+			}
+							
+		}
+		return ind;
+	}
+
 }

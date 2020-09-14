@@ -19,6 +19,6 @@ public class Rubrica {
 		List<String> prefissi = reader.getContent(prefissiF);
 		List<String> domini = reader.getContent(dominiF);
 		RubricaWriter writer = new RubricaWriter();
-		writer.rubricaWriter(rubrica, 1000, nomi, cognomi, prefissi, domini);
+		writer.rubricaWriter(rubrica, 100000, nomi, cognomi, prefissi, domini);
 	}
 }
