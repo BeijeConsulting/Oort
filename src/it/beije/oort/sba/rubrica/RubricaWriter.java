@@ -16,38 +16,16 @@ public class RubricaWriter {
 		ListRandomSelector numero = new ListRandomSelector(numeri);
 		ListRandomSelector emails = new ListRandomSelector(email);
 		PhoneNumberGenerator sette = new PhoneNumberGenerator();
+		EmailGenerator emailGen = new EmailGenerator();
 		writer.write("NOME;COGNOME;NUMERO;E-MAIL;\n");
 		for(int i = 0;i<grandezzaRubrica;i++) {
 			String a = nome.getNext();
 			String b = cognome.getNext();
-			String formattedEmail = formatEmail(a,b,emails);
+			String formattedEmail = emailGen.formatEmail(a, b, emails);
 			line+=a+";"+b+";"+numero.getNext()+ sette.nextNumber() + ";" + formattedEmail + ";" + "\n";
 		}
 		writer.write(line);
 		writer.flush();
 		writer.close();
-	}
-
-	private static String formatEmail(String a, String b, ListRandomSelector suffix) {
-		Random r = new Random();
-		int n1 = r.nextInt(5) + 1;
-		int n2 = r.nextInt(3) + 1;
-		String ret = "";
-		boolean nome = true, cognome = true;
-		if(n1==1) nome = false;
-		if(n2==1) cognome = false;
-		if(!nome && !cognome) {
-			for(int i = 0; i<r.nextInt(14)+6; i++) {
-				ret+=(char)(r.nextInt(123-97)+97);
-			}
-		}else if(!nome){
-			ret += b;
-		}else if(!cognome) {
-			ret += a;
-		}else {
-			ret += a + "." + b;
-		}
-		ret += "@" + suffix.getNext();
-		return ret;
 	}
 }
