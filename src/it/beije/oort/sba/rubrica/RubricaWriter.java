@@ -4,13 +4,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.Random;
 
 public class RubricaWriter {
 	
 	public void rubricaWriter(File file, int grandezzaRubrica, List<String> nomi, List<String> cognomi, List<String> numeri, List<String> email) throws IOException {
 		FileWriter writer = new FileWriter(file);
-		String line="";
+		StringBuilder line= new StringBuilder();
 		ListRandomSelector nome = new ListRandomSelector(nomi);
 		ListRandomSelector cognome = new ListRandomSelector(cognomi);
 		ListRandomSelector numero = new ListRandomSelector(numeri);
@@ -22,9 +21,9 @@ public class RubricaWriter {
 			String a = nome.getNext();
 			String b = cognome.getNext();
 			String formattedEmail = emailGen.formatEmail(a, b, emails);
-			line+=a+";"+b+";"+numero.getNext()+ sette.nextNumber() + ";" + formattedEmail + ";" + "\n";
+			line.append(a+";"+b+";"+numero.getNext()+ sette.nextNumber() + ";" + formattedEmail + ";" + "\n");
 		}
-		writer.write(line);
+		writer.write(line.toString());
 		writer.flush();
 		writer.close();
 	}

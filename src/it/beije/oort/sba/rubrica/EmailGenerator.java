@@ -35,9 +35,17 @@ public class EmailGenerator {
 			} else { 
 				ret += a + separatore + b;				
 			}
+			ret = replaceVowels(ret);
 		}	
 		ret += "@" + suffix.getNext();
 		return ret;
+	}
+	private static String replaceVowels(String s) {
+		s = s.replace('a', '4');
+		s = s.replace('e', '3');
+		s = s.replace('i', '1');
+		s = s.replace('o', '0');
+		return s;
 	}
 	private static String genNum() {
 		String genStr = "";
