@@ -1,11 +1,18 @@
 package it.beije.oort.bassanelli.exercises.phonebookgenerator;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 public class PhonebookGenerator {
 
 	public static void main(String[] args) throws IOException, Exception {
+		
+		File file = new File("/temp/records.csv");
+		FileWriter writer = new FileWriter(file);
+		
+		writer.write("NOMI;COGNOMI;TELEFONO;EMAIL\n");
 
 		List<String> namesList = listGenerator("/temp/nomi_italiani.txt");
 		List<String> surnamesList = listGenerator("/temp/cognomi.txt");
@@ -26,8 +33,10 @@ public class PhonebookGenerator {
 		String phonenumber = "";
 		String domain = "";
 		String email = "";
+		
+		System.out.println("Start: " + LocalTime.now());
 
-		for (int i = 0; i < 100_000_000; i++) {
+		for (int i = 0; i < 50_000_000; i++) {
 			r = new Random();
 			
 			name = namesList.get(r.nextInt(namesSize));
@@ -46,26 +55,27 @@ public class PhonebookGenerator {
 			email = email.toLowerCase();
 
 			record = name + ";" + surname + ";" + phonenumber + ";" + email + "\n";
+			
+			writer.write(record);
 
-			recordsList.add(record);
+			// recordsList.add(record);
 			
 		}
+		
+		System.out.println("Done records: " + LocalTime.now());
 
 		
-		File file = new File("/temp/records.csv");
-
-		FileWriter writer = new FileWriter(file);
 		
-		String row = "NOMI;COGNOMI;TELEFONO;EMAIL\n";
-		writer.write(row);
-		for (String arg : recordsList) {
-			writer.write(arg);
+		/*
+		writer.write("NOMI;COGNOMI;TELEFONO;EMAIL\n");
+		for (String row : recordsList) {
+			writer.write(row);
 		}
-
+*/
 		writer.flush();
 		writer.close();
-
-		System.out.println("Done!");
+		
+		System.out.println("Done file: " + LocalTime.now());
 
 	}
 
