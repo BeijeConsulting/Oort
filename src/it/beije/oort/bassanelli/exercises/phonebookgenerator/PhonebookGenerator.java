@@ -28,7 +28,7 @@ public class PhonebookGenerator {
 		String domain = "";
 		String email = "";
 	
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 1000; i++) {
 			r = new Random();
 			name = namesList.get(r.nextInt(namesSize));
 			name = name.trim();
@@ -38,7 +38,8 @@ public class PhonebookGenerator {
 			surname = toUpper(surname);
 			phonenumber = generazioneNumero(prefixsList);
 			domain = domainsList.get(r.nextInt(domainsSize));
-			email = name.replace(" ", "_") + "." + surname.replace(" ", "_") + "@" + domain;
+//			email = name.replace(" ", "_") + "." + surname.replace(" ", "_") + "@" + domain;
+			email = mailGenerator(name, surname, domain);
 			email = email.toLowerCase();
 			
 			record = name + ";" + surname + ";" + phonenumber + ";" + email + "\n";
@@ -105,11 +106,32 @@ public class PhonebookGenerator {
 	public static String mailGenerator(String name, String surname, String domain) {
 		Random r = new Random();
 		String email;
-//		if(r.nextInt(5) + 1 == 1) {
-//			
-//		} else if(r.nextInt(3) + 1 == 1) {
-//			
+		boolean nameEmpty = false;
+		boolean surnameEmpty = false;
+		int name1;
+		int name2;
+		if(r.nextInt(5) + 1 == 1) {
+			name = "";
+			nameEmpty = true;
+		}
+		if(r.nextInt(3) + 1 == 1) {
+			surname = "";
+			surnameEmpty = true;
+		}
+//		if(nameEmpty && surnameEmpty) {
+//			name1 = r.nextInt(Integer.MAX_VALUE);
+//			name2 = r.nextInt(Integer.MAX_VALUE);
+//			while (name1 < 1000) {
+//				name1 = r.nextInt(100000000);
+//			}
+//			while (name2 < 1000) {
+//				name2 = r.nextInt(100000000);
+//			}
+//			name = "" + name1 + name2;
 //		}
+		if(nameEmpty && surnameEmpty) {
+			
+		}
 		email = name.replace(" ", "_") + "." + surname.replace(" ", "_") + "@" + domain;
 		email = email.toLowerCase();
 		return email;
