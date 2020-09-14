@@ -5,6 +5,8 @@ import java.util.Random;
 import java.util.ArrayList;
 
 public class GeneratoreRubrica {
+	
+	private GeneratoreRubrica() {}
 		
 	private static String removeSpace(String s) {
 		StringBuilder sb = new StringBuilder(s);
@@ -22,13 +24,13 @@ public class GeneratoreRubrica {
 		return sb.toString();
 	}
 	
-	static boolean usaNome() {
+	private static boolean usaNome() {
 		Random r = new Random();
 		int v = r.nextInt(5);
 		return (v == 1) ? false : true;
 	}
 	
-	static boolean usaCognome() {
+	private static boolean usaCognome() {
 		Random r = new Random();
 		int v = r.nextInt(3);
 		return (v == 1) ? false : true;
@@ -111,7 +113,7 @@ public class GeneratoreRubrica {
 }
 	
 	private static String generaMail(String nome, String cognome, String dominio) {
-		String email = "";
+		StringBuilder email = new StringBuilder();
 		Random r = new Random();
 		int rand = r.nextInt(10);
 		boolean usaNome = GeneratoreRubrica.usaNome();
@@ -119,34 +121,34 @@ public class GeneratoreRubrica {
 		
 		if (!usaNome && !usaCognome) {
 			for(int i=0;i<r.nextInt(15)+6;i++) {
-				email += r.nextInt(10);
+				email.append(r.nextInt(10));
 			}
-			email += "@"+dominio;
+			email.append("@"+dominio);
 		} else if (!usaNome) {
-			if (rand != 1) email = GeneratoreRubrica.removeSpace(cognome) + r.nextInt(10) +
-					r.nextInt(10) + "@" + dominio;
-			else email = GeneratoreRubrica.removeSpace(cognome) + "@" + dominio;
+			if (rand != 1) email.append(GeneratoreRubrica.removeSpace(cognome) + r.nextInt(10) +
+					r.nextInt(10) + "@" + dominio);
+			else email.append(GeneratoreRubrica.removeSpace(cognome) + "@" + dominio);
 		} else if (!usaCognome){
-			if (rand != 1) email = GeneratoreRubrica.removeSpace(nome) + r.nextInt(10) +
-					r.nextInt(10) + "@" + dominio;
-			else email = GeneratoreRubrica.removeSpace(nome) + "@" + dominio;
+			if (rand != 1) email.append(GeneratoreRubrica.removeSpace(nome) + r.nextInt(10) +
+					r.nextInt(10) + "@" + dominio);
+			else email.append(GeneratoreRubrica.removeSpace(nome) + "@" + dominio);
 		} else {
-			email = GeneratoreRubrica.mailNomeCognome(nome, cognome, dominio);
+			email.append(GeneratoreRubrica.mailNomeCognome(nome, cognome, dominio));
 			//bonus track goes here
 		}
 		
-		return GeneratoreRubrica.removeSingleQuote(email).toLowerCase();
+		return GeneratoreRubrica.removeSingleQuote(email.toString()).toLowerCase();
 	}
 	
 	private static String generaIdentita(String nome, String cognome,
 			String prefisso, String dominio) {
 		Random rr = new Random();
-		String suffisso="";
+		StringBuilder suffisso=new StringBuilder();
 		for(int i=0;i<7;i++) {
-			suffisso += rr.nextInt(10);
+			suffisso.append(rr.nextInt(10));
 		}
 
-		return "\""+nome+"\";\""+cognome+"\";\""+prefisso+suffisso+
+		return "\""+nome+"\";\""+cognome+"\";\""+prefisso+suffisso.toString()+
 				"\";\""+GeneratoreRubrica.generaMail(nome, cognome, dominio)+"\"\n";
 		
 //		return "\""+nome+"\";\""+cognome+"\";\""+prefisso+suffisso+
@@ -155,8 +157,7 @@ public class GeneratoreRubrica {
 	}
 	
 	private static void writeRubrica(String filename, ArrayList<String> nomi,
-			ArrayList<String> cognomi) 
-			throws IOException{
+			ArrayList<String> cognomi) throws IOException{
 		//sanificare filename
 		Random r = new Random();
 		String[] prefissi = {"345", "346", "347", "348","349"};
