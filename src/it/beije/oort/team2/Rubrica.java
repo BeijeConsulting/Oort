@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Rubrica {
-	public static final int NUM_RECORDS = 1000;
+	public static final int NUM_RECORDS = 1000000;
 	public static ArrayList<String> nomi = new ArrayList<>();
 	public static ArrayList<String> cognomi = new ArrayList<>();
 	public static ArrayList<Record> records = new ArrayList<>();
