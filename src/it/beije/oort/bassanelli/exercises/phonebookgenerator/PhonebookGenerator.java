@@ -27,7 +27,6 @@ public class PhonebookGenerator {
 		List<String> recordsList = new ArrayList<String>();
 
 		Random r = new Random();
-		String record = "";
 		String name = "";
 		String surname = "";
 		String mobile = "";
@@ -39,8 +38,7 @@ public class PhonebookGenerator {
 		Contact contact = new Contact();
 
 		for (int i = 0; i < 1_000_000; i++) {
-			r = new Random();
-
+		
 			name = namesList.get(r.nextInt(namesSize));
 			name = name.trim();
 			name = toUpper(name);
@@ -54,7 +52,6 @@ public class PhonebookGenerator {
 			domain = domainsList.get(r.nextInt(domainsSize));
 
 			email = mailGenerator(name, surname, domain);
-			email = email.toLowerCase();
 
 			contact.setName(name);
 			contact.setSurname(surname);
@@ -62,17 +59,13 @@ public class PhonebookGenerator {
 			contact.setEmail(email);
 
 			writer.write(contact.toRow());
+		
 
 			// recordsList.add(record);
-
 		}
 
 		System.out.println("Done records: " + LocalTime.now());
 
-		/*
-		 * writer.write("NOMI;COGNOMI;TELEFONO;EMAIL\n"); for (String row : recordsList)
-		 * { writer.write(row); }
-		 */
 		writer.flush();
 		writer.close();
 
@@ -89,8 +82,8 @@ public class PhonebookGenerator {
 		BufferedReader bufferedReader = new BufferedReader(fileReader);
 
 		while (bufferedReader.ready()) {
-			String riga = bufferedReader.readLine();
-			list.add(riga);
+			String row = bufferedReader.readLine();
+			list.add(row);
 		}
 
 		bufferedReader.close();
@@ -99,30 +92,22 @@ public class PhonebookGenerator {
 	}
 
 	public static String mobileGenerator(List<String> prefixList) {
-		Random random = new Random();
-		char[] numbers = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+		Random r = new Random();
 		
-		StringBuilder mobile = new StringBuilder(prefixList.get(random.nextInt(5)));
+		char[] numbers = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
+	
+		StringBuilder mobile = new StringBuilder(prefixList.get(r.nextInt(5)));
 		
 		for(int i = 0; i < 7; i++) {
-			mobile.append(numbers[random.nextInt(numbers.length)]);
+			mobile.append(numbers[r.nextInt(numbers.length)]);
 		}
-		
-		/*
-		int suffix = random.nextInt(9999999);
-		while (suffix < 1000000) {
-			suffix = random.nextInt(9999999);
-		}
-		*/
 		
 		return mobile.toString();
 	}
 
 	public static String toUpper(String str) {
 		String firstLetter = "" + str.charAt(0);
-
-		StringBuilder finalWord = new StringBuilder(str.charAt(0));
-		finalWord.toString().toUpperCase();
+		StringBuilder finalWord = new StringBuilder();
 		finalWord.append(firstLetter.toUpperCase()).append(str.substring(1));
 		return finalWord.toString();
 	}
