@@ -14,10 +14,10 @@ public class PhonebookGenerator {
 
 		writer.write("NOMI;COGNOMI;TELEFONO;EMAIL\n");
 
-		List<String> namesList = listGenerator("/temp/nomi_italiani.txt");
-		List<String> surnamesList = listGenerator("/temp/cognomi.txt");
-		List<String> prefixsList = listGenerator("/temp/prefissi.txt");
-		List<String> domainsList = listGenerator("/temp/domini.txt");
+		List<String> namesList = listGenerator("./nomi_italiani.txt");
+		List<String> surnamesList = listGenerator("./cognomi.txt");
+		List<String> prefixsList = listGenerator("./prefissi.txt");
+		List<String> domainsList = listGenerator("./domini.txt");
 
 		int namesSize = namesList.size();
 		int surnamesSize = surnamesList.size();
