@@ -173,16 +173,15 @@ public class GeneratoreRubrica {
 		
 		bf.write("NOME;COGNOME;TELEFONO;EMAIL;\n");
 		ArrayList<Contatto> contatti = new ArrayList<>();
-		for(int i=0;i<1000;i++) {
+		for(int i=0;i<10_000_000;i++) {
 			//bf.write(GeneratoreRubrica.generaIdentita(nomi.get(r.nextInt(nomi.size())),
 			//		cognomi.get(r.nextInt(cognomi.size())), prefissi[r.nextInt(5)],
 			//		domini[r.nextInt(8)]));
-			contatti.add(new Contatto(
+			bf.write(new Contatto(
 					nomi.get(r.nextInt(nomi.size())), 
 					cognomi.get(r.nextInt(cognomi.size())),
 					Valori.getPrefisso(r.nextInt(5)),
-					Valori.getDominio(r.nextInt(8))));
-			bf.write(contatti.get(i).toFormattedString() + '\n');
+					Valori.getDominio(r.nextInt(8))).toFormattedString() + '\n');
 		}
 		bf.close();
 	}
