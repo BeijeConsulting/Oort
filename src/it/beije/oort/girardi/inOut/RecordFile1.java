@@ -10,7 +10,7 @@ import java.util.List;
 
 public class RecordFile1 {
 		
-	private static final String PATH_FILES = "C:\\Users\\Padawan05\\Desktop\\file_txt\\";
+	private static final String PATH_FILES = "C:\\Users\\Padawan05\\Desktop\\file_testo\\";
 	
 //		// lettura file
 //		public static String getContent(File file) throws IOException {
@@ -72,6 +72,8 @@ public class RecordFile1 {
 		System.out.println("Rubrica completata!");
 	}
 	
+
+// METODI:
 	// lettura e memorizzazione record	
 	public static List<String> memContent(File file, List<String> record ) throws IOException {			
 		FileReader fileReader = new FileReader(file);			

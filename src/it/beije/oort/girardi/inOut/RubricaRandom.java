@@ -35,7 +35,7 @@ public class RubricaRandom {
 	
 
 	public static void main(String[] args) {
-		File fileNomi = new File("C:\\Users\\Padawan05\\Desktop\\file_txt"
+		File fileNomi = new File("C:\\Users\\Padawan05\\Desktop\\file_testo"
 				+ "\\nomi_italiani.txt");
 		
 		String [] nomi = elencoFromFile(fileNomi);
