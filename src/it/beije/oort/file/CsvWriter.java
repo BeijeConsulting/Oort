@@ -20,7 +20,8 @@ public class CsvWriter {
 	public static void main(String[] args) throws IOException {
 		System.out.println(Arrays.toString(args));
 
-		File file = new File("/temp/rubrica.txt");
+		File file = new File("C:\\Users\\Padawan05\\eclipse-work"
+				+ "space\\FirstProject\\src\\inOut\\rubrica.txt");
 		
 		String content = "";
 		
@@ -34,7 +35,7 @@ public class CsvWriter {
 			System.out.println("non esiste");
 		}
 
-		String row = "";
+		String row = "buonasera";
 		for (String arg : args) {
 			row += arg + ';';
 		}
