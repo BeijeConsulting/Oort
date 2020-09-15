@@ -41,11 +41,25 @@ public class EmailGenerator {
 		return ret;
 	}
 	private static String replaceVowels(String s) {
-		s = s.replace('a', '4');
-		s = s.replace('e', '3');
-		s = s.replace('i', '1');
-		s = s.replace('o', '0');
-		return s;
+		StringBuilder sb = new StringBuilder(s);
+		for(int i =0; i < s.length(); i++) {
+			switch(sb.charAt(i)) {
+			case 'a':
+				sb.replace(i, i+1, "4");
+				break;
+			case 'e':
+				sb.replace(i, i+1, "3");
+				break;
+			case 'i':
+				sb.replace(i, i+1, "1");
+				break;
+			case 'o':
+				sb.replace(i, i+1, "0");
+				break;
+			default:
+			}
+		}
+		return sb.toString();
 	}
 	private static String genNum() {
 		String genStr = "";
