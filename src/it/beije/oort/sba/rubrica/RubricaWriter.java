@@ -21,7 +21,8 @@ public class RubricaWriter {
 			String a = nome.getNext();
 			String b = cognome.getNext();
 			String formattedEmail = emailGen.formatEmail(a, b, emails);
-			line.append(a+";"+b+";"+numero.getNext()+ sette.nextNumber() + ";" + formattedEmail + ";" + "\n");
+			line.append(a).append(";").append(b).append(";").append(numero.getNext()).append(sette.nextNumber()).append(";").append(formattedEmail).append(";\n");
+			//line.append(a+";"+b+";"+numero.getNext()+ sette.nextNumber() + ";" + formattedEmail + ";" + "\n");
 		}
 		writer.write(line.toString());
 		writer.flush();
