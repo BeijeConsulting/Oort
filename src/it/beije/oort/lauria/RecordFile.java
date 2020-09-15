@@ -39,20 +39,17 @@ public class RecordFile {
 		
 		// lettura e memorizzazione dei record di nomi e cognomi
 		recordNomitemp = RecordFile.memContent(fileNomi, recordNomitemp);
-		recordCognomitemp = RecordFile.memContent(fileCognomi, recordCognomitemp);
-
+		recordCognomitemp = RecordFile.memContent(fileCognomi, recordCognomitemp); 
 		
-		// randomizzazione
-		for(int k = 0; k < 1000; k++) {
+		for(int k = 0; k < 10_000_000; k++) {
 			int i = (int) (Math.random()*recordNomitemp.size()); 
-			int j = (int) (Math.random()*recordCognomitemp.size());			
+			int j = (int) (Math.random()*recordCognomitemp.size());
 			recordNomi.add(recordNomitemp.get(i));
 			recordCognomi.add(recordCognomitemp.get(j));
 			recordTel.add(RecordFile.generaNumero());
 			recordMail.add(RecordFile.generaMail(recordNomi.get(k), recordCognomi.get(k)));
 		}
 		
-				
 		// fase di scrittura	
 		File output = new File(PATH_FILES + "rubrica.txt");
 		FileWriter writer = new FileWriter(output);
@@ -60,18 +57,17 @@ public class RecordFile {
 		writer.write("NOME;COGNOME;TELEFONO;E-MAIL");
 		for (int arrayIndex = 0; arrayIndex < recordNomi.size(); arrayIndex++) {
 			writer.write("\n");
-			RecordFile.aggiungiRiga(
-					writer,
+			writer.write(RecordFile.costruisciRiga(
 					recordNomi.get(arrayIndex),
 					recordCognomi.get(arrayIndex),
 					recordTel.get(arrayIndex),
-					recordMail.get(arrayIndex));
+					recordMail.get(arrayIndex)
+					));
 		}
 		
 		writer.flush();
 		writer.close();
-		
-		System.out.println("Creazione della rubrica, completata.");
+		System.out.println("Rubrica completata!");
 	}
 	
 	// lettura e memorizzazione record	
@@ -82,10 +78,12 @@ public class RecordFile {
 		while (bufferedReader.ready()) {
 			record.add(bufferedReader.readLine());
 		}
+		
+		fileReader.close();
 		bufferedReader.close();
+
 		return record;
 	}
-	
 	
 	// genera Numero di telefono
 	private static String generaNumero() {
@@ -101,62 +99,144 @@ public class RecordFile {
 		
 		return s.toString();
 	}
-
-	// generatore di email
+	
 //	private static String generaMail(String nome, String cognome) {
 //		String[] dominio = {"gmail.com", "hotmail.com", "hotmail.it", "libero.it", "yahoo.com", "virgilio.it", "tim.it", "alice.it"};
 //		StringBuilder s = new StringBuilder();
 //		
-//		nome = nome.replace(" ", "").replace("'", "");
-//		cognome = cognome.replace(" ", "").replace("'", "");
+//		nome = nome.replace(" ", "").replace("'", "").toLowerCase();
+//		cognome = cognome.replace(" ", "").replace("'", "").toLowerCase();
 //		
-//		s.append(nome.toLowerCase()).append('.').append(cognome.toLowerCase()).append('@');
+//		s.append(nome).append('.').append(cognome).append('@');
 //		
 //		int indexDominio = (int) (Math.random() * dominio.length);
 //		s.append(dominio[indexDominio]);
 //		
 //		return s.toString();
-//		
 //	}
 	
+	// TODO estrarre metodi per migliorare leggibilità
 	private static String generaMail(String nome, String cognome) {
+		// Preparazione variabili da utilizzare
 		String[] dominio = {"gmail.com", "hotmail.com", "hotmail.it", "libero.it", "yahoo.com", "virgilio.it", "tim.it", "alice.it"};
 		StringBuilder s = new StringBuilder();
 		
 		nome = nome.replace(" ", "").replace("'", "").toLowerCase();
 		cognome = cognome.replace(" ", "").replace("'", "").toLowerCase();
 		
-		if((int) (Math.random()*5 + 1) != 1) {
-			s.append(nome);
-		}
-		if((int) (Math.random()*3 + 1) != 1) {
-			if(s.length() > 0) {
-				s.append('.');
+		boolean putNome = (int) (Math.random() * 5) + 1 != 1;
+		boolean putCognome = (int) (Math.random() * 3) + 1 != 1;
+		
+		// tre casistiche mutualmente esclusive
+		
+		// No nome, no cognome
+		if ( !putNome && !putCognome ) { // ! (putNome || putCognome)
+			// Mettere da 6 a 20 caratteri
+			int numero = (int) (Math.random() * 14) + 6;
+			for(char c = 'a'; c < 'a' + numero; c++) {
+				s.append(c);
 			}
 			
-		}
-		if(s.length()==0) {
-			int numero = (int) (Math.random() * 14) + 6;
-			for(int index = 0; index < numero; index++) {
+			// O nome, o cognome
+		} else if (putNome ^ putCognome) {
+			// Inserire un numero da 00 a 100
+			if (putNome) {
+				s.append(nome);
+			} else {
+				s.append(cognome);
+			}
+			if ((int) (Math.random() * 10) + 1 > 1) {
+				int numeroFinale = (int) (Math.random() * 101);
+				if(numeroFinale < 10) { s.append("0"); }
 				
+				s.append(numeroFinale);
+			}
+			
+			// Nome e cognome
+		} else {
+			int randomAbbreviaNome = (int) (Math.random() * 10) + 1;
+			int randomSeparatore = (int) (Math.random() * 10) + 1;
+			int randomInversione = (int) (Math.random() * 4) + 1;
+			String separatore = "";
+			
+			// Nome solo prima lettera
+			if(randomAbbreviaNome < 3) {
+				nome = nome.substring(0,1);
+				
+				// Nome fino alla prima vocale (seconda per nomi che cominciano per vocale)
+			} else if (randomAbbreviaNome >= 3 && randomAbbreviaNome < 6) {
+				char[] vocali = {'a','e','i','o','u'};
+				int indexStop = -1;
+				for(char vocale : vocali) {
+					int indexTemp = nome.indexOf(vocale,1);
+					if(indexStop < 0) {
+						indexStop = indexTemp;
+					} else if(indexTemp > 0) {
+						indexStop = indexStop < indexTemp ? indexStop : indexTemp;
+					}
+				}
+				
+				if(indexStop > 0) {
+					nome = nome.substring(0, indexStop + 1);
+				}
+			}
+			
+			// Quale separatore usare
+			if(randomSeparatore>= 4 && randomSeparatore < 8) {
+				separatore = ".";
+			} else if (randomSeparatore>= 8) {
+				separatore = "-";
+			}
+			
+			// Se fare inversione tra nome e cognome
+			if(randomInversione == 1) {
+				s.append(cognome).append(separatore).append(nome);
+			} else {
+				s.append(nome).append(separatore).append(cognome);
+			}
+			
+			// Sostituzione delle vocali, la parte commentata è meno efficiente (4 secondi risparmiati generando 1 milione di righe)
+			if (randomAbbreviaNome >= 6 && randomSeparatore < 4) {
+				int randomVocale = (int) (Math.random() * 5) + 1;
+				if (randomVocale == 1) {
+//					String nomeTemp = s.toString();
+//					s = new StringBuilder(nomeTemp.replace('a', '4').replace('e', '3').replace('i', '1').replace('o', '0'));
+					for(int i = 0; i < s.length(); i++) {
+						switch(s.charAt(i)) {
+						case 'a':
+							s.deleteCharAt(i).insert(i, '4');
+							break;
+						case 'e':
+							s.deleteCharAt(i).insert(i, '3');
+							break;
+						case 'i':
+							s.deleteCharAt(i).insert(i, '1');
+							break;
+						case 'o':
+							s.deleteCharAt(i).insert(i, '0');
+							break;
+						}
+					}
+				}
 			}
 		}
-		s.append(nome).append('.').append(cognome).append('@');
+		
+		s.append("@");
 		
 		int indexDominio = (int) (Math.random() * dominio.length);
 		s.append(dominio[indexDominio]);
 		
 		return s.toString();
-		
 	}
 	
 	// scrittura record sui file
-	private static FileWriter aggiungiRiga(FileWriter writer, String nome, String cognome, String numero, String email) throws IOException {
+	private static String costruisciRiga(String... campi) {
 		StringBuilder riga = new StringBuilder();
-		riga.append(nome).append(';').append(cognome).append(';').append(numero).append(';').append(email);
-		writer.write(riga.toString());
-		return writer;
+		for(String campo : campi) {
+			riga.append(campo).append(';');
+		}
+		riga.deleteCharAt(riga.length() - 1);
+		return riga.toString();
 	}
-
 
 }
