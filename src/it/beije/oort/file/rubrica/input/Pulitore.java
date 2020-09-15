@@ -21,6 +21,7 @@ public class Pulitore {
 		writeToFile(getValues(fileNomi), fileNomi);
 		writeToFile(getValues(fileCognomi), fileCognomi);
 	}
+	
 	/**
 	 * Read values from a file divided by new line and puts them into an ArrayList<String>. 
 	 * @param filePath The path of the file to be cleaned.
@@ -42,6 +43,7 @@ public class Pulitore {
 		System.out.println("File " + filePath + " letto.");
 		return valori;
 	}
+	
 	/**
 	 * Write to file.
 	 * @param valori The cleaned values to be written on the file.
@@ -58,6 +60,7 @@ public class Pulitore {
 		bw.close();
 		System.out.println("File " + filePath + " pulito.");
 	} 	
+	
 	/**
 	 * Clean a String by removing special characters and by converting double spaces to single spaces.
 	 * @param s String to clean.

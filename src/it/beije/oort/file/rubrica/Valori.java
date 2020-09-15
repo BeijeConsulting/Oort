@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 import it.beije.oort.file.rubrica.input.Pulitore;
 
+/**
+ * Classe di gestione di valori, tra cui nomi, cognomi, prefissi cellulare e suffissi email
+ */
 public class Valori {
 	private Valori() {}
-	//Classe di gestione di valori, tra cui nomi, cognomi, prefissi cellulare e suffissi email
-	
+		
 	private static final String pathNomi = "C:\\Users\\Padawan12\\Desktop\\nomi.txt";
 	private static final String pathCognomi = "C:\\Users\\Padawan12\\Desktop\\cognomi.txt";
 	private static final String outputPath = "C:\\Users\\Padawan12\\Desktop\\rubrica.txt";
@@ -33,5 +35,4 @@ public class Valori {
 	public static String getOutputPath() {
 		return outputPath;
 	}
-	
 }

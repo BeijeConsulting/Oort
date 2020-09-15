@@ -7,8 +7,8 @@ public class GeneraMail {
 		StringBuilder email = new StringBuilder();
 		Random r = new Random();
 		int rand = r.nextInt(10);
-		boolean usaNome = usaNome();
-		boolean usaCognome = usaCognome();
+		boolean usaNome = (r.nextInt(5) == 1) ? false : true;
+		boolean usaCognome = (r.nextInt(3) == 1) ? false : true;
 		
 		if (!usaNome && !usaCognome) {
 			for(int i=0;i<r.nextInt(15)+6;i++) {
@@ -27,18 +27,6 @@ public class GeneraMail {
 			email.append(mailNomeCognome(nome, cognome, dominio));
 		}
 		return removeSingleQuote(email.toString()).toLowerCase();
-	}
-	
-	private static boolean usaNome() {
-		Random r = new Random();
-		int v = r.nextInt(5);
-		return (v == 1) ? false : true;
-	}
-	
-	private static boolean usaCognome() {
-		Random r = new Random();
-		int v = r.nextInt(3);
-		return (v == 1) ? false : true;
 	}
 	
 	private static String abbreviaVocale(String s) {
