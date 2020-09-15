@@ -50,6 +50,11 @@ public class Contatto {
 	 * @return the formatted string following the csv convention with quotes.
 	 */
 	public String toFormattedString() {
-		return "\""+nome+"\";\""+cognome+"\";\""+cell+"\";\""+email+"\""; //TODO: fare con StringBuilder
+		//return "\""+nome+"\";\""+cognome+"\";\""+cell+"\";\""+email+"\""; //TODO: fare con StringBuilder
+		return new StringBuilder("\"")
+				.append(nome)
+				.append("\";\"")
+				.append(cognome)
+				.append("\";\"").append(cell).append("\";\"").append(email).append("\"").toString();
 	}
 }
