@@ -49,11 +49,11 @@ public class Contatto {
 	}
 	
 	public String toString() {
-		StringBuilder builder = new StringBuilder("contatto [");
-		builder.append("nome : ").append(this.nome)
-			.append(" - cognome : ").append(this.cognome)
-			.append(" - telefono : ").append(this.telefono)
-			.append(" - email : ").append(this.email).append("]");
+		StringBuilder builder = new StringBuilder();
+		builder.append(this.nome).append(';')
+			.append(this.cognome).append(';')
+			.append(this.telefono).append(';')
+			.append(this.email).append(';');
 		
 		return builder.toString();
 	}

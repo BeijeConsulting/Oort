@@ -9,23 +9,25 @@ public class RubricaWriter {
 	
 	public void rubricaWriter(File file, int grandezzaRubrica, List<String> nomi, List<String> cognomi, List<String> numeri, List<String> email) throws IOException {
 		FileWriter writer = new FileWriter(file);
-		StringBuilder line= new StringBuilder();
 		ListRandomSelector nome = new ListRandomSelector(nomi);
 		ListRandomSelector cognome = new ListRandomSelector(cognomi);
 		ListRandomSelector numero = new ListRandomSelector(numeri);
 		ListRandomSelector emails = new ListRandomSelector(email);
 		PhoneNumberGenerator sette = new PhoneNumberGenerator();
 		EmailGenerator emailGen = new EmailGenerator();
+		Contatto contact = new Contatto();
 		writer.write("NOME;COGNOME;NUMERO;E-MAIL;\n");
 		for(int i = 0;i<grandezzaRubrica;i++) {
-			String a = nome.getNext();
-			String b = cognome.getNext();
-			String formattedEmail = emailGen.formatEmail(a, b, emails);
-			line.append(a).append(";").append(b).append(";").append(numero.getNext()).append(sette.nextNumber()).append(";").append(formattedEmail).append(";\n");
+			contact.setNome(nome.getNext());
+			contact.setCognome(cognome.getNext());
+			contact.setTelefono(numero.getNext() + sette.nextNumber());
+			contact.setEmail(emailGen.formatEmail(contact.getNome(), contact.getCognome(), emails));
+			writer.write(contact.toString());
+			writer.write("\n");
+			writer.flush();
+			//line.append(a).append(";").append(b).append(";").append(numero.getNext()).append(sette.nextNumber()).append(";").append(formattedEmail).append(";\n");
 			//line.append(a+";"+b+";"+numero.getNext()+ sette.nextNumber() + ";" + formattedEmail + ";" + "\n");
 		}
-		writer.write(line.toString());
-		writer.flush();
 		writer.close();
 	}
 }
