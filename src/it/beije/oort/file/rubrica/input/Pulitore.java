@@ -27,14 +27,18 @@ public class Pulitore {
 	 * @return An ArrayList<String> of the input file values divided by new line.
 	 * @throws Exception
 	 */
-	private static ArrayList<String> getValues(String filePath) throws Exception {
-		BufferedReader br = new BufferedReader(new FileReader(filePath));
+	public static ArrayList<String> getValues(String filePath) {
 		ArrayList<String> valori = new ArrayList<>();
-		while (br.ready()) {
-			String t = br.readLine();
-			valori.add(clean(t));
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(filePath));
+			while (br.ready()) {
+				String t = br.readLine();
+				valori.add(clean(t));
+			}
+			br.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		br.close();
 		System.out.println("File " + filePath + " letto.");
 		return valori;
 	}

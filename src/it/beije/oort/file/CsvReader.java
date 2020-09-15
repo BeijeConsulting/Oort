@@ -4,10 +4,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.StringTokenizer;
 
 public class CsvReader {
 
+	@SuppressWarnings("resource")
 	public static void main(String[] args) throws Exception {
 		File file = new File("/temp/prova.txt");
 				
@@ -32,7 +32,7 @@ public class CsvReader {
 		
 		while (bufferedReader.ready()) {
 			//System.out.println(bufferedReader.readLine());
-			String riga = bufferedReader.readLine();
+			//String riga = bufferedReader.readLine();
 //			String[] campi = riga.split(";");
 //			
 //			System.out.println("nome : " + campi[0]);
@@ -61,7 +61,7 @@ public class CsvReader {
 		while (bufferedReader.ready()) {
 			builder.append(bufferedReader.readLine()).append('\n');
 		}
-		
+		bufferedReader.close();
 		return builder.toString();
 	}
 

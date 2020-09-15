@@ -1,6 +1,5 @@
 package it.beije.oort;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class ScannerExample {
