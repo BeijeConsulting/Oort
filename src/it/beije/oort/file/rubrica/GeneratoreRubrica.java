@@ -173,7 +173,7 @@ public class GeneratoreRubrica {
 		
 		bf.write("NOME;COGNOME;TELEFONO;EMAIL;\n");
 		ArrayList<Contatto> contatti = new ArrayList<>();
-		for(int i=0;i<100_000;i++) {
+		for(int i=0;i<100;i++) {
 			//bf.write(GeneratoreRubrica.generaIdentita(nomi.get(r.nextInt(nomi.size())),
 			//		cognomi.get(r.nextInt(cognomi.size())), prefissi[r.nextInt(5)],
 			//		domini[r.nextInt(8)]));
@@ -187,28 +187,23 @@ public class GeneratoreRubrica {
 		bf.close();
 	}
 	
-	private static ArrayList<String> getListFromFile(String path) throws IOException{
-		BufferedReader br = new BufferedReader(new FileReader(path));
-		ArrayList<String> valori = new ArrayList<>();
-		while (br.ready()) {
-			valori.add(br.readLine());
-		}
-		br.close();
-		return valori;
-	}
+//	private static ArrayList<String> getListFromFile(String path) throws IOException{
+//		BufferedReader br = new BufferedReader(new FileReader(path));
+//		ArrayList<String> valori = new ArrayList<>();
+//		while (br.ready()) {
+//			valori.add(br.readLine());
+//		}
+//		br.close();
+//		return valori;
+//	}
 	
-	public static void generaRubrica(String filename, String pathNomi, String pathCognomi) 
-			throws IOException{
-		ArrayList<String> nomi = GeneratoreRubrica.getListFromFile(pathNomi);
-		ArrayList<String> cognomi = GeneratoreRubrica.getListFromFile(pathCognomi);
-		GeneratoreRubrica.writeRubrica(filename, nomi, cognomi);
+	public static void generaRubrica() throws IOException{
+		GeneratoreRubrica.writeRubrica(Valori.getOutputPath(), Valori.getNomi(), Valori.getCognomi());
 	}
 	
 	public static void main(String[] args) throws IOException{
 		System.out.println(LocalTime.now());
-		GeneratoreRubrica.generaRubrica("C:/Users/Padawan12/Desktop/rubrica.csv",
-				"C:/Users/Padawan12/Desktop/nomi.txt",
-				"C:/Users/Padawan12/Desktop/cognomi.txt");
+		GeneratoreRubrica.generaRubrica();
 		System.out.println(LocalTime.now());
 	}	
 }

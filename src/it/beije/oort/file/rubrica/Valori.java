@@ -10,6 +10,7 @@ public class Valori {
 	
 	private static final String pathNomi = "C:\\Users\\Padawan12\\Desktop\\nomi.txt";
 	private static final String pathCognomi = "C:\\Users\\Padawan12\\Desktop\\cognomi.txt";
+	private static final String outputPath = "C:\\Users\\Padawan12\\Desktop\\rubrica.txt";
 	
 	private static ArrayList<String> nomi = Pulitore.getValues(pathNomi);
 	private static ArrayList<String> cognomi = Pulitore.getValues(pathCognomi);
@@ -29,6 +30,8 @@ public class Valori {
 	public static String getDominio(int index) {
 		return domini[index];
 	}
-	
+	public static String getOutputPath() {
+		return outputPath;
+	}
 	
 }
