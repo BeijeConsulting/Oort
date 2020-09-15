@@ -8,10 +8,10 @@ import java.util.*;
 public class PhonebookGenerator {
 
 	public static void main(String[] args) throws IOException, Exception {
-		
+
 		File file = new File("/temp/records.csv");
 		FileWriter writer = new FileWriter(file);
-		
+
 		writer.write("NOMI;COGNOMI;TELEFONO;EMAIL\n");
 
 		List<String> namesList = listGenerator("/temp/nomi_italiani.txt");
@@ -30,51 +30,52 @@ public class PhonebookGenerator {
 		String record = "";
 		String name = "";
 		String surname = "";
-		String phonenumber = "";
+		String mobile = "";
 		String domain = "";
 		String email = "";
-		
+
 		System.out.println("Start: " + LocalTime.now());
 
-		for (int i = 0; i < 50_000_000; i++) {
+		Contact contact = new Contact();
+
+		for (int i = 0; i < 1_000_000; i++) {
 			r = new Random();
-			
+
 			name = namesList.get(r.nextInt(namesSize));
 			name = name.trim();
 			name = toUpper(name);
-			
+
 			surname = surnamesList.get(r.nextInt(surnamesSize));
 			surname = surname.trim();
 			surname = toUpper(surname);
-			
-			phonenumber = generazioneNumero(prefixsList);
-			
+
+			mobile = mobileGenerator(prefixsList);
+
 			domain = domainsList.get(r.nextInt(domainsSize));
-			
+
 			email = mailGenerator(name, surname, domain);
 			email = email.toLowerCase();
 
-			record = name + ";" + surname + ";" + phonenumber + ";" + email + "\n";
-			
-			writer.write(record);
+			contact.setName(name);
+			contact.setSurname(surname);
+			contact.setMobile(mobile);
+			contact.setEmail(email);
+
+			writer.write(contact.toRow());
 
 			// recordsList.add(record);
-			
+
 		}
-		
+
 		System.out.println("Done records: " + LocalTime.now());
 
-		
-		
 		/*
-		writer.write("NOMI;COGNOMI;TELEFONO;EMAIL\n");
-		for (String row : recordsList) {
-			writer.write(row);
-		}
-*/
+		 * writer.write("NOMI;COGNOMI;TELEFONO;EMAIL\n"); for (String row : recordsList)
+		 * { writer.write(row); }
+		 */
 		writer.flush();
 		writer.close();
-		
+
 		System.out.println("Done file: " + LocalTime.now());
 
 	}
@@ -97,28 +98,29 @@ public class PhonebookGenerator {
 		return list;
 	}
 
-	public static String generazioneNumero(List<String> args) {
+	public static String mobileGenerator(List<String> args) {
 		Random random = new Random();
-		int suffisso = random.nextInt(9999999);
-		while (suffisso < 1000000) {
-			suffisso = random.nextInt(9999999);
+		int suffix = random.nextInt(9999999);
+		while (suffix < 1000000) {
+			suffix = random.nextInt(9999999);
 		}
-		String prefisso = args.get(random.nextInt(5));
-		String risultato = "" + prefisso + suffisso;
-		return risultato;
+		StringBuilder prefix = new StringBuilder(args.get(random.nextInt(5)));
+		prefix.append(suffix);
+		return prefix.toString();
 	}
 
 	public static String toUpper(String str) {
-		String first = "" + str.charAt(0);
-		String newFirst = first.toUpperCase();
-		String suffisso = str.substring(1);
-		str = newFirst + suffisso;
-		return str;
+		String firstLetter = "" + str.charAt(0);
+		StringBuilder finalWord = new StringBuilder();
+		finalWord.append(firstLetter.toUpperCase()).append(str.substring(1));
+		return finalWord.toString();
 	}
 
 	public static String mailGenerator(String name, String surname, String domain) {
 		Random r = new Random();
-		String email;
+
+		StringBuilder email = new StringBuilder();
+
 		boolean nameEmpty = false;
 		boolean surnameEmpty = false;
 
@@ -157,26 +159,26 @@ public class PhonebookGenerator {
 		if (!nameEmpty && !surnameEmpty) {
 
 			int num = r.nextInt(10) + 1;
-			
+
 			if (num == 1 || num == 2) {
 				name = "" + name.charAt(0);
 			} else if (num >= 3 && num <= 5) {
 				for (int i = 0; i < name.length(); i++) {
 					switch (name.charAt(i)) {
-						case 'a':
-						case 'e':
-						case 'i':
-						case 'o':
-						case 'u':
-							name = name.substring(0, i + 1);
-							i = name.length();
-							break;
-						default:
-							break;
+					case 'a':
+					case 'e':
+					case 'i':
+					case 'o':
+					case 'u':
+						name = name.substring(0, i + 1);
+						i = name.length();
+						break;
+					default:
+						break;
 					}
 				}
 			}
-			
+
 			num = r.nextInt(4) + 1;
 
 			if (num == 1) {
@@ -184,62 +186,63 @@ public class PhonebookGenerator {
 				name = surname;
 				surname = temp;
 			}
-			
+
 			num = r.nextInt(10) + 1;
-			
-			if(num >= 1 && num <= 3) {
+
+			if (num >= 1 && num <= 3) {
 				separetor = "";
-			} else if(num >= 4 && num <= 7) {
+			} else if (num >= 4 && num <= 7) {
 				separetor = ".";
 			} else {
 				separetor = "-";
 			}
-			
+
 			num = r.nextInt(5) + 1;
-			
+
 			if (num == 1) {
 				for (int i = 0; i < name.length(); i++) {
 					switch (name.charAt(i)) {
-						case 'a':
-							name = name.replace('a', '4');
-							break;
-						case 'e':
-							name = name.replace('e', '3');
-							break;
-						case 'i':
-							name = name.replace('i', '1');
-							break;
-						case 'o':
-							name = name.replace('o', '0');
-							break;
-						default:
-							break;
+					case 'a':
+						name = name.replace('a', '4');
+						break;
+					case 'e':
+						name = name.replace('e', '3');
+						break;
+					case 'i':
+						name = name.replace('i', '1');
+						break;
+					case 'o':
+						name = name.replace('o', '0');
+						break;
+					default:
+						break;
 					}
 				}
-				
+
 				for (int i = 0; i < surname.length(); i++) {
 					switch (surname.charAt(i)) {
-						case 'a':
-							surname = surname.replace('a', '4');
-							break;
-						case 'e':
-							surname = surname.replace('e', '3');
-							break;
-						case 'i':
-							surname = surname.replace('i', '1');
-							break;
-						case 'o':
-							surname = surname.replace('o', '0');
-							break;
-						default:
-							break;
+					case 'a':
+						surname = surname.replace('a', '4');
+						break;
+					case 'e':
+						surname = surname.replace('e', '3');
+						break;
+					case 'i':
+						surname = surname.replace('i', '1');
+						break;
+					case 'o':
+						surname = surname.replace('o', '0');
+						break;
+					default:
+						break;
 					}
 				}
 			}
 		}
 
-		email = name.replace(" ", "_") + separetor + surname.replace(" ", "_") + prefixNumber + "@" + domain;
-		email = email.toLowerCase();
-		return email;
+		email.append(name.replace(" ", "_")).append(separetor).append(surname.replace(" ", "_")).append(prefixNumber)
+				.append("@").append(domain);
+
+		return email.toString().toLowerCase();
 	}
 }
