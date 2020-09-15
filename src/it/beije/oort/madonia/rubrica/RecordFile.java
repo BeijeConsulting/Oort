@@ -44,11 +44,19 @@ public class RecordFile {
 		for(int k = 0; k < NUMERO_CONTATTI; k++) {
 			int i = (int) (Math.random()*recordNomitemp.size()); 
 			int j = (int) (Math.random()*recordCognomitemp.size());
-			Contatto contatto = new Contatto(
-					recordNomitemp.get(i),
-					recordCognomitemp.get(j),
-					RecordFile.generaNumero(),
-					RecordFile.generaMail(recordNomitemp.get(i), recordCognomitemp.get(j)));
+			
+			// Due tipi diversi di costruire il contatto, scegliere quello preferito
+			
+//			Contatto contatto = new Contatto(
+//					recordNomitemp.get(i),
+//					recordCognomitemp.get(j),
+//					RecordFile.generaNumero(),
+//					RecordFile.generaMail(recordNomitemp.get(i), recordCognomitemp.get(j)));
+			Contatto contatto = new Contatto();
+			contatto.setNome( recordNomitemp.get(i) );
+			contatto.setCognome( recordCognomitemp.get(i) );
+			contatto.setTelefono( RecordFile.generaNumero() );
+			contatto.setEmail( RecordFile.generaMail( contatto.getNome(), contatto.getCognome() ) );
 			recordContatti.add(contatto);
 		}
 		
