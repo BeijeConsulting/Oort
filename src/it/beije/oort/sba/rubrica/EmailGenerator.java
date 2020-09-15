@@ -3,22 +3,24 @@ package it.beije.oort.sba.rubrica;
 import java.util.Random;
 
 public class EmailGenerator {
+	
+	
 	public String formatEmail(String a, String b, ListRandomSelector suffix) {
 		Random r = new Random();
 		int n1 = r.nextInt(5) + 1;
 		int n2 = r.nextInt(3) + 1;
-		String ret = "";
+		StringBuilder ret = new StringBuilder();
 		boolean nome = true, cognome = true;
 		if(n1==1) nome = false;
 		if(n2==1) cognome = false;
 		if(!nome && !cognome) { //mancano sia nome che cognome
 			for(int i = 0; i<r.nextInt(14)+6; i++) {
-				ret+=(char)(r.nextInt(123-97)+97);
+				ret.append((char)(r.nextInt(123-97)+97));
 			}
 		}else if(!nome){ //manca solo il nome
-			ret += b + genNum();
+			ret.append(b).append(genNum());
 		}else if(!cognome) { //manca solo il cognome
-			ret += a + genNum();
+			ret.append(a).append(genNum());
 		}else {	//ci sono sia nome che cognome
 			String separatore="";
 			int n3 = r.nextInt(10)+1;
@@ -31,18 +33,17 @@ public class EmailGenerator {
 				a=a.substring(0,primaVoc(a));
 			}			
 			if(r.nextInt(4)+1==1) {
-				ret += b + separatore + a;
+				ret.append(b).append(separatore).append(a);
 			} else { 
-				ret += a + separatore + b;				
+				ret.append(a).append(separatore).append(b);				
 			}
 			ret = replaceVowels(ret);
 		}	
-		ret += "@" + suffix.getNext();
-		return ret;
+		ret.append("@").append(suffix.getNext());
+		return ret.toString();
 	}
-	private static String replaceVowels(String s) {
-		StringBuilder sb = new StringBuilder(s);
-		for(int i =0; i < s.length(); i++) {
+	private static StringBuilder replaceVowels(StringBuilder sb) {
+		for(int i =0; i < sb.length(); i++) {
 			switch(sb.charAt(i)) {
 			case 'a':
 				sb.replace(i, i+1, "4");
@@ -59,24 +60,24 @@ public class EmailGenerator {
 			default:
 			}
 		}
-		return sb.toString();
+		return sb;
 	}
 	private static String genNum() {
-		String genStr = "";
+		StringBuilder genStr = new StringBuilder();
 		Random r = new Random();
 		if ((r.nextInt(10)+1) != 1) {
 			int num = r.nextInt(101);
 			if (num < 10) {
-				genStr += "0";
+				genStr.append("0");
 			}
-			genStr += num;
+			genStr.append(num);
 		}
-		return genStr;
+		return genStr.toString();
 	}
 
 	private static boolean isVowel(char a) {
 		String vocali = "aeiou";
-		return vocali.contains(a+"");
+		return vocali.contains(a + "");
 	}
 	
 	private static int primaVoc(String a) {
