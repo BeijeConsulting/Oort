@@ -1,4 +1,4 @@
-package it.beije.oort.team2;
+package it.beije.oort.team2.optimization;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
