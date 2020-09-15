@@ -98,20 +98,31 @@ public class PhonebookGenerator {
 		return list;
 	}
 
-	public static String mobileGenerator(List<String> args) {
+	public static String mobileGenerator(List<String> prefixList) {
 		Random random = new Random();
+		char[] numbers = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+		
+		StringBuilder mobile = new StringBuilder(prefixList.get(random.nextInt(5)));
+		
+		for(int i = 0; i < 7; i++) {
+			mobile.append(numbers[random.nextInt(numbers.length)]);
+		}
+		
+		/*
 		int suffix = random.nextInt(9999999);
 		while (suffix < 1000000) {
 			suffix = random.nextInt(9999999);
 		}
-		StringBuilder prefix = new StringBuilder(args.get(random.nextInt(5)));
-		prefix.append(suffix);
-		return prefix.toString();
+		*/
+		
+		return mobile.toString();
 	}
 
 	public static String toUpper(String str) {
 		String firstLetter = "" + str.charAt(0);
-		StringBuilder finalWord = new StringBuilder();
+
+		StringBuilder finalWord = new StringBuilder(str.charAt(0));
+		finalWord.toString().toUpperCase();
 		finalWord.append(firstLetter.toUpperCase()).append(str.substring(1));
 		return finalWord.toString();
 	}

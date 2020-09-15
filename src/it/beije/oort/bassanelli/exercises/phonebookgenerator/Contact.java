@@ -47,11 +47,7 @@ public class Contact {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-//	public String getNominativo() { //nominativo
-//		return this.nome + " " + this.cognome;
-//	}
-	
+		
 	public String toString() {
 		StringBuilder builder = new StringBuilder("contact [");
 		builder.append("name : ").append(this.name)
