@@ -41,7 +41,7 @@ public class RecordFile {
 		recordNomitemp = RecordFile.memContent(fileNomi, recordNomitemp);
 		recordCognomitemp = RecordFile.memContent(fileCognomi, recordCognomitemp); 
 		
-		for(int k = 0; k < 10_000_000; k++) {
+		for(int k = 0; k < 1000; k++) {
 			int i = (int) (Math.random()*recordNomitemp.size()); 
 			int j = (int) (Math.random()*recordCognomitemp.size());
 			recordNomi.add(recordNomitemp.get(i));
