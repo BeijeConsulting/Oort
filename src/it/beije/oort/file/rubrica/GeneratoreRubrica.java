@@ -16,11 +16,11 @@ public class GeneratoreRubrica {
 		try (BufferedWriter bf = 
 				new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(filename, true), StandardCharsets.UTF_8))){
-			bf.write("NOME;COGNOME;TELEFONO;EMAIL;\n");
+			bf.write("COGNOME;NOME;TELEFONO;EMAIL;\n");
 			for(int i=0;i<100;i++) {
 				bf.write(new Contatto(
-						nomi.get(r.nextInt(nomi.size())), 
 						cognomi.get(r.nextInt(cognomi.size())),
+						nomi.get(r.nextInt(nomi.size())), 
 						Valori.getPrefisso(r.nextInt(5)),
 						Valori.getDominio(r.nextInt(8))).toFormattedString() + '\n');
 			}

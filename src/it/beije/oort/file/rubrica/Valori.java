@@ -10,9 +10,9 @@ import it.beije.oort.file.rubrica.input.Pulitore;
 public class Valori {
 	private Valori() {}
 		
-	private static final String pathNomi = "C:\\Users\\Padawan12\\Desktop\\nomi.txt";
-	private static final String pathCognomi = "C:\\Users\\Padawan12\\Desktop\\cognomi.txt";
-	private static final String outputPath = "C:\\Users\\Padawan12\\Desktop\\rubrica.txt";
+	private static final String pathNomi = "C:\\Users\\Padawan09\\Desktop\\nomi.txt";
+	private static final String pathCognomi = "C:\\Users\\Padawan09\\Desktop\\cognomi.txt";
+	private static final String outputPath = "C:\\Users\\Padawan09\\Desktop\\rubrica.txt";
 	
 	private static ArrayList<String> nomi = Pulitore.getValues(pathNomi);
 	private static ArrayList<String> cognomi = Pulitore.getValues(pathCognomi);
