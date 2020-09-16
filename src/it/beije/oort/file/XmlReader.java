@@ -21,7 +21,7 @@ import it.beije.oort.rubrica.Contatto;
 public class XmlReader {
 
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-		File file = new File("./rubrica.xml");
+		File file = new File("/temp/rubrica.xml");
 		
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
