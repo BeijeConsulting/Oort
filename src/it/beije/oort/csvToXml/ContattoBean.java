@@ -1,38 +1,41 @@
 package it.beije.oort.csvToXml;
 
+import java.util.Random;
+
+import it.beije.oort.file.rubrica.GeneraMail;
+
 public class ContattoBean {
 	private String nome;
 	private String cognome;
 	private String cell;
 	private String email;
 	
-
+	public ContattoBean() {}
 	
-	// Per ora non necessito i Costruttori
-//	public ContattoBean(String nome) {
-//		this(nome, "", "", "");
-//	}
-//	
-//	public ContattoBean(String nome, String cognome) {
-//		this(nome, cognome, "", "");
-//	}
-//	
-//	public ContattoBean(String nome, String cognome, String prefisso) {
-//		this(nome, cognome, prefisso, "");
-//	}
-//	
-//	public ContattoBean(String nome, String cognome, String prefisso, String dominio) {
-//		Random r = new Random();
-//		StringBuilder suffisso=new StringBuilder();
-//		for(int i = 0; i < 7; i++) {
-//			suffisso.append(r.nextInt(10));
-//		}
-//		
-//		this.nome = nome;
-//		this.cognome = cognome;
-//		this.cell = prefisso + suffisso.toString();
-//		this.email = GeneraMail.generaMail(nome, cognome, dominio);
-//	}
+	public ContattoBean(String nome) {
+		this(nome, "", "", "");
+	}
+	
+	public ContattoBean(String nome, String cognome) {
+		this(nome, cognome, "", "");
+	}
+	
+	public ContattoBean(String nome, String cognome, String prefisso) {
+		this(nome, cognome, prefisso, "");
+	}
+	
+	public ContattoBean(String nome, String cognome, String prefisso, String dominio) {
+		Random r = new Random();
+		StringBuilder suffisso=new StringBuilder();
+		for(int i = 0; i < 7; i++) {
+			suffisso.append(r.nextInt(10));
+		}
+		
+		this.nome = nome;
+		this.cognome = cognome;
+		this.cell = prefisso + suffisso.toString();
+		this.email = GeneraMail.generaMail(nome, cognome, dominio);
+	}
 	
 	public String getNome() {
 		return nome;
@@ -60,7 +63,7 @@ public class ContattoBean {
 	}
 	
 	/**
-	 * @return the formatted string following the csv convention with quotes.
+	 * @return the formatted string following the CSV convention with quotes.
 	 */
 	public String toFormattedString() {
 		return new StringBuilder("\"")

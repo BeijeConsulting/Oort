@@ -5,6 +5,13 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * CSVParser reads CSV files and creates a List<> of ContattoBean based on the header of the file.
+ * Should be easy to scale to accommodate more of ContattoBean's variables, in case we'll add more.
+ * @author Alessio Franceschi
+ *
+ */
 public class CSVReader {
 	private int posNome;
 	private int posCognome;
@@ -14,12 +21,22 @@ public class CSVReader {
 	private String filePath;
 	private String[] headers;
 	
+	/**
+	 * I decided to make this class non-static as I didn't want to give the filePath as parameter every time.
+	 * So, you have to create a CSVReader object in order to use these methods. 
+	 * The Constructor will also prepare variables all on his own.
+	 * @param filePath
+	 */
 	public CSVReader(String filePath) {
 		this.filePath = filePath;
 		headers = prepareHeaders();
 		assignPositions(headers);
 	}
 	
+	/**
+	 * 
+	 * @return an Array containing the CSV header's values
+	 */
 	public String[] prepareHeaders(){
 		String header = "";
 			try (BufferedReader br = new BufferedReader(new FileReader(filePath))){
@@ -32,6 +49,10 @@ public class CSVReader {
 		return header.split(";");
 	}
 	
+	/**
+	 * Assign the correct position to the ContattoBean variables, depending on the CSV's header.
+	 * @param headerVal an Array containing the values present in the header
+	 */
 	public void assignPositions(String[] headerVal) {
 		for (int i = 0; i < headerVal.length; i++) {
 			switch (headerVal[i].toUpperCase()) {
@@ -59,6 +80,10 @@ public class CSVReader {
 		}
 	}
 	
+	/**
+	 * Create and return a List of ContattoBean from the CSV file.
+	 * @return a List containing all the ContattoBean present in the CSV.
+	 */
 	public List<ContattoBean> creaListaContatti(){
 		String contattoLine = "";
 		List<ContattoBean> contatti = new ArrayList<ContattoBean>();
