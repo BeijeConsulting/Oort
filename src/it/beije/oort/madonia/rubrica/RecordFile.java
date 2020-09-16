@@ -11,7 +11,7 @@ import java.util.List;
 public class RecordFile {
 	
 	private static final String PATH_FILES = "/temp/rubrica/";
-	private static final int NUMERO_CONTATTI = 1000;
+	private static final int NUMERO_CONTATTI = 100;
 	
 //	// lettura file
 //	public static String getContent(File file) throws IOException {
@@ -54,10 +54,10 @@ public class RecordFile {
 		}
 		
 		// fase di scrittura	
-		File output = new File(PATH_FILES + "rubrica.txt");
+		File output = new File(PATH_FILES + "rubrica_madonia.txt");
 		FileWriter writer = new FileWriter(output);
 		
-		writer.write("NOME;COGNOME;TELEFONO;E-MAIL");
+		writer.write("COGNOME;NOME;TELEFONO;E-MAIL");
 		for (Contatto contattoTemp : recordContatti) {
 			writer.write("\n");
 			writer.write(RecordFile.costruisciRiga(contattoTemp));
@@ -229,7 +229,7 @@ public class RecordFile {
 	
 	// scrittura record sui file
 	private static String costruisciRiga(Contatto contatto) {
-		return costruisciRiga(contatto.getNome(), contatto.getCognome(), contatto.getTelefono(), contatto.getEmail());
+		return costruisciRiga(contatto.getCognome(), contatto.getNome(), contatto.getTelefono(), contatto.getEmail());
 	}
 	
 	private static String costruisciRiga(String... campi) {
