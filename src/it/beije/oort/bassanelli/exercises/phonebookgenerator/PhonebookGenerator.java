@@ -12,7 +12,7 @@ public class PhonebookGenerator {
 		File file = new File("/temp/records.csv");
 		FileWriter writer = new FileWriter(file);
 
-		writer.write("NOMI;COGNOMI;TELEFONO;EMAIL\n");
+		writer.write("TELEFONO;EMAIL;NOME;COGNOME\n");
 
 		List<String> namesList = listGenerator("./nomi_italiani.txt");
 		List<String> surnamesList = listGenerator("./cognomi.txt");
