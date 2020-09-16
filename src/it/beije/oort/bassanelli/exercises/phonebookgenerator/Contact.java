@@ -63,7 +63,7 @@ public class Contact {
 		builder.append(this.mobile).append(";")
 			.append(this.email).append(";")
 			.append(this.name).append(";")
-			.append(this.surname).append(";\n");
+			.append(this.surname).append("\n");
 		
 		return builder.toString();
 	}
