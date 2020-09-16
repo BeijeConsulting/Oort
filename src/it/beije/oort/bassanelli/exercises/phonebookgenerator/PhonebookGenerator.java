@@ -37,7 +37,7 @@ public class PhonebookGenerator {
 
 		Contact contact = new Contact();
 
-		for (int i = 0; i < 1_000_000; i++) {
+		for (int i = 0; i < 100; i++) {
 		
 			name = nameGenerator(namesList.get(r.nextInt(namesSize)));
 
