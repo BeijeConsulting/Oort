@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rubrica>
+    <contatto>
+        <nome>Carlo</nome>
+        <cognome>Bianchi</cognome>
+        <telefono>3337658231</telefono>
+		<email></email>
+    </contatto>
+    <contatto>
+        <nome>Mario</nome>
+        <cognome>Rossi</cognome>
+        <telefono>3337658390</telefono>
+        <email>mario.rossi@tim.it</email>
+    </contatto>
+</rubrica>
