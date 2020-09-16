@@ -149,9 +149,9 @@ public class PhonebookGenerator {
 
 		// mancano il nome e il cognome
 		if (nameEmpty && surnameEmpty) {
-			int randomNumber = r.nextInt((20 - 6) + 1) + 6;
+			int randomLength = r.nextInt((20 - 6) + 1) + 6;
 
-			for (int i = 0; i < randomNumber; i++) {
+			for (int i = 0; i < randomLength; i++) {
 				char c = (char) (r.nextInt((122 - 97) + 1) + 97);
 				name += c;
 			}
@@ -164,7 +164,7 @@ public class PhonebookGenerator {
 			int num = r.nextInt(10) + 1;
 
 			if (num == 1 || num == 2) {
-				name = "" + name.charAt(0);
+				name = name.substring(0,1);
 			} else if (num >= 3 && num <= 5) {
 				for (int i = 0; i < name.length(); i++) {
 					switch (name.charAt(i)) {
