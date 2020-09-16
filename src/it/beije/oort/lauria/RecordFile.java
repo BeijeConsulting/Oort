@@ -8,6 +8,7 @@ import java.util.List;
 public class RecordFile {
 		
 	private static final String PATH_FILES = "C:\\Users\\Padawan06\\Documenti\\temp\\";
+	private static final int NUMERO_CONTATTI = 1000;
 	
 //	// lettura file
 //	public static String getContent(File file) throws IOException {
@@ -21,33 +22,39 @@ public class RecordFile {
 //		
 //		return builder.toString();	
 //	}
-
 	
 	public static void main(String[] args) throws IOException {
 		
 		File fileNomi = new File(PATH_FILES + "nomi_italiani.txt");
-		File fileCognomi = new File(PATH_FILES + "cognomi.txt");
+		File fileCognomi = new File(PATH_FILES + "cognomi_italiani.txt");
 		
 		// Dichiarazione variabili 
 		List<String> recordNomitemp = new ArrayList<>();
 		List<String> recordCognomitemp = new ArrayList<>();
 		
-		List<String> recordNomi = new ArrayList<>();
-		List<String> recordCognomi = new ArrayList<>();	
-		List<String> recordTel = new ArrayList<>();
-		List<String> recordMail = new ArrayList<>();
+		List<Contatto> recordContatti = new ArrayList<>();
 		
 		// lettura e memorizzazione dei record di nomi e cognomi
 		recordNomitemp = RecordFile.memContent(fileNomi, recordNomitemp);
 		recordCognomitemp = RecordFile.memContent(fileCognomi, recordCognomitemp); 
 		
-		for(int k = 0; k < 1000; k++) {
+		for(int k = 0; k < NUMERO_CONTATTI; k++) {
 			int i = (int) (Math.random()*recordNomitemp.size()); 
 			int j = (int) (Math.random()*recordCognomitemp.size());
-			recordNomi.add(recordNomitemp.get(i));
-			recordCognomi.add(recordCognomitemp.get(j));
-			recordTel.add(RecordFile.generaNumero());
-			recordMail.add(RecordFile.generaMail(recordNomi.get(k), recordCognomi.get(k)));
+			
+			// Due tipi diversi di costruire il contatto, scegliere quello preferito
+			
+//			Contatto contatto = new Contatto(
+//					recordNomitemp.get(i),
+//					recordCognomitemp.get(j),
+//					RecordFile.generaNumero(),
+//					RecordFile.generaMail(recordNomitemp.get(i), recordCognomitemp.get(j)));
+			Contatto contatto = new Contatto();
+			contatto.setNome( recordNomitemp.get(i) );
+			contatto.setCognome( recordCognomitemp.get(j) );
+			contatto.setTelefono( RecordFile.generaNumero() );
+			contatto.setEmail( RecordFile.generaMail( contatto.getNome(), contatto.getCognome() ) );
+			recordContatti.add(contatto);
 		}
 		
 		// fase di scrittura	
@@ -55,14 +62,9 @@ public class RecordFile {
 		FileWriter writer = new FileWriter(output);
 		
 		writer.write("NOME;COGNOME;TELEFONO;E-MAIL");
-		for (int arrayIndex = 0; arrayIndex < recordNomi.size(); arrayIndex++) {
+		for (Contatto contattoTemp : recordContatti) {
 			writer.write("\n");
-			writer.write(RecordFile.costruisciRiga(
-					recordNomi.get(arrayIndex),
-					recordCognomi.get(arrayIndex),
-					recordTel.get(arrayIndex),
-					recordMail.get(arrayIndex)
-					));
+			writer.write(RecordFile.costruisciRiga(contattoTemp));
 		}
 		
 		writer.flush();
@@ -230,6 +232,10 @@ public class RecordFile {
 	}
 	
 	// scrittura record sui file
+	private static String costruisciRiga(Contatto contatto) {
+		return costruisciRiga(contatto.getNome(), contatto.getCognome(), contatto.getTelefono(), contatto.getEmail());
+	}
+	
 	private static String costruisciRiga(String... campi) {
 		StringBuilder riga = new StringBuilder();
 		for(String campo : campi) {
