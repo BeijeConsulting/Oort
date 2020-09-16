@@ -1,5 +1,5 @@
 package it.beije.oort.bassanelli.exercises.phonebookgenerator;
-// un commento
+
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -39,13 +39,9 @@ public class PhonebookGenerator {
 
 		for (int i = 0; i < 1_000_000; i++) {
 		
-			name = namesList.get(r.nextInt(namesSize));
-			name = name.trim();
-			name = toUpper(name);
+			name = nameGenerator(namesList.get(r.nextInt(namesSize)));
 
-			surname = surnamesList.get(r.nextInt(surnamesSize));
-			surname = surname.trim();
-			surname = toUpper(surname);
+			surname = surnameGenerator(surnamesList.get(r.nextInt(surnamesSize)));
 
 			mobile = mobileGenerator(prefixsList);
 
@@ -60,7 +56,6 @@ public class PhonebookGenerator {
 
 			writer.write(contact.toRow());
 		
-
 			// recordsList.add(record);
 		}
 
@@ -90,6 +85,22 @@ public class PhonebookGenerator {
 
 		return list;
 	}
+	
+	public static String nameGenerator(String name) {
+		name = toUpper(name.trim());
+		return name;
+	}
+	
+	public static String surnameGenerator(String surname) {
+		surname = toUpper(surname.trim());
+		return surname;
+	}
+	
+	public static String toUpper(String str) {
+		StringBuilder finalWord = new StringBuilder();
+		finalWord.append(str.substring(0,1).toUpperCase()).append(str.substring(1));
+		return finalWord.toString();
+	}
 
 	public static String mobileGenerator(List<String> prefixList) {
 		Random r = new Random();
@@ -104,14 +115,7 @@ public class PhonebookGenerator {
 		
 		return mobile.toString();
 	}
-
-	public static String toUpper(String str) {
-		String firstLetter = "" + str.charAt(0);
-		StringBuilder finalWord = new StringBuilder();
-		finalWord.append(firstLetter.toUpperCase()).append(str.substring(1));
-		return finalWord.toString();
-	}
-
+	
 	public static String mailGenerator(String name, String surname, String domain) {
 		Random r = new Random();
 
@@ -132,6 +136,7 @@ public class PhonebookGenerator {
 			surnameEmpty = true;
 		}
 
+		// mancano o il nome o il cognome
 		if (nameEmpty ^ surnameEmpty) {
 
 			if (r.nextInt(10) + 1 != 1) {
@@ -142,6 +147,7 @@ public class PhonebookGenerator {
 			}
 		}
 
+		// mancano il nome e il cognome
 		if (nameEmpty && surnameEmpty) {
 			int randomNumber = r.nextInt((20 - 6) + 1) + 6;
 
@@ -152,6 +158,7 @@ public class PhonebookGenerator {
 
 		}
 
+		// presente il nome e il cognome
 		if (!nameEmpty && !surnameEmpty) {
 
 			int num = r.nextInt(10) + 1;
