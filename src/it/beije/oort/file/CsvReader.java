@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 public class CsvReader {
 
 	public static void main(String[] args) throws Exception {
-		File file = new File("/temp/contatti.xml");
+		File file = new File("/temp/records.csv");
 				
 //		System.out.println("file : " + file);
 //		System.out.println("isDirectory ? " + file.isDirectory());
