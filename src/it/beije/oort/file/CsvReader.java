@@ -32,7 +32,10 @@ public class CsvReader {
 		
 		while (bufferedReader.ready()) {
 			//System.out.println(bufferedReader.readLine());
-			//String riga = bufferedReader.readLine();
+
+
+			@SuppressWarnings("unused")
+			String riga = bufferedReader.readLine();
 //			String[] campi = riga.split(";");
 //			
 //			System.out.println("nome : " + campi[0]);
@@ -49,6 +52,7 @@ public class CsvReader {
 
 			System.out.println();
 		}
+		bufferedReader.close();
 	}
 
 	
