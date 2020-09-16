@@ -5,6 +5,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
+
+import it.beije.oort.file.CsvReader;
+
 public class PhonebookGenerator {
 
 	public static void main(String[] args) throws IOException, Exception {
@@ -37,7 +41,7 @@ public class PhonebookGenerator {
 
 		Contact contact = new Contact();
 
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 1; i++) {
 		
 			name = nameGenerator(namesList.get(r.nextInt(namesSize)));
 
@@ -65,6 +69,10 @@ public class PhonebookGenerator {
 		writer.close();
 
 		System.out.println("Done file: " + LocalTime.now());
+		
+		
+		System.out.println(readCsv("./rubrica_bassanelli.csv"));
+		
 
 	}
 
@@ -248,4 +256,44 @@ public class PhonebookGenerator {
 
 		return email.toString().toLowerCase();
 	}
+	
+	
+	public static List<Contact> readCsv(String pathfile) throws IOException {
+		
+		List<Contact> list = new ArrayList<Contact>();
+		
+		Contact contact = new Contact();
+		
+		File file = new File(pathfile);
+		FileReader fileReader = new FileReader(file);
+		StringBuilder builder = new StringBuilder();
+		
+		BufferedReader bufferedReader = new BufferedReader(fileReader);
+		
+		
+		List<String> field = new ArrayList<String>();
+		field = Arrays.asList(bufferedReader.readLine().split(";"));
+		System.out.println(field.toString());
+		
+		while (bufferedReader.ready()) {
+			
+			System.out.println(bufferedReader.readLine());
+			
+			
+			
+			// builder.append(bufferedReader.readLine()).append('\n');
+		}
+		
+
+		
+		//System.out.println(field.get(1));
+		System.out.println("Finish");
+		
+		return list;
+		
+	}
+		
+	
+	
+	
 }
