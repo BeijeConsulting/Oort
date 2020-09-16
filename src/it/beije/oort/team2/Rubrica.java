@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Rubrica {
-	public static final int NUM_RECORDS = 1000000;
+	public static final int NUM_RECORDS = 100;
 	public static ArrayList<String> nomi = new ArrayList<>();
 	public static ArrayList<String> cognomi = new ArrayList<>();
 	public static ArrayList<Record> records = new ArrayList<>();
@@ -45,7 +45,7 @@ public class Rubrica {
 	}
 	
 	public static void scritturaFile() throws IOException {
-		File file = new File("/temp/rubrica.txt");
+		File file = new File("/temp/rubrica.cvs");
 		FileWriter fileWriter = new FileWriter(file);
 		BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 		
@@ -54,7 +54,7 @@ public class Rubrica {
 			String surname = records.get(i).getCognome();
 			String phone = records.get(i).getTelefono();
 			String email = records.get(i).getMail();
-			bufferedWriter.append(name + ";" + surname + ";" + phone + ";" + email + "\n");
+			bufferedWriter.append(phone + ";" + email + ";" + name + ";" + surname + "\n");
 		}
 		
 		bufferedWriter.flush();
