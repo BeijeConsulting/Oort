@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public class CsvReader {
 
+	@SuppressWarnings("resource")
 	public static void main(String[] args) throws Exception {
 		File file = new File("/temp/prova.txt");
 				
@@ -31,6 +32,8 @@ public class CsvReader {
 		
 		while (bufferedReader.ready()) {
 			//System.out.println(bufferedReader.readLine());
+
+
 			@SuppressWarnings("unused")
 			String riga = bufferedReader.readLine();
 //			String[] campi = riga.split(";");
@@ -62,7 +65,6 @@ public class CsvReader {
 		while (bufferedReader.ready()) {
 			builder.append(bufferedReader.readLine()).append('\n');
 		}
-		
 		bufferedReader.close();
 		return builder.toString();
 	}
