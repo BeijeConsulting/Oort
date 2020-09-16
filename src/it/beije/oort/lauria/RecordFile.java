@@ -8,7 +8,7 @@ import java.util.List;
 public class RecordFile {
 		
 	private static final String PATH_FILES = "C:\\Users\\Padawan06\\Documenti\\temp\\";
-	private static final int NUMERO_CONTATTI = 1000;
+	private static final int NUMERO_CONTATTI = 100;
 	
 //	// lettura file
 //	public static String getContent(File file) throws IOException {
@@ -26,7 +26,7 @@ public class RecordFile {
 	public static void main(String[] args) throws IOException {
 		
 		File fileNomi = new File(PATH_FILES + "nomi_italiani.txt");
-		File fileCognomi = new File(PATH_FILES + "cognomi_italiani.txt");
+		File fileCognomi = new File(PATH_FILES + "cognomi.txt");
 		
 		// Dichiarazione variabili 
 		List<String> recordNomitemp = new ArrayList<>();
@@ -56,12 +56,13 @@ public class RecordFile {
 			contatto.setEmail( RecordFile.generaMail( contatto.getNome(), contatto.getCognome() ) );
 			recordContatti.add(contatto);
 		}
+
 		
 		// fase di scrittura	
 		File output = new File(PATH_FILES + "rubrica.txt");
 		FileWriter writer = new FileWriter(output);
 		
-		writer.write("NOME;COGNOME;TELEFONO;E-MAIL");
+		writer.write("COGNOME;NOME;TELEFONO;E-MAIL");
 		for (Contatto contattoTemp : recordContatti) {
 			writer.write("\n");
 			writer.write(RecordFile.costruisciRiga(contattoTemp));
@@ -69,7 +70,9 @@ public class RecordFile {
 		
 		writer.flush();
 		writer.close();
-		System.out.println("Rubrica completata!");
+		System.out.println("Rubrica completata!");	
+		
+		
 	}
 	
 	// lettura e memorizzazione record	
@@ -86,6 +89,8 @@ public class RecordFile {
 
 		return record;
 	}
+	
+
 	
 	// genera Numero di telefono
 	private static String generaNumero() {
@@ -233,7 +238,7 @@ public class RecordFile {
 	
 	// scrittura record sui file
 	private static String costruisciRiga(Contatto contatto) {
-		return costruisciRiga(contatto.getNome(), contatto.getCognome(), contatto.getTelefono(), contatto.getEmail());
+		return costruisciRiga(contatto.getCognome(), contatto.getNome(),  contatto.getTelefono(), contatto.getEmail());
 	}
 	
 	private static String costruisciRiga(String... campi) {

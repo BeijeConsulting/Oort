@@ -58,7 +58,7 @@ public class Contatto {
 		builder.append("nome : ").append(this.nome)
 			.append(" - cognome : ").append(this.cognome)
 			.append(" - telefono : ").append(this.telefono)
-			.append(" - email : ").append(this.email).append("]");
+			.append(" - email : ").append(this.email).append("]\n");
 		
 		return builder.toString();
 	}
