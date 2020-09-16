@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 public class CsvReader {
 
 	public static void main(String[] args) throws Exception {
-		File file = new File("/temp/prova.txt");
+		File file = new File("/temp/contatti.xml");
 				
 //		System.out.println("file : " + file);
 //		System.out.println("isDirectory ? " + file.isDirectory());
@@ -17,9 +17,9 @@ public class CsvReader {
 		
 		FileReader fileReader = new FileReader(file);
 		
-//		while (fileReader.ready()) {
-//			System.out.print((char)fileReader.read());
-//		}
+		while (fileReader.ready()) {
+			System.out.print((char)fileReader.read());
+		}
 
 //		int c = fileReader.read();
 //		while (c >= 0) {
@@ -28,27 +28,27 @@ public class CsvReader {
 //			c = fileReader.read();
 //		}
 
-		BufferedReader bufferedReader = new BufferedReader(fileReader);
-		
-		while (bufferedReader.ready()) {
-			//System.out.println(bufferedReader.readLine());
-			String riga = bufferedReader.readLine();
-//			String[] campi = riga.split(";");
-//			
-//			System.out.println("nome : " + campi[0]);
-//			System.out.println("cognome : " + campi[1]);
-//			System.out.println("tel : " + campi[2]);
-//			System.out.println("email : " + campi[3]);
-
-//			StringTokenizer tokenizer = new StringTokenizer(riga, ";");
-//			
-//			System.out.println("nome : " + tokenizer.nextToken());
-//			System.out.println("cognome : " + tokenizer.nextToken());
-//			System.out.println("tel : " + tokenizer.nextToken());
-//			System.out.println("email : " + tokenizer.nextToken());
-
-			System.out.println();
-		}
+//		BufferedReader bufferedReader = new BufferedReader(fileReader);
+//		
+//		while (bufferedReader.ready()) {
+//			//System.out.println(bufferedReader.readLine());
+//			String riga = bufferedReader.readLine();
+////			String[] campi = riga.split(";");
+////			
+////			System.out.println("nome : " + campi[0]);
+////			System.out.println("cognome : " + campi[1]);
+////			System.out.println("tel : " + campi[2]);
+////			System.out.println("email : " + campi[3]);
+//
+////			StringTokenizer tokenizer = new StringTokenizer(riga, ";");
+////			
+////			System.out.println("nome : " + tokenizer.nextToken());
+////			System.out.println("cognome : " + tokenizer.nextToken());
+////			System.out.println("tel : " + tokenizer.nextToken());
+////			System.out.println("email : " + tokenizer.nextToken());
+//
+//			System.out.println();
+//		}
 	}
 
 	
