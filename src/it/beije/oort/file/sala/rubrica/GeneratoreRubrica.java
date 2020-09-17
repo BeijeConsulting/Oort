@@ -4,7 +4,9 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.List;
 import java.time.*;
+import it.beije.oort.file.sala.Contatto;
 
 public class GeneratoreRubrica {
 	
@@ -30,16 +32,22 @@ public class GeneratoreRubrica {
 		}
 	}
 	
-	public static void generaRubrica() {
-		GeneratoreRubrica.writeRubrica(Valori.getOutputPath(),
-										Valori.getNomi(), 
-										Valori.getCognomi());
-		// TODO al momento generaRubrica chiama writeRubrica e basta. Volendo possiamo toglierlo
+	public static List<Contatto> generaRubrica(String filename, ArrayList<String> nomi,
+			ArrayList<String> cognomi, int dimensione) {
+		Random r = new Random();
+		
+		
+		return new ArrayList<Contatto>();
+	}
+	
+	public static List<Contatto> generaRubrica(String filename, ArrayList<String> nomi,
+			ArrayList<String> cognomi) {
+		return GeneratoreRubrica.generaRubrica(filename, nomi, cognomi, 100);
 	}
 	
 	public static void main(String[] args){
 		System.out.println(LocalTime.now());
-		GeneratoreRubrica.generaRubrica();
+		//GeneratoreRubrica.generaRubrica();
 		System.out.println(LocalTime.now());
 	}	
 }
