@@ -49,16 +49,16 @@ public class Contact {
 	}
 		
 	public String toString() {
-		StringBuilder builder = new StringBuilder("contact [");
-		builder.append("name : ").append(this.name)
-			.append(" - surname : ").append(this.surname)
-			.append(" - mobile : ").append(this.mobile)
-			.append(" - email : ").append(this.email).append("]");
+		StringBuilder builder = new StringBuilder("CONTACT [");
+		builder.append("NAME : ").append(this.name)
+			.append(" - SURNAME : ").append(this.surname)
+			.append(" - MOBILE : ").append(this.mobile)
+			.append(" - EMAIL : ").append(this.email).append("]");
 		
 		return builder.toString();
 	}
 	
-	public String toRow() {
+	public String toCsvRow() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(this.mobile).append(";")
 			.append(this.email).append(";")

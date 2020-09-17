@@ -1,15 +1,11 @@
 package it.beije.oort.bassanelli.exercises.phonebookgenerator;
 
 import java.io.*;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
-import it.beije.oort.file.CsvReader;
-
-public class PhonebookGenerator {
+public class Runner {
 
 	public static void main(String[] args) throws IOException, Exception {
 
@@ -18,10 +14,10 @@ public class PhonebookGenerator {
 
 		writer.write("TELEFONO;EMAIL;NOME;COGNOME\n");
 
-		List<String> namesList = listGenerator("./nomi_italiani.txt");
-		List<String> surnamesList = listGenerator("./cognomi.txt");
-		List<String> prefixsList = listGenerator("./prefissi.txt");
-		List<String> domainsList = listGenerator("./domini.txt");
+		List<String> namesList = listGenerator("/temp/nomi_italiani.txt");
+		List<String> surnamesList = listGenerator("/temp/cognomi.txt");
+		List<String> prefixsList = listGenerator("/temp/prefissi.txt");
+		List<String> domainsList = listGenerator("/temp/domini.txt");
 
 		int namesSize = namesList.size();
 		int surnamesSize = surnamesList.size();
@@ -42,7 +38,7 @@ public class PhonebookGenerator {
 		Contact contact = new Contact();
 
 		for (int i = 0; i < 1; i++) {
-		
+
 			name = nameGenerator(namesList.get(r.nextInt(namesSize)));
 
 			surname = surnameGenerator(surnamesList.get(r.nextInt(surnamesSize)));
@@ -58,8 +54,8 @@ public class PhonebookGenerator {
 			contact.setMobile(mobile);
 			contact.setEmail(email);
 
-			writer.write(contact.toRow());
-		
+			writer.write(contact.toCsvRow());
+
 			// recordsList.add(record);
 		}
 
@@ -69,11 +65,11 @@ public class PhonebookGenerator {
 		writer.close();
 
 		System.out.println("Done file: " + LocalTime.now());
-		
-		
-		System.out.println(readCsv("./rubrica_bassanelli.csv"));
-		
 
+		List<Contact> contacts = Phonebook.readCsvFile("/temp/rubrica_bassanelli.csv");
+		
+		Phonebook.writeXmlFile(contacts, "/temp/rubrica.xml");
+		
 	}
 
 	public static List<String> listGenerator(String path) throws IOException, Exception {
@@ -93,37 +89,37 @@ public class PhonebookGenerator {
 
 		return list;
 	}
-	
+
 	public static String nameGenerator(String name) {
 		name = toUpper(name.trim());
 		return name;
 	}
-	
+
 	public static String surnameGenerator(String surname) {
 		surname = toUpper(surname.trim());
 		return surname;
 	}
-	
+
 	public static String toUpper(String str) {
 		StringBuilder finalWord = new StringBuilder();
-		finalWord.append(str.substring(0,1).toUpperCase()).append(str.substring(1));
+		finalWord.append(str.substring(0, 1).toUpperCase()).append(str.substring(1));
 		return finalWord.toString();
 	}
 
 	public static String mobileGenerator(List<String> prefixList) {
 		Random r = new Random();
-		
+
 		char[] numbers = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
-	
+
 		StringBuilder mobile = new StringBuilder(prefixList.get(r.nextInt(5)));
-		
-		for(int i = 0; i < 7; i++) {
+
+		for (int i = 0; i < 7; i++) {
 			mobile.append(numbers[r.nextInt(numbers.length)]);
 		}
-		
+
 		return mobile.toString();
 	}
-	
+
 	public static String mailGenerator(String name, String surname, String domain) {
 		Random r = new Random();
 
@@ -172,7 +168,7 @@ public class PhonebookGenerator {
 			int num = r.nextInt(10) + 1;
 
 			if (num == 1 || num == 2) {
-				name = name.substring(0,1);
+				name = name.substring(0, 1);
 			} else if (num >= 3 && num <= 5) {
 				for (int i = 0; i < name.length(); i++) {
 					switch (name.charAt(i)) {
@@ -256,44 +252,4 @@ public class PhonebookGenerator {
 
 		return email.toString().toLowerCase();
 	}
-	
-	
-	public static List<Contact> readCsv(String pathfile) throws IOException {
-		
-		List<Contact> list = new ArrayList<Contact>();
-		
-		Contact contact = new Contact();
-		
-		File file = new File(pathfile);
-		FileReader fileReader = new FileReader(file);
-		StringBuilder builder = new StringBuilder();
-		
-		BufferedReader bufferedReader = new BufferedReader(fileReader);
-		
-		
-		List<String> field = new ArrayList<String>();
-		field = Arrays.asList(bufferedReader.readLine().split(";"));
-		System.out.println(field.toString());
-		
-		while (bufferedReader.ready()) {
-			
-			System.out.println(bufferedReader.readLine());
-			
-			
-			
-			// builder.append(bufferedReader.readLine()).append('\n');
-		}
-		
-
-		
-		//System.out.println(field.get(1));
-		System.out.println("Finish");
-		
-		return list;
-		
-	}
-		
-	
-	
-	
 }
