@@ -34,6 +34,10 @@ public class RecordFile {
 		
 		List<Contatto> recordContatti = new ArrayList<>();
 		
+		List<String> listaTelefoni = new ArrayList<>();
+//		List<String> listaEmail = new ArrayList<>();
+		
+		
 		// lettura e memorizzazione dei record di nomi e cognomi
 		recordNomitemp = RecordFile.memContent(fileNomi, recordNomitemp);
 		recordCognomitemp = RecordFile.memContent(fileCognomi, recordCognomitemp); 
@@ -54,12 +58,22 @@ public class RecordFile {
 			contatto.setCognome( recordCognomitemp.get(j) );
 			contatto.setTelefono( RecordFile.generaNumero() );
 			contatto.setEmail( RecordFile.generaMail( contatto.getNome(), contatto.getCognome() ) );
+			
 			recordContatti.add(contatto);
+			
+			listaTelefoni.add(contatto.getTelefono());
+//			listaEmail.add(contatto.getEmail());
+		}
+
+
+		for(int k = 0; k < NUMERO_CONTATTI; k++){
+			recordContatti.get(k).setTelefono(RecordFile.generaNuovoNumero(listaTelefoni));
+//			recordContatti.get(k).setEmail(RecordFile.generaNuovaEmail(listaEmail));			
 		}
 
 		
 		// fase di scrittura	
-		File output = new File(PATH_FILES + "rubrica.txt");
+		File output = new File(PATH_FILES + "rubricaMod.csv");
 		FileWriter writer = new FileWriter(output);
 		
 		writer.write("COGNOME;NOME;TELEFONO;E-MAIL");
@@ -105,6 +119,51 @@ public class RecordFile {
 		}
 		
 		return s.toString();
+	}
+	
+	
+	private static String generaNuovoNumero(List<String>  listaTelefoni){
+		StringBuilder telefono = new StringBuilder();
+		
+		int randomTel = (int) (Math.random() * 8) + 1;
+//		switch(randomTel) {
+//			case 1: telefono.append(""); break;
+//			case 2: {
+//				int randomLista = (int) (Math.random() * listaTelefoni.size());
+//				telefono.append(listaTelefoni.get(randomLista));
+//				break;
+//			}
+//			case 3:
+//			case 4:{
+//				telefono.append("+39").append(generaNumero());
+//				break;
+//			}
+//			case 5:
+//			case 6:
+//			case 7:
+//			case 8:{
+//				telefono.append(generaNumero());
+//				break;
+//			}
+//		
+//		}
+		
+		
+		if(randomTel==1) {
+			telefono.append("");
+		}else if(randomTel==2){
+			int randomLista = (int) (Math.random() * listaTelefoni.size());
+			telefono.append(listaTelefoni.get(randomLista));
+		}else if(randomTel==3 || randomTel==4 ){
+			telefono.append("+39").append(generaNumero());
+		}else{
+			telefono.append(generaNumero());
+		}
+
+		
+		
+		
+		return telefono.toString();
 	}
 	
 //	private static String generaMail(String nome, String cognome) {
