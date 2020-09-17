@@ -8,20 +8,26 @@ package it.beije.oort.franceschi.csvToXml;
  *
  */
 public class InputManager {
-	private final String IN_PATH = "..\\Oort\\inputs\\rubriche\\";
-	private final String OUT_PATH = "C:\\Code\\Oort\\ouputs\\rubriche\\";
+	private final String CSV_PATH = "C:\\Code\\Oort\\csv\\rubriche\\";
+	private final String XML_PATH = "C:\\Code\\Oort\\xml\\rubriche\\";
+	
 	private final String[] cognomi = { "brugaletta", "sala", "mater", "mancuso", "maisto", "madonia", "lauria",
 			"gregori", "girardi", "franceschi", "busseni", "bassanelli" };
 	private final int inputAmount = cognomi.length;
 
 	private int counter = 0;
+	private int oppositeCounter = 0;
 
 	/**
 	 * 
 	 * @return the path of the next input.
 	 */
 	public String getNextInputPath() {
-		return IN_PATH + "rubrica_" + cognomi[counter] + ".csv";
+		return CSV_PATH  + "rubrica_" + cognomi[counter] + ".csv";
+	}
+	
+	public String getNextOuputPathReverse() {
+		return CSV_PATH + "rubrica_" + cognomi[oppositeCounter++] + "_convertitoDaXML.csv";
 	}
 
 	/**
@@ -30,7 +36,10 @@ public class InputManager {
 	 * @return the path of the next output.
 	 */
 	public String getNextOutputPath() {
-		return OUT_PATH + "rubrica_" + cognomi[counter++] + ".xml";
+		return XML_PATH + "rubrica_" + cognomi[counter++] + ".xml";
+	}
+	public String getNextInputPathReverse() {
+		return XML_PATH + "rubrica_" + cognomi[oppositeCounter] + ".xml";
 	}
 
 	/**

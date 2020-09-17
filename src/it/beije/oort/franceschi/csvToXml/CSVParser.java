@@ -44,6 +44,7 @@ public class CSVParser {
 	 * @param headerVal an Array containing the values present in the header
 	 */
 	private void assignPositions(String[] headerVal) {
+		//TODO: possibile fare con indexOf("NOME")
 		for (int i = 0; i < headerVal.length; i++) {
 			switch (headerVal[i].toUpperCase()) {
 			case "NOME":

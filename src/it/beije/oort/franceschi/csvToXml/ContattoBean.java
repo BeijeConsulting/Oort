@@ -80,8 +80,8 @@ public class ContattoBean {
 	 * @return the formatted string following the CSV convention with quotes.
 	 */
 	public String toFormattedString() {
-		return new StringBuilder("\"").append(nome).append("\";\"").append(cognome).append("\";\"").append(cell)
-				.append("\";\"").append(email).append("\"").toString();
+		return new StringBuilder("\"").append(cognome).append("\";\"").append(nome).append("\";\"").append(email)
+				.append("\";\"").append(cell).append("\"").toString();
 	}
 
 	public String toString() {
