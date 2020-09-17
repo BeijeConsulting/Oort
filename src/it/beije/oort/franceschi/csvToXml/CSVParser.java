@@ -14,7 +14,7 @@ import java.util.List;
  * @author Alessio Franceschi
  *
  */
-public class CSVReader {
+public class CSVParser {
 	private int posNome;
 	private int posCognome;
 	private int posCell;
@@ -31,7 +31,7 @@ public class CSVReader {
 	 * 
 	 * @param filePath
 	 */
-	public CSVReader(String filePath) {
+	public CSVParser(String filePath) {
 		this.filePath = filePath;
 		headers = prepareHeaders();
 		assignPositions(headers);

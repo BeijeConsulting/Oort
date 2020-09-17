@@ -6,7 +6,7 @@ public class Main {
 		System.out.println("Programma avviato.");
 		InputManager im = new InputManager();
 		for (int i = 0; i < im.getInputAmount(); i++) {
-			CSVReader r = new CSVReader(im.getNextInputPath());
+			CSVParser r = new CSVParser(im.getNextInputPath());
 			XMLWriter.writeList(r.creaListaContatti(), im.getNextOutputPath());
 		}
 		System.out.println("Programma concluso.");

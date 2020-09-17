@@ -11,7 +11,6 @@ public abstract class Automobile extends Veicolo implements IMotore, IQuattroRuo
 		return IQuattroRuote.getNumeroRuote();
 	}
 
-	// public boolean isStabile() {return IQuattroRuote.isStabile();}
 	public String getTipoCarburante() {
 		return IBenzina.tipoCarburante;
 	}
