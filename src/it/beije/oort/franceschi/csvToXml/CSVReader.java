@@ -1,4 +1,4 @@
-package it.beije.oort.csvToXml;
+package it.beije.oort.franceschi.csvToXml;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -7,8 +7,10 @@ import java.util.List;
 
 /**
  * 
- * CSVParser reads CSV files and creates a List<> of ContattoBean based on the header of the file.
- * Should be easy to scale to accommodate more of ContattoBean's variables, in case we'll add more.
+ * CSVParser reads CSV files and creates a List<> of ContattoBean based on the
+ * header of the file. Should be easy to scale to accommodate more of
+ * ContattoBean's variables, in case we'll add more.
+ * 
  * @author Alessio Franceschi
  *
  */
@@ -17,14 +19,16 @@ public class CSVReader {
 	private int posCognome;
 	private int posCell;
 	private int posEmail;
-	
+
 	private String filePath;
 	private String[] headers;
-	
+
 	/**
-	 * I decided to make this class non-static as I didn't want to give the filePath as parameter every time.
-	 * So, you have to create a CSVReader object in order to use these methods. 
-	 * The Constructor will also prepare variables all on his own.
+	 * I decided to make this class non-static as I didn't want to give the filePath
+	 * as parameter every time. So, you have to create a CSVReader object in order
+	 * to use these methods. The Constructor will also prepare variables all on his
+	 * own.
+	 * 
 	 * @param filePath
 	 */
 	public CSVReader(String filePath) {
@@ -32,28 +36,14 @@ public class CSVReader {
 		headers = prepareHeaders();
 		assignPositions(headers);
 	}
-	
+
 	/**
+	 * Assign the correct position to the ContattoBean variables, depending on the
+	 * CSV's header.
 	 * 
-	 * @return an Array containing the CSV header's values
-	 */
-	public String[] prepareHeaders(){
-		String header = "";
-			try (BufferedReader br = new BufferedReader(new FileReader(filePath))){
-				if (br.ready()) {
-					header = br.readLine();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		return header.split(";");
-	}
-	
-	/**
-	 * Assign the correct position to the ContattoBean variables, depending on the CSV's header.
 	 * @param headerVal an Array containing the values present in the header
 	 */
-	public void assignPositions(String[] headerVal) {
+	private void assignPositions(String[] headerVal) {
 		for (int i = 0; i < headerVal.length; i++) {
 			switch (headerVal[i].toUpperCase()) {
 			case "NOME":
@@ -79,15 +69,16 @@ public class CSVReader {
 			}
 		}
 	}
-	
+
 	/**
 	 * Create and return a List of ContattoBean from the CSV file.
+	 * 
 	 * @return a List containing all the ContattoBean present in the CSV.
 	 */
-	public List<ContattoBean> creaListaContatti(){
+	public List<ContattoBean> creaListaContatti() {
 		String contattoLine = "";
 		List<ContattoBean> contatti = new ArrayList<ContattoBean>();
-		try (BufferedReader br = new BufferedReader(new FileReader(filePath))){	
+		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 			br.readLine();
 			while (br.ready()) {
 				ContattoBean c = new ContattoBean();
@@ -110,46 +101,69 @@ public class CSVReader {
 			e.printStackTrace();
 		}
 		return contatti;
-	}	
-
-	public int getPosNome() {
-		return posNome;
-	}
-	public void setPosNome(int posNome) {
-		this.posNome = posNome;
-	}
-	public int getPosCognome() {
-		return posCognome;
-	}
-	public void setPosCognome(int posCognome) {
-		this.posCognome = posCognome;
-	}
-	public int getPosCell() {
-		return posCell;
-	}
-	public void setPosCell(int posCell) {
-		this.posCell = posCell;
-	}
-	public int getPosEmail() {
-		return posEmail;
-	}
-	public void setPosEmail(int posEmail) {
-		this.posEmail = posEmail;
 	}
 
 	public String getFilePath() {
 		return filePath;
 	}
 
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
-	}
-
 	public String[] getHeaders() {
 		return headers;
 	}
 
+	public int getPosCell() {
+		return posCell;
+	}
+
+	public int getPosCognome() {
+		return posCognome;
+	}
+
+	public int getPosEmail() {
+		return posEmail;
+	}
+
+	public int getPosNome() {
+		return posNome;
+	}
+
+	/**
+	 * 
+	 * @return an Array containing the CSV header's values
+	 */
+	private String[] prepareHeaders() {
+		String header = "";
+		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+			if (br.ready()) {
+				header = br.readLine();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return header.split(";");
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
 	public void setHeaders(String[] headers) {
 		this.headers = headers;
+	}
+
+	public void setPosCell(int posCell) {
+		this.posCell = posCell;
+	}
+
+	public void setPosCognome(int posCognome) {
+		this.posCognome = posCognome;
+	}
+
+	public void setPosEmail(int posEmail) {
+		this.posEmail = posEmail;
+	}
+
+	public void setPosNome(int posNome) {
+		this.posNome = posNome;
 	}
 }
