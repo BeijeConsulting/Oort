@@ -1,15 +1,42 @@
 package it.beije.oort.sba.rubrica;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class PhoneNumberGenerator {
+	private List<String> generated = new ArrayList<>();
+	private ListRandomSelector selector;
+	
+	public PhoneNumberGenerator(List<String> prefixes) {
+		selector = new ListRandomSelector(prefixes);
+	}
 	
 	public String nextNumber() {
 		Random r = new Random();
 		StringBuilder b = new StringBuilder();
-		for(int i = 0; i<7; i++) {
-			b.append("" + (Math.abs(r.nextInt()))%10);
+		int rand = r.nextInt(8)+1;
+		if(rand < 2) {
+			return "";
+		}else if(rand < 3) {
+			return selectRandomFromGenerated();
+		}else if(rand < 5){
+			b.append("+39");
 		}
-		return b.toString();
+		b.append(selector.getNext());
+		for(int i = 0; i<7; i++) {
+			b.append("" + r.nextInt(10));
+		}
+		String ret = b.toString();
+		generated.add(ret);
+		return ret;
+	}
+
+	private String selectRandomFromGenerated() {
+		if(generated.isEmpty()) return "";
+		else {
+			Random r = new Random();
+			return generated.get(r.nextInt(generated.size()));
+		}
 	}
 }
