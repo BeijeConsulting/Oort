@@ -1,5 +1,5 @@
 package it.beije.oort.dab.animals;
 
-public abstract class Tonno extends Pesci implements Oviparo {
+public class Tonno extends Pesce implements Oviparo {
 
 }

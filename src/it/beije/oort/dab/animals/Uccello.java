@@ -1,5 +1,5 @@
 package it.beije.oort.dab.animals;
 
-public abstract class Uccello extends Animals{
+public abstract class Uccello extends Animale{
 
 }
