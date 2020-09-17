@@ -35,8 +35,8 @@ public class PhoneNumberGenerator {
 	private String selectRandomFromGenerated() {
 		if(generated.isEmpty()) return "";
 		else {
-			Random r = new Random();
-			return generated.get(r.nextInt(generated.size()));
+			ListRandomSelector lrs = new ListRandomSelector(generated);
+			return lrs.getNext();
 		}
 	}
 }
