@@ -21,15 +21,10 @@ public class Contatto {
 	}
 	
 	public Contatto(String nome, String cognome, String prefisso, String dominio) {
-		Random r = new Random();
-		StringBuilder suffisso=new StringBuilder();
-		for(int i = 0; i < 7; i++) {
-			suffisso.append(r.nextInt(10));
-		}
-		
 		this.nome = nome;
 		this.cognome = cognome;
-		this.cell = prefisso + suffisso.toString();
+		this.cell = GeneraNumero.generaNumero();
+		Valori.cellCompleti.add(cell);
 		this.email = GeneraMail.generaMail(nome, cognome, dominio);
 	}
 	

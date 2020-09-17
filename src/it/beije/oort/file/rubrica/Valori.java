@@ -10,15 +10,19 @@ import it.beije.oort.file.rubrica.input.Pulitore;
 public class Valori {
 	private Valori() {}
 		
-	private static final String pathNomi = "C:\\Users\\Padawan09\\Desktop\\nomi.txt";
-	private static final String pathCognomi = "C:\\Users\\Padawan09\\Desktop\\cognomi.txt";
-	private static final String outputPath = "C:\\Users\\Padawan09\\Desktop\\rubrica.txt";
+	private static final String pathNomi = "C:\\Code\\Oort\\input\\nomi.txt";
+	private static final String pathCognomi = "C:\\Code\\Oort\\input\\cognomi.txt";
+	private static final String outputPath = "C:\\Code\\Oort\\input\\rubrica.txt";
 	
 	private static ArrayList<String> nomi = Pulitore.getValues(pathNomi);
 	private static ArrayList<String> cognomi = Pulitore.getValues(pathCognomi);
 	private static String[] prefissi = {"345", "346", "347", "348","349"};
 	private static String[] domini = {"gmail.com", "hotmail.com", "hotmail.it", 
 			"libero.it", "yahoo.com", "virgilio.it", "tim.it", "alice.it"};
+	
+	public static ArrayList<String> emailComplete = new ArrayList<>();
+	public static ArrayList<String> cellCompleti  = new ArrayList<>();
+	public static ArrayList<Contatto> contatti  = new ArrayList<>();
 	
 	public static ArrayList<String> getNomi() {
 		return nomi;

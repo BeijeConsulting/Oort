@@ -3,30 +3,41 @@ package it.beije.oort.file.rubrica;
 import java.util.Random;
 
 public class GeneraMail {
+	
+	
 	public static String generaMail(String nome, String cognome, String dominio) {
 		StringBuilder email = new StringBuilder();
 		Random r = new Random();
-		int rand = r.nextInt(10);
-		boolean usaNome = (r.nextInt(5) == 1) ? false : true;
-		boolean usaCognome = (r.nextInt(3) == 1) ? false : true;
+		int rand = r.nextInt(10) + 1;
 		
-		if (!usaNome && !usaCognome) {
-			for(int i=0;i<r.nextInt(15)+6;i++) {
-				email.append(r.nextInt(10));
-			}
-			email.append("@"+dominio);
-		} else if (!usaNome) {
-			if (rand != 1) email.append(removeSpace(cognome) + r.nextInt(10) +
-					r.nextInt(10) + "@" + dominio);
-			else email.append(removeSpace(cognome) + "@" + dominio);
-		} else if (!usaCognome){
-			if (rand != 1) email.append(removeSpace(nome) + r.nextInt(10) +
-					r.nextInt(10) + "@" + dominio);
-			else email.append(removeSpace(nome) + "@" + dominio);
+		if (rand <= 2) {
+			return "";
+		} else if (rand <= 5) {
+			return Valori.emailComplete.get((r.nextInt(Valori.emailComplete.size()-1)));
 		} else {
-			email.append(mailNomeCognome(nome, cognome, dominio));
+			boolean usaNome = (r.nextInt(5) == 1) ? false : true;
+			boolean usaCognome = (r.nextInt(3) == 1) ? false : true;
+			
+			if (!usaNome && !usaCognome) {
+				for(int i=0;i<r.nextInt(15)+6;i++) {
+					email.append(r.nextInt(10));
+				}
+				email.append("@"+dominio);
+			} else if (!usaNome) {
+				if (rand != 1) email.append(removeSpace(cognome) + r.nextInt(10) +
+						r.nextInt(10) + "@" + dominio);
+				else email.append(removeSpace(cognome) + "@" + dominio);
+			} else if (!usaCognome){
+				if (rand != 1) email.append(removeSpace(nome) + r.nextInt(10) +
+						r.nextInt(10) + "@" + dominio);
+				else email.append(removeSpace(nome) + "@" + dominio);
+			} else {
+				email.append(mailNomeCognome(nome, cognome, dominio));
+			}
+			String mail = removeSingleQuote(email.toString()).toLowerCase();
+			Valori.emailComplete.add(mail);
+			return mail;
 		}
-		return removeSingleQuote(email.toString()).toLowerCase();
 	}
 	
 	private static String abbreviaVocale(String s) {
