@@ -1,4 +1,4 @@
-package it.beije.oort.franceschi.provaInterfacce;
+package it.beije.oort.franceschi.provaInterfacce.interfacce;
 
 public interface IMotore {
 	void avviaMotore();

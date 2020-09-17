@@ -1,5 +1,7 @@
 package it.beije.oort.franceschi.provaInterfacce;
 
+import it.beije.oort.franceschi.provaInterfacce.interfacce.ICabrio;
+
 public class AutoSportiva extends Automobile implements ICabrio {
 
 	@Override

@@ -1,5 +1,7 @@
 package it.beije.oort.franceschi.provaInterfacce;
 
+import it.beije.oort.franceschi.provaInterfacce.interfacce.ISlitta;
+
 public class SlittaDiBabboNatale extends Veicolo implements ISlitta {
 	public final boolean canFly = true;
 
