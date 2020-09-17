@@ -8,7 +8,7 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
-public class RubricaMain {
+public class CsvToXmlMain {
 
 	public static void main(String[] args) throws IOException, ParserConfigurationException, TransformerException {
 		if(args.length == 0) {
