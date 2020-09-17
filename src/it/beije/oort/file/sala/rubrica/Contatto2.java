@@ -2,25 +2,25 @@ package it.beije.oort.file.sala.rubrica;
 
 import java.util.Random;
 
-public class Contatto {
+public class Contatto2 {
 	private String nome;
 	private String cognome;
 	private String cell;
 	private String email;
 	
-	public Contatto(String nome) {
+	public Contatto2(String nome) {
 		this(nome, "", "", "");
 	}
 	
-	public Contatto(String nome, String cognome) {
+	public Contatto2(String nome, String cognome) {
 		this(nome, cognome, "", "");
 	}
 	
-	public Contatto(String nome, String cognome, String prefisso) {
+	public Contatto2(String nome, String cognome, String prefisso) {
 		this(nome, cognome, prefisso, "");
 	}
 	
-	public Contatto(String nome, String cognome, String prefisso, String dominio) {
+	public Contatto2(String nome, String cognome, String prefisso, String dominio) {
 		Random r = new Random();
 		StringBuilder suffisso=new StringBuilder();
 		for(int i = 0; i < 7; i++) {
@@ -64,4 +64,6 @@ public class Contatto {
 				.append(nome).append("\";\"")
 				.append(cognome).append("\"").toString();
 	}
+	
+	
 }

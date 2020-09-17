@@ -19,7 +19,7 @@ public class GeneratoreRubrica {
 				new FileOutputStream(filename, true), StandardCharsets.UTF_8))){
 			bf.write("NOME;COGNOME;TELEFONO;EMAIL;\n");
 			for(int i=0;i<100;i++) {
-				bf.write(new Contatto(
+				bf.write(new Contatto2(
 						nomi.get(r.nextInt(nomi.size())), 
 						cognomi.get(r.nextInt(cognomi.size())),
 						Valori.getPrefisso(r.nextInt(5)),
