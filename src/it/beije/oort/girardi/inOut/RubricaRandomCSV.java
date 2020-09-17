@@ -8,12 +8,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecordFile1 {
+public class RubricaRandomCSV {
 		
 	private static final String PATH_FILES = "C:\\Users\\Padawan05\\Desktop\\file_testo\\";
 	
 // -------------- METODI ------------------
-// lettura e memorizzazione record	
+// lettura e memorizzazione record da file csv
 	public static List<String> memContent(File file, List<String> record ) throws IOException {			
 		FileReader fileReader = new FileReader(file);			
 		BufferedReader bufferedReader = new BufferedReader(fileReader);			
@@ -45,7 +45,7 @@ public class RecordFile1 {
 	}
 	
 
-// estrarre metodi per migliorare leggibilità
+// genera mail secondo delle specifiche random
 	private static String generaMail(String nome, String cognome) {
 		// Preparazione variabili da utilizzare
 		String[] dominio = {"gmail.com", "hotmail.com", "hotmail.it", "libero.it", "yahoo.com", "virgilio.it", "tim.it", "alice.it"};
@@ -159,7 +159,7 @@ public class RecordFile1 {
 	}
 
 	
-// scrittura record sui file
+// scrittura delle righe di un file csv dato un array di stringhe
 	private static String costruisciRiga(String... campi) {
 		StringBuilder riga = new StringBuilder();
 		for(String campo : campi) {
@@ -188,16 +188,16 @@ public class RecordFile1 {
 		List<String> recordMail = new ArrayList<>();
 		
 		// lettura e memorizzazione dei record di nomi e cognomi
-		recordNomitemp = RecordFile1.memContent(fileNomi, recordNomitemp);
-		recordCognomitemp = RecordFile1.memContent(fileCognomi, recordCognomitemp); 
+		recordNomitemp = RubricaRandomCSV.memContent(fileNomi, recordNomitemp);
+		recordCognomitemp = RubricaRandomCSV.memContent(fileCognomi, recordCognomitemp); 
 		
 		for(int k = 0; k < 1000; k++) {
 			int i = (int) (Math.random()*recordNomitemp.size()); 
 			int j = (int) (Math.random()*recordCognomitemp.size());
 			recordNomi.add(recordNomitemp.get(i));
 			recordCognomi.add(recordCognomitemp.get(j));
-			recordTel.add(RecordFile1.generaNumero());
-			recordMail.add(RecordFile1.generaMail(recordNomi.get(k), recordCognomi.get(k)));
+			recordTel.add(RubricaRandomCSV.generaNumero());
+			recordMail.add(RubricaRandomCSV.generaMail(recordNomi.get(k), recordCognomi.get(k)));
 		}
 		
 		// fase di scrittura	
@@ -207,7 +207,7 @@ public class RecordFile1 {
 		writer.write("COGNOME;NOME;E-MAIL;TELEFONO");
 		for (int arrayIndex = 0; arrayIndex < recordNomi.size(); arrayIndex++) {
 			writer.write("\n");
-			writer.write(RecordFile1.costruisciRiga(
+			writer.write(RubricaRandomCSV.costruisciRiga(
 					recordCognomi.get(arrayIndex),
 					recordNomi.get(arrayIndex),
 					recordMail.get(arrayIndex),

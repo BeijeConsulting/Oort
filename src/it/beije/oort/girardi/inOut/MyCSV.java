@@ -15,7 +15,7 @@ import java.io.BufferedReader;
 *    contenuto assieme al nuovo.
 */
 
-public class MyCVS {
+public class MyCSV {
 	
 //scrive in un file di teto il contenuto di un unica stringa.
 	public static void writeStuff(File file, String contenuto) throws IOException {
