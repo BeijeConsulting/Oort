@@ -7,10 +7,18 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.io.BufferedReader;
 
+/*
+* 1) creazione o lettura del file:
+* 2) prende parole da tastiera tramite scanner
+* 3) Il file vecchio è perso nel momento in cui si scrive
+*	 qualcosa di nuovo: scriviamo quindi il vecchio 
+*    contenuto assieme al nuovo.
+*/
+
 public class MyCVS {
 	
+//scrive in un file di teto il contenuto di un unica stringa.
 	public static void writeStuff(File file, String contenuto) throws IOException {
-		//scrive in un file di teto il contenuto di un unica stringa.
 		FileWriter writer = new FileWriter(file);
 		
 		writer.write(contenuto);
@@ -20,8 +28,8 @@ public class MyCVS {
 	}
 	
 	
+//riporta in un unica stringa il contenuto di un file di testo.
 	public static String getContent(File file) throws IOException {
-		//riporta in un unica stringa il contenuto di un file di testo.
 		FileReader fileReader = new FileReader(file);
 		StringBuilder builder = new StringBuilder();
 		
@@ -34,7 +42,8 @@ public class MyCVS {
 		return builder.toString();
 	}
 	
-//		 --------------- main -----------------
+	
+// --------------- main -----------------
 	public static void main(String[] args) throws IOException {
 		
 		// 1) creazione o lettura del file:

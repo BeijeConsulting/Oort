@@ -12,69 +12,8 @@ public class RecordFile1 {
 		
 	private static final String PATH_FILES = "C:\\Users\\Padawan05\\Desktop\\file_testo\\";
 	
-//		// lettura file
-//		public static String getContent(File file) throws IOException {
-//			FileReader fileReader = new FileReader(file);
-//			StringBuilder builder = new StringBuilder();		
-//			BufferedReader bufferedReader = new BufferedReader(fileReader);
-//			
-//			while (bufferedReader.ready()) {
-//				builder.append(bufferedReader.readLine()).append('\n');
-//			}
-//			
-//			return builder.toString();	
-//		}
-	
-	public static void main(String[] args) throws IOException {
-		
-		File fileNomi = new File(PATH_FILES + "nomiNoIntro.txt");
-		File fileCognomi = new File(PATH_FILES + "cognomiNoIntro.txt");
-		
-		// Dichiarazione variabili 
-		List<String> recordNomitemp = new ArrayList<>();
-		List<String> recordCognomitemp = new ArrayList<>();
-		
-		List<String> recordNomi = new ArrayList<>();
-		List<String> recordCognomi = new ArrayList<>();	
-		List<String> recordTel = new ArrayList<>();
-		List<String> recordMail = new ArrayList<>();
-		
-		// lettura e memorizzazione dei record di nomi e cognomi
-		recordNomitemp = RecordFile1.memContent(fileNomi, recordNomitemp);
-		recordCognomitemp = RecordFile1.memContent(fileCognomi, recordCognomitemp); 
-		
-		for(int k = 0; k < 1000; k++) {
-			int i = (int) (Math.random()*recordNomitemp.size()); 
-			int j = (int) (Math.random()*recordCognomitemp.size());
-			recordNomi.add(recordNomitemp.get(i));
-			recordCognomi.add(recordCognomitemp.get(j));
-			recordTel.add(RecordFile1.generaNumero());
-			recordMail.add(RecordFile1.generaMail(recordNomi.get(k), recordCognomi.get(k)));
-		}
-		
-		// fase di scrittura	
-		File output = new File(PATH_FILES + "rubrica.txt");
-		FileWriter writer = new FileWriter(output);
-		
-		writer.write("NOME;COGNOME;TELEFONO;E-MAIL");
-		for (int arrayIndex = 0; arrayIndex < recordNomi.size(); arrayIndex++) {
-			writer.write("\n");
-			writer.write(RecordFile1.costruisciRiga(
-					recordNomi.get(arrayIndex),
-					recordCognomi.get(arrayIndex),
-					recordTel.get(arrayIndex),
-					recordMail.get(arrayIndex)
-					));
-		}
-		
-		writer.flush();
-		writer.close();
-		System.out.println("Rubrica completata!");
-	}
-	
-
-// METODI:
-	// lettura e memorizzazione record	
+// -------------- METODI ------------------
+// lettura e memorizzazione record	
 	public static List<String> memContent(File file, List<String> record ) throws IOException {			
 		FileReader fileReader = new FileReader(file);			
 		BufferedReader bufferedReader = new BufferedReader(fileReader);			
@@ -88,8 +27,9 @@ public class RecordFile1 {
 
 		return record;
 	}
-	
-	// genera Numero di telefono
+		
+		
+// genera Numero di telefono
 	private static String generaNumero() {
 		String[] prefissi = {"345", "346", "347", "348", "349"};
 		StringBuilder s = new StringBuilder();
@@ -104,22 +44,8 @@ public class RecordFile1 {
 		return s.toString();
 	}
 	
-//		private static String generaMail(String nome, String cognome) {
-//			String[] dominio = {"gmail.com", "hotmail.com", "hotmail.it", "libero.it", "yahoo.com", "virgilio.it", "tim.it", "alice.it"};
-//			StringBuilder s = new StringBuilder();
-//			
-//			nome = nome.replace(" ", "").replace("'", "").toLowerCase();
-//			cognome = cognome.replace(" ", "").replace("'", "").toLowerCase();
-//			
-//			s.append(nome).append('.').append(cognome).append('@');
-//			
-//			int indexDominio = (int) (Math.random() * dominio.length);
-//			s.append(dominio[indexDominio]);
-//			
-//			return s.toString();
-//		}
-	
-	// TODO estrarre metodi per migliorare leggibilità
+
+// estrarre metodi per migliorare leggibilità
 	private static String generaMail(String nome, String cognome) {
 		// Preparazione variabili da utilizzare
 		String[] dominio = {"gmail.com", "hotmail.com", "hotmail.it", "libero.it", "yahoo.com", "virgilio.it", "tim.it", "alice.it"};
@@ -199,12 +125,11 @@ public class RecordFile1 {
 				s.append(nome).append(separatore).append(cognome);
 			}
 			
-			// Sostituzione delle vocali, la parte commentata è meno efficiente (4 secondi risparmiati generando 1 milione di righe)
+			// Sostituzione delle vocali, la parte commentata è meno efficiente (4 secondi 
+			//risparmiati generando 1 milione di righe)
 			if (randomAbbreviaNome >= 6 && randomSeparatore < 4) {
 				int randomVocale = (int) (Math.random() * 5) + 1;
 				if (randomVocale == 1) {
-//						String nomeTemp = s.toString();
-//						s = new StringBuilder(nomeTemp.replace('a', '4').replace('e', '3').replace('i', '1').replace('o', '0'));
 					for(int i = 0; i < s.length(); i++) {
 						switch(s.charAt(i)) {
 						case 'a':
@@ -232,8 +157,9 @@ public class RecordFile1 {
 		
 		return s.toString();
 	}
+
 	
-	// scrittura record sui file
+// scrittura record sui file
 	private static String costruisciRiga(String... campi) {
 		StringBuilder riga = new StringBuilder();
 		for(String campo : campi) {
@@ -243,4 +169,56 @@ public class RecordFile1 {
 		return riga.toString();
 	}
 
+
+
+
+// --------------- MAIN ---------------	
+	public static void main(String[] args) throws IOException {
+		
+		File fileNomi = new File(PATH_FILES + "nomiNoIntro.txt");
+		File fileCognomi = new File(PATH_FILES + "cognomiNoIntro.txt");
+		
+		// Dichiarazione variabili 
+		List<String> recordNomitemp = new ArrayList<>();
+		List<String> recordCognomitemp = new ArrayList<>();
+		
+		List<String> recordNomi = new ArrayList<>();
+		List<String> recordCognomi = new ArrayList<>();	
+		List<String> recordTel = new ArrayList<>();
+		List<String> recordMail = new ArrayList<>();
+		
+		// lettura e memorizzazione dei record di nomi e cognomi
+		recordNomitemp = RecordFile1.memContent(fileNomi, recordNomitemp);
+		recordCognomitemp = RecordFile1.memContent(fileCognomi, recordCognomitemp); 
+		
+		for(int k = 0; k < 1000; k++) {
+			int i = (int) (Math.random()*recordNomitemp.size()); 
+			int j = (int) (Math.random()*recordCognomitemp.size());
+			recordNomi.add(recordNomitemp.get(i));
+			recordCognomi.add(recordCognomitemp.get(j));
+			recordTel.add(RecordFile1.generaNumero());
+			recordMail.add(RecordFile1.generaMail(recordNomi.get(k), recordCognomi.get(k)));
+		}
+		
+		// fase di scrittura	
+		File output = new File(PATH_FILES + "rubrica.txt");
+		FileWriter writer = new FileWriter(output);
+		
+		writer.write("COGNOME;NOME;E-MAIL;TELEFONO");
+		for (int arrayIndex = 0; arrayIndex < recordNomi.size(); arrayIndex++) {
+			writer.write("\n");
+			writer.write(RecordFile1.costruisciRiga(
+					recordCognomi.get(arrayIndex),
+					recordNomi.get(arrayIndex),
+					recordMail.get(arrayIndex),
+					recordTel.get(arrayIndex)
+					));
+		}
+		
+		writer.flush();
+		writer.close();
+		System.out.println("Rubrica completata!");
+	}
+	
 }
+	
