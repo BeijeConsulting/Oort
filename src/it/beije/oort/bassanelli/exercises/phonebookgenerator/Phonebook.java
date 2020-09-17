@@ -16,10 +16,13 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 
 public class Phonebook {
+	
+	
+	
 
 	public static List<Contact> readCsvFile(String filepath) throws IOException {
 
@@ -78,6 +81,93 @@ public class Phonebook {
 		}
 
 		return list;
+	}
+	
+	public static void writeCsvFile(List<Contact> list, String filepath) {
+		
+		
+	}
+	
+	public static void writeCsvFile(List<Contact> list, File file) {
+		
+		
+	}
+
+	public static List<Contact> readXmlFile(String filepath)
+			throws ParserConfigurationException, SAXException, IOException {
+
+		File file = new File(filepath);
+
+		return readXmlFile(file);
+
+	}
+
+	public static List<Contact> readXmlFile(File file) throws ParserConfigurationException, SAXException, IOException {
+
+		List<Contact> list = new ArrayList<Contact>();
+
+		if (file.exists()) {
+
+			DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder documentBuilder = builderFactory.newDocumentBuilder();
+
+			Document document = documentBuilder.parse(file);
+			Element element = document.getDocumentElement();
+
+			NodeList nodes = element.getChildNodes();
+
+			for (int i = 0; i < nodes.getLength(); i++) {
+
+				Node node = nodes.item(i);
+
+				if (node instanceof Element) {
+					Element elementContact = (Element) node;
+					Contact contact = new Contact();
+
+					NodeList values = elementContact.getChildNodes();
+
+					for (int x = 0; x < values.getLength(); x++) {
+						Node n = values.item(x);
+
+						if (n instanceof Element) {
+
+							Element value = (Element) n;
+
+							switch (value.getTagName()) {
+							case "nome":
+								contact.setName(value.getTextContent());
+								break;
+							case "cognome":
+								contact.setSurname(value.getTextContent());
+								break;
+							case "telefono":
+								contact.setMobile(value.getTextContent());
+								break;
+							case "email":
+								contact.setEmail(value.getTextContent());
+								break;
+							default:
+								System.out.println("elemento in contatto non riconosciuto");
+								break;
+							}
+						}
+					}
+
+					list.add(contact);
+
+				}
+			}
+
+			System.out.println("File XML loaded!");
+
+		} else {
+
+			System.out.println("File XML not exists!");
+
+		}
+
+		return list;
+
 	}
 
 	public static void writeXmlFile(List<Contact> list, String filepath)
@@ -148,7 +238,5 @@ public class Phonebook {
 			System.out.println("File XML not exists!");
 
 		}
-
 	}
-
 }

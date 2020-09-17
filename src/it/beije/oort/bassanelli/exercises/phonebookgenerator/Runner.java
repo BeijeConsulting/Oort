@@ -66,9 +66,13 @@ public class Runner {
 
 		System.out.println("Done file: " + LocalTime.now());
 
-		List<Contact> contacts = Phonebook.readCsvFile("/temp/rubrica_bassanelli.csv");
+		List<Contact> contactsFromCsv = Phonebook.readCsvFile("/temp/rubrica_bassanelli.csv");
 		
-		Phonebook.writeXmlFile(contacts, "/temp/rubrica.xml");
+		Phonebook.writeXmlFile(contactsFromCsv, "/temp/rubrica.xml");
+		
+		List<Contact> contactsFromXml = Phonebook.readXmlFile("/temp/rubrica.xml");
+		
+		
 		
 	}
 

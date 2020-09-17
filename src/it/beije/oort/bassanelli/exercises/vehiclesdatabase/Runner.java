@@ -7,7 +7,7 @@ public class Runner {
 		Scooter scooter = new Scooter("red", "gasoline");
 		Bike bike = new Bike("white");
 		Apecar apecar = new Apecar("yellow", "diesel");
-		Car car = new Car("black", "methane");
+		Car car = new Car("black", "gpl");
 		
 		System.out.println(scooter.toString());
 		System.out.println(bike.toString());
