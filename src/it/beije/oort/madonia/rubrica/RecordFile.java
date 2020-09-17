@@ -32,10 +32,12 @@ public class RecordFile {
 		File fileCognomi = new File(PATH_FILES + "cognomi_italiani.txt");
 		
 		// Dichiarazione variabili 
-		List<String> recordNomitemp = new ArrayList<>();
-		List<String> recordCognomitemp = new ArrayList<>();
+		List<String> recordNomitemp = new ArrayList<String>();
+		List<String> recordCognomitemp = new ArrayList<String>();
 		
-		List<Contatto> recordContatti = new ArrayList<>();
+		List<Contatto> recordContatti = new ArrayList<Contatto>();
+		List<String> listaTelefoni = new ArrayList<String>();
+		List<String> listaEmail = new ArrayList<String>();
 		
 		// lettura e memorizzazione dei record di nomi e cognomi
 		recordNomitemp = RecordFile.memContent(fileNomi, recordNomitemp);
@@ -48,12 +50,13 @@ public class RecordFile {
 			Contatto contatto = new Contatto(
 					recordNomitemp.get(i),
 					recordCognomitemp.get(j),
-					RecordFile.generaNumero(),
-					RecordFile.generaMail(recordNomitemp.get(i), recordCognomitemp.get(j)));
+					RecordFile.scegliTelefono(listaTelefoni),
+					RecordFile.scegliEmail(recordNomitemp.get(i), recordCognomitemp.get(j), listaEmail)
+					);
 			recordContatti.add(contatto);
 		}
 		
-		WriterCsvRubrica.writeCsvFile(new String[] {"COGNOME","NOME","TELEFONO", "EMAIL"}, recordContatti, PATH_FILES + "rubrica_prova.txt");
+		WriterCsvRubrica.writeCsvFileCasuale(new String[] {"COGNOME","NOME","TELEFONO", "EMAIL"}, recordContatti, PATH_FILES + "rubrica_prova.txt");
 		
 	}
 	
@@ -72,8 +75,7 @@ public class RecordFile {
 		return record;
 	}
 	
-	// genera Numero di telefono
-	private static String generaNumero() {
+	private static String generaTelefono() {
 		String[] prefissi = {"345", "346", "347", "348", "349"};
 		StringBuilder s = new StringBuilder();
 		
@@ -87,6 +89,28 @@ public class RecordFile {
 		return s.toString();
 	}
 	
+	private static String scegliTelefono(List<String> listaTelefoni) {
+		String telefono = "";
+		int numeroCasuale = (int) (Math.random() * 8) + 1;
+		StringBuilder s = new StringBuilder();
+		
+		if (numeroCasuale == 1) {
+			//Fai nulla
+		} else if (numeroCasuale == 2) {
+			if(listaTelefoni.size() > 0) {
+				int numeroCasualeLista = (int) (Math.random() * listaTelefoni.size());
+				telefono = listaTelefoni.get(numeroCasualeLista);
+			}
+		} else if (numeroCasuale >= 3 && numeroCasuale < 5) {
+			telefono = s.append("+39").append(RecordFile.generaTelefono()).toString();
+			listaTelefoni.add(telefono);
+		} else {
+			telefono = generaTelefono();
+			listaTelefoni.add(telefono);
+		}
+		
+		return telefono;
+	}
 //	private static String generaMail(String nome, String cognome) {
 //		String[] dominio = {"gmail.com", "hotmail.com", "hotmail.it", "libero.it", "yahoo.com", "virgilio.it", "tim.it", "alice.it"};
 //		StringBuilder s = new StringBuilder();
@@ -103,7 +127,7 @@ public class RecordFile {
 //	}
 	
 	// TODO estrarre metodi per migliorare leggibilità
-	private static String generaMail(String nome, String cognome) {
+	private static String generaEmail(String nome, String cognome) {
 		// Preparazione variabili da utilizzare
 		String[] dominio = {"gmail.com", "hotmail.com", "hotmail.it", "libero.it", "yahoo.com", "virgilio.it", "tim.it", "alice.it"};
 		StringBuilder s = new StringBuilder();
@@ -214,5 +238,24 @@ public class RecordFile {
 		s.append(dominio[indexDominio]);
 		
 		return s.toString();
+	}
+	
+	public static String scegliEmail(String nome, String cognome, List<String> listaEmail) {
+		String email = "";
+		int numeroCasuale = (int) (Math.random() * 10) + 1;
+		
+		if (numeroCasuale >= 1 && numeroCasuale < 3) {
+			// Fai nulla
+		} else if (numeroCasuale >= 3 && numeroCasuale < 6) {
+			if(listaEmail.size() > 0) {
+				int numeroCasualeLista = (int) (Math.random() * listaEmail.size());
+				email = listaEmail.get(numeroCasualeLista);
+			}
+		} else {
+			email = RecordFile.generaEmail(nome, cognome);
+			listaEmail.add(email);
+		}
+		
+		return email;
 	}
 }

@@ -40,13 +40,13 @@ public class ParserCsvRubrica {
 		Contatto contatto = new Contatto();
 		String[] campi = rigaCsv.split(";");
 		for(int index = 0; index < colonne.length; index++) {
-			if (colonne[index].equals("nome")) {
+			if (colonne[index].equalsIgnoreCase("nome")) {
 				contatto.setNome(campi[index]);
-			} else if (colonne[index].equals("cognome")) {
+			} else if (colonne[index].equalsIgnoreCase("cognome")) {
 				contatto.setCognome(campi[index]);
-			} else if (colonne[index].equals("telefono")) {
+			} else if (colonne[index].equalsIgnoreCase("telefono")) {
 				contatto.setTelefono(campi[index]);
-			} else if (colonne[index].contains("mail")) {
+			} else if (colonne[index].equalsIgnoreCase("email")) {
 				contatto.setEmail(campi[index]);
 			}
 		}
