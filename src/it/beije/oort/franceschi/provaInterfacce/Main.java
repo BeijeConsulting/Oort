@@ -3,7 +3,7 @@ package it.beije.oort.franceschi.provaInterfacce;
 public class Main {
 
 	public static void main(String[] args) {
-		//Bici
+		// Bici
 		System.out.println("Test Bicicletta");
 		Bicicletta bici = new Bicicletta();
 		bici.pedala();
@@ -11,7 +11,7 @@ public class Main {
 		System.out.println("Che cos'è? " + bici.getVeicolo());
 		System.out.println("Ma è stabile? " + bici.isStabile());
 		bici = null;
-		//Auto
+		// Auto
 		System.out.println("Test Fiat Punto");
 		Automobile punto = new FiatPunto();
 		punto.avviaMotore();
@@ -21,7 +21,7 @@ public class Main {
 		System.out.println("Ma è stabile? " + punto.isStabile());
 		System.out.println("Ma che modello è? " + punto.getModel());
 		punto = null;
-		//Auto Sportiva
+		// Auto Sportiva
 		System.out.println("Test Auto Sportiva");
 		AutoSportiva sportiva = new AutoSportiva();
 		sportiva.avviaMotore();
@@ -31,6 +31,7 @@ public class Main {
 		System.out.println("Ma è stabile? " + sportiva.isStabile());
 		System.out.println("Ma che modello è? " + sportiva.getModel());
 		sportiva.tiraGiuLaCapote();
+		System.out.println("Può volare? " + sportiva.canFly);
 		sportiva = null;
 	}
 

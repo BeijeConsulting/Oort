@@ -1,6 +1,9 @@
 package it.beije.oort.franceschi.provaInterfacce;
 
-public interface ICiclo{
+public interface ICiclo {
 	void pedala();
-	public static boolean isStabile() {return false;}
+
+	public static boolean isStabile() {
+		return false;
+	}
 }

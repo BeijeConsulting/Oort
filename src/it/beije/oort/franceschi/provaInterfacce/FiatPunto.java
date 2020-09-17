@@ -1,7 +1,7 @@
 package it.beije.oort.franceschi.provaInterfacce;
 
-public class FiatPunto extends Automobile{
-	
+public class FiatPunto extends Automobile {
+
 	@Override
 	public void avviaMotore() {
 		System.out.println("Brrooooom.");
