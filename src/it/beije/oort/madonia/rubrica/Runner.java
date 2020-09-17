@@ -21,7 +21,7 @@ public class Runner {
 		String pathfileCsv = csvFiles.get((int) (Math.random() * csvFiles.size()));
 		String pathfileXml = new StringBuilder().append(pathfileCsv.split("\\.")[0]).append(".xml").toString();
 		System.out.println(pathfileXml);
-		WriterXmlRubrica.writeContatti(ParserCsvRubrica.creaListaContatti(PATH_FILES + pathfileCsv), PATH_FILES + pathfileXml);
+		WriterXmlRubrica.writeXmlFile(ParserCsvRubrica.creaListaContatti(PATH_FILES + pathfileCsv), PATH_FILES + pathfileXml);
 	}
 
 }

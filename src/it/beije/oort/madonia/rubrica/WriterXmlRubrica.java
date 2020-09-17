@@ -17,9 +17,27 @@ import org.w3c.dom.Element;
 
 public class WriterXmlRubrica {
 	
-	public static void writeContatti(List<Contatto> contatti, File fileXml) throws ParserConfigurationException, TransformerException {
+	public static void writeXmlFile(List<Contatto> contatti, File fileXml) throws ParserConfigurationException, TransformerException {
 		
-		// Fase di costruzione documento
+        Document document = costruisciDocumento(contatti);
+        
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		DOMSource source = new DOMSource(document);
+		
+		StreamResult result = new StreamResult(fileXml);
+
+		transformer.transform(source, result);
+
+		System.out.println("File saved!");
+	}
+	
+	public static void writeXmlFile(List<Contatto> contatti, String pathfile) throws ParserConfigurationException, TransformerException {
+		File fileXml = new File(pathfile);
+		WriterXmlRubrica.writeXmlFile(contatti,fileXml);
+	}
+	
+	private static Document costruisciDocumento(List<Contatto> contatti) throws ParserConfigurationException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
 
@@ -47,20 +65,6 @@ public class WriterXmlRubrica {
         	docElement.appendChild(contatto);
         }
         
-        // Fase di scrittura file
-		TransformerFactory transformerFactory = TransformerFactory.newInstance();
-		Transformer transformer = transformerFactory.newTransformer();
-		DOMSource source = new DOMSource(document);
-		
-		StreamResult result = new StreamResult(fileXml);
-
-		transformer.transform(source, result);
-
-		System.out.println("File saved!");
-	}
-	
-	public static void writeContatti(List<Contatto> contatti, String pathfile) throws ParserConfigurationException, TransformerException {
-		File fileXml = new File(pathfile);
-		WriterXmlRubrica.writeContatti(contatti,fileXml);
+        return document;
 	}
 }

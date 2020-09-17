@@ -53,19 +53,8 @@ public class RecordFile {
 			recordContatti.add(contatto);
 		}
 		
-		// fase di scrittura	
-		File output = new File(PATH_FILES + "rubrica_madonia.txt");
-		FileWriter writer = new FileWriter(output);
+		WriterCsvRubrica.writeCsvFile(new String[] {"COGNOME","NOME","TELEFONO", "EMAIL"}, recordContatti, PATH_FILES + "rubrica_prova.txt");
 		
-		writer.write("COGNOME;NOME;TELEFONO;E-MAIL");
-		for (Contatto contattoTemp : recordContatti) {
-			writer.write("\n");
-			writer.write(RecordFile.costruisciRiga(contattoTemp));
-		}
-		
-		writer.flush();
-		writer.close();
-		System.out.println("Rubrica completata!");
 	}
 	
 	// lettura e memorizzazione record	
@@ -226,19 +215,4 @@ public class RecordFile {
 		
 		return s.toString();
 	}
-	
-	// scrittura record sui file
-	private static String costruisciRiga(Contatto contatto) {
-		return costruisciRiga(contatto.getCognome(), contatto.getNome(), contatto.getTelefono(), contatto.getEmail());
-	}
-	
-	private static String costruisciRiga(String... campi) {
-		StringBuilder riga = new StringBuilder();
-		for(String campo : campi) {
-			riga.append(campo).append(';');
-		}
-		riga.deleteCharAt(riga.length() - 1);
-		return riga.toString();
-	}
-
 }
