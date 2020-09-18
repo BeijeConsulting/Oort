@@ -50,10 +50,10 @@ public class Contatto {
 	
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(this.nome).append(';')
-			.append(this.cognome).append(';')
-			.append(this.telefono).append(';')
-			.append(this.email).append(';');
+		builder.append(this.cognome).append(';')
+			.append(this.nome).append(';')
+			.append(this.email).append(';')
+			.append(this.telefono).append(';');
 		
 		return builder.toString();
 	}
