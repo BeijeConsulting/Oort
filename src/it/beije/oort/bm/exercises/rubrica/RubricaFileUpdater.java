@@ -14,7 +14,7 @@ public class RubricaFileUpdater {
 
 	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException, TransformerException {
 		if(args.length != 2) {
-			System.out.println("Correct usage: java XmlFileUpdater <souceFile> <destinationFile>");
+			System.out.println("Correct usage: java RubricaFileUpdater <souceFile> <destinationFile>");
 			System.exit(0);
 		}
 		File source = new File(args[0]);
