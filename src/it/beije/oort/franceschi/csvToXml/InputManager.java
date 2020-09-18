@@ -10,6 +10,7 @@ import java.io.File;
  *
  */
 public class InputManager {
+	private InputManager() {}
 	private static final String CSV_PATH = "C:\\Code\\Oort\\csv\\rubriche\\";
 	private static final String XML_PATH = "C:\\Code\\Oort\\xml\\rubriche\\";
 
@@ -17,34 +18,11 @@ public class InputManager {
 			"gregori", "girardi", "franceschi", "busseni", "bassanelli" };
 	private static final int inputAmount = cognomi.length;
 
-	private int counter = 0;
-	private int oppositeCounter = 0;
-
 	/**
 	 * 
-	 * @return the path of the next input.
+	 * @param i index
+	 * @return filepath in the csv folder with .csv ext
 	 */
-	public String getNextInputPath() {
-		return CSV_PATH + "rubrica_" + cognomi[counter] + ".csv";
-	}
-
-	public String getNextOuputPathReverse() {
-		return CSV_PATH + "rubrica_" + cognomi[oppositeCounter++] + "_convertitoDaXML.csv";
-	}
-
-	/**
-	 * This method also increase the counter to go to the next input/output couple.
-	 * 
-	 * @return the path of the next output.
-	 */
-	public String getNextOutputPath() {
-		return XML_PATH + "rubrica_" + cognomi[counter++] + ".xml";
-	}
-
-	public String getNextInputPathReverse() {
-		return XML_PATH + "rubrica_" + cognomi[oppositeCounter] + ".xml";
-	}
-
 	public static String getInCSVPath(int i) {
 		return CSV_PATH + "rubrica_" + cognomi[i] + ".csv";
 	}

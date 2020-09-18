@@ -1,6 +1,7 @@
 package it.beije.oort.franceschi.csvToXml;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -14,6 +15,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import it.beije.oort.file.rubrica.Contatto;
+import it.beije.oort.file.rubrica.comparators.ContattoCognomeComparator;
+import it.beije.oort.file.rubrica.comparators.ContattoNomeComparator;
 
 /**
  * Utility class. Currently used only for a single method.
@@ -21,6 +24,7 @@ import it.beije.oort.file.rubrica.Contatto;
  * @author Alessio Franceschi
  *
  */
+@SuppressWarnings("unused")
 public class XMLWriter {
 
 	public static void overwriteList(List<Contatto> list, String in) throws Exception {
@@ -28,7 +32,10 @@ public class XMLWriter {
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		Document document = documentBuilder.parse(in);
 		Element root = document.getDocumentElement();
-
+		
+		Collections.sort(list, new ContattoNomeComparator());
+		//Collections.sort(list, new ContattoCognomeComparator());
+		
 		for (Contatto c : list) {
 			Element contatto = document.createElement("contatto");
 
@@ -71,6 +78,9 @@ public class XMLWriter {
 			Document document = builder.newDocument();
 			Element root = document.createElement("rubrica");
 			document.appendChild(root);
+			
+			Collections.sort(list, new ContattoNomeComparator());
+			//Collections.sort(list, new ContattoCognomeComparator())
 
 			for (Contatto c : list) {
 				Element contatto = document.createElement("contatto");

@@ -4,9 +4,11 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
+import it.beije.oort.file.rubrica.comparators.ContattoNomeComparator;
 import it.beije.oort.file.rubrica.utils.Valori;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GeneratoreRubrica {
 	
@@ -33,6 +35,8 @@ public class GeneratoreRubrica {
 
 	public static void writeRubrica(ArrayList<Contatto> rubrica, String filename) {
 		Random r = new Random();
+		Collections.sort(rubrica, new ContattoNomeComparator());
+		//Collections.sort(rubrica, new ContattoCognomeComparator())
 		try (BufferedWriter bf = new BufferedWriter(
 				new OutputStreamWriter(new FileOutputStream(filename, true), StandardCharsets.UTF_8))) {
 			

@@ -1,6 +1,7 @@
 package it.beije.oort.file.rubrica;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Random;
 
 import it.beije.oort.file.rubrica.utils.GeneraMail;
@@ -86,5 +87,7 @@ public class Contatto {
 		}
 		s.append(";").append(c.getCell()).append(";").append(c.getEmail());
 		return s.toString();
-	}
+	}	
 }
+
+
