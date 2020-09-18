@@ -73,6 +73,8 @@ public class Runner {
 		
 		Phonebook.writeXmlFile(contactsFromCsv, "/temp/rubrica.xml");
 		
+		Phonebook.updateFile("/temp/rubrica.xml", "/temp/rubrica.xml");
+		
 		// List<Contact> contactsFromXml = Phonebook.readXmlFile("/temp/rubrica.xml");
 		
 		// Phonebook.writeCsvFile(contactsFromXml, "COGNOME;NOME;EMAIL;TELEFONO", "/temp/new_rubrica.csv");

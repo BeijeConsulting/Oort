@@ -342,4 +342,58 @@ public class Phonebook {
 		return newList;
 		
 	}
+	
+	public static void updateFile(String source, String dest) throws IOException, ParserConfigurationException, SAXException, TransformerException {
+		
+		File fileSource = new File(source);
+		File fileDest = new File(dest);
+		
+		updateFile(fileSource, fileDest);
+		
+	}
+	
+	public static void updateFile(File source, File dest) throws IOException, ParserConfigurationException, SAXException, TransformerException {
+		
+		if(source.exists() && dest.exists()) {
+			
+			List<Contact> sourceList;
+			List<Contact> destList;
+			
+			if(source.getPath().endsWith("csv")) {
+				
+				sourceList = readCsvFile(source);
+				destList = readCsvFile(dest);
+				
+				List<Contact> finalList = new ArrayList<Contact>(sourceList);
+				finalList.addAll(destList);
+				
+				
+				writeCsvFile(finalList, "NOME;COGNOME;TELEFONO;EMAIL", dest, false);
+				
+				System.out.println("Files source or dest not exists!");
+				
+				
+			} else /* if(source.getPath().endsWith("xml")) */ {
+				
+				sourceList = readXmlFile(source);
+				destList = readXmlFile(dest);
+				
+				List<Contact> finalList = new ArrayList<Contact>(sourceList);
+				finalList.addAll(destList);
+				
+				
+				writeXmlFile(finalList, dest);
+				
+				System.out.println("File dest update!");
+				
+			}
+			
+			
+		} else {
+			
+			System.out.println("Files source or dest not exists!");
+			
+		}
+		
+	}
 }
