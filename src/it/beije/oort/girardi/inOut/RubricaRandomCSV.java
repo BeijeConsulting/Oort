@@ -38,10 +38,43 @@ public class RubricaRandomCSV {
 		s.append(prefissi[indexPrefisso]);
 		
 		for(int i = 0; i < 7; i++) {
-			s.append((int) (Math.random() * 9));
+			s.append((int) (Math.random() * 10));
 		}
 		
 		return s.toString();
+	}
+	
+	
+// aggiornamento numeri di telefono da lista preesistente
+	private static List<String> aggiornaNumero(List<String> recordTel) {
+		List<String> newRecordTel = new ArrayList<>();
+		int index = 0;
+		for (String numero : recordTel) {
+			index = (int) ((Math.random() * 8) + 1);
+			switch (index) {
+			case 1:
+				newRecordTel.add("");
+				break;
+			case 2:
+				int i = (int) (Math.random() * recordTel.size());
+				newRecordTel.add(recordTel.get(i));
+				break;
+			case 3:
+			case 4:
+				newRecordTel.add("+39" + generaNumero());
+				break;
+			case 5:
+			case 6:
+			case 7:
+			case 8:
+				newRecordTel.add(generaNumero());
+				break;
+			default: 
+				System.out.println("something wrong happened during number update ");
+			}
+			System.gc();
+		}
+		return newRecordTel;		
 	}
 	
 
@@ -200,6 +233,10 @@ public class RubricaRandomCSV {
 			recordMail.add(RubricaRandomCSV.generaMail(recordNomi.get(k), recordCognomi.get(k)));
 		}
 		
+		// aggiornamento dell'esercizio: modifico la lista di numeri di telefono generata:
+		List<String> newRecordTel = RubricaRandomCSV.aggiornaNumero(recordTel); 
+		
+		
 		// fase di scrittura	
 		File output = new File(PATH_FILES + "rubrica.txt");
 		FileWriter writer = new FileWriter(output);
@@ -211,7 +248,7 @@ public class RubricaRandomCSV {
 					recordCognomi.get(arrayIndex),
 					recordNomi.get(arrayIndex),
 					recordMail.get(arrayIndex),
-					recordTel.get(arrayIndex)
+					newRecordTel.get(arrayIndex)
 					));
 		}
 		
