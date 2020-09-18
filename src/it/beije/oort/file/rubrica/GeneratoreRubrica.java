@@ -18,6 +18,13 @@ public class GeneratoreRubrica {
 			Valori.contatti.add(c);
 		}
 	}
+	
+	public static void creaRubricaRandom() {
+		for (int i = 0; i < VALORI_DA_SCRIVERE; i++) {
+			Contatto c = new Contatto(true);
+			Valori.contatti.add(c);
+		}
+	}
 
 	public static void writeRubrica(ArrayList<Contatto> rubrica, String filename) {
 		Random r = new Random();
@@ -27,7 +34,11 @@ public class GeneratoreRubrica {
 			bf.write("COGNOME;NOME;TELEFONO;EMAIL;\n");
 			
 			for (int i = 0; i < rubrica.size(); i++) {
-				bf.write(Contatto.getContattoFormattatoToString(rubrica, i, r) + '\n');
+				if (i != rubrica.size() - 1) {
+					bf.write(Contatto.getContattoFormattatoToString(rubrica, i, r) + '\n');;
+				} else {
+					bf.write(Contatto.getContattoFormattatoToString(rubrica, i, r));
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

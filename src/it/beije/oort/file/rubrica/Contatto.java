@@ -12,10 +12,18 @@ public class Contatto {
 	public Contatto() {
 	}
 	
+	public Contatto(boolean random) {
+		Random r = new Random();
+		this.nome = 	Valori.getNomi().get(r.nextInt(Valori.getNomi().size()));
+		this.cognome = 	Valori.getCognomi().get(r.nextInt(Valori.getCognomi().size()));
+		this.cell = 	GeneraNumero.generaNumero();
+		this.email =	GeneraMail.generaMail(nome, cognome);
+	}
+	
 	public Contatto(ArrayList<String> nomi, ArrayList<String> cognomi) {
 		Random r = new Random();
-		this.nome = 	cognomi.get(r.nextInt(cognomi.size()));
-		this.cognome = 	nomi.get(r.nextInt(nomi.size()));
+		this.nome = 	nomi.get(r.nextInt(nomi.size()));
+		this.cognome = 	cognomi.get(r.nextInt(cognomi.size()));
 		this.cell = 	GeneraNumero.generaNumero();
 		this.email =	GeneraMail.generaMail(nome, cognome);
 	}
