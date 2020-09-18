@@ -22,7 +22,7 @@ import org.xml.sax.SAXException;
 
 public class XmlParser {
 	
-	public static void writeFile(File output, List<List<Contatto>> lists) throws ParserConfigurationException, TransformerException {
+	public static void writeFile(File output, List<Contatto> list) throws ParserConfigurationException, TransformerException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
 
@@ -30,27 +30,25 @@ public class XmlParser {
         Element docElement = document.createElement("contatti");
         document.appendChild(docElement);
         
-        for(List<Contatto> list : lists) {
-        	for (Contatto c : list) {
-            	Element contatto = document.createElement("contatto");
-            	
-            	Element nome = document.createElement("nome");
-            	Element cognome = document.createElement("cognome");
-            	Element telefono = document.createElement("telefono");
-            	Element email = document.createElement("email");
-            	
-            	nome.setTextContent(c.getNome());
-            	cognome.setTextContent(c.getCognome());
-            	telefono.setTextContent(c.getTelefono());
-            	email.setTextContent(c.getEmail());
-            	
-            	contatto.appendChild(nome);
-            	contatto.appendChild(cognome);
-            	contatto.appendChild(telefono);
-            	contatto.appendChild(email);
+        for (Contatto c : list) {
+        	Element contatto = document.createElement("contatto");
+        	
+        	Element nome = document.createElement("nome");
+        	Element cognome = document.createElement("cognome");
+        	Element telefono = document.createElement("telefono");
+        	Element email = document.createElement("email");
+        	
+        	nome.setTextContent(c.getNome());
+        	cognome.setTextContent(c.getCognome());
+        	telefono.setTextContent(c.getTelefono());
+        	email.setTextContent(c.getEmail());
+        	
+        	contatto.appendChild(nome);
+        	contatto.appendChild(cognome);
+        	contatto.appendChild(telefono);
+        	contatto.appendChild(email);
 
-            	docElement.appendChild(contatto);
-            }
+        	docElement.appendChild(contatto);
         }
         
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
