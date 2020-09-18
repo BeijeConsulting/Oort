@@ -48,7 +48,7 @@ public class XmlToCsv {
 		FileWriter writer = new FileWriter(fileCsv);
 		writer.write("COGNOME;NOME;EMAIL;TELEFONO\n");
 		ContactXml contact = new ContactXml();
-		for (int i = 0; i < contactsBook.size(); i++) {
+		for (int i = 0; i < 1000; i++) {
 			contact = contactsBook.get(i);
 			
 			name = contact.getName();

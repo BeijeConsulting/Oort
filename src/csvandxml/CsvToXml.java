@@ -28,7 +28,7 @@ public class CsvToXml {
 	public static void main(String[] args) throws Exception {
 		System.out.println("Start: " + LocalTime.now());
 		// TODO Auto-generated method stub
-		File fileCsv = new File("/temp/rubrica_sala.csv");
+		File fileCsv = new File("/temp/records.csv");
 		String fileToString = getContent(fileCsv);
 //		System.out.println(fileToString);
 		String header = fileToString.substring(0,fileToString.indexOf("\n"));
