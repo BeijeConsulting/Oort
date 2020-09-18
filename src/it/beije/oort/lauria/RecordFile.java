@@ -86,21 +86,6 @@ public class RecordFile {
 		
 	}
 	
-	// lettura e memorizzazione record	
-	public static List<String> memContent(File file, List<String> record ) throws IOException {			
-		FileReader fileReader = new FileReader(file);			
-		BufferedReader bufferedReader = new BufferedReader(fileReader);			
-		
-		while (bufferedReader.ready()) {
-			record.add(bufferedReader.readLine());
-		}
-		
-		fileReader.close();
-		bufferedReader.close();
-
-		return record;
-	}
-	
 
 	
 	// genera Numero di telefono
@@ -119,8 +104,7 @@ public class RecordFile {
 	}
 	
 
-	private static String generaNumero(List<String>  listaTelefoni) {// mi fa overload
-//	private static String generaNuovoNumero(List<String>  listaTelefoni){
+	private static String generaNumero(List<String>  listaTelefoni) {
 		StringBuilder telefono = new StringBuilder();
 		
 		int randomTel = (int) (Math.random() * 8) + 1;
@@ -277,8 +261,7 @@ public class RecordFile {
 		return s.toString();
 	}
 	
-	private static String generaMail(List<String>  listaEmail, String nome, String cognome) {// overload	
-//	private static String generaNuovaEmail(List<String>  listaEmail, Contatto contatto){
+	private static String generaMail(List<String>  listaEmail, String nome, String cognome) {	
 		StringBuilder email = new StringBuilder();
 		
 		int randomMail = (int) (Math.random() * 10) + 1;
@@ -286,8 +269,8 @@ public class RecordFile {
 		if(randomMail < 3) {
 			email.append("");
 		}else if(3 <= randomMail && randomMail <= 5){
-			int randomLista = (int) (Math.random() * listaEmail.size());
-			if(randomLista > 0) {
+			if(listaEmail.size() > 0) {
+				int randomLista = (int) (Math.random() * listaEmail.size());			
 				email.append(listaEmail.get(randomLista));
 				//listaEmail.add(email.toString());
 			}else {
@@ -302,6 +285,20 @@ public class RecordFile {
 		return email.toString();
 	}	
 	
+	// lettura e memorizzazione record	
+	public static List<String> memContent(File file, List<String> record ) throws IOException {			
+		FileReader fileReader = new FileReader(file);			
+		BufferedReader bufferedReader = new BufferedReader(fileReader);			
+		
+		while (bufferedReader.ready()) {
+			record.add(bufferedReader.readLine());
+		}
+		
+		fileReader.close();
+		bufferedReader.close();
+
+		return record;
+	}
 	
 	
 	// scrittura record sui file
