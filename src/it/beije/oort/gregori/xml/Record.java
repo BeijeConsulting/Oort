@@ -9,15 +9,15 @@ public class Record {
 
 	private String nome;
 	private String cognome;
-	private String telefono;
+	private String telefono = "";
 	private StringBuilder mail = new StringBuilder();
 	public static final String[] PREFISSI = {"345", "346", "347", "348", "349"};
 	public static final String[] DOMINI = {"gmail.com", "hotmail.com", "hotmail.it", 
 											"libero.it", "yahoo.com", "virgilio.it", "tim.it", "alice.it"};
 	public static final int MIN = 0000000;
 	public static final int MAX = 9999999;
-	public static List<String> listTelefono;
-	public static List<String> listEmail;
+	public static List<String> listTelefono = new ArrayList<>();
+	public static List<String> listEmail = new ArrayList<>();
 	
 	public Record() {}
 
@@ -46,7 +46,7 @@ public class Record {
 			case 1:
 				break;
 			case 2:
-				this.telefono = listTelefono.get(random.nextInt(listTelefono.size()));
+				if(listTelefono.size() != 0) this.telefono = listTelefono.get(random.nextInt(listTelefono.size()));
 				break;
 			case 3:
 			case 4:
@@ -62,7 +62,7 @@ public class Record {
 				break;
 		}
 		
-		if(this.telefono != null) listTelefono.add(this.telefono);
+		listTelefono.add(this.telefono);
 	}
 	
 	public void generateMail() {		
@@ -76,7 +76,7 @@ public class Record {
 			case 3:
 			case 4:
 			case 5:
-				this.mail.append(listEmail.get(random.nextInt(listEmail.size())));
+				if(listEmail.size() != 0) this.mail.append(listEmail.get(random.nextInt(listEmail.size())));
 				break;
 			case 6:
 			case 7:
