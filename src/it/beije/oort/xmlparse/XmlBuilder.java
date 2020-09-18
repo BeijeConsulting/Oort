@@ -1,5 +1,6 @@
 package it.beije.oort.xmlparse;
 
+import java.io.File;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -13,9 +14,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
  
 public class XmlBuilder {
-	public static final String XML_FILE_PATH = "/temp/rubricaXml.xml";
+	//public static final String XML_FILE_PATH = "/temp/rubricaXml.xml";
 	
-	public void build(List<Contatto> contatti) throws ParserConfigurationException, TransformerException {
+	public void build(List<Contatto> contatti, File fileDestinazione) throws ParserConfigurationException, TransformerException {
 		DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
 		Document document = documentBuilder.newDocument();
@@ -46,7 +47,7 @@ public class XmlBuilder {
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
         DOMSource domSource = new DOMSource(document);
-        StreamResult streamResult = new StreamResult(XML_FILE_PATH);
+        StreamResult streamResult = new StreamResult(fileDestinazione.getPath());
         transformer.transform(domSource, streamResult);
         System.out.println("Done creating XML file!");
 	}

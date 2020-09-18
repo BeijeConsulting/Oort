@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class ListToCsvConverter {
-	public void buildCsv(List<Contatto> contatti, File file) throws IOException {
-		FileWriter writer = new FileWriter(file);
+	public void buildCsv(List<Contatto> contatti, File fileDestinazione) throws IOException {
+		FileWriter writer = new FileWriter(fileDestinazione);
 		writer.write("COGNOME;NOME;EMAIL;TELEFONO;\n");
 		for (int i = 0; i < contatti.size(); i++) {
 			String nome = contatti.get(i).getNome();
