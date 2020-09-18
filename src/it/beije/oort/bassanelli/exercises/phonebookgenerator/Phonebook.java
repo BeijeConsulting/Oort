@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -46,10 +47,11 @@ public class Phonebook {
 
 				Contact contact = new Contact();
 
-				String[] values = bufferedReader.readLine().split(";");
-
+				String[] values = bufferedReader.readLine().split(";", -1);
+				
 				for (int i = 0; i < fields.length; i++) {
-					switch (fields[i]) {
+
+					switch (fields[i].toUpperCase()) {
 					case "NOME":
 						contact.setName(values[i]);
 						break;
@@ -63,6 +65,7 @@ public class Phonebook {
 						contact.setEmail(values[i]);
 						break;
 					}
+
 				}
 
 				list.add(contact);
@@ -82,7 +85,8 @@ public class Phonebook {
 		return list;
 	}
 
-	public static void writeCsvFile(List<Contact> list, String pattern, String filepath, boolean useRandom) throws IOException {
+	public static void writeCsvFile(List<Contact> list, String pattern, String filepath, boolean useRandom)
+			throws IOException {
 
 		File file = new File(filepath);
 
@@ -90,7 +94,8 @@ public class Phonebook {
 
 	}
 
-	public static void writeCsvFile(List<Contact> list, String pattern, File file, boolean useRandom) throws IOException {
+	public static void writeCsvFile(List<Contact> list, String pattern, File file, boolean useRandom)
+			throws IOException {
 
 		if (file.exists()) {
 
@@ -107,22 +112,21 @@ public class Phonebook {
 
 				for (int i = 0; i < fields.length; i++) {
 
-					
-					if(useRandom) {
-						switch (fields[i]) {
+					if (useRandom) {
+						switch (fields[i].toUpperCase()) {
 						case "NOME":
-							
-							if(r.nextInt(5) + 1 == 1) {
+
+							if (r.nextInt(5) + 1 == 1) {
 								builder.append(contact.getName());
 							}
-							
+
 							break;
 						case "COGNOME":
-							
-							if(r.nextInt(3) + 1 == 1) {
+
+							if (r.nextInt(3) + 1 == 1) {
 								builder.append(contact.getSurname());
 							}
-							
+
 							break;
 						case "TELEFONO":
 							builder.append(contact.getMobile());
@@ -132,7 +136,7 @@ public class Phonebook {
 							break;
 						}
 					} else {
-						switch (fields[i]) {
+						switch (fields[i].toUpperCase()) {
 						case "NOME":
 							builder.append(contact.getName());
 							break;
@@ -147,7 +151,7 @@ public class Phonebook {
 							break;
 						}
 					}
-					
+
 					builder.append(";");
 
 				}
@@ -223,7 +227,7 @@ public class Phonebook {
 								contact.setEmail(value.getTextContent());
 								break;
 							default:
-								System.out.println("elemento in contatto non riconosciuto");
+								System.out.println("Contact element not recognized");
 								break;
 							}
 						}
@@ -317,12 +321,12 @@ public class Phonebook {
 	}
 
 	public static List<String> extractField(List<Contact> list, String field) {
-		
+
 		List<String> newList = new ArrayList<String>();
-		
-		for(Contact contact: list) {
-			
-			switch(field) {
+
+		for (Contact contact : list) {
+
+			switch (field.toUpperCase()) {
 			case "NOME":
 				newList.add(contact.getName());
 				break;
@@ -336,64 +340,62 @@ public class Phonebook {
 				newList.add(contact.getEmail());
 				break;
 			}
-			
+
 		}
-		
+
 		return newList;
-		
+
 	}
-	
-	public static void updateFile(String source, String dest) throws IOException, ParserConfigurationException, SAXException, TransformerException {
-		
+
+	public static void updateFile(String source, String dest)
+			throws IOException, ParserConfigurationException, SAXException, TransformerException {
+
 		File fileSource = new File(source);
 		File fileDest = new File(dest);
-		
+
 		updateFile(fileSource, fileDest);
-		
+
 	}
-	
-	public static void updateFile(File source, File dest) throws IOException, ParserConfigurationException, SAXException, TransformerException {
-		
-		if(source.exists() && dest.exists()) {
-			
+
+	public static void updateFile(File source, File dest)
+			throws IOException, ParserConfigurationException, SAXException, TransformerException {
+
+		if (source.exists() && dest.exists()) {
+
 			List<Contact> sourceList;
 			List<Contact> destList;
-			
-			if(source.getPath().endsWith("csv")) {
-				
+
+			if (source.getPath().endsWith("csv")) {
+
 				sourceList = readCsvFile(source);
 				destList = readCsvFile(dest);
-				
+
 				List<Contact> finalList = new ArrayList<Contact>(sourceList);
 				finalList.addAll(destList);
-				
-				
+
 				writeCsvFile(finalList, "NOME;COGNOME;TELEFONO;EMAIL", dest, false);
-				
-				System.out.println("Files source or dest not exists!");
-				
-				
+
+				System.out.println("File dest updated!");
+
 			} else /* if(source.getPath().endsWith("xml")) */ {
-				
+
 				sourceList = readXmlFile(source);
 				destList = readXmlFile(dest);
-				
+
 				List<Contact> finalList = new ArrayList<Contact>(sourceList);
 				finalList.addAll(destList);
-				
-				
+
 				writeXmlFile(finalList, dest);
-				
-				System.out.println("File dest update!");
-				
+
+				System.out.println("File dest updated!");
+
 			}
-			
-			
+
 		} else {
-			
+
 			System.out.println("Files source or dest not exists!");
-			
+
 		}
-		
+
 	}
 }

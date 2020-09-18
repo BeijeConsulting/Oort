@@ -21,7 +21,7 @@ public class Runner {
 
 		List<Contact> recordsList = new ArrayList<Contact>();
 		
-		List<Contact> contactsFromCsv = Phonebook.readCsvFile("/temp/rubrica_bassanelli.csv");
+		List<Contact> contactsFromCsv = Phonebook.readCsvFile("/temp/records.csv");
 		
 		List<String> mobileList = Phonebook.extractField(contactsFromCsv, "TELEFONO");
 		List<String> emailList = Phonebook.extractField(contactsFromCsv, "EMAIL");
@@ -58,26 +58,35 @@ public class Runner {
 			contact.setMobile(mobile);
 			contact.setEmail(email);
 
-			//writer.write(contact.toCsvRow());
+			System.out.println(contact.toString());
 
 			recordsList.add(contact);
 		}
 	
 		System.out.println("Done records: " + LocalTime.now());
 		
-		Phonebook.writeCsvFile(recordsList, "COGNOME;NOME;EMAIL;TELEFONO", "/temp/records.csv", true);
+		// Phonebook.writeCsvFile(recordsList, "COGNOME;NOME;EMAIL;TELEFONO", "/temp/records.csv", true);
 
 		System.out.println("Done file: " + LocalTime.now());
 
 		// List<Contact> contactsFromCsv = Phonebook.readCsvFile("/temp/rubrica_bassanelli.csv");
 		
-		Phonebook.writeXmlFile(contactsFromCsv, "/temp/rubrica.xml");
+		// Phonebook.writeXmlFile(contactsFromCsv, "/temp/rubrica.xml");
 		
-		Phonebook.updateFile("/temp/rubrica.xml", "/temp/rubrica.xml");
+		// Phonebook.updateFile("/temp/records.csv", "/temp/records.csv");
 		
 		// List<Contact> contactsFromXml = Phonebook.readXmlFile("/temp/rubrica.xml");
 		
-		// Phonebook.writeCsvFile(contactsFromXml, "COGNOME;NOME;EMAIL;TELEFONO", "/temp/new_rubrica.csv");
+		if (recordsList.size() > 0) {
+			  Collections.sort(recordsList, new Comparator<Contact>() {
+			      @Override
+			      public int compare(final Contact object1, final Contact object2) {
+			          return object1.getName().compareTo(object2.getName());
+			      }
+			  });
+			}
+		
+		Phonebook.writeCsvFile(recordsList, "COGNOME;NOME;EMAIL;TELEFONO", "/temp/new_rubrica.csv", false);
 		
 	}
 
@@ -163,7 +172,7 @@ public class Runner {
 		
 		int randomNumber = r.nextInt(10) + 1;
 		
-		StringBuilder email = new StringBuilder();
+		StringBuilder email = new StringBuilder("");
 		
 		if(randomNumber == 1 || randomNumber == 2) {
 			
