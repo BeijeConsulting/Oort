@@ -56,20 +56,13 @@ public class RecordFile {
 			Contatto contatto = new Contatto();
 			contatto.setNome( recordNomitemp.get(i) );
 			contatto.setCognome( recordCognomitemp.get(j) );
-			contatto.setTelefono( RecordFile.generaNumero() );
-			contatto.setEmail( RecordFile.generaMail( contatto.getNome(), contatto.getCognome() ) );
+			contatto.setTelefono( RecordFile.generaNumero(listaTelefoni) );
+			contatto.setEmail( RecordFile.generaMail( listaEmail, contatto.getNome(), contatto.getCognome() ) );
 			
 			recordContatti.add(contatto);
 			
-			listaTelefoni.add(contatto.getTelefono());
-			listaEmail.add(contatto.getEmail());
 		}
 
-		// GENERA NUOVO NUMERO DI TELEFONO E NUOVA MAIL
-		for(int k = 0; k < NUMERO_CONTATTI; k++){
-			recordContatti.get(k).setTelefono(RecordFile.generaNuovoNumero(listaTelefoni));
-			recordContatti.get(k).setEmail(RecordFile.generaNuovaEmail(listaEmail, recordContatti.get(k)));			
-		}
 
 		
 		// fase di scrittura	
@@ -124,8 +117,8 @@ public class RecordFile {
 	}
 	
 
-	//private static String generaNumero(List<String>  listaTelefoni) mi fa overload
-	private static String generaNuovoNumero(List<String>  listaTelefoni){
+	private static String generaNumero(List<String>  listaTelefoni) {// mi fa overload
+//	private static String generaNuovoNumero(List<String>  listaTelefoni){
 		StringBuilder telefono = new StringBuilder();
 		
 		int randomTel = (int) (Math.random() * 8) + 1;
@@ -133,12 +126,21 @@ public class RecordFile {
 		if(randomTel==1) {
 			telefono.append("");
 		}else if(randomTel==2){
-			int randomLista = (int) (Math.random() * listaTelefoni.size());
-			telefono.append(listaTelefoni.get(randomLista));
+			if(listaTelefoni.size() > 0) {
+				int randomLista = (int) (Math.random() * listaTelefoni.size());
+				telefono.append(listaTelefoni.get(randomLista));
+			}
+			else {
+				telefono.append("");
+				//listaTelefoni.add(telefono.toString());
+			}
+			
 		}else if(randomTel==3 || randomTel==4 ){
 			telefono.append("+39").append(generaNumero());
+			listaTelefoni.add(telefono.toString());
 		}else{
 			telefono.append(generaNumero());
+			listaTelefoni.add(telefono.toString());
 		}
 		
 		return telefono.toString();
@@ -273,8 +275,8 @@ public class RecordFile {
 		return s.toString();
 	}
 	
-//	private static String generaEmail(List<String>  listaEmail) overload	
-	private static String generaNuovaEmail(List<String>  listaEmail, Contatto contatto){
+	private static String generaMail(List<String>  listaEmail, String nome, String cognome) {// overload	
+//	private static String generaNuovaEmail(List<String>  listaEmail, Contatto contatto){
 		StringBuilder email = new StringBuilder();
 		
 		int randomMail = (int) (Math.random() * 10) + 1;
@@ -283,9 +285,16 @@ public class RecordFile {
 			email.append("");
 		}else if(3 <= randomMail && randomMail <= 5){
 			int randomLista = (int) (Math.random() * listaEmail.size());
-			email.append(listaEmail.get(randomLista));
+			if(randomLista > 0) {
+				email.append(listaEmail.get(randomLista));
+				//listaEmail.add(email.toString());
+			}else {
+				email.append("");
+				//listaEmail.add(email.toString());
+			}
 		}else{
-			email.append(generaMail(contatto.getNome(), contatto.getCognome()));
+			email.append(generaMail(nome, cognome));
+			listaEmail.add(email.toString());
 		}
 		
 		return email.toString();
