@@ -10,7 +10,7 @@ package it.beije.oort.franceschi.csvToXml;
 public class InputManager {
 	private final String CSV_PATH = "C:\\Code\\Oort\\csv\\rubriche\\";
 	private final String XML_PATH = "C:\\Code\\Oort\\xml\\rubriche\\";
-	
+
 	private final String[] cognomi = { "brugaletta", "sala", "mater", "mancuso", "maisto", "madonia", "lauria",
 			"gregori", "girardi", "franceschi", "busseni", "bassanelli" };
 	private final int inputAmount = cognomi.length;
@@ -23,9 +23,9 @@ public class InputManager {
 	 * @return the path of the next input.
 	 */
 	public String getNextInputPath() {
-		return CSV_PATH  + "rubrica_" + cognomi[counter] + ".csv";
+		return CSV_PATH + "rubrica_" + cognomi[counter] + ".csv";
 	}
-	
+
 	public String getNextOuputPathReverse() {
 		return CSV_PATH + "rubrica_" + cognomi[oppositeCounter++] + "_convertitoDaXML.csv";
 	}
@@ -38,6 +38,7 @@ public class InputManager {
 	public String getNextOutputPath() {
 		return XML_PATH + "rubrica_" + cognomi[counter++] + ".xml";
 	}
+
 	public String getNextInputPathReverse() {
 		return XML_PATH + "rubrica_" + cognomi[oppositeCounter] + ".xml";
 	}

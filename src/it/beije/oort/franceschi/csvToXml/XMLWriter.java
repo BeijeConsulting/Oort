@@ -13,21 +13,23 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import it.beije.oort.file.rubrica.Contatto;
+
 /**
  * Utility class. Currently used only for a single method.
  * 
  * @author Alessio Franceschi
  *
  */
-public class XMLWriter{
+public class XMLWriter {
 
 	/**
 	 * Given a List, this static method will write an XML file accordingly.
 	 * 
-	 * @param list of object to write to file
+	 * @param list       of object to write to file
 	 * @param outputPath the path of the output file (needs .xml extension)
 	 */
-	public static void writeList(List<ContattoBean> list, String outputPath) {
+	public static void writeList(List<Contatto> list, String outputPath) {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
@@ -36,7 +38,7 @@ public class XMLWriter{
 			Element docElement = document.createElement("rubrica");
 			document.appendChild(docElement);
 
-			for (ContattoBean c : list) {
+			for (Contatto c : list) {
 				Element contatto = document.createElement("contatto");
 
 				Element nome = document.createElement("nome");

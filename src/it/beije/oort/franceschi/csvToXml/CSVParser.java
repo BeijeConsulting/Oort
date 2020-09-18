@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.beije.oort.file.rubrica.Contatto;
+
 /**
  * 
  * CSVParser reads CSV files and creates a List<> of ContattoBean based on the
@@ -44,7 +46,6 @@ public class CSVParser {
 	 * @param headerVal an Array containing the values present in the header
 	 */
 	private void assignPositions(String[] headerVal) {
-		//TODO: possibile fare con indexOf("NOME")
 		for (int i = 0; i < headerVal.length; i++) {
 			switch (headerVal[i].toUpperCase()) {
 			case "NOME":
@@ -76,13 +77,13 @@ public class CSVParser {
 	 * 
 	 * @return a List containing all the ContattoBean present in the CSV.
 	 */
-	public List<ContattoBean> creaListaContatti() {
+	public List<Contatto> creaListaContatti() {
 		String contattoLine = "";
-		List<ContattoBean> contatti = new ArrayList<ContattoBean>();
+		List<Contatto> contatti = new ArrayList<Contatto>();
 		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 			br.readLine();
 			while (br.ready()) {
-				ContattoBean c = new ContattoBean();
+				Contatto c = new Contatto();
 				contattoLine = br.readLine();
 				String contattoVals[] = contattoLine.split(";");
 				for (int i = 0; i < contattoVals.length; i++) {

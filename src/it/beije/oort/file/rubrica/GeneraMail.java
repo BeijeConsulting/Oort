@@ -12,7 +12,7 @@ public class GeneraMail {
 		
 		if (rand <= 2) {
 			return "";
-		} else if (rand <= 5) {
+		} else if (rand <= 5 && Valori.emailComplete.size() > 0) {
 			return Valori.emailComplete.get((r.nextInt(Valori.emailComplete.size()-1)));
 		} else {
 			boolean usaNome = (r.nextInt(5) == 1) ? false : true;

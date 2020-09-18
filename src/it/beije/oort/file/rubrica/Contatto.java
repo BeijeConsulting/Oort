@@ -1,12 +1,14 @@
 package it.beije.oort.file.rubrica;
 
-import java.util.Random;
 
 public class Contatto {
 	private String nome;
 	private String cognome;
 	private String cell;
 	private String email;
+	
+	public Contatto() {
+	}
 	
 	public Contatto(String nome) {
 		this(nome, "", "", "");
@@ -28,27 +30,45 @@ public class Contatto {
 		this.email = GeneraMail.generaMail(nome, cognome, dominio);
 	}
 	
-	public String getNome() {
-		return nome;
+	public String getCell() {
+		return cell;
 	}
 	public String getCognome() {
 		return cognome;
 	}
-	public String getCell() {
-		return cell;
-	}
 	public String getEmail() {
 		return email;
 	}
+	public String getNome() {
+		return nome;
+	}
 	
+	public void setCell(String cell) {
+		this.cell = cell;
+	}
+
+	public void setCognome(String cognome) {
+		this.cognome = cognome;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
 	/**
-	 * @return the formatted string following the csv convention with quotes.
+	 * @return the formatted string following the CSV convention with quotes.
 	 */
 	public String toFormattedString() {
-		return new StringBuilder("\"")
-				.append(nome)
-				.append("\";\"")
-				.append(cognome)
-				.append("\";\"").append(cell).append("\";\"").append(email).append("\"").toString();
+		return new StringBuilder("\"").append(cognome).append("\";\"").append(nome).append("\";\"").append(email)
+				.append("\";\"").append(cell).append("\"").toString();
+	}
+
+	public String toString() {
+		return new StringBuilder("Nome: " + this.getNome() + ". Cognome: " + this.getCognome() + ". Email: "
+				+ this.getEmail() + ". Telefono: " + this.getCell()).toString();
 	}
 }
