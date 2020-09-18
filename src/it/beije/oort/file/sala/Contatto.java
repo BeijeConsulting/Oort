@@ -87,4 +87,22 @@ public class Contatto {
 				.append(email).append(";")
 				.append("\n").toString();
 	}
+	
+	public String toCsvSimpleNoNome() {
+		return new StringBuilder("")
+				.append(";")
+				.append(cognome).append(";")
+				.append(telefono).append(";")
+				.append(email).append(";")
+				.append("\n").toString();
+	}
+	
+	public String toCsvSimpleNoCognome() {
+		return new StringBuilder("")
+				.append(nome).append(";")
+				.append(";")
+				.append(telefono).append(";")
+				.append(email).append(";")
+				.append("\n").toString();
+	}
 }

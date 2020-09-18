@@ -2,6 +2,8 @@ package it.beije.oort.file.sala.rubrica;
 
 import java.util.Random;
 
+import it.beije.oort.file.sala.GeneraMail;
+
 public class Contatto2 {
 	private String nome;
 	private String cognome;

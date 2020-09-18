@@ -11,14 +11,9 @@ public class Runner {
 
 	public static void main(String[] args) 
 			throws IOException, ParserConfigurationException, SAXException{
-//		List<Contatto> list = CsvInterpreter.readCsvToList("C:/Users/Padawan12/Desktop/rubriche/rubrica_sala.csv");
-		List<Contatto> list = RubricaToolset.readXmlToList("C:/Users/Padawan12/Desktop/rubriche/rubrica_sala.xml");
-		for(Contatto c : list) {
-			System.out.println(c.toString());
-			//System.out.println(c.toXml());
-		}
-		//CsvInterpreter.contattoToXml(list, "C:/Users/Padawan12/Desktop/rubriche/rubrica_sala.xml");
-	
+		GeneratoreRubrica g = new GeneratoreRubrica();
+		List<Contatto> list = g.generaRubrica(Valori.getNomi(), Valori.getCognomi(), 1000);
+		RubricaToolset.contattoToCsv(list, "C:/Users/Padawan12/Desktop/rubrica_sala.csv");
 	}
 	
 }

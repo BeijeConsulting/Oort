@@ -10,6 +10,7 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -111,6 +112,7 @@ public class RubricaToolset {
 			bf.write(c.toXml());
 		}
 		bf.write("</contatti>");
+		System.out.println("File XML scritto con succeso!");
 		bf.close();
 	}
 	
@@ -121,18 +123,22 @@ public class RubricaToolset {
 	}
 
 	public static void contattoToCsv (List<Contatto> list, String csvPath) throws IOException {
+		Random r = new Random();
 		BufferedWriter bf = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(csvPath, true), StandardCharsets.UTF_8));
 		bf.write("NOME;COGNOME;TELEFONO;EMAIL;\n");
 		for(Contatto c : list) {
-			bf.write(c.toCsvSimple());
+			if(r.nextInt(5)==1) bf.write(c.toCsvSimpleNoNome());			//rimuovere queste due per
+			else if(r.nextInt(3)==1) bf.write(c.toCsvSimpleNoCognome());	 //scrivere sempre tutti i campi
+			else bf.write(c.toCsvSimple());
 		}
+		System.out.println("File CSV scritto con succeso!");
 		bf.close();
 	}
 	
 	public static void contattoToCsv (Contatto contatto, String csvPath) throws IOException {
 		List<Contatto> temp = new ArrayList<Contatto>();
 		temp.add(contatto);
-		contattoToCsv(temp, csvPath);
+		RubricaToolset.contattoToCsv(temp, csvPath);
 	}
 }
