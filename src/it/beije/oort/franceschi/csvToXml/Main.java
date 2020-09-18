@@ -9,7 +9,7 @@ public class Main {
 			Convertitore.csvToXml(i);
 		}
 		
-		Appenditore.unisciFile("C:\\Code\\Oort\\csv\\rubriche\\rubrica_brugaletta.csv",
+		Appenditore.unisciFileEOrdina("C:\\Code\\Oort\\csv\\rubriche\\rubrica_brugaletta.csv",
 				"C:\\Code\\Oort\\xml\\rubriche\\rubrica_brugaletta.xml", 
 				"C:\\Code\\Oort\\xml\\rubriche\\rubrica_brugaletta_unito.xml");
 

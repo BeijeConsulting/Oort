@@ -15,7 +15,7 @@ public class Appenditore {
 	 * @param filePathDue
 	 * @param out
 	 */
-	public static void unisciFile(String filePathUno, String filePathDue, String out) {
+	public static void unisciFileEOrdina(String filePathUno, String filePathDue, String out) {
 		List<Contatto> listaCompleta = unisciListe(filePathUno, filePathDue);
 		
 		
