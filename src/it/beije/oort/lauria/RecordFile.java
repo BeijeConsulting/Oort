@@ -8,7 +8,7 @@ import java.util.List;
 public class RecordFile {
 		
 	private static final String PATH_FILES = "C:\\Users\\Padawan06\\Documenti\\temp\\";
-	private static final int NUMERO_CONTATTI = 100;
+	private static final int NUMERO_CONTATTI = 1000;
 	
 //	// lettura file
 //	public static String getContent(File file) throws IOException {
@@ -65,15 +65,15 @@ public class RecordFile {
 			listaEmail.add(contatto.getEmail());
 		}
 
-
+		// GENERA NUOVO NUMERO DI TELEFONO E NUOVA MAIL
 		for(int k = 0; k < NUMERO_CONTATTI; k++){
 			recordContatti.get(k).setTelefono(RecordFile.generaNuovoNumero(listaTelefoni));
-			recordContatti.get(k).setEmail(RecordFile.generaNuovaEmail(listaEmail));			
+			recordContatti.get(k).setEmail(RecordFile.generaNuovaEmail(listaEmail, recordContatti.get(k)));			
 		}
 
 		
 		// fase di scrittura	
-		File output = new File(PATH_FILES + "rubricaMod.csv");
+		File output = new File(PATH_FILES + "rubrica.csv");
 		FileWriter writer = new FileWriter(output);
 		
 		writer.write("COGNOME;NOME;TELEFONO;E-MAIL");
@@ -124,7 +124,7 @@ public class RecordFile {
 	}
 	
 
-	//private static String generaNumero(List<String>  listaTelefoni) mi fa overload, no?
+	//private static String generaNumero(List<String>  listaTelefoni) mi fa overload
 	private static String generaNuovoNumero(List<String>  listaTelefoni){
 		StringBuilder telefono = new StringBuilder();
 		
@@ -140,9 +140,6 @@ public class RecordFile {
 		}else{
 			telefono.append(generaNumero());
 		}
-
-		
-		
 		
 		return telefono.toString();
 	}
@@ -276,27 +273,26 @@ public class RecordFile {
 		return s.toString();
 	}
 	
-	
-	private static String generaNuovaEmail(List<String>  listaEmail){
+//	private static String generaEmail(List<String>  listaEmail) overload	
+	private static String generaNuovaEmail(List<String>  listaEmail, Contatto contatto){
 		StringBuilder email = new StringBuilder();
 		
 		int randomMail = (int) (Math.random() * 10) + 1;
-		
-		
+				
 		if(randomMail < 3) {
 			email.append("");
 		}else if(3 <= randomMail && randomMail <= 5){
 			int randomLista = (int) (Math.random() * listaEmail.size());
 			email.append(listaEmail.get(randomLista));
 		}else{
-			email.append(generaNumero());
+			email.append(generaMail(contatto.getNome(), contatto.getCognome()));
 		}
-
-		
-		
 		
 		return email.toString();
 	}	
+	
+	
+	
 	// scrittura record sui file
 	private static String costruisciRiga(Contatto contatto) {
 		return costruisciRiga(contatto.getCognome(), contatto.getNome(),  contatto.getTelefono(), contatto.getEmail());
