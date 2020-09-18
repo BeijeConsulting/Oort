@@ -11,6 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import it.beije.oort.rubrica.Contatto;
+
 public class CsvToXml {
 
 	public static void main(String[] args) throws Exception {
@@ -42,9 +56,20 @@ public class CsvToXml {
 //		System.out.println(mobileList);
 //		System.out.println(emailList);
 		Contact contact = new Contact();
+		List<Contact> contacts = new ArrayList<Contact>();
+//		System.out.println(namesList.size());
+		for (int i = 0; i < namesList.size(); i++) {
+			contact.setName(namesList.get(i));
+			contact.setSurname(surnamesList.get(i));
+			contact.setMobile(mobileList.get(i));
+			contact.setEmail(emailList.get(i));
+//			System.out.println(contact);
+			contacts.add(contact);
+		}
 		
-
+		System.out.println(contacts);
 		
+		writeContatti(contacts, "./contacts.xml");
 //		System.out.println(firstArray);
 		
 		
@@ -53,6 +78,52 @@ public class CsvToXml {
 		System.out.println("Done records: " + LocalTime.now());
 	}
 	
+	private static void writeContatti(List<Contact> contacts, String pathfile) throws ParserConfigurationException, TransformerException {
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+
+        Document document = builder.newDocument();
+        Element docElement = document.createElement("contacts");
+        document.appendChild(docElement);
+        
+        for (Contact c : contacts) {
+        	Element contact = document.createElement("contact");
+       	
+        	Element name = document.createElement("nome");
+        	Element surname = document.createElement("cognome");
+        	Element mobile = document.createElement("telefono");
+        	Element email = document.createElement("email");
+        	
+        	name.setTextContent(c.getName());
+        	surname.setTextContent(c.getSurname());
+        	mobile.setTextContent(c.getMobile());
+        	email.setTextContent(c.getEmail());
+        	
+        	contact.appendChild(name);
+        	contact.appendChild(surname);
+        	contact.appendChild(mobile);
+        	contact.appendChild(email);
+
+        	docElement.appendChild(contact);
+        }
+        
+        System.out.println("### -> " + docElement.getChildNodes().getLength());
+        
+		// write the content into xml file
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		DOMSource source = new DOMSource(document);
+		
+		StreamResult result = new StreamResult(new File(pathfile));
+
+		// Output to console for testing
+		//StreamResult result = new StreamResult(System.out);
+
+		transformer.transform(source, result);
+
+		System.out.println("File saved!");
+	}
+
 	public static String getContent(File file) throws IOException {
 		FileReader fileReader = new FileReader(file);
 		StringBuilder builder = new StringBuilder();

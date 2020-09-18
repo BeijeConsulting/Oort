@@ -38,6 +38,7 @@ public class ParserRubricaXml {
 		contatti.add(contatto1);
 		contatti.add(contatto2);
 		contatti.add(contatto3);
+		System.out.println(contatti);
 
 		writeContatti(contatti, "./contatti.xml");
 	}
