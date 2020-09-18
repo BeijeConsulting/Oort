@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class GeneratoreRubrica {
 	
-	private final static int VALORI_DA_SCRIVERE = 100;
+	private final static int VALORI_DA_SCRIVERE = 1_000;
 
 	private GeneratoreRubrica() {
 	}
@@ -20,6 +20,7 @@ public class GeneratoreRubrica {
 			Contatto c = new Contatto(nomi, cognomi);
 			Valori.contatti.add(c);
 		}
+		System.out.println("Rubrica generata.");
 	}
 	
 	public static void creaRubricaRandom() {
@@ -27,6 +28,7 @@ public class GeneratoreRubrica {
 			Contatto c = new Contatto(true);
 			Valori.contatti.add(c);
 		}
+		System.out.println("Rubrica random generata.");
 	}
 
 	public static void writeRubrica(ArrayList<Contatto> rubrica, String filename) {
@@ -46,5 +48,6 @@ public class GeneratoreRubrica {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("Rubrica scritta.");
 	}
 }

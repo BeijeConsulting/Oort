@@ -16,7 +16,7 @@ public class GeneraNumero {
 		if (n == 1) {
 			num = "";
 		} else if (n == 2 & Valori.cellCompleti.size() > 0) {
-			num = Valori.cellCompleti.get(r.nextInt(Valori.cellCompleti.size() - 1));
+			num = Valori.cellCompleti.get(r.nextInt(Valori.cellCompleti.size()));
 		} else if (n <= 4) {
 			num = "+39" + Valori.getPrefisso(r.nextInt(5)) + suffisso;
 		} else {

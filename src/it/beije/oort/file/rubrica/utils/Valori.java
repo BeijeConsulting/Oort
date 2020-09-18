@@ -12,7 +12,7 @@ public class Valori {
 		
 	private static final String pathNomi = "C:\\Code\\Oort\\input\\nomi.txt";
 	private static final String pathCognomi = "C:\\Code\\Oort\\input\\cognomi.txt";
-	private static final String outputPath = "C:\\Code\\Oort\\input\\rubrica.txt";
+	private static final String outputPath = "C:\\Code\\Oort\\input\\rubrica_franceschi.txt";
 	
 	private static ArrayList<String> nomi = Pulitore.getValues(pathNomi);
 	private static ArrayList<String> cognomi = Pulitore.getValues(pathCognomi);
