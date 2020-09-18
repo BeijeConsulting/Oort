@@ -44,19 +44,19 @@ public class InputManager {
 	public String getNextInputPathReverse() {
 		return XML_PATH + "rubrica_" + cognomi[oppositeCounter] + ".xml";
 	}
-	
+
 	public static String getInCSVPath(int i) {
 		return CSV_PATH + "rubrica_" + cognomi[i] + ".csv";
 	}
-	
+
 	public static String getOutCSVPath(int i) {
 		return CSV_PATH + "rubrica_" + cognomi[i] + "_out.csv";
 	}
-	
+
 	public static String getInXMLPath(int i) {
 		return XML_PATH + "rubrica_" + cognomi[i] + ".xml";
 	}
-	
+
 	public static String getOutXMLPath(int i) {
 		return XML_PATH + "rubrica_" + cognomi[i] + "_out.xml";
 	}
@@ -65,16 +65,16 @@ public class InputManager {
 	 * 
 	 * @return the total amount of input files.
 	 */
-	public int getInputAmount() {
+	public static int getInputAmount() {
 		return inputAmount;
 	}
-	
+
 	public static String getFileExt(File file) {
-	    String name = file.getName();
-	    int lastIndexOf = name.lastIndexOf(".");
-	    if (lastIndexOf == -1) {
-	        return "";
-	    }
-	    return name.substring(lastIndexOf + 1);	
-}
+		String name = file.getName();
+		int lastIndexOf = name.lastIndexOf(".");
+		if (lastIndexOf == -1) {
+			return "";
+		}
+		return name.substring(lastIndexOf + 1);
+	}
 }

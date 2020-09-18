@@ -39,7 +39,7 @@ public class CSVParser {
 		headers = prepareHeaders();
 		assignPositions(headers);
 	}
-	
+
 	public CSVParser(File file) {
 		this.filePath = file.getAbsolutePath();
 		headers = prepareHeaders();

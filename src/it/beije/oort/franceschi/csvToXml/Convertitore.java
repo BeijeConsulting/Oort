@@ -5,11 +5,12 @@ public class Convertitore {
 		CSVParser r = new CSVParser(input);
 		XMLWriter.writeList(r.creaListaContatti(), output);
 	}
+
 	public static void csvToXml(int i) {
 		CSVParser r = new CSVParser(InputManager.getInCSVPath(i));
 		XMLWriter.writeList(r.creaListaContatti(), InputManager.getInXMLPath(i));
 	}
-	
+
 	public static void xmlToCsv(String input, String output) {
 		try {
 			CSVWriter.writeCSV(XMLParser.parseXML(input), output);
@@ -17,11 +18,10 @@ public class Convertitore {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void xmlToCsv(int i) {
 		try {
-			CSVWriter.writeCSV(XMLParser.parseXML(InputManager.getInXMLPath(i)), 
-					InputManager.getOutCSVPath(i));
+			CSVWriter.writeCSV(XMLParser.parseXML(InputManager.getInXMLPath(i)), InputManager.getOutCSVPath(i));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

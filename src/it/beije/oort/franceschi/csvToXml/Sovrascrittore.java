@@ -16,30 +16,28 @@ public class Sovrascrittore {
 				XMLWriter.overwriteList(list, out);
 			} catch (Exception e) {
 				e.printStackTrace();
-			} 
+			}
 			System.out.println("Sovrascritto XML.");
 		}
 	}
-	
+
 	public static void overwrite(String in, String out) {
 		String extIn = InputManager.getFileExt(new File(in)).toLowerCase();
 		String extOut = InputManager.getFileExt(new File(out)).toLowerCase();
-		
-		//Caso se In e Out sono uguali
+
+		// Caso se In e Out sono uguali
 		if (extIn.equals(extOut)) {
-			if (extIn.equals("csv")){
+			if (extIn.equals("csv")) {
 				CSVWriter.overWriteCSV(new CSVParser(in).creaListaContatti(), out);
 			} else if (extIn.equals("xml")) {
 				try {
-					XMLWriter.overwriteList(
-							XMLParser.parseXML(in), 
-							out);
+					XMLWriter.overwriteList(XMLParser.parseXML(in), out);
 				} catch (Exception e) {
 					e.printStackTrace();
-				} 
+				}
 				System.out.println("Sovrascritto XML.");
 			}
-		} else { //Caso se In e Out sono diversa
+		} else { // Caso se In e Out sono diversa
 			if (extIn.equals("csv")) {
 				try {
 					XMLWriter.overwriteList((new CSVParser(in).creaListaContatti()), out);

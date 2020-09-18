@@ -1,16 +1,11 @@
 package it.beije.oort.franceschi.csvToXml;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -27,14 +22,14 @@ import it.beije.oort.file.rubrica.Contatto;
  *
  */
 public class XMLWriter {
-	
+
 	public static void overwriteList(List<Contatto> list, String in) throws Exception {
-        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-        Document document = documentBuilder.parse(in);
-        Element root = document.getDocumentElement();    
-        
-        for (Contatto c : list) {
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+		Document document = documentBuilder.parse(in);
+		Element root = document.getDocumentElement();
+
+		for (Contatto c : list) {
 			Element contatto = document.createElement("contatto");
 
 			Element nome = document.createElement("nome");
@@ -54,12 +49,12 @@ public class XMLWriter {
 
 			root.appendChild(contatto);
 		}
-        DOMSource source = new DOMSource(document);
+		DOMSource source = new DOMSource(document);
 
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        StreamResult result = new StreamResult(in);
-        transformer.transform(source, result);
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		StreamResult result = new StreamResult(in);
+		transformer.transform(source, result);
 	}
 
 	/**
@@ -102,7 +97,7 @@ public class XMLWriter {
 				DOMSource source = new DOMSource(document);
 
 				StreamResult result = new StreamResult(new File(outputPath));
-				
+
 				transformer.transform(source, result);
 			}
 		} catch (Exception e) {

@@ -25,7 +25,7 @@ public class CSVWriter {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void overWriteCSV(List<Contatto> list, String outputPath) {
 		try (BufferedWriter bf = new BufferedWriter(
 				new OutputStreamWriter(new FileOutputStream(outputPath, true), StandardCharsets.UTF_8))) {
