@@ -9,7 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import it.beije.oort.rubrica.Contatto;
-import it.beije.oort.rubrica.ParserRubricaXml;
+import it.beije.oort.rubrica.ParserRubricaXmlFromMaster;
 
 public class Runner {
 
