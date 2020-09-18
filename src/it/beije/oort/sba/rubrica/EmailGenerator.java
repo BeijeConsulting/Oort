@@ -37,12 +37,13 @@ public class EmailGenerator {
 					a = a.substring(0,1);
 				} else if(n4<=5) {
 					a=a.substring(0,primaVoc(a));
-				}			
+				}
 				if(r.nextInt(4)+1==1) {
 					ret.append(b).append(separatore).append(a);
 				} else { 
 					ret.append(a).append(separatore).append(b);				
 				}
+				
 				ret = replaceVowels(ret);
 			}	
 			ret.append("@").append(suffix.getNext());

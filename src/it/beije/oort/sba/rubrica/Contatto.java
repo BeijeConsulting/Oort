@@ -1,5 +1,7 @@
 package it.beije.oort.sba.rubrica;
 
+import java.util.Random;
+
 public class Contatto {
 	
 	private String nome;
@@ -50,8 +52,13 @@ public class Contatto {
 	
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(this.nome).append(';')
-			.append(this.cognome).append(';')
+		Random r = new Random();
+		if(r.nextInt(5)+1 == 1) builder.append("");
+		else builder.append(this.nome);
+		builder.append(';');
+		if(r.nextInt(3)+1 == 1) builder.append("");
+		else builder.append(this.cognome);
+		builder.append(';')
 			.append(this.telefono).append(';')
 			.append(this.email).append(';');
 		
