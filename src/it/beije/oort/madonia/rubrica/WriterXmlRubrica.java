@@ -45,6 +45,7 @@ public class WriterXmlRubrica {
         Element docElement = document.createElement("rubrica");
         document.appendChild(docElement);
         
+        contatti.sort(null);
         for (Contatto c : contatti) {
         	Element contatto = document.createElement("contatto");
         	Element nome = document.createElement("nome");

@@ -1,6 +1,6 @@
 package it.beije.oort.madonia.rubrica;
 
-public class Contatto {
+public class Contatto implements Comparable<Contatto> {
 
 	private String nome;
 	private String cognome;
@@ -60,6 +60,16 @@ public class Contatto {
 			.append(" - email : ").append(this.email).append("]");
 
 		return builder.toString();
+	}
+
+	public int compareTo(Contatto contatto) {
+		int posizione = this.getCognome().toLowerCase().compareTo(contatto.getCognome().toLowerCase());
+		
+		if (posizione == 0) {
+			posizione = this.getNome().toLowerCase().compareTo(contatto.getNome().toLowerCase());
+		}
+		
+		return posizione;
 	}
 
 }

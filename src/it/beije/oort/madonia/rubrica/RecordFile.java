@@ -8,10 +8,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+
+import org.xml.sax.SAXException;
+
 public class RecordFile {
 	
 	private static final String PATH_FILES = "/temp/rubrica/";
 	private static final int NUMERO_CONTATTI = 1000;
+	private static String[] intestazioneCsv = {"COGNOME","NOME","TELEFONO", "EMAIL"};
 	
 //	// lettura file
 //	public static String getContent(File file) throws IOException {
@@ -26,27 +32,87 @@ public class RecordFile {
 //		return builder.toString();	
 //	}
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException, TransformerException {
 		
+//		RecordFile.creaNuovoFileCsv();
+		
+		File input = new File(PATH_FILES + "rubrica_franceschi.csv");
+		File output = new File(PATH_FILES + "rubrica_prova.xml");
+		
+		aggiungiContattiFileToFile(input, output);
+	}
+
+private static void creaNuovoFileCsv() throws IOException {
+	List<Contatto> recordContatti = generaListaContatti();
+	WriterCsvRubrica.writeCsvFileCasuale(new String[] {"COGNOME","NOME","TELEFONO", "EMAIL"}, recordContatti, PATH_FILES + "rubrica_madonia2.csv");
+}
+
+	public static void aggiungiContattiFileToFile(File input, File output)
+			throws IOException, ParserConfigurationException, SAXException, TransformerException {
+		List<Contatto> contattiFinali;
+		if (output.exists()) {
+			contattiFinali = RecordFile.creaListaContatti(output);
+			List<Contatto> contattiInput = RecordFile.creaListaContatti(input);
+			for(Contatto contattoInput : contattiInput) {
+				contattiFinali.add(contattoInput);
+			}
+		} else {
+			contattiFinali = RecordFile.creaListaContatti(input);
+		}
+
+		salvaFile(contattiFinali, output);
+	}
+
+	public static void salvaFile(List<Contatto> contattiFinali, File output)
+			throws IOException, ParserConfigurationException, TransformerException {
+		switch (RecordFile.getExtension(output)) {
+			case "csv":
+				WriterCsvRubrica.writeCsvFile(intestazioneCsv, contattiFinali, output);
+				break;
+			case "xml":
+				WriterXmlRubrica.writeXmlFile(contattiFinali, output);
+				break;
+		}
+	}
+
+	private static List<Contatto> creaListaContatti(File file) throws IOException, ParserConfigurationException, SAXException {
+		List<Contatto> contatti;
+		switch (RecordFile.getExtension(file)) {
+			case "csv":
+				contatti = ParserCsvRubrica.creaListaContatti(file);
+				break;
+			case "xml":
+				contatti = ParserXmlRubrica.readContatti(file);
+				break;
+			default:
+				contatti = new ArrayList<Contatto>();
+				break;
+		}
+		
+		
+		return contatti;
+	}
+
+	private static List<Contatto> generaListaContatti() throws IOException {
 		File fileNomi = new File(PATH_FILES + "nomi_italiani.txt");
 		File fileCognomi = new File(PATH_FILES + "cognomi_italiani.txt");
-		
+
 		// Dichiarazione variabili 
 		List<String> recordNomitemp = new ArrayList<String>();
 		List<String> recordCognomitemp = new ArrayList<String>();
-		
-		List<Contatto> recordContatti = new ArrayList<Contatto>();
-		List<String> listaTelefoni = new ArrayList<String>();
-		List<String> listaEmail = new ArrayList<String>();
-		
+
 		// lettura e memorizzazione dei record di nomi e cognomi
 		recordNomitemp = RecordFile.memContent(fileNomi, recordNomitemp);
 		recordCognomitemp = RecordFile.memContent(fileCognomi, recordCognomitemp); 
-		
+
+		List<Contatto> recordContatti = new ArrayList<Contatto>();
+		List<String> listaTelefoni = new ArrayList<String>();
+		List<String> listaEmail = new ArrayList<String>();
+
 		for(int k = 0; k < NUMERO_CONTATTI; k++) {
 			int i = (int) (Math.random()*recordNomitemp.size()); 
 			int j = (int) (Math.random()*recordCognomitemp.size());
-			
+
 			Contatto contatto = new Contatto(
 					recordNomitemp.get(i),
 					recordCognomitemp.get(j),
@@ -55,9 +121,7 @@ public class RecordFile {
 					);
 			recordContatti.add(contatto);
 		}
-		
-		WriterCsvRubrica.writeCsvFileCasuale(new String[] {"COGNOME","NOME","TELEFONO", "EMAIL"}, recordContatti, PATH_FILES + "rubrica_madonia2.csv");
-		
+		return recordContatti;
 	}
 	
 	// lettura e memorizzazione record	
@@ -257,5 +321,14 @@ public class RecordFile {
 		}
 		
 		return email;
+	}
+	
+	public static String getExtension(File file) {
+		return RecordFile.getExtension(file.getPath());
+	}
+	
+	public static String getExtension(String pathfile) {
+		int punto = pathfile.lastIndexOf('.');
+		return pathfile.substring(punto + 1).toLowerCase();
 	}
 }

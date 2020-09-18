@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ParserCsvRubrica {
@@ -38,7 +39,7 @@ public class ParserCsvRubrica {
 	
 	private static Contatto ottieniContatto(String rigaCsv, String[] colonne) {
 		Contatto contatto = new Contatto();
-		String[] campi = rigaCsv.split(";");
+		String[] campi = ParserCsvRubrica.creaArrayCampi(rigaCsv);
 		for(int index = 0; index < colonne.length; index++) {
 			if (colonne[index].equalsIgnoreCase("nome")) {
 				contatto.setNome(campi[index]);
@@ -58,4 +59,36 @@ public class ParserCsvRubrica {
 		return intestazioneCsv.toLowerCase().split(";");
 	}
 	
+	private static String[] creaArrayCampi(String rigaCsv) {
+		StringBuilder s = new StringBuilder(rigaCsv);
+		List<String> campi = new ArrayList<String>();
+		while (s.length() > 0) {
+			int indexSeparatore = s.indexOf(";");
+			if (indexSeparatore < 0) {
+				campi.add(s.toString());
+				s.delete(0, s.length());
+			} else if (indexSeparatore == 0) {
+				campi.add("");
+				if (indexSeparatore + 1 == s.length()) {
+					campi.add("");
+				}
+				s.deleteCharAt(indexSeparatore);
+			} else {
+				campi.add(s.substring(0,indexSeparatore));
+				if (indexSeparatore + 1 == s.length()) {
+					campi.add("");
+				}
+				s.delete(0, indexSeparatore + 1);
+			}
+		}
+		
+		return campi.toArray(new String[0]);
+	}
+	
+	public static void main(String[] args) throws IOException {
+		List<Contatto> contatti = creaListaContatti("/temp/rubrica/rubrica_madonia.csv");
+		for(Contatto contatto : contatti) {
+			System.out.println(contatto.toString());
+		}
+	}
 }
