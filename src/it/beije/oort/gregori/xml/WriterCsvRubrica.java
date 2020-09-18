@@ -123,20 +123,16 @@ public class WriterCsvRubrica {
 		
 			if(randomValue1 == 1) {
 				builder.append(surname);
-				//bufferedWriter.append(surname).append(";").append(phone).append(";").append(email).append("\n");
 			}
 			else {
 				builder.append(name).append(surname);
-				//bufferedWriter.append(name).append(";").append(surname).append(";").append(phone).append(";").append(email).append("\n");
 			}
 			
 			if(randomValue2 == 1) {
 				builder.append(name);
-				//bufferedWriter.append(name).append(";").append(phone).append(";").append(email).append("\n");
 			}
 			else if(randomValue1 == 1){
 				builder.append(name).append(surname);
-				//bufferedWriter.append(name).append(";").append(surname).append(";").append(phone).append(";").append(email).append("\n");
 			}	
 			
 			builder.append(sb);
@@ -199,14 +195,14 @@ public class WriterCsvRubrica {
 		}
 		return contatti;
 	}
-	
-	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
-		//File fileXml = new File("/temp/rubrica.xml");
-		//WriterCsvRubrica.scritturaCsvFromXml(WriterCsvRubrica.readContatti(fileXml));
-		WriterCsvRubrica wr = new WriterCsvRubrica();
-		WriterCsvRubrica.scritturaCsv(wr.recordsToContatti(nomi, cognomi));
-	}
-	
+//	
+//	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
+//		//File fileXml = new File("/temp/rubrica.xml");
+//		//WriterCsvRubrica.scritturaCsvFromXml(WriterCsvRubrica.readContatti(fileXml));
+//		WriterCsvRubrica wr = new WriterCsvRubrica();
+//		WriterCsvRubrica.scritturaCsv(wr.recordsToContatti(nomi, cognomi));
+//	}
+//	
 	
 	
 }
