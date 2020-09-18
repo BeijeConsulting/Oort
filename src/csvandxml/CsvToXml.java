@@ -23,17 +23,13 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import it.beije.oort.rubrica.Contatto;
-
 public class CsvToXml {
 
 	public static void main(String[] args) throws Exception {
 		System.out.println("Start: " + LocalTime.now());
 		// TODO Auto-generated method stub
-		File file = new File("/temp/records.csv");
-		FileReader fileReader = new FileReader(file);
-		BufferedReader bufferedReader = new BufferedReader(fileReader);
-		String fileToString = getContent(file);
+		File fileCsv = new File("/temp/rubrica_sala.csv");
+		String fileToString = getContent(fileCsv);
 //		System.out.println(fileToString);
 		String header = fileToString.substring(0,fileToString.indexOf("\n"));
 		String body = fileToString.substring(fileToString.indexOf("\n") + 1);
@@ -55,10 +51,12 @@ public class CsvToXml {
 //		System.out.println(surnamesList);
 //		System.out.println(mobileList);
 //		System.out.println(emailList);
-		Contact contact = new Contact();
+		
 		List<Contact> contacts = new ArrayList<Contact>();
 //		System.out.println(namesList.size());
+		
 		for (int i = 0; i < namesList.size(); i++) {
+			Contact contact = new Contact();
 			contact.setName(namesList.get(i));
 			contact.setSurname(surnamesList.get(i));
 			contact.setMobile(mobileList.get(i));

@@ -53,6 +53,8 @@ public class PhonebookGenerator {
 			contact.setSurname(surname);
 			contact.setMobile(mobile);
 			contact.setEmail(email);
+			
+//			System.out.println(contact);
 
 			writer.write(contact.toRow());
 		
