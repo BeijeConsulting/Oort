@@ -11,7 +11,7 @@ import java.util.List;
 public class RecordFile {
 	
 	private static final String PATH_FILES = "/temp/rubrica/";
-	private static final int NUMERO_CONTATTI = 100;
+	private static final int NUMERO_CONTATTI = 1000;
 	
 //	// lettura file
 //	public static String getContent(File file) throws IOException {
@@ -56,7 +56,7 @@ public class RecordFile {
 			recordContatti.add(contatto);
 		}
 		
-		WriterCsvRubrica.writeCsvFileCasuale(new String[] {"COGNOME","NOME","TELEFONO", "EMAIL"}, recordContatti, PATH_FILES + "rubrica_prova.txt");
+		WriterCsvRubrica.writeCsvFileCasuale(new String[] {"COGNOME","NOME","TELEFONO", "EMAIL"}, recordContatti, PATH_FILES + "rubrica_madonia2.csv");
 		
 	}
 	
