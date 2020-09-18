@@ -3,9 +3,11 @@ package it.beije.oort.bassanelli.exercises.phonebookgenerator;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,9 +22,6 @@ import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 public class Phonebook {
-	
-	
-	
 
 	public static List<Contact> readCsvFile(String filepath) throws IOException {
 
@@ -82,15 +81,92 @@ public class Phonebook {
 
 		return list;
 	}
-	
-	public static void writeCsvFile(List<Contact> list, String filepath) {
-		
-		
+
+	public static void writeCsvFile(List<Contact> list, String pattern, String filepath, boolean useRandom) throws IOException {
+
+		File file = new File(filepath);
+
+		writeCsvFile(list, pattern, file, useRandom);
+
 	}
-	
-	public static void writeCsvFile(List<Contact> list, File file) {
-		
-		
+
+	public static void writeCsvFile(List<Contact> list, String pattern, File file, boolean useRandom) throws IOException {
+
+		if (file.exists()) {
+
+			FileWriter fileWriter = new FileWriter(file);
+			Random r = new Random();
+
+			String[] fields = pattern.split(";");
+
+			fileWriter.write(pattern + "\n");
+
+			for (Contact contact : list) {
+
+				StringBuilder builder = new StringBuilder();
+
+				for (int i = 0; i < fields.length; i++) {
+
+					
+					if(useRandom) {
+						switch (fields[i]) {
+						case "NOME":
+							
+							if(r.nextInt(5) + 1 == 1) {
+								builder.append(contact.getName());
+							}
+							
+							break;
+						case "COGNOME":
+							
+							if(r.nextInt(3) + 1 == 1) {
+								builder.append(contact.getSurname());
+							}
+							
+							break;
+						case "TELEFONO":
+							builder.append(contact.getMobile());
+							break;
+						case "EMAIL":
+							builder.append(contact.getEmail());
+							break;
+						}
+					} else {
+						switch (fields[i]) {
+						case "NOME":
+							builder.append(contact.getName());
+							break;
+						case "COGNOME":
+							builder.append(contact.getSurname());
+							break;
+						case "TELEFONO":
+							builder.append(contact.getMobile());
+							break;
+						case "EMAIL":
+							builder.append(contact.getEmail());
+							break;
+						}
+					}
+					
+					builder.append(";");
+
+				}
+
+				builder.deleteCharAt(builder.length() - 1);
+				builder.append("\n");
+
+				fileWriter.write(builder.toString());
+			}
+
+			fileWriter.flush();
+			fileWriter.close();
+
+			System.out.println("File CSV saved!");
+
+		} else {
+			System.out.println("File CSV not exists!");
+		}
+
 	}
 
 	public static List<Contact> readXmlFile(String filepath)
@@ -238,5 +314,32 @@ public class Phonebook {
 			System.out.println("File XML not exists!");
 
 		}
+	}
+
+	public static List<String> extractField(List<Contact> list, String field) {
+		
+		List<String> newList = new ArrayList<String>();
+		
+		for(Contact contact: list) {
+			
+			switch(field) {
+			case "NOME":
+				newList.add(contact.getName());
+				break;
+			case "COGNOME":
+				newList.add(contact.getSurname());
+				break;
+			case "TELEFONO":
+				newList.add(contact.getMobile());
+				break;
+			case "EMAIL":
+				newList.add(contact.getEmail());
+				break;
+			}
+			
+		}
+		
+		return newList;
+		
 	}
 }

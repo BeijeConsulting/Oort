@@ -9,11 +9,6 @@ public class Runner {
 
 	public static void main(String[] args) throws IOException, Exception {
 
-		File file = new File("/temp/records.csv");
-		FileWriter writer = new FileWriter(file);
-
-		writer.write("TELEFONO;EMAIL;NOME;COGNOME\n");
-
 		List<String> namesList = listGenerator("/temp/nomi_italiani.txt");
 		List<String> surnamesList = listGenerator("/temp/cognomi.txt");
 		List<String> prefixsList = listGenerator("/temp/prefissi.txt");
@@ -24,7 +19,12 @@ public class Runner {
 		int prefixsSize = prefixsList.size();
 		int domainsSize = domainsList.size();
 
-		List<String> recordsList = new ArrayList<String>();
+		List<Contact> recordsList = new ArrayList<Contact>();
+		
+		List<Contact> contactsFromCsv = Phonebook.readCsvFile("/temp/rubrica_bassanelli.csv");
+		
+		List<String> mobileList = Phonebook.extractField(contactsFromCsv, "TELEFONO");
+		List<String> emailList = Phonebook.extractField(contactsFromCsv, "EMAIL");
 
 		Random r = new Random();
 		String name = "";
@@ -32,47 +32,50 @@ public class Runner {
 		String mobile = "";
 		String domain = "";
 		String email = "";
+		
+		
 
 		System.out.println("Start: " + LocalTime.now());
 
-		Contact contact = new Contact();
+		
 
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 1000; i++) {
+			
+			Contact contact = new Contact();
 
 			name = nameGenerator(namesList.get(r.nextInt(namesSize)));
 
 			surname = surnameGenerator(surnamesList.get(r.nextInt(surnamesSize)));
 
-			mobile = mobileGenerator(prefixsList);
+			mobile = randomDiceMobile(prefixsList, mobileList);
 
 			domain = domainsList.get(r.nextInt(domainsSize));
 
-			email = mailGenerator(name, surname, domain);
+			email = randomDiceEmail(name, surname, domain, emailList);
 
 			contact.setName(name);
 			contact.setSurname(surname);
 			contact.setMobile(mobile);
 			contact.setEmail(email);
 
-			writer.write(contact.toCsvRow());
+			//writer.write(contact.toCsvRow());
 
-			// recordsList.add(record);
+			recordsList.add(contact);
 		}
-
+	
 		System.out.println("Done records: " + LocalTime.now());
-
-		writer.flush();
-		writer.close();
+		
+		Phonebook.writeCsvFile(recordsList, "COGNOME;NOME;EMAIL;TELEFONO", "/temp/records.csv", true);
 
 		System.out.println("Done file: " + LocalTime.now());
 
-		List<Contact> contactsFromCsv = Phonebook.readCsvFile("/temp/rubrica_bassanelli.csv");
+		// List<Contact> contactsFromCsv = Phonebook.readCsvFile("/temp/rubrica_bassanelli.csv");
 		
 		Phonebook.writeXmlFile(contactsFromCsv, "/temp/rubrica.xml");
 		
-		List<Contact> contactsFromXml = Phonebook.readXmlFile("/temp/rubrica.xml");
+		// List<Contact> contactsFromXml = Phonebook.readXmlFile("/temp/rubrica.xml");
 		
-		
+		// Phonebook.writeCsvFile(contactsFromXml, "COGNOME;NOME;EMAIL;TELEFONO", "/temp/new_rubrica.csv");
 		
 	}
 
@@ -109,10 +112,39 @@ public class Runner {
 		finalWord.append(str.substring(0, 1).toUpperCase()).append(str.substring(1));
 		return finalWord.toString();
 	}
+	
+	public static String randomDiceMobile(List<String> prefixList, List<String> mobileList) {
+		Random r = new Random();
+		
+		int randomNumber = r.nextInt(8) + 1;
+		
+		StringBuilder mobile = new StringBuilder();
+		
+		if(randomNumber == 1) {
+			
+			return mobile.toString();
+			
+		} else if(randomNumber == 2) {
+			
+			mobile.append(mobileList.get(r.nextInt(mobileList.size())));
+			return mobile.toString();
+			
+		} else if(randomNumber == 3 || randomNumber == 4) {
+			
+			mobile.append("+39").append(mobileGenerator(prefixList));
+			return mobile.toString();
+			
+		} else {
+			
+			mobile.append(mobileGenerator(prefixList));
+			return mobile.toString();
+			
+		}
+	}
 
 	public static String mobileGenerator(List<String> prefixList) {
 		Random r = new Random();
-
+		
 		char[] numbers = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
 
 		StringBuilder mobile = new StringBuilder(prefixList.get(r.nextInt(5)));
@@ -123,8 +155,32 @@ public class Runner {
 
 		return mobile.toString();
 	}
+	
+	public static String randomDiceEmail(String name, String surname, String domain, List<String> emailList) {
+		Random r = new Random();
+		
+		int randomNumber = r.nextInt(10) + 1;
+		
+		StringBuilder email = new StringBuilder();
+		
+		if(randomNumber == 1 || randomNumber == 2) {
+			
+			return email.toString();
+			
+		} else if(randomNumber >= 3 && randomNumber <= 5) {
+			
+			email.append(emailList.get(r.nextInt(emailList.size())));
+			return email.toString();
+			
+		} else  {
+			
+			email.append(emailGenerator(name, surname, domain));
+			return email.toString();
+			
+		}
+	}
 
-	public static String mailGenerator(String name, String surname, String domain) {
+	public static String emailGenerator(String name, String surname, String domain) {
 		Random r = new Random();
 
 		StringBuilder email = new StringBuilder();
