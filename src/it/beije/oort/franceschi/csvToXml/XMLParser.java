@@ -1,6 +1,7 @@
 package it.beije.oort.franceschi.csvToXml;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,18 @@ import org.xml.sax.SAXException;
 import it.beije.oort.file.rubrica.Contatto;
 
 public class XMLParser {
+	public static Document getXMLDocument(String in) {
+		Document document = null;
+		try {
+	        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	        DocumentBuilder builder = factory.newDocumentBuilder();
+	        document = builder.parse(in);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        return document;
+	}
+	
 	public static List<Contatto> parseXML(String filePath)
 			throws ParserConfigurationException, SAXException, IOException {
 

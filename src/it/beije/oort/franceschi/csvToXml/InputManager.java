@@ -1,5 +1,7 @@
 package it.beije.oort.franceschi.csvToXml;
 
+import java.io.File;
+
 /**
  * Utility class to keep my program tidy. This class handles the input and the
  * output of the program.
@@ -8,12 +10,12 @@ package it.beije.oort.franceschi.csvToXml;
  *
  */
 public class InputManager {
-	private final String CSV_PATH = "C:\\Code\\Oort\\csv\\rubriche\\";
-	private final String XML_PATH = "C:\\Code\\Oort\\xml\\rubriche\\";
+	private static final String CSV_PATH = "C:\\Code\\Oort\\csv\\rubriche\\";
+	private static final String XML_PATH = "C:\\Code\\Oort\\xml\\rubriche\\";
 
-	private final String[] cognomi = { "brugaletta", "sala", "mater", "mancuso", "maisto", "madonia", "lauria",
+	private static final String[] cognomi = { "brugaletta", "sala", "mater", "mancuso", "maisto", "madonia", "lauria",
 			"gregori", "girardi", "franceschi", "busseni", "bassanelli" };
-	private final int inputAmount = cognomi.length;
+	private static final int inputAmount = cognomi.length;
 
 	private int counter = 0;
 	private int oppositeCounter = 0;
@@ -42,6 +44,22 @@ public class InputManager {
 	public String getNextInputPathReverse() {
 		return XML_PATH + "rubrica_" + cognomi[oppositeCounter] + ".xml";
 	}
+	
+	public static String getInCSVPath(int i) {
+		return CSV_PATH + "rubrica_" + cognomi[i] + ".csv";
+	}
+	
+	public static String getOutCSVPath(int i) {
+		return CSV_PATH + "rubrica_" + cognomi[i] + "_out.csv";
+	}
+	
+	public static String getInXMLPath(int i) {
+		return XML_PATH + "rubrica_" + cognomi[i] + ".xml";
+	}
+	
+	public static String getOutXMLPath(int i) {
+		return XML_PATH + "rubrica_" + cognomi[i] + "_out.xml";
+	}
 
 	/**
 	 * 
@@ -50,4 +68,13 @@ public class InputManager {
 	public int getInputAmount() {
 		return inputAmount;
 	}
+	
+	public static String getFileExt(File file) {
+	    String name = file.getName();
+	    int lastIndexOf = name.lastIndexOf(".");
+	    if (lastIndexOf == -1) {
+	        return "";
+	    }
+	    return name.substring(lastIndexOf + 1);	
+}
 }

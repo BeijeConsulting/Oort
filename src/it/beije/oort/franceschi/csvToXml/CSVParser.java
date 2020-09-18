@@ -1,6 +1,7 @@
 package it.beije.oort.franceschi.csvToXml;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,12 @@ public class CSVParser {
 	 */
 	public CSVParser(String filePath) {
 		this.filePath = filePath;
+		headers = prepareHeaders();
+		assignPositions(headers);
+	}
+	
+	public CSVParser(File file) {
+		this.filePath = file.getAbsolutePath();
 		headers = prepareHeaders();
 		assignPositions(headers);
 	}

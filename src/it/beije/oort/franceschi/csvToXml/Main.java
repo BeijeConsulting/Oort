@@ -4,21 +4,22 @@ public class Main {
 
 	public static void main(String[] args) {
 		System.out.println("Programma avviato.");
+		
 		InputManager im = new InputManager();
-		for (int i = 0; i < im.getInputAmount(); i++) {
-			CSVParser r = new CSVParser(im.getNextInputPath());
-			XMLWriter.writeList(r.creaListaContatti(), im.getNextOutputPath());
-		}
-		System.out.println("Conversione da CSV a XML conclusa.");
-		for (int i = 0; i < im.getInputAmount(); i++) {
-			try {
-				CSVWriter.writeCSV(XMLParser.parseXML(im.getNextInputPathReverse()), im.getNextOuputPathReverse());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		System.out.println("Conversione da XML a CSV conclusa.");
+		
+//		for (int i = 0; i < im.getInputAmount(); i++) {
+//			Convertitore.csvToXml(i);
+//		}
+		
+//		for (int i = 0; i < im.getInputAmount(); i++) {
+//			Convertitore.xmlToCsv(i);;
+//		}
+		
+		Sovrascrittore.overwrite("C:\\Code\\Oort\\csv\\rubriche\\rubrica_bassanelli.csv", 
+				"C:\\Code\\Oort\\csv\\rubriche\\rubrica_bassanelli.csv");
+		
 		System.out.println("Programma terminato.");
+		
 		/*
 		 * TODO aggiungere input dall'utente per definire il divisore e l'eventuale
 		 * presenza delle virgolette Virgolette: chiede all'utente se ci sono o no, in
@@ -27,4 +28,6 @@ public class Main {
 		 * char o String il divisore immesso dall'utente e usarlo nel trim
 		 */
 	}
+	
+
 }
