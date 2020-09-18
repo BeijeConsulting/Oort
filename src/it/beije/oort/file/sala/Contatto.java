@@ -63,46 +63,46 @@ public class Contatto {
 	}
 	public String toXml() {
 		return new StringBuilder("<contatto>")
-				.append("<nome>").append(nome).append("</nome>")
-				.append("<cognome>").append(cognome).append("</cognome>")
-				.append("<telefono>").append(telefono).append("</telefono>")
-				.append("<email>").append(email).append("</email>")
+				.append("<nome>").append(this.nome).append("</nome>")
+				.append("<cognome>").append(this.cognome).append("</cognome>")
+				.append("<telefono>").append(this.telefono).append("</telefono>")
+				.append("<email>").append(this.email).append("</email>")
 				.append("</contatto>").toString();
 	}
 	
 	public String toCsvDoubleQuote() {
 		return new StringBuilder("\"")
-				.append(nome).append("\";\"")
-				.append(cognome).append("\"")
-				.append(telefono).append("\";\"")
-				.append(email).append("\";\"")
+				.append(this.nome).append("\";\"")
+				.append(this.cognome).append("\"")
+				.append(this.telefono).append("\";\"")
+				.append(this.email).append("\"")
 				.append("\n").toString();
 	}
 	
 	public String toCsvSimple() {
 		return new StringBuilder("")
-				.append(nome).append(";")
-				.append(cognome).append(";")
-				.append(telefono).append(";")
-				.append(email).append(";")
+				.append(this.nome).append(";")
+				.append(this.cognome).append(";")
+				.append(this.telefono).append(";")
+				.append(this.email)
 				.append("\n").toString();
 	}
 	
 	public String toCsvSimpleNoNome() {
 		return new StringBuilder("")
 				.append(";")
-				.append(cognome).append(";")
-				.append(telefono).append(";")
-				.append(email).append(";")
+				.append(this.cognome).append(";")
+				.append(this.telefono).append(";")
+				.append(this.email)
 				.append("\n").toString();
 	}
 	
 	public String toCsvSimpleNoCognome() {
 		return new StringBuilder("")
-				.append(nome).append(";")
+				.append(this.nome).append(";")
 				.append(";")
-				.append(telefono).append(";")
-				.append(email).append(";")
+				.append(this.telefono).append(";")
+				.append(this.email)
 				.append("\n").toString();
 	}
 }

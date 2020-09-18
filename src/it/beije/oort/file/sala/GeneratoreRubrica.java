@@ -50,6 +50,7 @@ public class GeneratoreRubrica {
 			}
 		} else if(randomizer > 4 && randomizer <10) {
 			email.append(GeneraMail.generaMail(nome, cognome, Valori.getDominio(rrr.nextInt(8))));
+			listaEmail.add(email.toString());
 		}
 		return email.toString();
 	}
