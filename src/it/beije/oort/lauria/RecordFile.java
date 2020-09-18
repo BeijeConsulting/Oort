@@ -6,7 +6,9 @@ import java.util.List;
 
 
 public class RecordFile {
-		
+
+	// DA RIVEDERE COSì DA SPEZZARE I VARI METODI IN VARIE CLASSI, NON AVERE TUTO QUI IN QUESTA CLASSE
+	
 	private static final String PATH_FILES = "C:\\Users\\Padawan06\\Documenti\\temp\\";
 	private static final int NUMERO_CONTATTI = 1000;
 	
@@ -69,7 +71,7 @@ public class RecordFile {
 		File output = new File(PATH_FILES + "rubrica.csv");
 		FileWriter writer = new FileWriter(output);
 		
-		writer.write("COGNOME;NOME;TELEFONO;E-MAIL");
+		writer.write("COGNOME;NOME;E-MAIL;TELEFONO");
 		for (Contatto contattoTemp : recordContatti) {
 			writer.write("\n");
 			if((int) (Math.random() * 5) + 1 == 1) contattoTemp.setNome("");
@@ -304,7 +306,7 @@ public class RecordFile {
 	
 	// scrittura record sui file
 	private static String costruisciRiga(Contatto contatto) {
-		return costruisciRiga(contatto.getCognome(), contatto.getNome(),  contatto.getTelefono(), contatto.getEmail());
+		return costruisciRiga(contatto.getCognome(), contatto.getNome(), contatto.getEmail(),  contatto.getTelefono());
 	}
 	
 	private static String costruisciRiga(String... campi) {
