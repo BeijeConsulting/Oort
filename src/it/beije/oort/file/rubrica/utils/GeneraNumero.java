@@ -1,4 +1,4 @@
-package it.beije.oort.file.rubrica;
+package it.beije.oort.file.rubrica.utils;
 
 import java.util.Random;
 

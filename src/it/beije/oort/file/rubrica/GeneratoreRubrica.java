@@ -3,6 +3,9 @@ package it.beije.oort.file.rubrica;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
+
+import it.beije.oort.file.rubrica.utils.Valori;
+
 import java.util.ArrayList;
 
 public class GeneratoreRubrica {

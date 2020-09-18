@@ -3,6 +3,10 @@ package it.beije.oort.file.rubrica;
 import java.util.ArrayList;
 import java.util.Random;
 
+import it.beije.oort.file.rubrica.utils.GeneraMail;
+import it.beije.oort.file.rubrica.utils.GeneraNumero;
+import it.beije.oort.file.rubrica.utils.Valori;
+
 public class Contatto {
 	private String nome;
 	private String cognome;

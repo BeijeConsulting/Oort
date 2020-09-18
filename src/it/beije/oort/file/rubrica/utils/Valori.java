@@ -1,8 +1,8 @@
-package it.beije.oort.file.rubrica;
+package it.beije.oort.file.rubrica.utils;
 
 import java.util.ArrayList;
 
-import it.beije.oort.file.rubrica.input.Pulitore;
+import it.beije.oort.file.rubrica.Contatto;
 
 /**
  * Classe di gestione di valori, tra cui nomi, cognomi, prefissi cellulare e suffissi email
