@@ -30,6 +30,8 @@ public class XmlToCsv {
 	public static void main(String[] args) throws Exception {
 		System.out.println("Start: " + LocalTime.now());
 		File fileXml = new File("./contacts.xml");
+		String fileName = fileXml.getName();
+		System.out.println(fileName);
 		List<ContactXml> contactsBook = readContacts(fileXml);
 		List<String> namesList = new ArrayList<String>();
 		List<String> surnamesList = new ArrayList<String>();
