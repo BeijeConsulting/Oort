@@ -29,32 +29,34 @@ public class ReaderCsv {
 	
 	public static void main(String[] args) throws IOException, ParserConfigurationException, TransformerException, SAXException {
 		
-		File file = new File(PATH_FILES + "rubrica_gregori.csv");
+		File file = new File(PATH_FILES + "rubrica6.csv");
 		
 		List<Contatto> listaContattiXml = csvReaderIntestazione(file);
 		
-		writeContattiXml(listaContattiXml, PATH_FILES+"contatti.xml");
+		File file6 = new File(PATH_FILES + "contatti6.xml");
+		
+		writeContattiXml(listaContattiXml, file6);
 		
 		System.out.println("Rubrica XML completata!");
 		
 		// adesso voglio trasformare contatti.xml in fromato csv
 		
-		List<Contatto> listaContattiCsv = readContatti(PATH_FILES+"contatti.xml");
-		
-		
-		File output = new File(PATH_FILES + "rubricaCsv.csv");
-		FileWriter writer = new FileWriter(output);
-		
-		writer.write("COGNOME;NOME;TELEFONO;E-MAIL");
-		for (Contatto contattoTemp : listaContattiCsv) {
-			writer.write("\n");
-			writer.write(ReaderCsv.costruisciRiga(contattoTemp));
-		}
-		
-		writer.flush();
-		writer.close();
-		System.out.println("Rubrica CSV completata!");
-		
+//		List<Contatto> listaContattiCsv = readContatti(PATH_FILES+"contatti.xml");
+//		
+//		
+//		File output = new File(PATH_FILES + "rubricaCsv.csv");
+//		FileWriter writer = new FileWriter(output);
+//		
+//		writer.write("COGNOME;NOME;TELEFONO;E-MAIL");
+//		for (Contatto contattoTemp : listaContattiCsv) {
+//			writer.write("\n");
+//			writer.write(ReaderCsv.costruisciRiga(contattoTemp));
+//		}
+//		
+//		writer.flush();
+//		writer.close();
+//		System.out.println("Rubrica CSV completata!");
+//		
 	}
 	
 	public static List<Contatto> csvReaderIntestazione(File file) throws IOException{
@@ -85,13 +87,13 @@ public class ReaderCsv {
 			//System.out.println(riga);
 			String[] campiriga = riga.split(";");
 	
-			for(int i = 0; i<campi0.length; i++) {
+			for(int i = 0; i<campiriga.length; i++) {
 				//System.out.print(" "+campiriga[i]);
 				switch(campi0[i].toLowerCase()) {
-				case "nome": Nome = campiriga[i]; break;
-				case "cognome": Cognome=campiriga[i]; break;
-				case "telefono": Telefono=campiriga[i]; break;
-				case "email": Mail = campiriga[i]; break;
+					case "nome": Nome = campiriga[i]; break;
+					case "cognome": Cognome=campiriga[i]; break;
+					case "telefono": Telefono=campiriga[i]; break;
+					case "email": Mail = campiriga[i]; break;
 				}
 				
 				contatto = new Contatto(Nome, Cognome, Telefono, Mail);
@@ -107,11 +109,7 @@ public class ReaderCsv {
 		return arrayContatti;
 	}
 	
-	
-	
-	
-	
-	public static void writeContattiXml(List<Contatto> contatti, String pathfile) throws ParserConfigurationException, TransformerException {
+	public static void writeContattiXml(List<Contatto> contatti, File file) throws ParserConfigurationException, TransformerException {	
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
 
@@ -151,7 +149,7 @@ public class ReaderCsv {
 		Transformer transformer = transformerFactory.newTransformer();
 		DOMSource source = new DOMSource(document);
 		
-		StreamResult result = new StreamResult(new File(pathfile));
+		StreamResult result = new StreamResult(file);
 
 		// Output to console for testing
 		//StreamResult result = new StreamResult(System.out);
@@ -159,6 +157,13 @@ public class ReaderCsv {
 		transformer.transform(source, result);
 
 		//System.out.println("File saved!");
+	}
+	
+		
+	public static void writeContattiXml(List<Contatto> contatti, String pathfile) throws ParserConfigurationException, TransformerException {
+		File file = new File(pathfile);
+		
+		writeContattiXml(contatti, file);
 	}
 
 	public static List<Contatto> readContatti(String xmlFilepath) throws ParserConfigurationException, SAXException, IOException {

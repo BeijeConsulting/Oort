@@ -10,7 +10,7 @@ public class RecordFile {
 	// DA RIVEDERE COSì DA SPEZZARE I VARI METODI IN VARIE CLASSI, NON AVERE TUTO QUI IN QUESTA CLASSE
 	
 	private static final String PATH_FILES = "C:\\Users\\Padawan06\\Documenti\\temp\\";
-	private static final int NUMERO_CONTATTI = 1000;
+	private static final int NUMERO_CONTATTI = 3;
 	
 //	// lettura file
 //	public static String getContent(File file) throws IOException {
@@ -68,7 +68,7 @@ public class RecordFile {
 
 		
 		// fase di scrittura	
-		File output = new File(PATH_FILES + "rubrica.csv");
+		File output = new File(PATH_FILES + "rubrica6.csv");
 		FileWriter writer = new FileWriter(output);
 		
 		writer.write("COGNOME;NOME;E-MAIL;TELEFONO");
@@ -302,11 +302,11 @@ public class RecordFile {
 	
 	
 	// scrittura record sui file
-	private static String costruisciRiga(Contatto contatto) {
+	public static String costruisciRiga(Contatto contatto) {
 		return costruisciRiga(contatto.getCognome(), contatto.getNome(), contatto.getEmail(),  contatto.getTelefono());
 	}
 	
-	private static String costruisciRiga(String... campi) {
+	public static String costruisciRiga(String... campi) {
 		StringBuilder riga = new StringBuilder();
 		for(String campo : campi) {
 			riga.append(campo).append(';');
