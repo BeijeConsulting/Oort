@@ -17,6 +17,7 @@ import it.beije.oort.rubrica.Contatto;
 public class RubricaCSV {
 	
 	private static final String PATH_FILES = "C:\\Users\\Padawan05\\Desktop\\file_testo\\";
+	
 
 // ------------ METODI ------------
 	

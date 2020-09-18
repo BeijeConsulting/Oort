@@ -21,7 +21,7 @@ public class RubricaRandomCSV {
 	
 	
 // -------------- METODI ------------------
-// lettura e memorizzazione record da file csv
+// lettura e memorizzazione record da file csv riga per riga
 	public static List<String> memContent(File file, List<String> record ) throws IOException {			
 		FileReader fileReader = new FileReader(file);			
 		BufferedReader bufferedReader = new BufferedReader(fileReader);			
@@ -307,8 +307,8 @@ private static String costruisciRiga(Contatto contatto) {
 		writer.flush();
 		writer.close();
 		System.out.println("Rubrica completata!");
-		System.out.println(recordTelefono.size());
-		System.out.println(recordEmail.size());
+//		System.out.println(recordTelefono.size());
+//		System.out.println(recordEmail.size());
 	}
 	
 }
