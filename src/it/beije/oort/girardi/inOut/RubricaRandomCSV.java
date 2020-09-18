@@ -11,8 +11,14 @@ import java.util.List;
 import it.beije.oort.rubrica.Contatto;
 
 public class RubricaRandomCSV {
-		
+	
+// class variable:		
 	private static final String PATH_FILES = "C:\\Users\\Padawan05\\Desktop\\file_testo\\";
+	private static final int NUMERO_CONTATTI = 1000; 
+	//recordTelefono e recordEmail potrebbero essere più corti di NUMERO_CONTATTI 
+	private static List<String> recordTelefono = new ArrayList<>();
+	private static List<String> recordEmail = new ArrayList<>();
+	
 	
 // -------------- METODI ------------------
 // lettura e memorizzazione record da file csv
@@ -47,36 +53,35 @@ public class RubricaRandomCSV {
 	}
 	
 	
-// aggiornamento numeri di telefono da lista preesistente
-	private static List<String> aggiornaNumero(List<String> recordTel) {
-		List<String> newRecordTel = new ArrayList<>();
-		int index = 0;
-		for (String numero : recordTel) {
-			index = (int) ((Math.random() * 8) + 1);
-			switch (index) {
-			case 1:
-				newRecordTel.add("");
-				break;
-			case 2:
-				int i = (int) (Math.random() * recordTel.size());
-				newRecordTel.add(recordTel.get(i));
-				break;
-			case 3:
-			case 4:
-				newRecordTel.add("+39" + generaNumero());
-				break;
-			case 5:
-			case 6:
-			case 7:
-			case 8:
-				newRecordTel.add(generaNumero());
-				break;
-			default: 
-				System.out.println("something wrong happened during number update ");
+// genera numero di telefono secondo l'aggiornamento
+	private static String generaNumeroAgg() {
+		StringBuilder strb = new StringBuilder();
+		int index = (int) ((Math.random() * 8) + 1);
+		switch (index) {
+		case 1:
+			break;
+		case 2:
+			if (recordTelefono.size() > 0) {
+				int i = (int) (Math.random() * recordTelefono.size());
+				strb.append(recordTelefono.get(i));
 			}
-			System.gc();
+			break;
+		case 3:
+		case 4:
+			strb.append("+39" + generaNumero());
+			recordTelefono.add(strb.toString());
+			break;
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+			strb.append(generaNumero());
+			recordTelefono.add(strb.toString());
+			break;
+		default: 
+			System.out.println("something wrong happened during number update ");
 		}
-		return newRecordTel;		
+		return strb.toString();		
 	}
 	
 
@@ -192,9 +197,42 @@ public class RubricaRandomCSV {
 		
 		return s.toString();
 	}
+	
+
+
+// genera mail secondo l'aggiornamento
+	private static String generaMailAgg(String nome, String cognome) {
+		StringBuilder strb = new StringBuilder();
+		int index = (int) ((Math.random() * 10) + 1);
+		switch (index) {
+		case 1:
+		case 2:
+			break;
+		case 3:
+		case 4:
+		case 5:
+			if (recordEmail.size() > 0) {
+				int i = (int) (Math.random() * recordEmail.size());
+				strb.append(recordEmail.get(i));
+			}
+			break;
+		case 6:
+		case 7:
+		case 8:
+		case 9:
+		case 10:
+			strb.append(generaMail(nome,cognome));
+			recordEmail.add(strb.toString());
+			break;
+		default: 
+			System.out.println("something wrong happened during e-mail update ");
+		}
+		return strb.toString();	
+	}
+	
 
 	
-// scrittura delle righe di un file csv dato un array di stringhe
+// scrittura delle righe di un file csv dato un array di stringhe 
 	private static String costruisciRiga(String... campi) {
 		StringBuilder riga = new StringBuilder();
 		for(String campo : campi) {
@@ -204,6 +242,12 @@ public class RubricaRandomCSV {
 		return riga.toString();
 	}
 
+	
+// scrittura delle righe di un file csv dato un Contatto
+private static String costruisciRiga(Contatto contatto) {
+	return costruisciRiga(contatto.getNome(), contatto.getCognome(), 
+						  contatto.getTelefono(), contatto.getEmail());
+}
 
 
 
@@ -214,53 +258,57 @@ public class RubricaRandomCSV {
 		File fileCognomi = new File(PATH_FILES + "cognomiNoIntro.txt");
 		
 		// Dichiarazione variabili 
-		List<String> recordNomitemp = new ArrayList<>();
-		List<String> recordCognomitemp = new ArrayList<>();
+		List<String> recordNomi = new ArrayList<>();
+		List<String> recordCognomi = new ArrayList<>();
 	
 		List<Contatto> recordContatti = new ArrayList<>();
 		
 		// lettura e memorizzazione dei record di nomi e cognomi
-		recordNomitemp = RubricaRandomCSV.memContent(fileNomi, recordNomitemp);
-		recordCognomitemp = RubricaRandomCSV.memContent(fileCognomi, recordCognomitemp); 
+		recordNomi = RubricaRandomCSV.memContent(fileNomi, recordNomi);
+		recordCognomi = RubricaRandomCSV.memContent(fileCognomi, recordCognomi); 
 		
-		for(int k = 0; k < 100; k++) {
-			int i = (int) (Math.random()*recordNomitemp.size()); 
-			int j = (int) (Math.random()*recordCognomitemp.size());
+		// riempio il recordContatti generando i numeri e le e-mail
+		for(int k = 0; k < NUMERO_CONTATTI; k++) {
+			int i = (int) (Math.random()*recordNomi.size()); 
+			int j = (int) (Math.random()*recordCognomi.size());
 			Contatto contatto = new Contatto(
-			recordNomitemp.get(i),
-			recordCognomitemp.get(j),
-			RubricarandomCSV.generaNumero(),
-			RubricarandomCSV.generaMail(recordNomitemp.get(i), recordCognomitemp.get(j)));
+			recordNomi.get(i),
+			recordCognomi.get(j),
+		//	RubricaRandomCSV.generaNumero(),
+			RubricaRandomCSV.generaNumeroAgg(),
+		//	RubricaRandomCSV.generaMail(recordNomi.get(i), recordCognomi.get(j)) );
+			RubricaRandomCSV.generaMailAgg(recordNomi.get(i), recordCognomi.get(j)) );
+			
 			recordContatti.add(contatto);
-		}
-		
-		// aggiornamento dell'esercizio: modifico la lista di numeri di telefono generata:
-		List<String> newRecordTel = RubricaRandomCSV.aggiornaNumero(recordTel); 
-		
+		}		
 		
 		// fase di scrittura	
-		File output = new File(PATH_FILES + "rubrica.txt");
+		File output = new File(PATH_FILES + "rubrica.csv");
 		FileWriter writer = new FileWriter(output);
 		
-		writer.write("NOME;COGNOME;TELEFONO;E-MAIL");
-		for (Contatto contattoTemp : recordContatti) {
-			writer.write("\n");
-			writer.write(RubricaRandomCSV.costruisciRiga(contattoTemp));
-		}
-		
-//		writer.write("COGNOME;NOME;E-MAIL;TELEFONO");
+		//scrivo direttamente il contatto
+//		writer.write("NOME;COGNOME;TELEFONO;E-MAIL");
 //		for (Contatto contattoTemp : recordContatti) {
 //			writer.write("\n");
-//			writer.write(RubricaRandomCSV.costruisciRiga(
-//				contattoTemp.getNome(),
-//				contattoTemp.getCognome(),
-//				contattoTemp.getTelefono(),
-//				contattoTemp.getEmail() );
+//			writer.write(RubricaRandomCSV.costruisciRiga(contattoTemp));
 //		}
+		
+		// scrivo il contatto con l'ordine prescelto
+		writer.write("COGNOME;NOME;E-MAIL;TELEFONO");
+		for (Contatto contattoTemp : recordContatti) {
+			writer.write("\n");
+			writer.write(RubricaRandomCSV.costruisciRiga(
+				contattoTemp.getCognome(),
+				contattoTemp.getNome(),
+				contattoTemp.getEmail(),
+				contattoTemp.getTelefono() ) );
+		}
 		
 		writer.flush();
 		writer.close();
 		System.out.println("Rubrica completata!");
+		System.out.println(recordTelefono.size());
+		System.out.println(recordEmail.size());
 	}
 	
 }
