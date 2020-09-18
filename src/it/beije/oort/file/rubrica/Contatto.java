@@ -1,5 +1,7 @@
 package it.beije.oort.file.rubrica;
 
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Contatto {
 	private String nome;
@@ -10,24 +12,12 @@ public class Contatto {
 	public Contatto() {
 	}
 	
-	public Contatto(String nome) {
-		this(nome, "", "", "");
-	}
-	
-	public Contatto(String nome, String cognome) {
-		this(nome, cognome, "", "");
-	}
-	
-	public Contatto(String nome, String cognome, String prefisso) {
-		this(nome, cognome, prefisso, "");
-	}
-	
-	public Contatto(String nome, String cognome, String prefisso, String dominio) {
-		this.nome = nome;
-		this.cognome = cognome;
-		this.cell = GeneraNumero.generaNumero();
-		Valori.cellCompleti.add(cell);
-		this.email = GeneraMail.generaMail(nome, cognome, dominio);
+	public Contatto(ArrayList<String> nomi, ArrayList<String> cognomi) {
+		Random r = new Random();
+		this.nome = 	cognomi.get(r.nextInt(cognomi.size()));
+		this.cognome = 	nomi.get(r.nextInt(nomi.size()));
+		this.cell = 	GeneraNumero.generaNumero();
+		this.email =	GeneraMail.generaMail(nome, cognome);
 	}
 	
 	public String getCell() {
@@ -70,5 +60,19 @@ public class Contatto {
 	public String toString() {
 		return new StringBuilder("Nome: " + this.getNome() + ". Cognome: " + this.getCognome() + ". Email: "
 				+ this.getEmail() + ". Telefono: " + this.getCell()).toString();
+	}
+	
+	public static String getContattoFormattatoToString(ArrayList<Contatto> rubrica, int i, Random r) {
+		StringBuilder s = new StringBuilder();
+		Contatto c = rubrica.get(i);
+		if ((r.nextInt(3) + 1) != 1) {
+			s.append(c.getCognome());
+		}
+		s.append(";");
+		if ((r.nextInt(5) + 1) != 1) {
+			s.append(c.getNome());
+		}
+		s.append(";").append(c.getCell()).append(";").append(c.getEmail());
+		return s.toString();
 	}
 }

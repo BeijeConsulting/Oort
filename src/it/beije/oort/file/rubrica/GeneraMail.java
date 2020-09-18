@@ -5,9 +5,10 @@ import java.util.Random;
 public class GeneraMail {
 	
 	
-	public static String generaMail(String nome, String cognome, String dominio) {
+	public static String generaMail(String nome, String cognome) {	
 		StringBuilder email = new StringBuilder();
 		Random r = new Random();
+		String dominio = Valori.getDominio(r.nextInt(8));
 		int rand = r.nextInt(10) + 1;
 		
 		if (rand <= 2) {

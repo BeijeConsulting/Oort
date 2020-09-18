@@ -6,6 +6,7 @@ public class GeneraNumero {
 	public static String generaNumero() {
 		Random r = new Random();
 		StringBuilder suffisso = new StringBuilder();
+		String num = "";
 		for(int i = 0; i < 7; i++) {
 			suffisso.append(r.nextInt(10));
 		}
@@ -13,13 +14,15 @@ public class GeneraNumero {
 		int n = r.nextInt(8) + 1;
 		
 		if (n == 1) {
-			return "";
+			num = "";
 		} else if (n == 2 && Valori.cellCompleti.size() > 0) {
-			return Valori.cellCompleti.get(r.nextInt(Valori.cellCompleti.size() - 1));
+			num = Valori.cellCompleti.get(r.nextInt(Valori.cellCompleti.size() - 1));
 		} else if (n <= 4) {
-			return "+39" + Valori.getPrefisso(r.nextInt(5)) + suffisso;
+			num = "+39" + Valori.getPrefisso(r.nextInt(5)) + suffisso;
 		} else {
-			return Valori.getPrefisso(r.nextInt(5)) + suffisso;
+			num = Valori.getPrefisso(r.nextInt(5)) + suffisso;
 		}
+		Valori.cellCompleti.add(num);
+		return num;
 	}
 }
