@@ -1,4 +1,4 @@
-package it.beije.oort.xmlparse;
+package it.beije.oort.files;
 
 public class Contatto {
 	
@@ -49,12 +49,11 @@ public class Contatto {
 	}
 	
 	public String toString() {
-		StringBuilder builder = new StringBuilder("contatto [");
-		builder.append("nome : ").append(this.nome)
-			.append(" - cognome : ").append(this.cognome)
-			.append(" - telefono : ").append(this.telefono)
-			.append(" - email : ").append(this.email).append("]");
-		
+		StringBuilder builder = new StringBuilder();
+		builder.append(this.nome).append(";")
+		.append(this.cognome).append(";")
+		.append(this.email).append(";")
+		.append(this.telefono).append(";");
 		return builder.toString();
 	}
 }

@@ -1,4 +1,4 @@
-package it.beije.oort.xmlparse;
+package it.beije.oort.files;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CsvToListConverter {
-	public List<Contatto> convert(File fileCsv) throws IOException {
+public class CsvReader {
+	//Il metodo readContatti prende in input un file contenente Contatti in formato csv e restituisce una lista di Contatti.
+	public List<Contatto> readContatti(File fileCsv) throws IOException {
 		List<Contatto> contatti = new ArrayList<Contatto>();
 		List<String> fields = new ArrayList<String>();
 		

@@ -1,4 +1,4 @@
-package it.beije.oort.xmlparse;
+package it.beije.oort.files;
 
 import java.io.File;
 import java.util.List;
@@ -16,7 +16,7 @@ import org.w3c.dom.Element;
 public class XmlBuilder {
 	//public static final String XML_FILE_PATH = "/temp/rubricaXml.xml";
 	
-	public void build(List<Contatto> contatti, File fileDestinazione) throws ParserConfigurationException, TransformerException {
+	public void buildContatti(List<Contatto> contatti, File fileDestinazione) throws ParserConfigurationException, TransformerException {
 		DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
 		Document document = documentBuilder.newDocument();

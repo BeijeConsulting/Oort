@@ -1,4 +1,4 @@
-package it.beije.oort.xmlparse;
+package it.beije.oort.files;
 
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class XmlReader {
-	public List<Contatto> readXml(File fileXml) throws ParserConfigurationException, SAXException, IOException {
+	public List<Contatto> readContatti(File fileXml) throws ParserConfigurationException, SAXException, IOException {
 		
 		List<Contatto> contatti = new ArrayList<Contatto>();
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
