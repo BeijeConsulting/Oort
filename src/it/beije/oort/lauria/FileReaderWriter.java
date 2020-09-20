@@ -2,19 +2,13 @@ package it.beije.oort.lauria;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Scanner;
 
-
-
-public class ReadAndWrite {
-	
-	
-	
+public class FileReaderWriter {
+		
 	public static String getContent(File file) throws IOException {
 		FileReader fileReader = new FileReader(file);
 		StringBuilder builder = new StringBuilder();
@@ -24,6 +18,8 @@ public class ReadAndWrite {
 		while (bufferedReader.ready()) {			
 				builder.append(bufferedReader.readLine()).append('\n');
 		}
+		
+		bufferedReader.close();
 		
 		return builder.toString();
 	}
@@ -49,7 +45,7 @@ public class ReadAndWrite {
 		if (file.exists()) {
 			System.out.println("esiste, lo carico... ");
 			
-			content = ReadAndWrite.getContent(file);
+			content = FileReaderWriter.getContent(file);
 			System.out.println(content);
 			
 		} else {

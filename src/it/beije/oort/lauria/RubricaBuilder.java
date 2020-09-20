@@ -1,54 +1,22 @@
 package it.beije.oort.lauria;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 
-public class RecordFile {
-
-	// DA RIVEDERE COSì DA SPEZZARE I VARI METODI IN VARIE CLASSI, NON AVERE TUTO QUI IN QUESTA CLASSE
+public class RubricaBuilder {
 	
-	private static final String PATH_FILES = "C:\\Users\\Padawan06\\Documenti\\temp\\";
-	private static final int NUMERO_CONTATTI = 3;
-	
-//	// lettura file
-//	public static String getContent(File file) throws IOException {
-//		FileReader fileReader = new FileReader(file);
-//		StringBuilder builder = new StringBuilder();		
-//		BufferedReader bufferedReader = new BufferedReader(fileReader);
-//		
-//		while (bufferedReader.ready()) {
-//			builder.append(bufferedReader.readLine()).append('\n');
-//		}
-//		
-//		return builder.toString();	
-//	}
-	
-	public static void main(String[] args) throws IOException {
+	public static void builderRandomContacts(int size, 
+												List<String> listaNomi,
+												List<String> listaCognomi,
+												List<String> listaTelefoni,
+												List<String> listaEmail,
+												List<Contatto> recordContatti) {
 		
-		File fileNomi = new File(PATH_FILES + "nomi_italiani.txt");
-		File fileCognomi = new File(PATH_FILES + "cognomi.txt");
-		
-		// Dichiarazione variabili 
-		List<String> recordNomitemp = new ArrayList<>();
-		List<String> recordCognomitemp = new ArrayList<>();
-		
-		List<Contatto> recordContatti = new ArrayList<>();
-		
-		List<String> listaTelefoni = new ArrayList<>();
-		List<String> listaEmail = new ArrayList<>();
-		
-		
-		// lettura e memorizzazione dei record di nomi e cognomi
-		recordNomitemp = RecordFile.memContent(fileNomi, recordNomitemp);
-		recordCognomitemp = RecordFile.memContent(fileCognomi, recordCognomitemp); 
-		
-		for(int k = 0; k < NUMERO_CONTATTI; k++) {
-			int i = (int) (Math.random()*recordNomitemp.size()); 
-			int j = (int) (Math.random()*recordCognomitemp.size());
-			
-			// Due tipi diversi di costruire il contatto, scegliere quello preferito
+		//List<Contatto> recordContatti = new ArrayList<>();
+		for(int k = 0; k < size; k++) {
+			int i = (int) (Math.random()*listaNomi.size()); 
+			int j = (int) (Math.random()*listaCognomi.size());
 			
 //			Contatto contatto = new Contatto(
 //					recordNomitemp.get(i),
@@ -56,37 +24,16 @@ public class RecordFile {
 //					RecordFile.generaNumero(),
 //					RecordFile.generaMail(recordNomitemp.get(i), recordCognomitemp.get(j)));
 			Contatto contatto = new Contatto();
-			contatto.setNome( recordNomitemp.get(i) );
-			contatto.setCognome( recordCognomitemp.get(j) );
-			contatto.setTelefono( RecordFile.generaNumero(listaTelefoni) );
-			contatto.setEmail( RecordFile.generaMail( listaEmail, contatto.getNome(), contatto.getCognome() ) );
+			contatto.setNome( listaNomi.get(i) );
+			contatto.setCognome( listaCognomi.get(j) );
+			contatto.setTelefono( RubricaBuilder.generaNumero(listaTelefoni) );
+			contatto.setEmail( RubricaBuilder.generaMail( listaEmail, contatto.getNome(), contatto.getCognome() ) );
 			
 			recordContatti.add(contatto);
 			
 		}
-
-
-		
-		// fase di scrittura	
-		File output = new File(PATH_FILES + "rubrica6.csv");
-		FileWriter writer = new FileWriter(output);
-		
-		writer.write("COGNOME;NOME;E-MAIL;TELEFONO");
-		for (Contatto contattoTemp : recordContatti) {
-			writer.write("\n");
-			if((int) (Math.random() * 5) + 1 == 1) contattoTemp.setNome("");
-			if((int) (Math.random() * 3) + 1 == 1) contattoTemp.setCognome("");
-			writer.write(RecordFile.costruisciRiga(contattoTemp));
-		}
-		
-		writer.flush();
-		writer.close();
-		System.out.println("Rubrica completata!");	
-		
-		
+		//return recordContatti;		
 	}
-	
-
 	
 	// genera Numero di telefono
 	private static String generaNumero() {
@@ -119,13 +66,12 @@ public class RecordFile {
 			else {
 				telefono.append("");
 				//listaTelefoni.add(telefono.toString());
-			}
-			
+			}			
 		}else if(randomTel==3 || randomTel==4 ){
-			telefono.append("+39").append(generaNumero());
+			telefono.append("+39").append(RubricaBuilder.generaNumero());
 			listaTelefoni.add(telefono.toString());
 		}else{
-			telefono.append(generaNumero());
+			telefono.append(RubricaBuilder.generaNumero());
 			listaTelefoni.add(telefono.toString());
 		}
 		
@@ -147,7 +93,6 @@ public class RecordFile {
 //		return s.toString();
 //	}
 	
-	// TODO estrarre metodi per migliorare leggibilità
 	private static String generaMail(String nome, String cognome) {
 		// Preparazione variabili da utilizzare
 		String[] dominio = {"gmail.com", "hotmail.com", "hotmail.it", "libero.it", "yahoo.com", "virgilio.it", "tim.it", "alice.it"};
@@ -227,7 +172,6 @@ public class RecordFile {
 				s.append(nome).append(separatore).append(cognome);
 			}
 			
-			// Sostituzione delle vocali, la parte commentata è meno efficiente (4 secondi risparmiati generando 1 milione di righe)
 			if (randomAbbreviaNome >= 6 && randomSeparatore < 4) {
 				int randomVocale = (int) (Math.random() * 5) + 1;
 				if (randomVocale == 1) {
@@ -278,7 +222,7 @@ public class RecordFile {
 				//listaEmail.add(email.toString());
 			}
 		}else{
-			email.append(generaMail(nome, cognome));
+			email.append(RubricaBuilder.generaMail(nome, cognome));
 			listaEmail.add(email.toString());
 		}
 		
@@ -301,12 +245,35 @@ public class RecordFile {
 	}
 	
 	
-	// scrittura record sui file
-	public static String costruisciRiga(Contatto contatto) {
-		return costruisciRiga(contatto.getCognome(), contatto.getNome(), contatto.getEmail(),  contatto.getTelefono());
+	public static void writeRubricaCsv(File output, String intestazione, List<Contatto> recordContatti) throws IOException {
+		
+		FileWriter writer = new FileWriter(output);
+		
+		writer.write(intestazione);
+		for (Contatto contattoTemp : recordContatti) {
+			writer.write("\n");
+			if((int) (Math.random() * 5) + 1 == 1) contattoTemp.setNome("");
+			if((int) (Math.random() * 3) + 1 == 1) contattoTemp.setCognome("");
+			writer.write(RubricaBuilder.rowBuilderCsv(contattoTemp));
+		}
+		
+		writer.flush();
+		writer.close();
 	}
 	
-	public static String costruisciRiga(String... campi) {
+	public static void writeRubricaCsv(String fileName, String intestazione, List<Contatto> recordContatti) throws IOException {		
+		File output = new File(fileName);
+		RubricaBuilder.writeRubricaCsv(output, intestazione, recordContatti);
+	}
+
+	
+	// scrittura record sui file
+	public static String rowBuilderCsv(Contatto contatto) {
+		return RubricaBuilder.rowBuilderCsv(contatto.getCognome(), contatto.getNome(), 
+								contatto.getEmail(),  contatto.getTelefono());
+	}
+	
+	public static String rowBuilderCsv(String... campi) {
 		StringBuilder riga = new StringBuilder();
 		for(String campo : campi) {
 			riga.append(campo).append(';');
