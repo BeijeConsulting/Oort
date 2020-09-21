@@ -12,7 +12,7 @@ import it.beije.oort.sba.rubrica.Contatto;
 
 public class CsvReader {
 	
-	public List<Contatto> readContacts(File file) throws IOException {
+	public static List<Contatto> readContacts(File file) throws IOException {
 		FileReader fileReader = new FileReader(file);
      	BufferedReader bufferedReader = new BufferedReader(fileReader);
 		String intestazione = bufferedReader.readLine();
@@ -26,7 +26,7 @@ public class CsvReader {
 	}
 	
 	
-	private Contatto creaContatto(String[] a, List<String> list) {
+	private static Contatto creaContatto(String[] a, List<String> list) {
 		Contatto contatto = new Contatto();
 		for(int i=0;i<list.size();i++) {
 			if(list.get(i).equalsIgnoreCase("nome")) contatto.setNome(a[i]);
