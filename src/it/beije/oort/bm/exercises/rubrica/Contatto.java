@@ -1,6 +1,6 @@
 package it.beije.oort.bm.exercises.rubrica;
 
-public class Contatto implements Comparable{
+public class Contatto implements Comparable<Contatto>{
 	
 	private String nome;
 	private String cognome;
@@ -63,8 +63,7 @@ public class Contatto implements Comparable{
 	}
 
 	@Override
-	public int compareTo(Object o) {
-		Contatto c = (Contatto)o;
+	public int compareTo(Contatto c) {
 		int result = this.cognome.compareTo(c.cognome);
 		if(result == 0) {
 			result = this.nome.compareTo(c.nome);

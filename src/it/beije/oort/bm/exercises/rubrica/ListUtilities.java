@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ListUtilities {
 	@SafeVarargs
-	public static <T extends Comparable> List<T> mergeLists(List<T>... lists){
+	public static <T extends Comparable<? super T>> List<T> mergeLists(List<T>... lists){
 		List<T> ret = new ArrayList<T>();
 		for(List<T> l : lists) {
 			ret.addAll(l);
