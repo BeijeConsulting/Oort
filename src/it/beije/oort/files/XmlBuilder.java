@@ -49,6 +49,5 @@ public class XmlBuilder {
         DOMSource domSource = new DOMSource(document);
         StreamResult streamResult = new StreamResult(fileDestinazione.getPath());
         transformer.transform(domSource, streamResult);
-        System.out.println("Done creating XML file!");
 	}
 }

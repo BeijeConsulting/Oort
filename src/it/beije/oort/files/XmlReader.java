@@ -33,14 +33,4 @@ public class XmlReader {
 		
 		return contatti;
 	}
-	
-//	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-//		File fileXml = new File("/temp/rubricaXml.xml");
-//		XmlReader reader = new XmlReader();
-//		List<Contatto> contatti = reader.readXml(fileXml);
-//		
-//		for (int i = 0; i < contatti.size(); i++) {
-//			System.out.println(contatti.get(i));
-//		}
-//	}
 }
