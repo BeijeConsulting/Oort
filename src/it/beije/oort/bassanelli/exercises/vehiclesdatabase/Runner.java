@@ -8,12 +8,10 @@ public class Runner {
 		Bike bike = new Bike("white");
 		Apecar apecar = new Apecar("yellow", "diesel");
 		Car car = new Car("black", "gpl");
-		
+			
 		System.out.println(scooter.toString());
 		System.out.println(bike.toString());
 		System.out.println(apecar.toString());
-		System.out.println(car.toString());
-		
+		System.out.println(car.toString());	
 	}
-
 }
