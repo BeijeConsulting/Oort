@@ -53,16 +53,7 @@ public class RubricaCSV {
 		}
 	// riporto i contatti nella lista
 		while (bufferedReader.ready()) {
-			campi = Arrays.asList(bufferedReader.readLine().split(";"));
-			
-		//se mancano dei campi ho "java.lang.ArrayIndexOutOfBoundsException"
-		//questo succede quando manca l'ultimo attributo della rubrica (size=3)
-		// o quando mancano tutti gli attributi (;;;) (size=0)
-//			while (campi.size() < 4); {
-//			campi.add("azz");
-//			} 
-			System.out.println(campi.size());
-			
+			campi = Arrays.asList(bufferedReader.readLine().split(";"));			
 			listaContatti.add(new Contatto(campi.get(a),campi.get(b),
 										   campi.get(c),campi.get(d)));
 		}

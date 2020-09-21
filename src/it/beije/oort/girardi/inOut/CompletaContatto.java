@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,64 @@ public class CompletaContatto {
 	
 	
 // ------------ METODI ------------
+	
+//riporta in una lista di contatti il contenuto di un file CSV in cui la prima
+//riga fornisce l'ordine degli attributi che andranno a formare il contatto.
+// E' simile a RubricaCSV.getContatto(File) ma con una differenza: questo metodo
+// gestisce i contatti incompleti o con il ";" finale.
+	public static List<Contatto> getContatto(File file) throws IOException {
+		FileReader fileReader = new FileReader(file);
+		BufferedReader bufferedReader = new BufferedReader(fileReader);
+		List<Contatto> listaContatti = new ArrayList<Contatto>();
+		
+	//lettura riga iniziale e ordine degli attributi di contatto:
+		String riga = bufferedReader.readLine();
+		List<String> campi = Arrays.asList(riga.split(";")); 
+		int a = 0, b = 0, c = 0, d = 0;
+		for (int i = 0; i < 4; i++) {
+			// a:nome, b:cognome, c:telefono, d:email
+			switch (campi.get(i).trim().toLowerCase()) {
+			case "nome":
+				a = i;
+				break;
+			case "cognome":
+				b = i;
+				break;
+			case "telefono":
+				c = i;
+				break;
+			case "email":
+			case "e-mail":
+				d = i;
+				break;
+			}
+		}
+	// riporto i contatti nella lista
+		while (bufferedReader.ready()) {
+			campi = Arrays.asList((bufferedReader.readLine()+" ").split(";"));
+			
+		//se mancano dei campi ho "java.lang.ArrayIndexOutOfBoundsException"
+		//questo succede quando manca l'ultimo attributo della rubrica (size=3)
+		// o quando mancano tutti gli attributi (;;;) (size=0)
+			if (campi.size() <= 0) { //aggiungo contatto vuoto
+				listaContatti.add(new Contatto());
+				System.out.println("@@@@@@VUOTO@@@@@");
+				continue;
+			}
+			else if (campi.size() == 3) {
+				System.out.println("@@@@@@ tre @@@@@");
+				continue;
+			}
+			
+			System.out.println(campi.size());
+			
+			listaContatti.add(new Contatto(campi.get(a),campi.get(b),
+										   campi.get(c),campi.get(d)));
+		}
+		return listaContatti;
+	}
+
+	
 	
 //data una List di Contatti, riempie la HashMap con il numero di telefono come key
 //e riempie la List di Conttatti NO_TELEFONO con i contatti senza numero.
