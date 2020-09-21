@@ -23,6 +23,10 @@ public class ContactsMap {
 		return map.get(key);
 	}
 	
+	public Set<String> getKeySet() {
+		return map.keySet();
+	}
+	
 	public static ContactsMap getMap(List<Contatto> list) {
 		ContactsMap ret = new ContactsMap();
 		for(Contatto c : list) {
