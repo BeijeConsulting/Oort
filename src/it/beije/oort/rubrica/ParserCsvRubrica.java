@@ -33,7 +33,7 @@ public class ParserCsvRubrica {
 		List<String> intestazioneList = Arrays.asList(intestazione.split(";"));
 		List<Contatto> contatti = new ArrayList<Contatto>();
 		while(bufferedReader.ready()) {
-			contatti.add(creaContatto(bufferedReader.readLine().split(";"), intestazioneList));
+			contatti.add(creaContatto(bufferedReader.readLine().split(";",-1), intestazioneList));
 		}
 		bufferedReader.close();
 		return contatti;
@@ -51,15 +51,14 @@ public class ParserCsvRubrica {
 		return contatto;
 	}
 	
-	public void writeRubrica(File file, String pathfile) throws ParserConfigurationException, TransformerException, DOMException, IOException {
+	public void rubricaXmlWriter(List<Contatto> list, String pathfile) throws ParserConfigurationException, TransformerException, DOMException, IOException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
-
         Document document = builder.newDocument();
         Element docElement = document.createElement("rubrica");
         document.appendChild(docElement);
         
-        for (Contatto c : listBuilder(file)) {
+        for (Contatto c : list) {
         	Element contatto = document.createElement("contatto");   	
         	Element nome = document.createElement("nome");
         	Element cognome = document.createElement("cognome");
@@ -82,7 +81,6 @@ public class ParserCsvRubrica {
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
 		DOMSource source = new DOMSource(document);
-		
 		StreamResult result = new StreamResult(new File(pathfile));
 
 		transformer.transform(source, result);
@@ -97,7 +95,7 @@ public class ParserCsvRubrica {
 		int b=r.nextInt(12); //variabile dichiarata nel caso debba utilizzare il system.out
 		File a = new File(PATH + rubriche[b]+".csv");
 //		System.out.println(rubriche[b]); //per controllare quale rubrica stia utilizzando
-		p.writeRubrica(a,PATH +"rubrica.xml");
+		p.rubricaXmlWriter(p.listBuilder(a),PATH +"rubrica.xml");
 	}
 }
 
