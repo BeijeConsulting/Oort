@@ -31,11 +31,11 @@ public class RubricaCSV {
 		
 	//lettura riga iniziale e ordine degli attributi di contatto:
 		String riga = bufferedReader.readLine();
-		List<String> campi = Arrays.asList(riga.split(";")); 
+		String[] campi = riga.split(";"); 
 		int a = 0, b = 0, c = 0, d = 0;
 		for (int i = 0; i < 4; i++) {
 			// a:nome, b:cognome, c:telefono, d:email
-			switch (campi.get(i).trim().toLowerCase()) {
+			switch (campi[i].trim().toLowerCase()) {
 			case "nome":
 				a = i;
 				break;
@@ -53,9 +53,8 @@ public class RubricaCSV {
 		}
 	// riporto i contatti nella lista
 		while (bufferedReader.ready()) {
-			campi = Arrays.asList(bufferedReader.readLine().split(";"));			
-			listaContatti.add(new Contatto(campi.get(a),campi.get(b),
-										   campi.get(c),campi.get(d)));
+			campi = bufferedReader.readLine().split(";");			
+			listaContatti.add(new Contatto(campi[a],campi[b], campi[c],campi[d]));
 		}
 		return listaContatti;
 	}
