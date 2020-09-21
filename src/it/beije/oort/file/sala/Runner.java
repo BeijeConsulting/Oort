@@ -22,5 +22,6 @@ public class Runner {
 				"C:/Users/Padawan12/Desktop/rubrica_test_output1_handler.xml");
 		RubricaHandler.tranferRubrica("C:/Users/Padawan12/Desktop/rubrica_test_input_handler.csv",
 				"C:/Users/Padawan12/Desktop/rubrica_test_output2_handler.xml");
+		new GeneratoreRubrica();
 	}
 }
