@@ -62,4 +62,9 @@ public class Contatto {
 		return builder.toString();
 	}
 	
+	public boolean equals(Contatto c) {
+		return(this.nome.equals(c.getNome()) && this.cognome.equals(c.getCognome()) &&
+			this.telefono.equals(c.getTelefono()) && this.email.equals(c.getEmail()));
+	}
+	
 }
