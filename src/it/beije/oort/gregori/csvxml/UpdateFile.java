@@ -84,20 +84,50 @@ public class UpdateFile {
 				System.out.println("Contatto inserito correttamente!");
 				System.out.println();
 			}
-			System.out.println("Cosa fare con il contatto?");
-			System.out.println("1) Scarta");
-			System.out.println("2) Modifica");
-			System.out.println("3) Aggiungi a file");
+			
+			int scelta = options();
+			switch(scelta) {
+				case 1:
+					// Scarta
+					break;
+				case 2:
+					// Modifica
+					break;
+				case 3:
+					// contatti.add(contatto);
+					break;
+				default:
+					break;
+			}
 			
 			
 		} while(true);
 	}
+	
+	private static int options() {
+		Scanner sc = new Scanner(System.in);
+		int scelta;
+		do {
+			System.out.println("Cosa fare con il contatto?");
+			System.out.println("1) Scarta");
+			System.out.println("2) Modifica");
+			System.out.println("3) Aggiungi a file");
+			scelta = sc.nextInt();
+			if (scelta < 1 || scelta > 3) {
+				System.out.println("ERRORE: scelta non consentita!");
+				System.out.println();
+			}
+		} while(scelta < 1 || scelta > 3);
+		
+		sc.close();
+		return scelta;
+	}
 
 	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException, TransformerException {
-		File source = new File("/temp/rubrica_gregori.csv");
-		File dest = new File("/temp/generated.xml");
+//		File source = new File("/temp/rubrica_gregori.csv");
+//		File dest = new File("/temp/generated.xml");
 		
-		//UpdateFile.fromFileToFile(source, dest);
+//		UpdateFile.fromFileToFile(source, dest);
 		UpdateFile.menu();
 	}
 
