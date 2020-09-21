@@ -1,7 +1,6 @@
 package it.beije.oort.file.rubrica;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Random;
 
 import it.beije.oort.file.rubrica.utils.GeneraMail;

@@ -11,7 +11,7 @@ import java.util.List;
 import it.beije.oort.file.rubrica.Contatto;
 import it.beije.oort.file.rubrica.comparators.ContattoNomeComparator;
 
-public class CSVWriter {
+public class CSVWriter{	
 	public static void writeCSV(List<Contatto> list, String outputPath) {
 		Collections.sort(list, new ContattoNomeComparator());
 		//Collections.sort(list, new ContattoCognomeComparator())
@@ -47,4 +47,6 @@ public class CSVWriter {
 			e.printStackTrace();
 		}
 	}
+
+
 }

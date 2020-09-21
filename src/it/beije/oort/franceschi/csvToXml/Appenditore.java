@@ -16,7 +16,7 @@ public class Appenditore {
 	 * @param out
 	 */
 	public static void unisciFileEOrdina(String filePathUno, String filePathDue, String out) {
-		List<Contatto> listaCompleta = unisciListe(filePathUno, filePathDue);
+		List<Contatto> listaCompleta = unisciListeDaFiles(filePathUno, filePathDue);
 		
 		
 		String ext = InputManager.getFileExt(new File(out));
@@ -31,7 +31,17 @@ public class Appenditore {
 		}
 	}
 	
-	private static List<Contatto> unisciListe(String file1, String file2) {
+	@SuppressWarnings("unused")
+	@SafeVarargs
+	private static List<Contatto> unisciListe(List<Contatto>... list){
+		List<Contatto> listUnita = new ArrayList<>();
+		for (List<Contatto> l : list) {
+			listUnita.addAll(l);
+		}
+		return listUnita;	 
+	}
+	
+	private static List<Contatto> unisciListeDaFiles(String file1, String file2) {
 		String ext = InputManager.getFileExt(new File(file1));
 		List<Contatto> vecchiaList = new ArrayList<>();
 		List<Contatto> vecchiaList2 = new ArrayList<>();
