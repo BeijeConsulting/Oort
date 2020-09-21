@@ -72,37 +72,37 @@ public class Contatto {
 	
 	public String toCsvDoubleQuote() {
 		return new StringBuilder("\"")
+				.append(this.cognome).append("\";\"")
 				.append(this.nome).append("\";\"")
-				.append(this.cognome).append("\"")
-				.append(this.telefono).append("\";\"")
-				.append(this.email).append("\"")
+				.append(this.email).append("\";\"")
+				.append(this.telefono).append("\"")
 				.append("\n").toString();
 	}
 	
 	public String toCsvSimple() {
 		return new StringBuilder("")
-				.append(this.nome).append(";")
 				.append(this.cognome).append(";")
-				.append(this.telefono).append(";")
-				.append(this.email)
+				.append(this.nome).append(";")
+				.append(this.email).append(";")
+				.append(this.telefono)
 				.append("\n").toString();
 	}
 	
 	public String toCsvSimpleNoNome() {
 		return new StringBuilder("")
-				.append(";")
 				.append(this.cognome).append(";")
-				.append(this.telefono).append(";")
-				.append(this.email)
+				.append(";")
+				.append(this.email).append(";")
+				.append(this.telefono)
 				.append("\n").toString();
 	}
 	
 	public String toCsvSimpleNoCognome() {
 		return new StringBuilder("")
-				.append(this.nome).append(";")
 				.append(";")
-				.append(this.telefono).append(";")
-				.append(this.email)
+				.append(this.nome).append(";")
+				.append(this.email).append(";")
+				.append(this.telefono)
 				.append("\n").toString();
 	}
 }

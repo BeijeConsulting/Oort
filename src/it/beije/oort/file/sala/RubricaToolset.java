@@ -188,7 +188,7 @@ public class RubricaToolset {
 				StandardCharsets.UTF_8,
 				StandardOpenOption.APPEND,
 				StandardOpenOption.CREATE);
-		if(!ex) bf.write("NOME;COGNOME;TELEFONO;EMAIL\n");
+		if(!ex) bf.write("COGNOME;NOME;EMAIL;TELEFONO\n");
 		for(Contatto c : list) {
 			if(r.nextInt(5)==1) bf.write(c.toCsvSimpleNoNome());		//rimuovere queste due per
 			else if(r.nextInt(3)==1) bf.write(c.toCsvSimpleNoCognome());//scrivere sempre tutti i campi
