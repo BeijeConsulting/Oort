@@ -24,7 +24,7 @@ public class RubricaManager {
 		Contatto contatto = RubricaManager.chiediContatto();
 		System.out.println(contatto);
 		
-		System.out.println("Vuoi aggiungere o modificare il contatto? Oppure annullare l'operazione? a/m/n");
+		System.out.println("Vuoi aggiungere questo contatto o sostituire un contatto? Oppure annullare l'operazione? a/s/n");
 		switch (sc.nextLine()) {
 		case "a":
 			contatti.add(contatto);
