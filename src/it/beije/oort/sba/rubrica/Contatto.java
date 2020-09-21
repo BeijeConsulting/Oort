@@ -58,4 +58,13 @@ public class Contatto {
 		return builder.toString();
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+		Contatto c = (Contatto)o;
+		return (this.getNome().equals(c.getNome())&&
+				this.getCognome().equals(c.getCognome())&&
+				this.getTelefono().equals(c.getTelefono())&&
+				this.getEmail().equals(c.getEmail()));		
+	}
+	
 }
