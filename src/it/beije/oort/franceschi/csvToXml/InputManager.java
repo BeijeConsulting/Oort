@@ -13,9 +13,10 @@ public class InputManager {
 	private InputManager() {}
 	private static final String CSV_PATH = "C:\\Code\\Oort\\csv\\rubriche\\";
 	private static final String XML_PATH = "C:\\Code\\Oort\\xml\\rubriche\\";
+	private static final String DUPLICATI_PATH = "C:\\Code\\Oort\\csv\\rubriche-con-duplicati\\";
 
-	private static final String[] cognomi = { "brugaletta", "sala", "mater", "mancuso", "maisto", "madonia", "lauria",
-			"gregori", "girardi", "franceschi", "busseni", "bassanelli" };
+	private static final String[] cognomi = {  "bassanelli" ,"brugaletta", "sala", "mater", "mancuso", "maisto", "madonia", "lauria",
+			"gregori", "girardi", "franceschi", "busseni"};
 	private static final int inputAmount = cognomi.length;
 
 	/**
@@ -54,5 +55,25 @@ public class InputManager {
 			return "";
 		}
 		return name.substring(lastIndexOf + 1);
+	}
+
+	public static String getCsvPath() {
+		return CSV_PATH;
+	}
+
+	public static String getXmlPath() {
+		return XML_PATH;
+	}
+
+	public static String getDuplicatiPath() {
+		return DUPLICATI_PATH;
+	}
+
+	public static String[] getCognomi() {
+		return cognomi;
+	}
+
+	public static int getInputamount() {
+		return inputAmount;
 	}
 }

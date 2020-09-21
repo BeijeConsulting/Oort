@@ -104,6 +104,18 @@ public class CSVParser {
 						c.setEmail(contattoVals[i]);
 					}
 				}
+				if (c.getNome() == null) {
+					c.setNome("");
+				} 
+				if (c.getCognome() == null) {
+					c.setCognome("");
+				}
+				if (c.getEmail() == null) {
+					c.setEmail("");
+				}
+				if (c.getCell() == null) {
+					c.setCell("");;
+				}
 				contatti.add(c);
 			}
 		} catch (Exception e) {

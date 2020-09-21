@@ -87,6 +87,31 @@ public class Contatto {
 		s.append(";").append(c.getCell()).append(";").append(c.getEmail());
 		return s.toString();
 	}	
+	
+
+    public int hashCode() {
+        int hash = 3;
+        hash = 53 * hash + (this.email != null ? this.email.hashCode() : 0);
+        return hash;
+    }
+	
+    
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        final Contatto c = (Contatto) obj;
+
+        if ((this.email == null) ? (c.getEmail() != null) : !this.email.equals(c.getEmail())) {
+            return false;
+        }
+        return true;
+    }
 }
 
 
