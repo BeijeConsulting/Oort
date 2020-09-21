@@ -11,6 +11,7 @@ public class WriterCsvRubrica {
 	public static void writeCsvFile(String[] intestazione, List<Contatto> contatti, File fileCsv) throws IOException {
 		FileWriter writer = new FileWriter(fileCsv);
 
+		contatti.sort(null);
 		writer.write(WriterCsvRubrica.costruisciRiga(intestazione));
 		for (Contatto contatto : contatti) {
 			writer.write("\n");
