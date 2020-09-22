@@ -9,76 +9,77 @@ import java.util.Map;
 import java.util.Set;
 
 public class DuplicateManager {
-	
+
 	private static final String PATH_FILES = "/temp/rubrica/";
 
 	public static void main(String[] args) throws IOException {
 		File input = new File(PATH_FILES + "rubrica_bassanelli.csv");
 		File output = new File(PATH_FILES + "rubrica_output.csv");
 		List<Contatto> contatti = ParserCsvRubrica.creaListaContatti(input);
-		
-//		List<Contatto> contattiSenzaDuplicati = joinContattiSenzaReinserimento(contatti);
-		
+
+		//		List<Contatto> contattiSenzaDuplicati = joinContattiSenzaReinserimento(contatti);
+
+		List<Contatto> contattiSenzaDuplicati = DuplicateManager.joinContatti(contatti);
+		WriterCsvRubrica.writeCsvFile(new String[] {"EMAIL","COGNOME","NOME","TELEFONO"}, contattiSenzaDuplicati, output);
+	}
+
+	public static List<Contatto> joinContatti(List<Contatto> contatti) {
 		// Dichiarazione variabili
-				List<Contatto> contattiSenzaDuplicati = new ArrayList<Contatto>();
-				Map<String, List<Integer>> indexContatti = new HashMap<String, List<Integer>>();
-				
-				for (Contatto contatto : contatti) {
-					String key = contatto.getEmail();
-					// Se abbiamo già una chiave, allora dobbiamo modificare il contatto già inserito
-					if (indexContatti.containsKey(key)) {
-						// TODO Sistemare errore
-						for (int index : indexContatti.get(key)) {
-							Contatto contattoDaModificare = contattiSenzaDuplicati.get(index);
-							
-							// Se il vecchio nome è vuoto o se quello nuovo è vuoto
-							boolean isNomeModificabile = contattoDaModificare.getNome().equals("") || contatto.getNome().equals("");
-							boolean isCognomeModificabile = contattoDaModificare.getCognome().equals("") || contatto.getCognome().equals("");
-							boolean isTelefonoModificabile = contattoDaModificare.getTelefono().equals("") || contatto.getTelefono().equals("");
-							
-							if(isNomeModificabile && isCognomeModificabile && isTelefonoModificabile) {
-								if(contattoDaModificare.getNome().equals("")) {
-									contattoDaModificare.setNome(contatto.getNome());
-								}
-								if (contattoDaModificare.getCognome().equals("")) {
-									contattoDaModificare.setCognome(contatto.getCognome());
-								}
-								if (contattoDaModificare.getTelefono().equals("")) {
-									contattoDaModificare.setTelefono(contatto.getTelefono());
-								}
-							} else {
-								contattiSenzaDuplicati.add(contatto);
-								List<Integer> list = indexContatti.get(key);
-								list.add(contattiSenzaDuplicati.size() - 1);
-							}
+		List<Contatto> contattiSenzaDuplicati = new ArrayList<Contatto>();
+		Map<String, List<Integer>> indexContatti = new HashMap<String, List<Integer>>();
+
+		for (Contatto contatto : contatti) {
+			String key = contatto.getEmail();
+			// Se abbiamo già una chiave, allora dobbiamo modificare il contatto già inserito
+			if (indexContatti.containsKey(key)) {
+				boolean isContattoJoined = false;
+				for (int index : indexContatti.get(key)) {
+					Contatto contattoDaModificare = contattiSenzaDuplicati.get(index);
+					
+					System.out.println("Contatto precedente: " + contattoDaModificare);
+					System.out.println("Contatto nuovo: " + contatto);
+
+					// Se il vecchio nome è vuoto o se quello nuovo è vuoto
+					boolean isNomeModificabile = contattoDaModificare.getNome().equals("") || contatto.getNome().equals("");
+					boolean isCognomeModificabile = contattoDaModificare.getCognome().equals("") || contatto.getCognome().equals("");
+					boolean isTelefonoModificabile = contattoDaModificare.getTelefono().equals("") || contatto.getTelefono().equals("");
+
+					if(isNomeModificabile && isCognomeModificabile && isTelefonoModificabile) {
+						isContattoJoined = true;
+						if(contattoDaModificare.getNome().equals("")) {
+							contattoDaModificare.setNome(contatto.getNome());
 						}
-//						int index = indexContatti.get(key);
-//						Contatto contattoDaModificare = contattiSenzaDuplicati.get(index);
-//						if(contattoDaModificare.getNome().equals("")) {
-//							contattoDaModificare.setNome(contatto.getNome());
-//						}
-//						if (contattoDaModificare.getCognome().equals("")) {
-//							contattoDaModificare.setCognome(contatto.getCognome());
-//						}
-//						if (contattoDaModificare.getTelefono().equals("")) {
-//							contattoDaModificare.setTelefono(contatto.getTelefono());
-//						}
-//						// Se la chiave non è stata trovata, il contatto è "nuovo" e lo aggiungiamo
-					} else {
-						contattiSenzaDuplicati.add(contatto);
-						List<Integer> list = new ArrayList<Integer>();
-						list.add(contattiSenzaDuplicati.size() - 1);
-						indexContatti.put(key,list);
+						if (contattoDaModificare.getCognome().equals("")) {
+							contattoDaModificare.setCognome(contatto.getCognome());
+						}
+						if (contattoDaModificare.getTelefono().equals("")) {
+							contattoDaModificare.setTelefono(contatto.getTelefono());
+						}
+						System.out.println("Contatto modificato: " + contattoDaModificare);
+						break;
 					}
 				}
-		WriterCsvRubrica.writeCsvFile(new String[] {"EMAIL","COGNOME","NOME","TELEFONO"}, contattiSenzaDuplicati, output);
+				if(!isContattoJoined) {
+					contattiSenzaDuplicati.add(contatto);
+					List<Integer> list = indexContatti.get(key);
+					list.add(contattiSenzaDuplicati.size() - 1);
+				}
+			} else {
+				contattiSenzaDuplicati.add(contatto);
+				List<Integer> list = new ArrayList<Integer>();
+				list.add(contattiSenzaDuplicati.size() - 1);
+				indexContatti.put(key,list);
+			}
+			System.out.println("K: " + key + "; V: " + indexContatti.get(key));
+		}
+		return contattiSenzaDuplicati;
 	}
 
 	public static List<Contatto> joinContattiSenzaReinserimento(List<Contatto> contatti) {
 		// Dichiarazione variabili
 		List<Contatto> contattiSenzaDuplicati = new ArrayList<Contatto>();
 		Map<String, Integer> indexContatti = new HashMap<String, Integer>();
-		
+
 		for (Contatto contatto : contatti) {
 			String key = contatto.getEmail();
 			// Se abbiamo già una chiave, allora dobbiamo modificare il contatto già inserito
@@ -108,9 +109,9 @@ public class DuplicateManager {
 		// Sono duplicati quelle chiavi che hanno un conteggio 2+
 		// "" -> 5
 		// "tgh@uu.com" -> 3
-		
+
 		Map<String, Integer> map = new HashMap<String, Integer>(); // Email (CHIAVE) -> Quante volte compare (VALORE)
-		
+
 		int countDuplicati = 0;
 		for(Contatto contatto : contatti) {
 			String key = contatto.getEmail();
@@ -121,11 +122,11 @@ public class DuplicateManager {
 				map.put(key, 1);
 			}
 		}
-		
+
 		System.out.println("Quante chiavi ci sono: " + map.size());
 		System.out.println("Quante chiavi duplicate ci sono: " + countDuplicati);
 		//System.out.println("Stringa vuota compare queste volte: " + map.get(""));
-		
+
 		return map;
 	}
 
