@@ -22,43 +22,87 @@ public class RubricaCSV {
 
 // ------------ METODI ------------
 	
-//riporta in una lista di contatti il contenuto di un file CSV in cui la prima
-//riga fornisce l'ordine degli attributi che andranno a formare il contatto.
-	public static List<Contatto> getContatto(File file) throws IOException {
+//USARE QUESTO: riporta in una lista di contatti il contenuto di un file CSV in cui la 
+//prima riga fornisce l'ordine degli attributi che andranno a formare il contatto.
+	public static List<Contatto> getListContatti(File file) throws IOException {
 		FileReader fileReader = new FileReader(file);
 		BufferedReader bufferedReader = new BufferedReader(fileReader);
 		List<Contatto> listaContatti = new ArrayList<Contatto>();
 		
-	//lettura riga iniziale e ordine degli attributi di contatto:
-		String riga = bufferedReader.readLine();
-		String[] campi = riga.split(";"); 
-		int a = 0, b = 0, c = 0, d = 0;
-		for (int i = 0; i < 4; i++) {
-			// a:nome, b:cognome, c:telefono, d:email
-			switch (campi[i].trim().toLowerCase()) {
-			case "nome":
-				a = i;
-				break;
-			case "cognome":
-				b = i;
-				break;
-			case "telefono":
-				c = i;
-				break;
-			case "email":
-			case "e-mail":
-				d = i;
-				break;
-			}
-		}
-	// riporto i contatti nella lista
+		//lettura riga iniziale (intestazione):
+		List<String> intestazione = Arrays.asList(bufferedReader.readLine().split(";"));
+		
+		// riporto i contatti nella lista
 		while (bufferedReader.ready()) {
-			campi = bufferedReader.readLine().split(";");			
-			listaContatti.add(new Contatto(campi[a],campi[b], campi[c],campi[d]));
+			String[] campi = bufferedReader.readLine().split(";");			
+			listaContatti.add(getContatto(intestazione, campi));
 		}
 		return listaContatti;
 	}
-
+	
+//data l'intestazione della rubrica e l'array di stringhe di una riga del csv
+//restituisce il Contatto.
+	private static Contatto getContatto (List<String> intestazione, String[] campi) {
+		Contatto contatto = new Contatto();
+		for(int i = 0; i < campi.length; i++) {
+			switch (intestazione.get(i).trim().toLowerCase()) {
+			case "nome":
+				contatto.setNome(campi[i]);
+				break;
+			case "cognome":
+				contatto.setCognome(campi[i]);
+				break;
+			case "telefono":
+				contatto.setTelefono(campi[i]);
+				break;
+			case "email":
+			case "e-mail":
+				contatto.setEmail(campi[i]);
+				break;
+			}
+		}
+		return contatto;
+	}
+	
+//	riporta in una lista di contatti il contenuto di un file CSV in cui la prima
+//	riga fornisce l'ordine degli attributi che andranno a formare il contatto.
+//	N.B.: è leggermente più veloce ma se la rubrica è incompleta potrebbe dare
+//	dei problemi del tipo: campi.size() < 4 o addirittura 0.
+		public static List<Contatto> getContatti(File file) throws IOException {
+			FileReader fileReader = new FileReader(file);
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+			List<Contatto> listaContatti = new ArrayList<Contatto>();
+			
+		//lettura riga iniziale e ordine degli attributi di contatto:
+			String riga = bufferedReader.readLine();
+			String[] campi = riga.split(";"); 
+			int a = 0, b = 0, c = 0, d = 0;
+			for (int i = 0; i < 4; i++) {
+				// a:nome, b:cognome, c:telefono, d:email
+				switch (campi[i].trim().toLowerCase()) {
+				case "nome":
+					a = i;
+					break;
+				case "cognome":
+					b = i;
+					break;
+				case "telefono":
+					c = i;
+					break;
+				case "email":
+				case "e-mail":
+					d = i;
+					break;
+				}
+			}
+		// riporto i contatti nella lista
+			while (bufferedReader.ready()) {
+				campi = bufferedReader.readLine().split(";");			
+				listaContatti.add(new Contatto(campi[a],campi[b], campi[c],campi[d]));
+			}
+			return listaContatti;
+		}
+	
 	
 //metodo che data un contatto ti ridà la riga in formato csv dentro una String
 	public static String contattoRigaCSV (Contatto contatto) {
@@ -99,11 +143,8 @@ public class RubricaCSV {
 		else
 			System.out.println("il file che si vuole caricare non esiste");
 		//metodo per la List di contatti
-		List<Contatto> listaContatti = getContatto(file);  
-		
-//		int i = 0;
-//		System.out.println(listaContatti.size());
-//		System.out.println(listaContatti.get(i).toString());
+		List<Contatto> listaContatti = getListContatti(file);  
+//		List<Contatto> listaContatti = getContatti(file);  
 		
 		//scrittura file xml tramite il metodo implementato
 		RubricaXML.writeContatti (listaContatti, PATH_FILES + "rubrica_lauria.xml");
