@@ -61,4 +61,20 @@ public class ContactsMerger {
 	}
 	
 	
+	private static Contatto merge(Contatto c1, Contatto c2) {
+		Contatto cResult = new Contatto();
+		
+		if(c1.getNome().equalsIgnoreCase(c2.getNome())) cResult.setNome(c1.getNome());
+		else cResult.setNome(c1.getNome()+c2.getNome());
+		
+		if(c1.getCognome().equalsIgnoreCase(c2.getCognome())) cResult.setCognome(c1.getCognome());
+		else cResult.setCognome(c1.getCognome()+c2.getCognome());
+		
+		if(c1.getEmail().equalsIgnoreCase(c2.getEmail())) cResult.setEmail(c1.getEmail());
+		else cResult.setEmail(c1.getEmail()+c2.getEmail());
+		
+		return cResult;
+	}
+	
+	
 }
