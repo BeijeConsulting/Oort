@@ -13,7 +13,6 @@ import it.beije.oort.file.rubrica.Contatto;
 import it.beije.oort.file.rubrica.comparators.ContattoNomeComparator;
 
 public class CSVWriter{	
-	@SuppressWarnings("unchecked")
 	public static void writeCSV(List<Contatto> list, String outputPath, Comparator<Contatto> c) {
 		Collections.sort(list, c);
 		try (BufferedWriter bf = new BufferedWriter(

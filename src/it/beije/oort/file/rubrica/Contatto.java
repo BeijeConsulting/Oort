@@ -10,8 +10,9 @@ import it.beije.oort.file.rubrica.utils.Valori;
 public class Contatto {
 	private String nome;
 	private String cognome;
-	private String cell;
-	private String email;
+	private String cell = "";
+	private String email = "";
+	private String alias = "";
 	
 	public Contatto() {
 	}
@@ -66,12 +67,13 @@ public class Contatto {
 	 */
 	public String toFormattedString() {
 		return new StringBuilder("\"").append(cognome).append("\";\"").append(nome).append("\";\"").append(email)
-				.append("\";\"").append(cell).append("\"").toString();
+				.append("\";\"").append(cell).append("\";\"").append("[" + this.getAlias() + "]")
+				.append("\"").toString();
 	}
 
 	public String toString() {
 		return new StringBuilder("Nome: " + this.getNome() + ". Cognome: " + this.getCognome() + ". Email: "
-				+ this.getEmail() + ". Telefono: " + this.getCell()).toString();
+				+ this.getEmail() + ". Telefono: " + this.getCell()) + " [" + this.getAlias() + "]".toString();
 	}
 	
 	public static String getContattoFormattatoToString(ArrayList<Contatto> rubrica, int i, Random r) {
@@ -112,6 +114,14 @@ public class Contatto {
         }
         return true;
     }
+
+	public String getAlias() {
+		return alias;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
+	}
 }
 
 
