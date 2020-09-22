@@ -46,8 +46,6 @@ public class ContactsMerger {
 		}
 		if (compatible) {
 			mergeContact(set);
-		} else {
-			return;
 		}
 	}
 
@@ -76,8 +74,5 @@ public class ContactsMerger {
 		
 		return cResult;
 	}
-	
-	
-	
 	
 }
