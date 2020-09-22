@@ -2,6 +2,7 @@ package it.beije.oort.team.map;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class Duplicates {
 		getStampaMappa(map);
 		System.out.println(returnList.size());
 		WriterCsv.writeContatti(returnList, pathFile);
+		
 		return returnList;
 	}
 
