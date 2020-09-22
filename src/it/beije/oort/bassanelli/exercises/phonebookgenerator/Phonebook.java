@@ -374,66 +374,12 @@ public class Phonebook {
 		if (file.exists()) {
 
 			FileWriter fileWriter = new FileWriter(file);
-			Random r = new Random();
-
-			String[] fields = pattern.split(";");
 
 			fileWriter.write(pattern + "\n");
 
 			for (Contact contact : list) {
-
-				StringBuilder builder = new StringBuilder();
-
-				for (int i = 0; i < fields.length; i++) {
-
-					if (useRandom) {
-						switch (fields[i].toUpperCase()) {
-						case "NOME":
-
-							if (r.nextInt(5) + 1 == 1) {
-								builder.append(contact.getName());
-							}
-
-							break;
-						case "COGNOME":
-
-							if (r.nextInt(3) + 1 == 1) {
-								builder.append(contact.getSurname());
-							}
-
-							break;
-						case "TELEFONO":
-							builder.append(contact.getMobile());
-							break;
-						case "EMAIL":
-							builder.append(contact.getEmail());
-							break;
-						}
-					} else {
-						switch (fields[i].toUpperCase()) {
-						case "NOME":
-							builder.append(contact.getName());
-							break;
-						case "COGNOME":
-							builder.append(contact.getSurname());
-							break;
-						case "TELEFONO":
-							builder.append(contact.getMobile());
-							break;
-						case "EMAIL":
-							builder.append(contact.getEmail());
-							break;
-						}
-					}
-
-					builder.append(";");
-
-				}
-
-				builder.deleteCharAt(builder.length() - 1);
-				builder.append("\n");
-
-				fileWriter.write(builder.toString());
+				
+				fileWriter.write(contact.toCsvRow(pattern, useRandom));
 			}
 
 			fileWriter.flush();
@@ -676,6 +622,8 @@ public class Phonebook {
 
 		if (list.size() > 0) {
 			Collections.sort(list, new Comparator<Contact>() {
+				
+				@Override
 				public int compare(final Contact contactObject1, final Contact contactObject2) {
 
 					switch (field) {

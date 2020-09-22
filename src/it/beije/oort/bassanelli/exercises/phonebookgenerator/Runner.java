@@ -26,7 +26,7 @@ public class Runner {
 
 		System.out.println("Start: " + LocalTime.now());
 
-		List<Contact> recordsList = Phonebook.recordsGenerator(1000, namesList, surnamesList, prefixsList, mobilesList,
+		List<Contact> recordsList = Phonebook.recordsGenerator(10, namesList, surnamesList, prefixsList, mobilesList,
 				domainsList, emailsList);
 
 		System.out.println("Done records: " + LocalTime.now());
@@ -47,11 +47,11 @@ public class Runner {
 
 		List<Contact> temp = Phonebook.readCsvFile("/temp/rubrica_bassanelli.csv");
 
-		Phonebook.sortByField(temp, "COGNOME");
+		Phonebook.sortByField(recordsList, "NOME");
 
-		Phonebook.writeCsvFile(temp, "COGNOME;NOME;EMAIL;TELEFONO", "/temp/new_rubrica.csv", false);
+		Phonebook.writeCsvFile(temp, "COGNOME;NOME;EMAIL;TELEFONO", "/temp/new_rubrica.csv", true);
 
-		Phonebook.printAllRecords(temp, "TELEFONO;COGNOME;NOME;EMAIL");
+		Phonebook.printAllRecords(recordsList, "NOME;COGNOME;TELEFONO;EMAIL");
 
 	}
 
