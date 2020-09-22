@@ -49,13 +49,34 @@ public class Contact {
 	}
 		
 	public String toString() {
-		StringBuilder builder = new StringBuilder("CONTACT [");
-		builder.append("NAME : ").append(this.name)
-			.append(" - SURNAME : ").append(this.surname)
-			.append(" - MOBILE : ").append(this.mobile)
-			.append(" - EMAIL : ").append(this.email).append("]");
+		return this.toString("NOME;COGNOMET;TELEFONO;EMAIL");
+	}
+	
+	public String toString(String pattern) {
 		
-		return builder.toString();
+		String[] fields = pattern.split(";", -1);
+		
+		StringBuilder builder = new StringBuilder("CONTACT [ ");
+		
+		for (int i = 0; i < fields.length; i++) {
+
+			switch (fields[i].toUpperCase()) {
+			case "NOME":
+				builder.append("NAME: ").append(this.name).append(" ");
+				break;
+			case "COGNOME":
+				builder.append("SURNAME: ").append(this.surname).append(" ");
+				break;
+			case "TELEFONO":
+				builder.append("MOBILE: ").append(this.mobile).append(" ");
+				break;
+			case "EMAIL":
+				builder.append("EMAIL: ").append(this.email).append(" ");
+				break;
+			}
+		}
+	
+		return builder.append("]").toString();
 	}
 	
 	public String toCsvRow() {

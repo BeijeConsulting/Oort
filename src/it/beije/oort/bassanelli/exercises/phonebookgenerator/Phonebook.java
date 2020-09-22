@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -26,20 +25,36 @@ import org.xml.sax.SAXException;
 
 public class Phonebook {
 
-	public static List<Contact> recordsGenerator(int total, List<String> namesList, List<String> surnamesList, List<String> prefixsList,
-			List<String> mobilesList, List<String> domainsList, List<String> emailsList) {
+	public static void printAllRecords(List<Contact> list) {
+
+		for (Contact contact : list) {
+			System.out.println(contact.toString());
+		}
+
+	}
+
+	public static void printAllRecords(List<Contact> list, String pattern) {
+
+		for (Contact contact : list) {
+			System.out.println(contact.toString(pattern));
+		}
+
+	}
+
+	public static List<Contact> recordsGenerator(int total, List<String> namesList, List<String> surnamesList,
+			List<String> prefixsList, List<String> mobilesList, List<String> domainsList, List<String> emailsList) {
 
 		List<Contact> recordsList = new ArrayList<Contact>();
-		
+
 		Random r = new Random();
 		String name = "";
 		String surname = "";
 		String mobile = "";
 		String domain = "";
 		String email = "";
-		
-		for(int i = 0; i < total; i++) {
-			
+
+		for (int i = 0; i < total; i++) {
+
 			Contact contact = new Contact();
 
 			name = nameGenerator(namesList.get(r.nextInt(namesList.size())));
@@ -57,16 +72,16 @@ public class Phonebook {
 			contact.setMobile(mobile);
 			contact.setEmail(email);
 
-			System.out.println(contact.toString());
+			// System.out.println(contact.toString());
 
 			recordsList.add(contact);
-			
+
 		}
 
 		return recordsList;
 
 	}
-		
+
 	public static String nameGenerator(String name) {
 		name = toUpper(name.trim());
 		return name;
@@ -82,39 +97,39 @@ public class Phonebook {
 		finalWord.append(str.substring(0, 1).toUpperCase()).append(str.substring(1));
 		return finalWord.toString();
 	}
-	
+
 	public static String randomDiceMobile(List<String> prefixList, List<String> mobileList) {
 		Random r = new Random();
-		
+
 		int randomNumber = r.nextInt(8) + 1;
-		
+
 		StringBuilder mobile = new StringBuilder();
-		
-		if(randomNumber == 1) {
-			
+
+		if (randomNumber == 1) {
+
 			return mobile.toString();
-			
-		} else if(randomNumber == 2) {
-			
+
+		} else if (randomNumber == 2) {
+
 			mobile.append(mobileList.get(r.nextInt(mobileList.size())));
 			return mobile.toString();
-			
-		} else if(randomNumber == 3 || randomNumber == 4) {
-			
+
+		} else if (randomNumber == 3 || randomNumber == 4) {
+
 			mobile.append("+39").append(mobileGenerator(prefixList));
 			return mobile.toString();
-			
+
 		} else {
-			
+
 			mobile.append(mobileGenerator(prefixList));
 			return mobile.toString();
-			
+
 		}
 	}
 
 	public static String mobileGenerator(List<String> prefixList) {
 		Random r = new Random();
-		
+
 		char[] numbers = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
 
 		StringBuilder mobile = new StringBuilder(prefixList.get(r.nextInt(5)));
@@ -125,28 +140,28 @@ public class Phonebook {
 
 		return mobile.toString();
 	}
-	
+
 	public static String randomDiceEmail(String name, String surname, String domain, List<String> emailList) {
 		Random r = new Random();
-		
+
 		int randomNumber = r.nextInt(10) + 1;
-		
+
 		StringBuilder email = new StringBuilder("");
-		
-		if(randomNumber == 1 || randomNumber == 2) {
-			
+
+		if (randomNumber == 1 || randomNumber == 2) {
+
 			return email.toString();
-			
-		} else if(randomNumber >= 3 && randomNumber <= 5) {
-			
+
+		} else if (randomNumber >= 3 && randomNumber <= 5) {
+
 			email.append(emailList.get(r.nextInt(emailList.size())));
 			return email.toString();
-			
-		} else  {
-			
+
+		} else {
+
 			email.append(emailGenerator(name, surname, domain));
 			return email.toString();
-			
+
 		}
 	}
 
@@ -282,11 +297,6 @@ public class Phonebook {
 
 		return email.toString().toLowerCase();
 	}
-	
-	
-	
-	
-	
 
 	public static List<Contact> readCsvFile(String filepath) throws IOException {
 

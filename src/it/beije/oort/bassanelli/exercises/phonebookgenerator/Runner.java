@@ -1,9 +1,12 @@
 package it.beije.oort.bassanelli.exercises.phonebookgenerator;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalTime;
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.List;
 
 public class Runner {
 
@@ -15,38 +18,41 @@ public class Runner {
 		List<String> domainsList = listGenerator("/temp/domini.txt");
 
 		// List<Contact> recordsList = new ArrayList<Contact>();
-		
+
 		List<Contact> contactsFromCsv = Phonebook.readCsvFile("/temp/records.csv");
-		
+
 		List<String> mobilesList = Phonebook.extractField(contactsFromCsv, "TELEFONO");
 		List<String> emailsList = Phonebook.extractField(contactsFromCsv, "EMAIL");
 
 		System.out.println("Start: " + LocalTime.now());
 
-		
-		List<Contact> recordsList = Phonebook.recordsGenerator(1000, namesList, surnamesList, prefixsList, mobilesList, domainsList, emailsList);
-		
-	
+		List<Contact> recordsList = Phonebook.recordsGenerator(1000, namesList, surnamesList, prefixsList, mobilesList,
+				domainsList, emailsList);
+
 		System.out.println("Done records: " + LocalTime.now());
-		
-		// Phonebook.writeCsvFile(recordsList, "COGNOME;NOME;EMAIL;TELEFONO", "/temp/records.csv", true);
+
+		// Phonebook.writeCsvFile(recordsList, "COGNOME;NOME;EMAIL;TELEFONO",
+		// "/temp/records.csv", true);
 
 		System.out.println("Done file: " + LocalTime.now());
 
-		// List<Contact> contactsFromCsv = Phonebook.readCsvFile("/temp/rubrica_bassanelli.csv");
-		
+		// List<Contact> contactsFromCsv =
+		// Phonebook.readCsvFile("/temp/rubrica_bassanelli.csv");
+
 		// Phonebook.writeXmlFile(contactsFromCsv, "/temp/rubrica.xml");
-		
+
 		// Phonebook.updateFile("/temp/records.csv", "/temp/records.csv");
-		
+
 		// List<Contact> contactsFromXml = Phonebook.readXmlFile("/temp/rubrica.xml");
-		
+
 		List<Contact> temp = Phonebook.readCsvFile("/temp/rubrica_bassanelli.csv");
-		
+
 		Phonebook.sortByField(temp, "COGNOME");
-		
+
 		Phonebook.writeCsvFile(temp, "COGNOME;NOME;EMAIL;TELEFONO", "/temp/new_rubrica.csv", false);
-		
+
+		Phonebook.printAllRecords(temp, "TELEFONO;COGNOME;NOME;EMAIL");
+
 	}
 
 	public static List<String> listGenerator(String path) throws IOException, Exception {
