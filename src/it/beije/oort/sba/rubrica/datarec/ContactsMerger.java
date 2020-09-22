@@ -16,8 +16,8 @@ public class ContactsMerger {
 		for (String key : map.getKeySet()) {
 			setContatti = map.getValue(key);
 			mergeContact(setContatti);
+			contatti.addAll(setContatti);
 		}
-		
 		return contatti;
 		
 	}
