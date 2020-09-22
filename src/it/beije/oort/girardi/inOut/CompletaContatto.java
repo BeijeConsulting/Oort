@@ -28,12 +28,17 @@ public class CompletaContatto {
 //e riempie la List di Conttatti NO_TELEFONO con i contatti senza numero.
 	public static void fillHashMap (List<Contatto> listaContatti) {
 		for (Contatto contatto : listaContatti) {
-			if (contatto.getTelefono() == "") //no telefono
+			if (contatto.getTelefono() == "" || contatto.getTelefono() == null) //no telefono
 				NO_TELEFONO.add(contatto);
 			else if (MAPPA_TELEFONI.containsKey(contatto.getTelefono())) { //telefono doppio
-				List <Contatto> listStessoTel = MAPPA_TELEFONI.get(contatto.getTelefono());
-				listStessoTel.add(contatto);
-				MAPPA_TELEFONI.put(contatto.getTelefono(), listStessoTel); 
+				if (CompletaContatto.areCompatible(c1, c2)) {
+					
+				}
+				else { //mette in coda nella lista i contatti con = tel e != campi
+					List <Contatto> listStessoTel = MAPPA_TELEFONI.get(contatto.getTelefono());
+					listStessoTel.add(contatto);
+					MAPPA_TELEFONI.put(contatto.getTelefono(), listStessoTel); 
+				}
 			}
 			else { // telefono diverso dai precedenti
 				List <Contatto> listNewTel = new ArrayList<>();
@@ -41,6 +46,32 @@ public class CompletaContatto {
 				MAPPA_TELEFONI.put(contatto.getTelefono(), listNewTel); 
 			}	
 		}
+	}
+	
+	
+//metodo che verifica se due contatti incompleti sono compatibili
+	public static boolean areCompatible(Contatto c1, Contatto c2) {
+		if (c1.getNome() == "" || c2.getNome() == "") {}
+//		if (c1.getNome() == null || c2.getNome() == null) {}
+		else if (c1.getName() == c2.getName()) {}
+		else return false;
+		
+		if (c1.getCognome() == "" || c2.getCognome() == "") {}
+//		if (c1.getCognome() == null || c2.getCognome() == null) {}
+		else if (c1.getCognome() == c2.getCognome()) {}
+		else return false;
+		
+		if (c1.getEmail() == "" || c2.getEmail() == "") {}
+//		if (c1.getEmail() == null || c2.getEmail() == null) {}
+		else if (c1.getEmail() == c2.getEmail()) {}
+		else return false;
+		
+		if (c1.getTelefono() == "" || c2.getTelefono() == "") {}
+		else if (c1.getTelefono() == null || c2.getTelefono() == null) {}
+		else if (c1.getTelefono() == c2.getTelefono()) {}
+		else return false;
+		
+		return true;
 	}
 	
 	
@@ -73,13 +104,16 @@ numero telefonico.
 			System.err.println("il file che si vuole caricare non esiste");
 		
 		//metodo per la List di contatti
-		List<Contatto> listaContatti = RubricaCSV.getListContatti(file);  
+		List<Contatto> listaContatti = RubricaCSV.getListContatti(file); 
+		System.out.println(listaContatti.size());
+//		RubricaCSV.writeContatti(listaContatti, PATH_FILES + "rubricaNonComplProvv.csv");
 		
 		//metodo per riempire l'HashMap
 		CompletaContatto.fillHashMap (listaContatti);
 		
 		//metodo per trasformare l' HashMap in una List di Contatti
-		List<Contatto> listaContattiCompleta = fromHmToList(MAPPA_TELEFONI);
+		List<Contatto> listaContattiCompleta = CompletaContatto.fromHmToList(MAPPA_TELEFONI);
+		System.out.println(listaContattiCompleta.size());
 		
 		//data una List di Contatti crea e scrive un file csv nel pathfile: 
 		RubricaCSV.writeContatti(listaContattiCompleta, PATH_FILES + "rubricaCompleta.csv");
