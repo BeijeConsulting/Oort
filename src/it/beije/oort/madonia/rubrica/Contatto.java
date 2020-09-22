@@ -1,11 +1,15 @@
 package it.beije.oort.madonia.rubrica;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Contatto implements Comparable<Contatto> {
 
 	private String nome;
 	private String cognome;
 	private String telefono;
 	private String email;
+	private List<String> alias = new ArrayList<String>();
 
 	public Contatto() {}
 
@@ -51,6 +55,13 @@ public class Contatto implements Comparable<Contatto> {
 	//	public String getNominativo() { //nominativo
 	//		return this.nome + " " + this.cognome;
 	//	}
+
+	public String getAlias() {
+		return alias.toString();
+	}
+	public void addAlias(String alias) {
+		this.alias.add(alias);
+	}
 
 	public String toString() {
 		StringBuilder builder = new StringBuilder("contatto [");

@@ -63,6 +63,8 @@ public class WriterCsvRubrica {
 				campi.add(contatto.getTelefono());
 			} else if (intestazione[index].equalsIgnoreCase("email")) {
 				campi.add(contatto.getEmail());
+			} else if (intestazione[index].equalsIgnoreCase("alias")) {
+				campi.add(contatto.getAlias());
 			}
 		}
 		
