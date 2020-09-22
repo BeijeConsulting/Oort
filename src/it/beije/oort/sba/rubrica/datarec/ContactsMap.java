@@ -10,6 +10,14 @@ import it.beije.oort.sba.rubrica.Contatto;
 public class ContactsMap {
 	private Map<String, Set<Contatto>> map = new HashMap<>();
 	
+	public ContactsMap() {}
+	
+	public ContactsMap(List<Contatto> list) {
+		for(Contatto c : list) {
+			this.add(c);
+		}
+	}
+	
 	public void add(Contatto c) {
 		if(c.getTelefono() == null || c.getTelefono().equals("")) return;
 		//if(c.getTelefono() == null) c.setTelefono("");
@@ -27,11 +35,11 @@ public class ContactsMap {
 		return map.keySet();
 	}
 	
-	public static ContactsMap getMap(List<Contatto> list) {
-		ContactsMap ret = new ContactsMap();
-		for(Contatto c : list) {
-			ret.add(c);
-		}
-		return ret;
-	}
+//	public static ContactsMap getMap(List<Contatto> list) {
+//		ContactsMap ret = new ContactsMap();
+//		for(Contatto c : list) {
+//			ret.add(c);
+//		}
+//		return ret;
+//	}
 }
