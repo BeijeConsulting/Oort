@@ -24,4 +24,14 @@ public class ContactsMerger {
 		return contatti;
 		
 	}
+	
+	public boolean compatibilita(Contatto c1,Contatto c2){
+		String[] content1 = {c1.getNome(), c1.getCognome(), c1.getEmail()};
+		String[] content2 = {c2.getNome(), c2.getCognome(), c2.getEmail()};
+		boolean a, b, c;
+		a = content1[0].equalsIgnoreCase(content2[0])||content1[0].equals("")||content2[0].equals("");
+		b = content1[1].equalsIgnoreCase(content2[1])||content1[1].equals("")||content2[1].equals("");
+		c = content1[2].equalsIgnoreCase(content2[2])||content1[2].equals("")||content2[2].equals("");
+		return (a && b && c);
+	}
 }
