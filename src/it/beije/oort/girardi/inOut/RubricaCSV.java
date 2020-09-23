@@ -37,6 +37,7 @@ public class RubricaCSV {
 			String[] campi = bufferedReader.readLine().split(";");			
 			listaContatti.add(getContatto(intestazione, campi));
 		}
+		bufferedReader.close();
 		return listaContatti;
 	}
 	
@@ -100,6 +101,7 @@ public class RubricaCSV {
 				campi = bufferedReader.readLine().split(";");			
 				listaContatti.add(new Contatto(campi[a],campi[b], campi[c],campi[d]));
 			}
+			bufferedReader.close();
 			return listaContatti;
 		}
 	

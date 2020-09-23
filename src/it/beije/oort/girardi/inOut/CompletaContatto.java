@@ -16,7 +16,7 @@ public class CompletaContatto {
 	
 	private static final String PATH_FILES = "C:\\Users\\Padawan05\\Desktop\\file_testo\\";
 
-	private static final Map<String,List<Contatto>> MAPPA_TELEFONI = new HashMap<>();
+	private static final Map<String,List<Contatto>> MAP_TELEFONI = new HashMap<>();
 	
 	private static final List<Contatto> NO_TELEFONO = new ArrayList<>();
 	
@@ -28,23 +28,43 @@ public class CompletaContatto {
 //e riempie la List di Conttatti NO_TELEFONO con i contatti senza numero.
 	public static void fillHashMap (List<Contatto> listaContatti) {
 		for (Contatto contatto : listaContatti) {
-			if (contatto.getTelefono() == "" || contatto.getTelefono() == null) //no telefono
+			//no telefono:
+			if (contatto.getTelefono() == "" || contatto.getTelefono() == null) 
 				NO_TELEFONO.add(contatto);
-			else if (MAPPA_TELEFONI.containsKey(contatto.getTelefono())) { //telefono doppio
-				if (CompletaContatto.areCompatible(c1, c2)) {
-					
+			
+			//telefono doppio:
+			else if (MAP_TELEFONI.containsKey(contatto.getTelefono())) { 
+				//confronto con ogni contatto salvato con lo stesso telefono
+				boolean giaAggiunto = false;
+				for (Contatto c : MAP_TELEFONI.get(contatto.getTelefono())) {
+					int k = 0;
+					if (CompletaContatto.areCompatible(c, contatto)) {
+						//riempio i campi vuoti del contatto già salvato e lo salvo.
+						List <Contatto> listStessoTel = MAP_TELEFONI.get(contatto.getTelefono());
+						listStessoTel.remove(k);
+						listStessoTel.add(k, CompletaContatto.matchCampi(c, contatto));
+						MAP_TELEFONI.put(contatto.getTelefono(), listStessoTel); 
+						//fa il procedimento mentre crea la mappa, quindi non ci sono
+						//due contatti con lo stesso numero e compatibili.
+						giaAggiunto = true;
+						break; 
+					}
+					k++;
 				}
-				else { //mette in coda nella lista i contatti con = tel e != campi
-					List <Contatto> listStessoTel = MAPPA_TELEFONI.get(contatto.getTelefono());
+				//mette in coda nella lista i contatti con = tel e != campi
+				if (!giaAggiunto){ 
+					List <Contatto> listStessoTel = MAP_TELEFONI.get(contatto.getTelefono());
 					listStessoTel.add(contatto);
-					MAPPA_TELEFONI.put(contatto.getTelefono(), listStessoTel); 
+					MAP_TELEFONI.put(contatto.getTelefono(), listStessoTel); 
 				}
 			}
-			else { // telefono diverso dai precedenti
+			
+			// telefono diverso dai precedenti
+			else { 
 				List <Contatto> listNewTel = new ArrayList<>();
 				listNewTel.add(contatto);
-				MAPPA_TELEFONI.put(contatto.getTelefono(), listNewTel); 
-			}	
+				MAP_TELEFONI.put(contatto.getTelefono(), listNewTel); 
+			}
 		}
 	}
 	
@@ -52,17 +72,17 @@ public class CompletaContatto {
 //metodo che verifica se due contatti incompleti sono compatibili
 	public static boolean areCompatible(Contatto c1, Contatto c2) {
 		if (c1.getNome() == "" || c2.getNome() == "") {}
-//		if (c1.getNome() == null || c2.getNome() == null) {}
-		else if (c1.getName() == c2.getName()) {}
+//		else if (c1.getNome() == null || c2.getNome() == null) {}
+		else if (c1.getNome() == c2.getNome()) {}
 		else return false;
 		
 		if (c1.getCognome() == "" || c2.getCognome() == "") {}
-//		if (c1.getCognome() == null || c2.getCognome() == null) {}
+//		else if (c1.getCognome() == null || c2.getCognome() == null) {}
 		else if (c1.getCognome() == c2.getCognome()) {}
 		else return false;
 		
 		if (c1.getEmail() == "" || c2.getEmail() == "") {}
-//		if (c1.getEmail() == null || c2.getEmail() == null) {}
+//		else if (c1.getEmail() == null || c2.getEmail() == null) {}
 		else if (c1.getEmail() == c2.getEmail()) {}
 		else return false;
 		
@@ -72,6 +92,25 @@ public class CompletaContatto {
 		else return false;
 		
 		return true;
+	}
+	
+	
+//metodo che riempie i campi vuoti del primo contatto in ingresso con i 
+//campi del secondo contatto in ingresso. (anche se non compatibili)
+	public static Contatto matchCampi(Contatto c1, Contatto c2) {
+		Contatto unione = c1;
+		// se il campo di c1 è vuoto lo riempio:
+		//il campo di c1 lo ho già, aggiungo sempre il campo di c2 quindi.
+		if (c1.getNome() == "" || c1.getNome() == null) 
+			unione.setNome(c2.getNome());
+		if (c1.getCognome() == "" || c1.getCognome() == null) 
+			unione.setCognome(c2.getCognome());
+		if (c1.getEmail() == "" || c1.getEmail() == null) 
+			unione.setEmail(c2.getEmail());
+		if (c1.getTelefono() == "" || c1.getTelefono() == null) 
+			unione.setTelefono(c2.getTelefono());
+		
+		return unione;
 	}
 	
 	
@@ -97,7 +136,8 @@ numero telefonico.
 	public static void main(String[] args) 
 			throws IOException {
 		//lettura:
-		File file = new File(PATH_FILES + "rubricaNonCompleta.csv");
+//		File file = new File(PATH_FILES + "rubricaNonCompleta.csv");
+		File file = new File(PATH_FILES + "rubricaNonComplProvv.csv");
 		if (file.exists()) 
 			System.out.println("esiste, lo carico... ");
 		else
@@ -105,15 +145,15 @@ numero telefonico.
 		
 		//metodo per la List di contatti
 		List<Contatto> listaContatti = RubricaCSV.getListContatti(file); 
-		System.out.println(listaContatti.size());
+		System.out.println("# contatti file partenza: " + listaContatti.size());
 //		RubricaCSV.writeContatti(listaContatti, PATH_FILES + "rubricaNonComplProvv.csv");
 		
 		//metodo per riempire l'HashMap
 		CompletaContatto.fillHashMap (listaContatti);
 		
 		//metodo per trasformare l' HashMap in una List di Contatti
-		List<Contatto> listaContattiCompleta = CompletaContatto.fromHmToList(MAPPA_TELEFONI);
-		System.out.println(listaContattiCompleta.size());
+		List<Contatto> listaContattiCompleta = CompletaContatto.fromHmToList(MAP_TELEFONI);
+		System.out.println("# contatti file destinazione: " + listaContattiCompleta.size());
 		
 		//data una List di Contatti crea e scrive un file csv nel pathfile: 
 		RubricaCSV.writeContatti(listaContattiCompleta, PATH_FILES + "rubricaCompleta.csv");
