@@ -3,7 +3,6 @@ package it.beije.oort.franceschi.basics;
 public class DisegnoTre {
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
         int val = Integer.parseInt(args[0]);
 
         for (int i = 0; i < val; i++) {
