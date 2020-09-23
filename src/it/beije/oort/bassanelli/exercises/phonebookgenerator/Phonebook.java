@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -338,6 +339,9 @@ public class Phonebook {
 					case "EMAIL":
 						contact.setEmail(values[i]);
 						break;
+					case "ALIAS":
+						contact.setAlias(Arrays.asList(values[i].split(",", -1)));
+						break;
 					}
 
 				}
@@ -445,6 +449,9 @@ public class Phonebook {
 								break;
 							case "email":
 								contact.setEmail(value.getTextContent());
+								break;
+							case "alias":
+								contact.setAlias(Arrays.asList(value.getTextContent().split(",", -1)));
 								break;
 							default:
 								System.out.println("Contact element not recognized");

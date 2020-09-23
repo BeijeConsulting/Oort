@@ -1,5 +1,7 @@
 package it.beije.oort.bassanelli.exercises.phonebookgenerator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Contact {
@@ -8,6 +10,7 @@ public class Contact {
 	private String surname;
 	private String mobile;
 	private String email;
+	private List<String> alias = new ArrayList<String>();
 
 	public Contact() {
 	}
@@ -55,6 +58,14 @@ public class Contact {
 		this.email = email;
 	}
 
+	public List<String> getAlias() {
+		return alias;
+	}
+
+	public void setAlias(List<String> alias) {
+		this.alias = alias;
+	}
+
 	public String toString() {
 		return this.toString("NOME;COGNOMET;TELEFONO;EMAIL");
 	}
@@ -79,6 +90,9 @@ public class Contact {
 				break;
 			case "EMAIL":
 				builder.append("EMAIL: ").append(this.email).append(" ");
+				break;
+			case "ALIAS":
+				builder.append("ALIAS: ").append(this.alias.toString()).append(" ");
 				break;
 			}
 		}
@@ -127,6 +141,9 @@ public class Contact {
 				break;
 			case "EMAIL":
 				builder.append(this.email);
+				break;
+			case "ALIAS":
+				builder.append(this.alias.toString());
 				break;
 			}
 
