@@ -61,8 +61,8 @@ public class Contatto {
 	@Override
 	public boolean equals(Object o) {
 		Contatto c = (Contatto)o;
-		return (this.getNome().equals(c.getNome())&&
-				this.getCognome().equals(c.getCognome())&&
+		return (this.getNome().equalsIgnoreCase(c.getNome())&&
+				this.getCognome().equalsIgnoreCase(c.getCognome())&&
 				this.getTelefono().equals(c.getTelefono())&&
 				this.getEmail().equals(c.getEmail()));		
 	}

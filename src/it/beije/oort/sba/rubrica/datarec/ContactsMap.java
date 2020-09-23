@@ -1,7 +1,6 @@
 package it.beije.oort.sba.rubrica.datarec;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +21,7 @@ public class ContactsMap {
 		if(c.getTelefono() == null || c.getTelefono().equals("")) return;
 		//if(c.getTelefono() == null) c.setTelefono("");
 		if(!map.keySet().contains(c.getTelefono())) {
-			map.put(c.getTelefono(), new HashSet<Contatto>(1));
+			map.put(c.getTelefono(), new ContactSet(1));
 		}
 		map.get(c.getTelefono()).add(c);
 	}
@@ -34,12 +33,4 @@ public class ContactsMap {
 	public Set<String> getKeySet() {
 		return map.keySet();
 	}
-	
-//	public static ContactsMap getMap(List<Contatto> list) {
-//		ContactsMap ret = new ContactsMap();
-//		for(Contatto c : list) {
-//			ret.add(c);
-//		}
-//		return ret;
-//	}
 }

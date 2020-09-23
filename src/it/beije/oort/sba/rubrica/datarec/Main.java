@@ -15,5 +15,6 @@ public class Main {
 		ContactsMap map = new ContactsMap(contacts);
 		contacts = ContactsMerger.composeList(map);
 		CsvParser.writeCsv(output, contacts);
+		
 	}
 }

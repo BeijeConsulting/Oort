@@ -21,7 +21,7 @@ public class ContactsMerger {
 	}
 	
 	private static void mergeContact(Set<Contatto> set) {
-		if (set.size() == 1) {
+		if (set.size() <= 1) {
 			return;
 		}
 		boolean compatible = false;
@@ -30,7 +30,7 @@ public class ContactsMerger {
 			contacts.add(c);
 		}
 		set.clear();
-		for (int i = 0; i < contacts.size(); i++) {
+		for (int i = 0; i < contacts.size()-1; i++) {
 			boolean merged = false;
 			for (int j = i + 1; j < contacts.size(); j++) {
 				if (isCompatible(contacts.get(i), contacts.get(j))) {
@@ -41,7 +41,6 @@ public class ContactsMerger {
 			}
 			if (!merged) {
 				set.add(contacts.get(i));
-				merged = false;
 			}
 		}
 		if (compatible) {
