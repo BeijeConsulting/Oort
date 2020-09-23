@@ -7,16 +7,16 @@ import java.io.IOException;
 
 public class CsvReader {
 
-	@SuppressWarnings("resource")
-	public static void main(String[] args) throws Exception {
-		File file = new File("/temp/prova.txt");
-				
+    @SuppressWarnings("resource")
+    public static void main(String[] args) throws Exception {
+        File file = new File("/temp/prova.txt");
+
 //		System.out.println("file : " + file);
 //		System.out.println("isDirectory ? " + file.isDirectory());
 //		System.out.println("esiste ? " + file.exists());
-		
-		FileReader fileReader = new FileReader(file);
-		
+
+        FileReader fileReader = new FileReader(file);
+
 //		while (fileReader.ready()) {
 //			System.out.print((char)fileReader.read());
 //		}
@@ -28,14 +28,14 @@ public class CsvReader {
 //			c = fileReader.read();
 //		}
 
-		BufferedReader bufferedReader = new BufferedReader(fileReader);
-		
-		while (bufferedReader.ready()) {
-			//System.out.println(bufferedReader.readLine());
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+        while (bufferedReader.ready()) {
+            //System.out.println(bufferedReader.readLine());
 
 
-			@SuppressWarnings("unused")
-			String riga = bufferedReader.readLine();
+            @SuppressWarnings("unused")
+            String riga = bufferedReader.readLine();
 //			String[] campi = riga.split(";");
 //			
 //			System.out.println("nome : " + campi[0]);
@@ -50,23 +50,23 @@ public class CsvReader {
 //			System.out.println("tel : " + tokenizer.nextToken());
 //			System.out.println("email : " + tokenizer.nextToken());
 
-			System.out.println();
-		}
-		bufferedReader.close();
-	}
+            System.out.println();
+        }
+        bufferedReader.close();
+    }
 
-	
-	public static String getContent(File file) throws IOException {
-		FileReader fileReader = new FileReader(file);
-		StringBuilder builder = new StringBuilder();
-		
-		BufferedReader bufferedReader = new BufferedReader(fileReader);
-		
-		while (bufferedReader.ready()) {
-			builder.append(bufferedReader.readLine()).append('\n');
-		}
-		bufferedReader.close();
-		return builder.toString();
-	}
+
+    public static String getContent(File file) throws IOException {
+        FileReader fileReader = new FileReader(file);
+        StringBuilder builder = new StringBuilder();
+
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+        while (bufferedReader.ready()) {
+            builder.append(bufferedReader.readLine()).append('\n');
+        }
+        bufferedReader.close();
+        return builder.toString();
+    }
 
 }

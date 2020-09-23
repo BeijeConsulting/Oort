@@ -14,13 +14,13 @@ package it.beije.oort;
 
 public class Runner {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 //		Contatto contatto = new Contatto();
 //		contatto.setNome("Mario");
 //		contatto.setCognome("Rossi");
 //		contatto.setTelefono("3337658390");
 //		contatto.setEmail("mario.rossi@tim.it");
-		
+
 //		Contatto contatto1 = new Contatto("Carlo", "Bianchi", "3337658231");
 //		Contatto contatto2 = new Contatto("Mario", "Rossi", "3337658390", "mario.rossi@tim.it");
 //		Contatto contatto3 = new Contatto("Federica", "Verdi", "3457238390", "f.verdi@vodafone.it");
@@ -29,7 +29,7 @@ public class Runner {
 //		contatti.add(contatto1);
 //		contatti.add(contatto2);
 //		contatti.add(contatto3);
-		
+
 //		System.out.println(contatto1);
 //		System.out.println(contatto2);
 
@@ -38,6 +38,6 @@ public class Runner {
 //		List<Contatto> rubrica = ParserRubricaXml.readContatti(file);
 //		
 //        System.out.println("rubrica size : " + rubrica.size());
-	}
+    }
 
 }

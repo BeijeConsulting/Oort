@@ -1,8 +1,9 @@
 package it.beije.oort.franceschi.csvToXml;
 
-import java.io.File;
-import java.util.Collections;
-import java.util.List;
+import it.beije.oort.file.rubrica.Contatto;
+import it.beije.oort.file.rubrica.comparators.ContattoNomeComparator;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -10,108 +11,103 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import it.beije.oort.file.rubrica.Contatto;
-import it.beije.oort.file.rubrica.comparators.ContattoCognomeComparator;
-import it.beije.oort.file.rubrica.comparators.ContattoNomeComparator;
+import java.io.File;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Utility class. Currently used only for a single method.
- * 
- * @author Alessio Franceschi
  *
+ * @author Alessio Franceschi
  */
 @SuppressWarnings("unused")
 public class XMLWriter {
 
-	public static void overwriteList(List<Contatto> list, String in) throws Exception {
-		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-		Document document = documentBuilder.parse(in);
-		Element root = document.getDocumentElement();
-		
-		Collections.sort(list, new ContattoNomeComparator());
-		//Collections.sort(list, new ContattoCognomeComparator());
-		
-		for (Contatto c : list) {
-			Element contatto = document.createElement("contatto");
+    public static void overwriteList(List<Contatto> list, String in) throws Exception {
+        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+        Document document = documentBuilder.parse(in);
+        Element root = document.getDocumentElement();
 
-			Element nome = document.createElement("nome");
-			Element cognome = document.createElement("cognome");
-			Element telefono = document.createElement("telefono");
-			Element email = document.createElement("email");
+        Collections.sort(list, new ContattoNomeComparator());
+        //Collections.sort(list, new ContattoCognomeComparator());
 
-			nome.setTextContent(c.getNome());
-			cognome.setTextContent(c.getCognome());
-			telefono.setTextContent(c.getCell());
-			email.setTextContent(c.getEmail());
+        for (Contatto c : list) {
+            Element contatto = document.createElement("contatto");
 
-			contatto.appendChild(nome);
-			contatto.appendChild(cognome);
-			contatto.appendChild(telefono);
-			contatto.appendChild(email);
+            Element nome = document.createElement("nome");
+            Element cognome = document.createElement("cognome");
+            Element telefono = document.createElement("telefono");
+            Element email = document.createElement("email");
 
-			root.appendChild(contatto);
-		}
-		DOMSource source = new DOMSource(document);
+            nome.setTextContent(c.getNome());
+            cognome.setTextContent(c.getCognome());
+            telefono.setTextContent(c.getCell());
+            email.setTextContent(c.getEmail());
 
-		TransformerFactory transformerFactory = TransformerFactory.newInstance();
-		Transformer transformer = transformerFactory.newTransformer();
-		StreamResult result = new StreamResult(in);
-		transformer.transform(source, result);
-	}
+            contatto.appendChild(nome);
+            contatto.appendChild(cognome);
+            contatto.appendChild(telefono);
+            contatto.appendChild(email);
 
-	/**
-	 * Given a List, this static method will write an XML file accordingly.
-	 * 
-	 * @param list       of object to write to file
-	 * @param outputPath the path of the output file (needs .xml extension)
-	 */
-	public static void writeList(List<Contatto> list, String outputPath) {
-		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
+            root.appendChild(contatto);
+        }
+        DOMSource source = new DOMSource(document);
 
-			Document document = builder.newDocument();
-			Element root = document.createElement("rubrica");
-			document.appendChild(root);
-			
-			Collections.sort(list, new ContattoNomeComparator());
-			//Collections.sort(list, new ContattoCognomeComparator())
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        StreamResult result = new StreamResult(in);
+        transformer.transform(source, result);
+    }
 
-			for (Contatto c : list) {
-				Element contatto = document.createElement("contatto");
+    /**
+     * Given a List, this static method will write an XML file accordingly.
+     *
+     * @param list       of object to write to file
+     * @param outputPath the path of the output file (needs .xml extension)
+     */
+    public static void writeList(List<Contatto> list, String outputPath) {
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
 
-				Element nome = document.createElement("nome");
-				Element cognome = document.createElement("cognome");
-				Element telefono = document.createElement("telefono");
-				Element email = document.createElement("email");
+            Document document = builder.newDocument();
+            Element root = document.createElement("rubrica");
+            document.appendChild(root);
 
-				nome.setTextContent(c.getNome());
-				cognome.setTextContent(c.getCognome());
-				telefono.setTextContent(c.getCell());
-				email.setTextContent(c.getEmail());
+            Collections.sort(list, new ContattoNomeComparator());
+            //Collections.sort(list, new ContattoCognomeComparator())
 
-				contatto.appendChild(nome);
-				contatto.appendChild(cognome);
-				contatto.appendChild(telefono);
-				contatto.appendChild(email);
+            for (Contatto c : list) {
+                Element contatto = document.createElement("contatto");
 
-				root.appendChild(contatto);
+                Element nome = document.createElement("nome");
+                Element cognome = document.createElement("cognome");
+                Element telefono = document.createElement("telefono");
+                Element email = document.createElement("email");
 
-				TransformerFactory transformerFactory = TransformerFactory.newInstance();
-				Transformer transformer = transformerFactory.newTransformer();
-				DOMSource source = new DOMSource(document);
+                nome.setTextContent(c.getNome());
+                cognome.setTextContent(c.getCognome());
+                telefono.setTextContent(c.getCell());
+                email.setTextContent(c.getEmail());
 
-				StreamResult result = new StreamResult(new File(outputPath));
+                contatto.appendChild(nome);
+                contatto.appendChild(cognome);
+                contatto.appendChild(telefono);
+                contatto.appendChild(email);
 
-				transformer.transform(source, result);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+                root.appendChild(contatto);
+
+                TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                Transformer transformer = transformerFactory.newTransformer();
+                DOMSource source = new DOMSource(document);
+
+                StreamResult result = new StreamResult(new File(outputPath));
+
+                transformer.transform(source, result);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

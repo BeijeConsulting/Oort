@@ -1,9 +1,9 @@
 package it.beije.oort.franceschi.provaInterfacce;
 
 public abstract class Veicolo {
-	public boolean canFly;
+    public boolean canFly;
 
-	abstract void frena();
+    abstract void frena();
 
-	abstract String getVeicolo();
+    abstract String getVeicolo();
 }
