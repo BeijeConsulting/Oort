@@ -40,13 +40,13 @@ public class CsvParser {
 	
 	public static void writeCsv(File file, List<Contatto> contatti) throws IOException {
 		FileWriter writer = new FileWriter(file);
-		writer.write("COGNOME;NOME;EMAIL;TELEFONO\n");	
+		writer.write("TELEFONO;COGNOME;NOME;EMAIL\n");	
 		StringBuilder builder = new StringBuilder();
 		for(int i = 0;i<contatti.size();i++) {
-			builder.append(contatti.get(i).getCognome()).append(";")
+			builder.append(contatti.get(i).getTelefono()).append(";")
+					.append(contatti.get(i).getCognome()).append(";")
 					.append(contatti.get(i).getNome()).append(";")
-					.append(contatti.get(i).getEmail()).append(";")
-					.append(contatti.get(i).getTelefono()).append("\n");
+					.append(contatti.get(i).getEmail()).append("\n");
 			}
 		writer.write(builder.toString());
 		writer.flush();
