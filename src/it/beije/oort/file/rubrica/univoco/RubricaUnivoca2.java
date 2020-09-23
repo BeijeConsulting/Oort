@@ -17,6 +17,8 @@ public class RubricaUnivoca2 {
 
 	public static void main(String[] args) {
 		List<Contatto> tutti = new CSVParser(InputManager.getDuplicatiPath() + "test.csv").creaListaContatti();
+
+		/* Per ora li divido e basta, visto che non funziona come dovrebbe
 		tutti = rimuoviMailVuote(tutti);
 		// tolte le mail vuote
 
@@ -26,6 +28,13 @@ public class RubricaUnivoca2 {
 				new ContattoEmailComparator());
 
 		System.out.println("end");
+		 */
+
+		separa(tutti);
+		CSVWriter.writeCSV(duplicatiList, InputManager.getDuplicatiPath() + "rubrica_duplicati.csv",
+				new ContattoEmailComparator());
+		CSVWriter.writeCSV(new ArrayList<>(univociMap.values()), InputManager.getDuplicatiPath() + "rubrica_univoci.csv",
+				new ContattoEmailComparator());
 	}
 
 	private static List<Contatto> rimuoviMailVuote(List<Contatto> list) {
@@ -75,14 +84,15 @@ public class RubricaUnivoca2 {
 		return nuovaList;
 	}
 
+	// non funziona come dovrebbe
 	private static List<Contatto> accorpaDupes(List<Contatto> stessaMail) {
-		List<Contatto> nuovaList = new ArrayList<Contatto>();
+		List<Contatto> nuovaList = new ArrayList<>();
 
 		System.out.println(stessaMail.toString());
-		boolean modified ;
+		//boolean modified ;
 		for (int i = 0; i < stessaMail.size(); i++) {
 			for (int k = 0; k < stessaMail.size(); k++) {
-				modified = false;
+				//modified = false;
 				Contatto c = stessaMail.get(i);
 				Contatto b = stessaMail.get(k);
 				System.out.println(c.toString());
