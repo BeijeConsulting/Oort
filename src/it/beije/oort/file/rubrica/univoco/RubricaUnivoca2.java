@@ -40,19 +40,19 @@ public class RubricaUnivoca2 {
     private static List<Contatto> rimuoviMailVuote(List<Contatto> list) {
         List<Contatto> senzaMail = new ArrayList<>();
         List<Contatto> soloMail = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getEmail() != null && !list.get(i).getEmail().equalsIgnoreCase("")) {
-                senzaMail.add(list.get(i));
+        for (Contatto contatto : list) {
+            if (contatto.getEmail() != null && !contatto.getEmail().equalsIgnoreCase("")) {
+                senzaMail.add(contatto);
             } else {
-                soloMail.add(list.get(i));
+                soloMail.add(contatto);
             }
         }
         return senzaMail;
     }
 
     private static List<Contatto> accorpa(List<Contatto> tutti) {
-        List<Contatto> nuovaList = new ArrayList<Contatto>();
-        List<Contatto> stessaMailTemp = new ArrayList<Contatto>();
+        List<Contatto> nuovaList = new ArrayList<>();
+        List<Contatto> stessaMailTemp = new ArrayList<>();
 
         for (int i = 0; i < tutti.size() - 1; i++) {
             boolean dupe = false;
@@ -74,10 +74,7 @@ public class RubricaUnivoca2 {
                 nuovaList.addAll(stessaMailTemp);
                 stessaMailTemp.clear();
 
-                if (i > 0)
-                    i--;
-                else
-                    i = 0;
+                if (i > 0) i--;
             }
         }
         nuovaList.addAll(tutti);
@@ -120,7 +117,6 @@ public class RubricaUnivoca2 {
                     stessaMail.remove(b);
                     i = 0;
                     k = 0;
-                    continue;
                 }
 
 
