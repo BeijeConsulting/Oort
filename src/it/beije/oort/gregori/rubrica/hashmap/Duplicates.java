@@ -87,12 +87,12 @@ public class Duplicates {
 				}
 				
 				contatto.setTelefono(telefono);
+				if(contatto.getNome() == null) { contatto.setNome(""); }
+				if(contatto.getCognome() == null) { contatto.setCognome(""); }
+				if(contatto.getEmail() == null) { contatto.setEmail(""); }
 				returnList.add(contatto);
 			}
-		}
-		
-//		myPrint(hm);
-		
+		}		
 		return returnList;
 	}
 	
