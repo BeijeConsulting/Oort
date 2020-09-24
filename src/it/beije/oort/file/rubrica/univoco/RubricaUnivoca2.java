@@ -19,7 +19,7 @@ public class RubricaUnivoca2 {
         List<Contatto> tutti = new CSVParser(InputManager.getDuplicatiPath() + "rubrica.csv").creaListaContatti();
 
 
-		tutti = rimuoviMailVuote(tutti);
+		//tutti = rimuoviMailVuote(tutti);
 		// tolte le mail vuote
 
 		List<Contatto> accorpati = accorpa(tutti);
