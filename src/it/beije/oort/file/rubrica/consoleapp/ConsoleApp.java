@@ -69,6 +69,10 @@ public class ConsoleApp {
         sc.close();
     }
 
+    /**
+     * Method to save the current List of Contact into a file or DB. At the moment the user can't choose a name
+     * for the file.
+     */
     private static void save() {
         System.out.println("Dove vuoi salvare la rubrica? [1] Database - [2] XML - [3] CSV");
         int in = sc.nextInt();
@@ -97,7 +101,12 @@ public class ConsoleApp {
     private static void load() {
         System.out.println("Inserisci il nome del file CSV o XML con estensione che vuoi caricare. "
                 + "Il file deve essere nella cartella \"Input\"");
-        ConsoleAppValues.contatti.addAll(ConsoleAppUtils.load(sc.nextLine()));
+        String in = sc.nextLine();
+        if (in != null){
+            ConsoleAppValues.contatti.addAll(ConsoleAppUtils.load(in));
+        } else {
+            System.out.println("Non hai inserito nulla.");
+        }
     }
 
     /**
