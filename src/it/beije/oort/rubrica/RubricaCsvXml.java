@@ -14,7 +14,7 @@ import org.xml.sax.SAXException;
 public class RubricaCsvXml {
 	
 	
-	private static List<Contatto> LetturaFile(File file) throws IOException, ParserConfigurationException, SAXException{
+	public static List<Contatto> LetturaFile(File file) throws IOException, ParserConfigurationException, SAXException{
 		List<Contatto> fileList = new ArrayList<Contatto>();
 		if(file.toString().endsWith("xml")) {
 			fileList = ParserXmlRubrica.readContattiXml(file);
@@ -27,7 +27,7 @@ public class RubricaCsvXml {
 	
 	
 	
-	private static void rubricaWriter (File fileOutput, List<Contatto> list) throws IOException, DOMException, ParserConfigurationException, TransformerException {
+	public static void rubricaWriter (File fileOutput, List<Contatto> list) throws IOException, DOMException, ParserConfigurationException, TransformerException {
 		ParserCsvRubrica p = new ParserCsvRubrica();
 		if(fileOutput.toString().endsWith("csv")) {
 			ParserXmlRubrica.rubricaCsvWriter(fileOutput, list);

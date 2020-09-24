@@ -77,8 +77,7 @@ public class ParserXmlRubrica {
                 }
                 rubrica.add(beanContatto);
         	}
-        }
-        
+        }       
         return rubrica;
         
 	}
