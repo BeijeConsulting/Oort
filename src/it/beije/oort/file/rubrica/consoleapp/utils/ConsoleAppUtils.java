@@ -32,7 +32,6 @@ public class ConsoleAppUtils {
             }
         }
         return false;
-
     }
 
     public static void printHelp() {

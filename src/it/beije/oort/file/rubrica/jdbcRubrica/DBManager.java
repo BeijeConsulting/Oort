@@ -10,4 +10,10 @@ public class DBManager {
 
         return DriverManager.getConnection(url, user, pw);
     }
+
+    public static Connection getDefaultConnection() throws SQLException, ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        return DriverManager.getConnection(DBValues.getDbUrl(), DBValues.getDbUser(), DBValues.getDbPassword());
+    }
 }
