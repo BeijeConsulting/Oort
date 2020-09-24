@@ -1,4 +1,4 @@
-package it.beije.oort.gregori.rubrica.hashmap;
+package it.beije.oort.rubrica.hashmap;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import it.beije.oort.rubrica.Contatto;
-import it.beije.oort.gregori.rubrica.parser.ReaderCsv;
+import it.beije.oort.rubrica.parser.ReaderCsv;
 
 public class Duplicates {
 	

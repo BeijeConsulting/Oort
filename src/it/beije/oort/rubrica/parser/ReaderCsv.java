@@ -1,4 +1,4 @@
-package it.beije.oort.gregori.rubrica.parser;
+package it.beije.oort.rubrica.parser;
 
 import java.io.BufferedReader;
 import java.io.File;

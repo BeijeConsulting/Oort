@@ -1,4 +1,4 @@
-package it.beije.oort.gregori.rubrica.hashmap;
+package it.beije.oort.rubrica.hashmap;
 
 import java.io.BufferedWriter;
 import java.io.File;
