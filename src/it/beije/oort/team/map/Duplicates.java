@@ -1,5 +1,7 @@
 package it.beije.oort.team.map;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,6 +29,21 @@ public class Duplicates {
 		return returnList;
 	}
 
+	public static List<Contatto> getUnion(List<Contatto> contatti, File pathFile, File csvFile) throws IOException {
+		List<Contatto> returnList = new ArrayList<>();
+		for (int i =0; i<Duplicates.getDuplicates(contatti, pathFile).size(); i++ ) {
+			for (int j=0; j<ReaderCsv.readContatti(csvFile).size(); j++) {
+								
+				
+				
+			}
+		}
+		
+		
+		
+		return returnList;
+	}
+
 	public static void getStampaMappa(HashMap<String, Contatto> map) {
 		for(Contatto contatti : map.values()) {
 			System.out.println(contatti);
@@ -38,6 +55,8 @@ public class Duplicates {
 		List<Contatto> contatti = ReaderCsv.readContatti(csvFile);
 		File pathFile = new File("/temp2/rimossi.csv");
 		Duplicates.getDuplicates(contatti, pathFile);
+		File pathFile2 = new File("/temp2/unione.csv");
+		Duplicates.getUnion(contatti, pathFile2, csvFile);
 	}
 
 }
