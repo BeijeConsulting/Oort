@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class DuplicateManager {
 
@@ -30,7 +29,6 @@ public class DuplicateManager {
 		
 		for (Contatto contatto : contatti) {
 			String key = contatto.getEmail();
-			// Se abbiamo già una chiave, allora dobbiamo modificare il contatto già inserito
 			if (indexContatti.containsKey(key)) {
 				int index = indexContatti.get(key);
 				Contatto contattoDaModificare = contattiSenzaDuplicati.get(index);
@@ -68,10 +66,9 @@ public class DuplicateManager {
 						contattoDaModificare.setTelefono(contatto.getTelefono());
 					}
 				}
-				// Se la chiave non è stata trovata, il contatto è "nuovo" e lo aggiungiamo
 			} else {
 				contattiSenzaDuplicati.add(contatto);
-				indexContatti.put(key, contattiSenzaDuplicati.size() - 1); // "ppp" -> 0 : "lll" -> 1
+				indexContatti.put(key, contattiSenzaDuplicati.size() - 1);
 			}
 		}
 		return contattiSenzaDuplicati;
