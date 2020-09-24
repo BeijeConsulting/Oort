@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class DBManager {
 
 	public static final String DB_USER = "root";
-	public static final String DB_PASSWORD = "beije";
+	public static final String DB_PASSWORD = "simone9810";
 	
 	public static final String DB_URL = "jdbc:mysql://localhost:3306/oort?serverTimezone=CET";
 	
