@@ -62,4 +62,22 @@ public class Contatto {
 		return builder.toString();
 	}
 	
+//	@Override
+//	public boolean equals(Object c) {
+//	//public boolean equals(Contatto c) {
+//		return (this.nome.equals((Contatto)c.getNome()) && this.cognome.equals(c.getCognome()) &&
+//			this.telefono.equals(c.getTelefono()) && this.email.equals(c.getEmail()));
+//	}
+	
+	@Override
+	public boolean equals(Object o) {
+		boolean equals = false;
+		if(o == this) equals = true;
+		if(o instanceof Contatto) equals = this.nome.equals(((Contatto) o).getNome()) &&
+											this.cognome.equals(((Contatto) o).getCognome()) &&
+											this.email.equals(((Contatto) o).getEmail()) &&
+											this.telefono.equals(((Contatto) o).getTelefono());
+		return equals;
+	}
+	
 }
