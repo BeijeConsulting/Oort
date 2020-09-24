@@ -7,10 +7,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ConsoleAppValues {
-    private static final List<String> comandi = Arrays.asList("add", "delete", "clean", "list", "load", "getFile", "modify", "sort", "help", "quit");
-    public static List<Contatto> contatti = new ArrayList<Contatto>();
+    private static final List<String> comandi = Arrays.asList("add", "delete", "clean", "list", "load", "save", "getFile", "modify", "sort", "help", "quit");
     private static final String path = "C:\\Code\\Oort\\input\\";
-    private static final String out = "consoleOut.csv";
+    private static final String out = "consoleOut";
+    public static List<Contatto> contatti = new ArrayList<>();
 
     public static List<String> getComandi() {
         return comandi;

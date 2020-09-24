@@ -3,12 +3,17 @@ package it.beije.oort.file.rubrica.consoleapp;
 import it.beije.oort.file.rubrica.Contatto;
 import it.beije.oort.file.rubrica.consoleapp.utils.ConsoleAppUtils;
 import it.beije.oort.file.rubrica.consoleapp.utils.ConsoleAppValues;
+import it.beije.oort.file.rubrica.jdbcRubrica.DBValues;
+import it.beije.oort.file.rubrica.jdbcRubrica.DBWriter;
+import it.beije.oort.franceschi.csvToXml.CSVWriter;
+import it.beije.oort.franceschi.csvToXml.XMLWriter;
 
 import java.util.Scanner;
 
 public class ConsoleApp {
+    private final static Scanner sc = new Scanner(System.in);
+
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
         String line = "";
 
         // Shows possible inputs for the user
@@ -17,7 +22,7 @@ public class ConsoleApp {
             System.out.print(s + " ");
         System.out.println();
 
-        // Loop to run the program untils the user enters "quit"
+        // Loop to run the program until the user enters "quit"
         while (!line.equalsIgnoreCase("quit")) {
             // Get the input
             System.out.println("Cosa desideri fare?");
@@ -32,25 +37,22 @@ public class ConsoleApp {
             // Do things depending on input
             switch (line) {
                 case "add":
-                    addContatto(sc);
+                    addContatto();
                     continue;
                 case "delete":
-                    delete(sc);
+                    delete();
                     continue;
                 case "list":
                     get();
                     continue;
                 case "modify":
-                    modify(sc);
-                    continue;
-                case "getfile":
-                    ConsoleAppUtils.getFile();
+                    modify();
                     continue;
                 case "sort":
                     ConsoleAppUtils.sort();
                     continue;
                 case "load":
-                    load(sc);
+                    load();
                     continue;
                 case "help":
                     ConsoleAppUtils.printHelp();
@@ -59,57 +61,71 @@ public class ConsoleApp {
                     ConsoleAppValues.contatti.clear();
                     System.out.println("Rubrica svuotata.");
                     continue;
+                case "save":
+                    save();
             }
         }
         System.out.println("Programma terminato");
         sc.close();
     }
 
+    private static void save() {
+        System.out.println("Dove vuoi salvare la rubrica? [1] Database - [2] XML - [3] CSV");
+        int in = sc.nextInt();
+        if (in == 1) {
+            DBWriter.writeListToDB(ConsoleAppValues.contatti,
+                    DBValues.getDbUrl(), DBValues.getDbUrl(), DBValues.getDbPassword());
+            System.out.println("Rubrica salvata su Database in URL: " + DBValues.getDbUrl());
+        } else if (in == 2) {
+            XMLWriter.writeList(ConsoleAppValues.contatti, ConsoleAppValues.getOutPath() + ".xml");
+            System.out.println("Rubrica salvata su XML in questa directory: " + ConsoleAppValues.getOutPath() + ".xml");
+        } else if (in == 3) {
+            CSVWriter.writeCSV(ConsoleAppValues.contatti, ConsoleAppValues.getOutPath() + ".csv");
+            System.out.println("Rubrica salvata su CSV in questa directory: " + ConsoleAppValues.getOutPath() + ".csv");
+        } else {
+            System.out.println("Input non valido.");
+        }
+    }
+
     /**
      * Load the content of a CSV or XML file into the List of contacts
-     *
-     * @param sc A scanner object
      */
-    private static void load(Scanner sc) {
+    private static void load() {
         System.out.println("Inserisci il nome del file CSV o XML con estensione che vuoi caricare. "
-                + "Il file deve essere nella cartell \"Input\"");
+                + "Il file deve essere nella cartella \"Input\"");
         ConsoleAppValues.contatti.addAll(ConsoleAppUtils.load(sc.nextLine()));
     }
 
     /**
      * Method to modify a contact. The contact to modify is chosen inside the method
-     *
-     * @param sc A scanner object
      */
-    private static void modify(Scanner sc) {
+    private static void modify() {
         System.out.println("Quale contatto vuoi modificare? Inserisci l'indice");
         String s = sc.nextLine();
-        int i = 0;
+        int i;
         Contatto c;
         try {
             i = Integer.parseInt(s);
         } catch (NumberFormatException e) {
             System.out.println("Non hai inserito un numero.");
-            delete(sc);
+            delete();
             return;
         }
         if (i < 0 || i > ConsoleAppValues.contatti.size()) {
             System.out.println("Indice non valido");
-            return;
         } else {
             c = ConsoleAppValues.contatti.get(i);
-            modifyContact(sc, c);
+            modifyContact(c);
         }
     }
 
     /**
      * Method to modify a specific contact
      *
-     * @param sc A scanner object
-     * @param c  The contact to modify
+     * @param c The contact to modify
      */
-    private static void modifyContact(Scanner sc, Contatto c) {
-        String s = "";
+    private static void modifyContact(Contatto c) {
+        String s;
         do {
             System.out.print("Cosa vuoi modificare? [N]ome, [C]ognome, [T]elefono, [E]mail: ");
             s = sc.nextLine().toLowerCase();
@@ -124,7 +140,7 @@ public class ConsoleApp {
                     break;
                 case "t":
                     System.out.println("Inserisci il nuovo telefono:");
-                    ConsoleAppUtils.phoneInput(sc, c);
+                    ConsoleAppUtils.phoneInput(c);
                     break;
                 case "e":
                     System.out.println("Inserisci la nuova email:");
@@ -138,17 +154,15 @@ public class ConsoleApp {
 
     /**
      * Method to create and add to the static list a new contact
-     *
-     * @param sc A scanner object
      */
-    private static void addContatto(Scanner sc) {
+    private static void addContatto() {
         Contatto c = new Contatto();
         System.out.print("Nome: ");
         c.setNome(sc.nextLine());
         System.out.print("Cognome: ");
         c.setCognome(sc.nextLine());
         System.out.print("Telefono: ");
-        ConsoleAppUtils.phoneInput(sc, c);
+        ConsoleAppUtils.phoneInput(c);
         System.out.print("Email: ");
         c.setEmail(sc.nextLine());
 
@@ -157,7 +171,7 @@ public class ConsoleApp {
         } else {
             System.out.println("Stai per aggiungere il seguente contatto:");
             System.out.println(c.toString());
-            String v = "";
+            String v;
             do {
                 System.out.print("Confermi? [S]i - [N]o:");
                 v = sc.nextLine();
@@ -182,10 +196,8 @@ public class ConsoleApp {
 
     /**
      * Method to delete a contact
-     *
-     * @param sc A scanner object
      */
-    private static void delete(Scanner sc) {
+    private static void delete() {
         if (!(ConsoleAppValues.contatti.size() > 0)) {
             System.out.println("Non puoi cancellare nulla se la lista è vuota. " + "Aggiungi qualcosa!");
             return;
@@ -197,17 +209,16 @@ public class ConsoleApp {
             ConsoleAppValues.contatti.remove(ConsoleAppValues.contatti.size() - 1);
             System.out.println("Ultimo Contatto eliminato.");
         } else {
-            int i = 0;
+            int i;
             try {
                 i = Integer.parseInt(s);
             } catch (NumberFormatException e) {
                 System.out.println("Non hai inserito un numero.");
-                delete(sc);
+                delete();
                 return;
             }
             if (i < 0 || i > ConsoleAppValues.contatti.size()) {
                 System.out.println("Indice non valido");
-                return;
             } else {
                 ConsoleAppValues.contatti.remove(i);
                 System.out.println("Contatto in posizione " + i + " eliminato.");

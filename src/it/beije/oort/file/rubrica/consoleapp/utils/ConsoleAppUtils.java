@@ -3,17 +3,17 @@ package it.beije.oort.file.rubrica.consoleapp.utils;
 import it.beije.oort.file.rubrica.Contatto;
 import it.beije.oort.file.rubrica.comparators.ContattoNomeComparator;
 import it.beije.oort.franceschi.csvToXml.CSVParser;
-import it.beije.oort.franceschi.csvToXml.CSVWriter;
 import it.beije.oort.franceschi.csvToXml.InputManager;
 import it.beije.oort.franceschi.csvToXml.XMLParser;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleAppUtils {
+    private static final Scanner sc = new Scanner(System.in);
+
     public static boolean isEmpty(Contatto c) {
         return c.getNome().equals("") & c.getCognome().equals("") & c.getCell().equals("") & c.getEmail().equals("");
     }
@@ -35,12 +35,6 @@ public class ConsoleAppUtils {
 
     }
 
-    public static void getFile() {
-        CSVWriter.writeCSV(ConsoleAppValues.contatti, ConsoleAppValues.getOutPath());
-        System.out.println("Contatti salvati su CSV a questo indirizzo:");
-        System.out.println(ConsoleAppValues.getOutPath());
-    }
-
     public static void printHelp() {
         System.out.println("Add:	Aggiungi un contatto.");
         System.out.println("Delete:	Elimini un contatto.");
@@ -53,12 +47,12 @@ public class ConsoleAppUtils {
     }
 
     public static void sort() {
-        Collections.sort(ConsoleAppValues.contatti, new ContattoNomeComparator());
+        ConsoleAppValues.contatti.sort(new ContattoNomeComparator());
         System.out.println("Lista ordinata con successo.");
     }
 
-    public static void phoneInput(Scanner sc, Contatto c) {
-        boolean valid = false;
+    public static void phoneInput(Contatto c) {
+        boolean valid;
         do {
             String cell = sc.nextLine();
             valid = ConsoleAppUtils.isValidNumber(cell);
