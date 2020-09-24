@@ -1,4 +1,4 @@
-package it.beije.oort.db;
+package it.beije.oort.file.sala.db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +12,6 @@ public class DBtools {
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet rs = null;
-		
 		try {
 			connection = DBManager.getMySqlConnection(DBManager.DB_URL, DBManager.DB_USER, DBManager.DB_PASSWORD);
 			System.out.println("connection is open? " + !connection.isClosed());

@@ -14,14 +14,14 @@ public class Runner {
 			throws IOException, ParserConfigurationException, SAXException, TransformerException{
 		GeneratoreRubrica g = new GeneratoreRubrica();
 		List<Contatto> list = g.generaRubrica(Valori.getNomi(), Valori.getCognomi(), 5);
-		List<Contatto> list2 = g.generaRubrica(Valori.getNomi(), Valori.getCognomi(), 5);
-		RubricaToolset.contattoToCsv(list, "C:/Users/Padawan12/Desktop/rubrica_test_input_handler.csv");
-		RubricaToolset.contattoToXml(list, "C:/Users/Padawan12/Desktop/rubrica_test_output1_handler.xml");
-		RubricaToolset.contattoToXml(list2, "C:/Users/Padawan12/Desktop/rubrica_test_output2_handler.xml");
-		RubricaHandler.tranferRubrica("C:/Users/Padawan12/Desktop/rubrica_test_input_handler.csv",
-				"C:/Users/Padawan12/Desktop/rubrica_test_output1_handler.xml");
-		RubricaHandler.tranferRubrica("C:/Users/Padawan12/Desktop/rubrica_test_input_handler.csv",
-				"C:/Users/Padawan12/Desktop/rubrica_test_output2_handler.xml");
-		new GeneratoreRubrica();
+//		List<Contatto> list2 = g.generaRubrica(Valori.getNomi(), Valori.getCognomi(), 5);
+//		RubricaToolset.contattoToCsv(list, "C:/Users/Padawan12/Desktop/rubrica_test_input_handler.csv");
+//		RubricaToolset.contattoToXml(list, "C:/Users/Padawan12/Desktop/rubrica_test_output1_handler.xml");
+//		RubricaToolset.contattoToXml(list2, "C:/Users/Padawan12/Desktop/rubrica_test_output2_handler.xml");
+//		RubricaHandler.tranferRubrica("C:/Users/Padawan12/Desktop/rubrica_test_input_handler.csv",
+//				"C:/Users/Padawan12/Desktop/rubrica_test_output1_handler.xml");
+//		RubricaHandler.tranferRubrica("C:/Users/Padawan12/Desktop/rubrica_test_input_handler.csv",
+//				"C:/Users/Padawan12/Desktop/rubrica_test_output2_handler.xml");
+		RubricaToolset.contattoToSql(list);
 	}
 }

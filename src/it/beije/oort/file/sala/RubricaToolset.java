@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -26,6 +29,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import it.beije.oort.file.sala.db.DBManager;
 
 public class RubricaToolset {
 	
@@ -202,5 +207,42 @@ public class RubricaToolset {
 		List<Contatto> temp = new ArrayList<Contatto>();
 		temp.add(contatto);
 		RubricaToolset.contattoToCsv(temp, csvPath);
+	}
+	
+	public static void contattoToSql(List<Contatto> list) {
+		Connection connection = null;
+		PreparedStatement ps = null;
+		StringBuilder sb = new StringBuilder("INSERT INTO rubrica VALUES ");
+		for(Contatto c : list) {
+			sb.append("( null, ")
+			.append(c.getCognome()).append(", ")
+			.append(c.getNome()).append(", ")
+			.append(c.getTelefono()).append(", ")
+			.append(c.getEmail()).append("), ");
+		}
+		sb.append(";");
+		try {
+			connection = DBManager.getMySqlConnection();
+			ps = connection.prepareStatement(sb.toString());
+			ps.execute();
+			System.out.println("Insertion completed!");
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
+		} catch (ClassNotFoundException cnfEx) {
+			cnfEx.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+				connection.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static void contattoToSql(Contatto contatto) {
+		List<Contatto> temp = new ArrayList<Contatto>();
+		temp.add(contatto);
+		RubricaToolset.contattoToSql(temp);
 	}
 }
