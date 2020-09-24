@@ -71,6 +71,8 @@ public class ContactsMerger {
 		if(c1.getEmail().equalsIgnoreCase(c2.getEmail())) cResult.setEmail(c1.getEmail());
 		else cResult.setEmail(c1.getEmail()+c2.getEmail());
 		
+		cResult.setTelefono(c1.getTelefono());
+		
 		return cResult;
 	}
 	

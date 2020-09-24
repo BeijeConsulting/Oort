@@ -2,10 +2,10 @@ package it.beije.oort.sba.rubrica;
 
 public class Contatto {
 	
-	private String nome = "";
-	private String cognome = "";
-	private String telefono = "";
-	private String email = "";
+	private String nome;
+	private String cognome;
+	private String telefono;
+	private String email;
 	
 	public Contatto() {}
 	
