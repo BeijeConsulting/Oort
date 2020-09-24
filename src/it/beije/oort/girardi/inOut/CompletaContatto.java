@@ -29,7 +29,7 @@ public class CompletaContatto {
 	public static void fillHashMap (List<Contatto> listaContatti) {
 		for (Contatto contatto : listaContatti) {
 			//no telefono:
-			if (contatto.getTelefono() == "" || contatto.getTelefono() == null) 
+			if ( contatto.getTelefono() == null || contatto.getTelefono().equals("null") ) 
 				NO_TELEFONO.add(contatto);
 			
 			//telefono doppio:
@@ -146,10 +146,19 @@ numero telefonico.
 		//metodo per la List di contatti
 		List<Contatto> listaContatti = RubricaCSV.getListContatti(file); 
 		System.out.println("# contatti file partenza: " + listaContatti.size());
+		for(int i=0; i < listaContatti.size(); i++) {
+			System.out.println(listaContatti.get(i));
+		}
+//		System.out.println(listaContatti.get(4).getTelefono().equals("null"));
+		
 //		RubricaCSV.writeContatti(listaContatti, PATH_FILES + "rubricaNonComplProvv.csv");
 		
 		//metodo per riempire l'HashMap
 		CompletaContatto.fillHashMap (listaContatti);
+		System.out.println("");
+		for(int i=0; i < NO_TELEFONO.size(); i++) {
+			System.out.println(NO_TELEFONO.get(i));
+		}
 		
 		//metodo per trasformare l' HashMap in una List di Contatti
 		List<Contatto> listaContattiCompleta = CompletaContatto.fromHmToList(MAP_TELEFONI);
