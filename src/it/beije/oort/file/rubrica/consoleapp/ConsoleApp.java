@@ -77,10 +77,10 @@ public class ConsoleApp {
         System.out.println("Dove vuoi salvare la rubrica? [1] Database - [2] XML - [3] CSV");
         int in = sc.nextInt();
         if (in == 1) {
-            try{
+            try {
                 DBWriter.writeListToDB(ConsoleAppValues.contatti,
                         DBValues.getDbUrl(), DBValues.getDbUser(), DBValues.getDbPassword());
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             System.out.println("Rubrica salvata su Database in URL: " + DBValues.getDbUrl());
@@ -102,7 +102,7 @@ public class ConsoleApp {
         System.out.println("Inserisci il nome del file CSV o XML con estensione che vuoi caricare. "
                 + "Il file deve essere nella cartella \"Input\"");
         String in = sc.nextLine();
-        if (in != null){
+        if (in != null) {
             ConsoleAppValues.contatti.addAll(ConsoleAppUtils.load(in));
         } else {
             System.out.println("Non hai inserito nulla.");

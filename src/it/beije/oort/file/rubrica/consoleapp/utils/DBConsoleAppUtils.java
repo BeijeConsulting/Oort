@@ -36,10 +36,17 @@ public class DBConsoleAppUtils {
     /**
      * Shows possible inputs for the user
      */
-    public static void showInit(){
+    public static void showInit() {
         System.out.println("Input possibili:");
-        for (String s : ConsoleAppValues.getComandi())
+        for (String s : comandi)
             System.out.print(s + " ");
         System.out.println();
     }
+
+    public static void showPageNumber(int n) {
+        System.out.println("/////////////////////////////////////////////////////////////////");
+        System.out.println("//////////////////////\t PAGINA " + ++n + "\t////////////////////////////");
+        System.out.println("/////////////////////////////////////////////////////////////////");
+    }
+
 }
