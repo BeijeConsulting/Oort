@@ -1,14 +1,13 @@
 package it.beije.oort.bm.exercises.rubrica.db;
 
 import java.io.File;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
-
 import it.beije.oort.bm.exercises.rubrica.Contatto;
 import it.beije.oort.bm.exercises.rubrica.CsvContactsReader;
+import it.beije.oort.bm.exercises.rubrica.XmlParser;
 
 public class DBImport {
 
@@ -21,8 +20,14 @@ public class DBImport {
 		File source = new File(args[0]);
 		List<Contatto> contacts = null;
 		try {
-			contacts = CsvContactsReader.readFile(source);
-		} catch (IOException e1) {
+			if(args[0].endsWith(".csv")) {
+				contacts = CsvContactsReader.readFile(source);
+			}else if(args[0].endsWith(".xml")) {
+				contacts = XmlParser.readContatti(source);
+			}else {
+				System.out.println("The specified file must be a .csv or .xml file");
+			}
+		} catch (Exception e1) {
 			e1.printStackTrace();
 			System.exit(0);
 		}

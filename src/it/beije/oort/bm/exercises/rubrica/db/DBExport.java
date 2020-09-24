@@ -1,7 +1,6 @@
 package it.beije.oort.bm.exercises.rubrica.db;
 
 import java.io.File;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,12 +10,17 @@ import java.util.List;
 
 import it.beije.oort.bm.exercises.rubrica.Contatto;
 import it.beije.oort.bm.exercises.rubrica.CsvContactsWriter;
+import it.beije.oort.bm.exercises.rubrica.XmlParser;
 
 public class DBExport {
 
 	public static void main(String[] args) {
 		if(args.length != 1) {
 			System.out.println("Correct usage: java DBImport <destFile>");
+			System.exit(0);
+		}
+		if(!args[0].endsWith(".csv")&&!args[0].endsWith(".xml")) {
+			System.out.println("The specified file must be a .csv or .xml file");
 			System.exit(0);
 		}
 		Database db = Database.getDatabase();
@@ -48,8 +52,13 @@ public class DBExport {
 		}
 		
 		try {
-			CsvContactsWriter.writeFile(dest, contacts);
-		} catch (IOException e) {
+			if(args[0].endsWith(".xml")) {
+				XmlParser.writeFile(dest, contacts);
+			}else {
+				CsvContactsWriter.writeFile(dest, contacts);
+			}
+			
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
