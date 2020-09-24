@@ -52,7 +52,7 @@ public class ScannerContatto {
 				continue;
 				
 			}else if(buffer.equals("1")) continue;
-			else if(buffer.equals("2")) overWrite(new Contatto(bufferNome, bufferCognome, bufferTelefono, bufferEmail))
+			else if(buffer.equals("2")) overWrite(new Contatto(bufferNome, bufferCognome, bufferTelefono, bufferEmail));
 			
 			if(bufferCognome.equalsIgnoreCase(exitToken) || bufferEmail.equalsIgnoreCase(exitToken) ||
 					bufferNome.equalsIgnoreCase(exitToken) || bufferTelefono.equalsIgnoreCase(exitToken)) {
