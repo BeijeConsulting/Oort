@@ -1,6 +1,6 @@
 package it.beije.oort.sba.rubrica;
 
-public class Contatto {
+public class Contatto implements Comparable<Contatto>{
 	
 	private String nome;
 	private String cognome;
@@ -65,6 +65,12 @@ public class Contatto {
 				this.getCognome().equalsIgnoreCase(c.getCognome())&&
 				this.getTelefono().equals(c.getTelefono())&&
 				this.getEmail().equals(c.getEmail()));		
+	}
+
+	@Override
+	public int compareTo(Contatto o) {
+		
+		return getTelefono().compareTo(o.getTelefono());
 	}
 	
 }

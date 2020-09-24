@@ -2,6 +2,7 @@ package it.beije.oort.sba.rubrica.datarec;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import it.beije.oort.sba.rubrica.Contatto;
@@ -14,6 +15,7 @@ public class Main {
 		List<Contatto> contacts = CsvParser.readCsv(input);
 		ContactsMap map = new ContactsMap(contacts);
 		contacts = ContactsMerger.composeList(map);
+		Collections.sort(contacts);
 		CsvParser.writeCsv(output, contacts);
 		
 	}
