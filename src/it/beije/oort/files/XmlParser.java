@@ -1,7 +1,10 @@
 package it.beije.oort.files;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -10,13 +13,40 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
- 
-public class XmlBuilder {
-	//public static final String XML_FILE_PATH = "/temp/rubricaXml.xml";
-	
-	public void buildContatti(List<Contatto> contatti, File fileDestinazione) throws ParserConfigurationException, TransformerException {
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+public class XmlParser {
+	public static List<Contatto> readContatti(File fileXml) throws ParserConfigurationException, SAXException, IOException {
+		
+		List<Contatto> contatti = new ArrayList<Contatto>();
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		Document doc = builder.parse(fileXml);
+		doc.getDocumentElement().normalize();
+		
+		NodeList nodeList = doc.getElementsByTagName("contatto");
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Contatto contatto = new Contatto();
+			Node node = nodeList.item(i);
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				Element element = (Element)node;
+				contatto.setNome(element.getElementsByTagName("nome").item(0).getTextContent());
+				contatto.setCognome(element.getElementsByTagName("cognome").item(0).getTextContent());
+				contatto.setEmail(element.getElementsByTagName("email").item(0).getTextContent());
+				contatto.setTelefono(element.getElementsByTagName("telefono").item(0).getTextContent());
+			}
+			contatti.add(contatto);
+		}
+		
+		return contatti;
+	}
+
+	public static void buildContatti(List<Contatto> contatti, File fileDestinazione) throws ParserConfigurationException, TransformerException {
 		DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
 		Document document = documentBuilder.newDocument();

@@ -3,14 +3,14 @@ package it.beije.oort.files;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CsvReader {
-	//Il metodo readContatti prende in input un file contenente Contatti in formato csv e restituisce una lista di Contatti.
-	public List<Contatto> readContatti(File fileCsv) throws IOException {
+public class CsvParser {
+	public static List<Contatto> readContatti(File fileCsv) throws IOException {
 		List<Contatto> contatti = new ArrayList<Contatto>();
 		List<String> fields = new ArrayList<String>();
 		
@@ -37,5 +37,16 @@ public class CsvReader {
 		}
 		bufferedReader.close();
 		return contatti;
+	}
+	
+	public static void buildContatti(List<Contatto> contatti, File fileDestinazione) throws IOException {
+		FileWriter writer = new FileWriter(fileDestinazione);
+		writer.write("NOME;COGNOME;EMAIL;TELEFONO;\n");
+		for (int i = 0; i < contatti.size(); i++) {
+			writer.write(contatti.get(i).toString());
+			writer.write("\n");
+			writer.flush();
+		}
+		writer.close();
 	}
 }

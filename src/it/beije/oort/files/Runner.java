@@ -15,8 +15,7 @@ public class Runner {
 //	
 		File rubrica = new File("/temp/rubrica_maisto.csv");
 		File rubricaUpdated = new File("/temp/rubrica_updated.xml");
-		Appender textAppender = new Appender();
-		textAppender.appendContacts(rubrica, rubricaUpdated);
+		CsvXmlUtilities.appendContacts(rubrica, rubricaUpdated);
 
 
 		
