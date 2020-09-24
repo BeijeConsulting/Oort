@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,8 @@ import org.xml.sax.SAXException;
 import it.beije.oort.file.sala.db.DBManager;
 
 public class RubricaToolset {
+	
+	private RubricaToolset() {}
 	
 	public static List<Contatto> readCsvToList(String filePath) throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(filePath));
@@ -212,14 +215,15 @@ public class RubricaToolset {
 	public static void contattoToSql(List<Contatto> list) {
 		Connection connection = null;
 		PreparedStatement ps = null;
-		StringBuilder sb = new StringBuilder("INSERT INTO rubrica VALUES ");
+		StringBuilder sb = new StringBuilder("INSERT INTO rubrica (id_rubrica, cognome, nome, telefono, email) VALUES ");
 		for(Contatto c : list) {
-			sb.append("( null, ")
-			.append(c.getCognome()).append(", ")
-			.append(c.getNome()).append(", ")
-			.append(c.getTelefono()).append(", ")
-			.append(c.getEmail()).append("), ");
+			sb.append("( null, \"")
+			.append(c.getCognome()).append("\", \"")
+			.append(c.getNome()).append("\", \"")
+			.append(c.getTelefono()).append("\", \"")
+			.append(c.getEmail()).append("\"), ");
 		}
+		sb.deleteCharAt(sb.lastIndexOf(","));
 		sb.append(";");
 		try {
 			connection = DBManager.getMySqlConnection();
@@ -244,5 +248,38 @@ public class RubricaToolset {
 		List<Contatto> temp = new ArrayList<Contatto>();
 		temp.add(contatto);
 		RubricaToolset.contattoToSql(temp);
+	}
+
+	public static List<Contatto> readSqlToList(){
+		Connection connection = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder("SELECT * FROM rubrica;");
+		List<Contatto> contatti = new ArrayList<>();
+		try { 
+			connection = DBManager.getMySqlConnection();
+			ps = connection.prepareStatement(sb.toString());
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				contatti.add(new Contatto(rs.getString("nome"),
+										rs.getString("cognome"),
+										rs.getString("telefono"),
+										rs.getString("email")));
+			}
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
+		} catch (ClassNotFoundException cnfEx) {
+			cnfEx.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				ps.close();
+				connection.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return contatti;
 	}
 }
