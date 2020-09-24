@@ -22,7 +22,7 @@ public class ReaderCsv {
 		List<String> intestazioneList = Arrays.asList(intestazione.split(";"));
 		
 		while(buffer.ready()) {
-			contatti.add(checkIntestazione(buffer.readLine().split(";"), intestazioneList));
+			contatti.add(checkIntestazione(buffer.readLine().split(";", -1), intestazioneList));
 		}
 		
 		buffer.close();
