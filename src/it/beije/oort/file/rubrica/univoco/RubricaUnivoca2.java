@@ -16,21 +16,21 @@ public class RubricaUnivoca2 {
     private static final Map<String, Contatto> univociMap = new HashMap<>();
 
     public static void main(String[] args) {
-        List<Contatto> tutti = new CSVParser(InputManager.getDuplicatiPath() + "test.csv").creaListaContatti();
+        List<Contatto> tutti = new CSVParser(InputManager.getDuplicatiPath() + "rubrica.csv").creaListaContatti();
 
-		/* Per ora li divido e basta, visto che non funziona come dovrebbe
+
 		tutti = rimuoviMailVuote(tutti);
 		// tolte le mail vuote
 
 		List<Contatto> accorpati = accorpa(tutti);
 
-		CSVWriter.writeCSV(accorpati, InputManager.getDuplicatiPath() + "rubrica_test.csv",
-				new ContattoEmailComparator());
+//		CSVWriter.writeCSV(accorpati, InputManager.getDuplicatiPath() + "rubrica_test.csv",
+//				new ContattoEmailComparator());
+//
+//		System.out.println("end");
 
-		System.out.println("end");
-		 */
 
-        separa(tutti);
+        separa(accorpati);
         CSVWriter.writeCSV(duplicatiList, InputManager.getDuplicatiPath() + "rubrica_duplicati.csv",
                 new ContattoEmailComparator());
         CSVWriter.writeCSV(new ArrayList<>(univociMap.values()), InputManager.getDuplicatiPath() + "rubrica_univoci.csv",
@@ -92,8 +92,6 @@ public class RubricaUnivoca2 {
                 //modified = false;
                 Contatto c = stessaMail.get(i);
                 Contatto b = stessaMail.get(k);
-                System.out.println(c.toString());
-                System.out.println(b.toString());
                 Contatto nuovo = new Contatto();
                 nuovo.setEmail(c.getEmail());
                 nuovo.setNome(c.getNome());
