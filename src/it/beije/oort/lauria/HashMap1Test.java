@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class HashMap1Test {
 	private static final String PATH_FILES = "C:\\Users\\Padawan06\\Documenti\\temp\\";
-	private static final String INTESTAZIONE = "EMAIL;COGNOME;NOME;TELEFONO";
+	private static final String INTESTAZIONE = "NOME;COGNOME;EMAIL;TELEFONO";
 	
 	public static void main(String[] args) throws IOException {
 	
@@ -27,9 +27,12 @@ public class HashMap1Test {
 		
 		System.out.println("Numero totale di contatti in rubrica: "+recordContatti.size());  
 		
+		Contatto duplicato;
+		
 		for(Contatto contattoTemp : recordContatti) {
-			if(rubricaMap.put(contattoTemp.getEmail(), contattoTemp)!=null) {
-				recordDuplicati.add(contattoTemp);
+			duplicato = rubricaMap.put(contattoTemp.getEmail(), contattoTemp);
+			if(duplicato != null) {
+				recordDuplicati.add(duplicato);
 			}
 		}
 		
@@ -46,7 +49,7 @@ public class HashMap1Test {
 				end++;
 			}
 //			System.out.println("start = "+start+" end = "+(end-1));
-			Contatto c = new Contatto();
+			Contatto c;
 			c = new HashMap1Test().joinContacts(recordDuplicati, start, end-1);
 			recordDuplicatiJoin.add(c);
 //			System.out.println(c);

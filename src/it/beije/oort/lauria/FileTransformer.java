@@ -17,9 +17,9 @@ public class FileTransformer {
 	public static void main(String[] args) throws IOException, ParserConfigurationException, TransformerException, SAXException {
 		
 		// TRASFORMARE UNA RUBRICA DI CONTATTI CSV IN XML
-		List<Contatto> listaContattiXml = CsvParser.readContattiCsv(PATH_FILES + "rubrica6.csv");
+		List<Contatto> listaContattiXml = CsvParser.readContattiCsv(PATH_FILES + "rubrica_busseni.csv");
 		
-		XmlParser.writeContattiXml(PATH_FILES + "contatti6.xml", listaContattiXml);
+		XmlParser.writeContattiXml(PATH_FILES + "contatti_busseni.xml", listaContattiXml);
 		
 		System.out.println("Rubrica XML completata!");
 		
