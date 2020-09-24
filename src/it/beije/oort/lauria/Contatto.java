@@ -7,6 +7,7 @@ public class Contatto {
 	private String cognome;
 	private String telefono;
 	private String email;
+	private StringBuilder duplicatiEmail = new StringBuilder();
 	
 	public Contatto() {}
 	
@@ -20,7 +21,10 @@ public class Contatto {
 		this.telefono = telefono;
 		this.email = email;
 	}
-	
+	public Contatto(String nome, String cognome, String telefono, String email, String duplicatiEmail) {
+		this(nome, cognome, telefono, email);
+		this.duplicatiEmail.append(duplicatiEmail);
+	}
 	public String getNome() {
 		return nome;
 	}
@@ -49,6 +53,13 @@ public class Contatto {
 		this.email = email;
 	}
 	
+	public StringBuilder getDuplicatiEmail() {
+		return duplicatiEmail;
+	}
+	public void setDuplicatiEmail(String duplicatiEmail) {
+		this.duplicatiEmail.append(duplicatiEmail);
+	}
+	
 //	public String getNominativo() { //nominativo
 //		return this.nome + " " + this.cognome;
 //	}
@@ -58,9 +69,39 @@ public class Contatto {
 		builder.append("nome : ").append(this.nome)
 			.append(" - cognome : ").append(this.cognome)
 			.append(" - telefono : ").append(this.telefono)
-			.append(" - email : ").append(this.email).append("]\n");
+			.append(" - email : ").append(this.email).append("] [")
+			.append(this.duplicatiEmail.toString()).append("]");
 		
 		return builder.toString();
+	}
+	
+	public boolean equalsTo(Contatto c2) {
+		if(this.nome.equalsIgnoreCase(c2.getNome()) && this.cognome.equalsIgnoreCase(c2.getCognome())&&
+				this.telefono.equalsIgnoreCase(c2.getTelefono()) && this.email.equalsIgnoreCase(c2.getEmail())) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean matching(Contatto c2) {
+		if(this.equalsTo(c2)) {
+			return true;
+		}else if(this.email.equalsIgnoreCase(c2.getEmail()) || this.email.equalsIgnoreCase("") || c2.getEmail().equalsIgnoreCase("")){
+			if(this.telefono.equalsIgnoreCase(c2.getTelefono()) || this.telefono.equalsIgnoreCase("") || c2.getTelefono().equalsIgnoreCase("")) {
+				if(this.cognome.equalsIgnoreCase(c2.getCognome()) || this.cognome.equalsIgnoreCase("") || c2.getCognome().equalsIgnoreCase("")) {
+					if(this.nome.equalsIgnoreCase(c2.getNome()) || this.nome.equalsIgnoreCase("") || c2.getNome().equalsIgnoreCase("")) {
+						//System.out.println("eccolo");
+						return true;
+					}
+				}
+			}
+			
+		}else { 
+			return false;
+		}
+		return false;
+
 	}
 	
 }
