@@ -40,7 +40,7 @@ public class ConsoleAppUtils {
         System.out.println("Delete:	Elimini un contatto.");
         System.out.println("List:	Stampi tutti i contatti nella rubrica.");
         System.out.println("Load:	Carica un file da disco..");
-        System.out.println("GetFile:Salva il file su disco.");
+        System.out.println("Save:   Salva il file.");
         System.out.println("Modify:	Modifica un contatto.");
         System.out.println("Sort:	Ordina alfabeticamente i contatti nella rubrica.");
         System.out.println();

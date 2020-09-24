@@ -30,7 +30,7 @@ public class DBWriter {
         //Connect to DB
         PreparedStatement ps;
         try (Connection conn = DBManager.getConnection(dbUrl, dbUser, dbPass)) {
-            System.out.println("Connection active: " + !conn.isClosed());
+            System.out.println("Connected: " + !conn.isClosed());
             ps = conn.prepareStatement("INSERT INTO rubrica (nome, cognome, telefono, email) " +
                     "VALUES (?, ?, ?, ?)");
 
