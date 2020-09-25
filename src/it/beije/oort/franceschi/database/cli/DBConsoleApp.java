@@ -1,7 +1,6 @@
 package it.beije.oort.franceschi.database.cli;
 
 import it.beije.oort.file.rubrica.Contatto;
-import it.beije.oort.file.rubrica.consoleapp.utils.ConsoleAppUtils;
 import it.beije.oort.file.rubrica.jdbcRubrica.DBManager;
 import it.beije.oort.franceschi.csvToXml.CSVWriter;
 import it.beije.oort.franceschi.csvToXml.XMLWriter;
@@ -46,19 +45,16 @@ public class DBConsoleApp {
         // Show instructions.
         DBConsoleAppUtils.showInit();
         String line = "";
-
         // Start the loop to get the user input
         while (!line.equalsIgnoreCase("quit")) {
             // Get the input
             System.out.println("Cosa desideri fare?");
             line = sc.nextLine().trim().toLowerCase();
-
             // Verify the input
             if (!DBConsoleAppUtils.isValidInput(line)) {
                 System.out.println("Input non valido");
                 continue;
             }
-
             // Do things depending on input
             switch (line) {
                 case "help":
@@ -191,7 +187,7 @@ public class DBConsoleApp {
                     break;
                 case "t":
                     System.out.println("Inserisci il nuovo telefono:");
-                    ConsoleAppUtils.phoneInput(c);
+                    DBConsoleAppUtils.phoneInput(c);
                     break;
                 case "e":
                     System.out.println("Inserisci la nuova email:");
@@ -227,11 +223,10 @@ public class DBConsoleApp {
         System.out.print("Cognome: ");
         c.setCognome(sc.nextLine().trim());
         System.out.print("Telefono: ");
-        ConsoleAppUtils.phoneInput(c);
+        DBConsoleAppUtils.phoneInput(c);
         System.out.print("Email: ");
         c.setEmail(sc.nextLine().trim());
-
-        if (ConsoleAppUtils.isEmpty(c)) {
+        if (DBConsoleAppUtils.isEmpty(c)) {
             System.out.println("Input invalido. Inserire almeno un campo.");
         } else {
             System.out.println("Stai per aggiungere il seguente contatto:");

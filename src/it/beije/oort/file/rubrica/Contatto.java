@@ -77,19 +77,19 @@ public class Contatto {
      * @return the formatted string following the CSV convention with quotes.
      */
     public String toFormattedString() {
-        return new StringBuilder("\"").append(cognome).append("\";\"").append(nome).append("\";\"").append(email)
-                .append("\";\"").append(cell).append("\";\"")
-                .append("\"").toString();
+        return "\"" + cognome + "\";\"" + nome + "\";\"" + email +
+                "\";\"" + cell + "\";\"" +
+                "\"";
     }
 
     public String toString() {
-        return new StringBuilder("Nome: " + this.getNome() + ". Cognome: " + this.getCognome() + ". Email: "
-                + this.getEmail() + ". Telefono: " + this.getCell()).toString();
+        return "Nome: " + this.getNome() + ". Cognome: " + this.getCognome() + ". Email: "
+                + this.getEmail() + ". Telefono: " + this.getCell();
     }
 
     public String toNakedString(){
-        return new StringBuilder(this.getNome() + "\t\t" + this.getCognome() + "\t\t"
-                + this.getEmail() + "\t\t" + this.getCell()).toString();
+        return this.getNome() + "\t\t" + this.getCognome() + "\t\t"
+                + this.getEmail() + "\t\t" + this.getCell();
     }
 
     public static String getContattoFormattatoToString(ArrayList<Contatto> rubrica, int i, Random r) {

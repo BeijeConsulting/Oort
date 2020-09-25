@@ -74,11 +74,11 @@ public class BasicStringBuilderMethods {
     }
 
     public static StringBuilder myReverse(StringBuilder s) {
-        String str = "";
+        StringBuilder str = new StringBuilder();
         for (int i = myLength(s) - 1; i >= 0; i--) {
-            str += s.charAt(i);
+            str.append(s.charAt(i));
         }
-        return new StringBuilder(str);
+        return new StringBuilder(str.toString());
     }
 
     public static StringBuilder myDelete(StringBuilder s, int start, int end) {

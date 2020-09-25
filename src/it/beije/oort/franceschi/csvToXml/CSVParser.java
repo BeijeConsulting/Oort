@@ -60,14 +60,10 @@ public class CSVParser {
                     setPosCognome(i);
                     break;
                 case "EMAIL":
-                    setPosEmail(i);
-                    break;
                 case "E-MAIL":
                     setPosEmail(i);
                     break;
                 case "TELEFONO":
-                    setPosCell(i);
-                    break;
                 case "CELL":
                     setPosCell(i);
                     break;

@@ -15,9 +15,7 @@ public class DBManager {
 	public static Connection getMySqlConnection(String url, String user, String password) throws SQLException, ClassNotFoundException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 
-		Connection connection = DriverManager.getConnection(url, user, password);
-		
-		return connection;
+        return DriverManager.getConnection(url, user, password);
 	}
 	
 	public static void main(String[] args) throws SQLException, ClassNotFoundException {

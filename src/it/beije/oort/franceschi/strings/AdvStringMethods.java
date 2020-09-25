@@ -144,18 +144,18 @@ public class AdvStringMethods {
     }
 
     public static String myTrimAll(String s) {
-        String newStr = "";
+        StringBuilder newStr = new StringBuilder();
         for (int x = 0; x < s.length(); x++) {
             if (s.charAt(x) != ' ') {
-                newStr += s.charAt(x);
+                newStr.append(s.charAt(x));
             }
         }
 
-        return newStr;
+        return newStr.toString();
     }
 
     public static String myTrim(String s) {
-        String newStr = "";
+        StringBuilder newStr = new StringBuilder();
         int init = 0, end = s.length() - 1;
         while (s.charAt(init) == ' ') {
             init++;
@@ -164,9 +164,9 @@ public class AdvStringMethods {
             end--;
         }
         for (int x = init; x <= end; x++) {
-            newStr += s.charAt(x);
+            newStr.append(s.charAt(x));
         }
-        return newStr;
+        return newStr.toString();
     }
 
     public static StringBuilder myTrim(StringBuilder s) {
@@ -213,15 +213,15 @@ public class AdvStringMethods {
     }
 
     public static String myReplace(String s, char oldChar, char newChar) {
-        String newStr = "";
+        StringBuilder newStr = new StringBuilder();
         for (int x = 0; x < s.length(); x++) {
             if (s.charAt(x) == oldChar) {
-                newStr += newChar;
+                newStr.append(newChar);
             } else {
-                newStr += s.charAt(x);
+                newStr.append(s.charAt(x));
             }
         }
-        return newStr;
+        return newStr.toString();
     }
 
     public static StringBuilder myReplace(StringBuilder s, char oldChar, char newChar) {
@@ -237,11 +237,11 @@ public class AdvStringMethods {
     }
 
     public static String mySubstring(String s, int start, int end) {
-        String newStr = "";
+        StringBuilder newStr = new StringBuilder();
         while (start <= end) {
-            newStr += s.charAt(start++);
+            newStr.append(s.charAt(start++));
         }
-        return newStr;
+        return newStr.toString();
     }
 
     public static StringBuilder mySubstring(StringBuilder s, int start, int end) {

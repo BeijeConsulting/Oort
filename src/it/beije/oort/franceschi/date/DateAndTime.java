@@ -17,7 +17,7 @@ public class DateAndTime {
 
         now = LocalDateTime.now();
 
-        localD = LocalDate.of(2020, 9, 01);
+        localD = LocalDate.of(2020, 9, 1);
         localT = LocalTime.of(14, 30);
         localDT = LocalDateTime.of(localD, localT);
 

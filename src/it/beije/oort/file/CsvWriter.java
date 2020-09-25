@@ -33,12 +33,12 @@ public class CsvWriter {
             System.out.println("non esiste");
         }
 
-        String row = "";
+        StringBuilder row = new StringBuilder();
         for (String arg : args) {
-            row += arg + ';';
+            row.append(arg).append(';');
         }
 
-        content = row + '\n' + content;
+        content = row.toString() + '\n' + content;
 
         writeRow(file, content);
 

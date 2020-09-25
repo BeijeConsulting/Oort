@@ -64,8 +64,7 @@ public class RubricaUnivoca {
         System.out.println("Tento accorpamento.");
         List<Contatto> nuovaListaDupes = new ArrayList<Contatto>();
         List<Contatto> stessaMailTemp = new ArrayList<Contatto>();
-        List<Contatto> duplicatiList2 = new ArrayList<>();
-        duplicatiList2.addAll(duplicatiList);
+        List<Contatto> duplicatiList2 = new ArrayList<>(duplicatiList);
         String email = "";
         while (!duplicatiList.isEmpty()) {
             email = duplicatiList.get(0).getEmail();
@@ -113,13 +112,13 @@ public class RubricaUnivoca {
                         !c.getCell().equals(b.getCell())) {
                     continue;
                 }
-                if (b.getNome() != "") {
+                if (!b.getNome().equals("")) {
                     nuovo.setNome(b.getNome());
                 }
-                if (b.getCognome() != "") {
+                if (!b.getCognome().equals("")) {
                     nuovo.setCognome(b.getCognome());
                 }
-                if (b.getCell() != "") {
+                if (!b.getCell().equals("")) {
                     nuovo.setCell(b.getCell());
                 }
                 stessaMailMetodo.remove(b);
@@ -140,13 +139,13 @@ public class RubricaUnivoca {
             return;
         }
 
-        if (espulso.getNome() != "") {
+        if (!espulso.getNome().equals("")) {
             c.setNome(espulso.getNome());
         }
-        if (espulso.getCognome() != "") {
+        if (!espulso.getCognome().equals("")) {
             c.setCognome(espulso.getCognome());
         }
-        if (espulso.getCell() != "") {
+        if (!espulso.getCell().equals("")) {
             c.setCell(espulso.getCell());
         }
         //duplicatiMap.add(c);

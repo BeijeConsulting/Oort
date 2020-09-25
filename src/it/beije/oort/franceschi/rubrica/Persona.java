@@ -19,12 +19,12 @@ public class Persona {
     }
 
     private String getRandomCell() {
-        String s = "";
+        StringBuilder s = new StringBuilder();
         Random r = new Random();
         for (int i = 0; i < 7; i++) {
-            s += r.nextInt(10);
+            s.append(r.nextInt(10));
         }
-        return s;
+        return s.toString();
     }
 
     public String getNome() {

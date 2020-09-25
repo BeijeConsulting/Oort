@@ -96,33 +96,33 @@ public class BasicStringMethods {
 
     // toLowerCase()
     public static String myToLowerCase(String s) {
-        String low = "";
+        StringBuilder low = new StringBuilder();
         for (int i = 0; i < myLength(s); i++) {
             if (myCharAt(s, i) == 32) {
-                low += " ";
+                low.append(" ");
             } else if (97 <= myCharAt(s, i) && myCharAt(s, i) <= 122) {
-                low += myCharAt(s, i);
+                low.append(myCharAt(s, i));
             } else {
-                low += (char) (myCharAt(s, i) + 32);
+                low.append((char) (myCharAt(s, i) + 32));
             }
         }
-        return low;
+        return low.toString();
     }
     //end toLowerCase
 
     // toUpperCase()
     public static String myToUpperCase(String s) {
-        String up = "";
+        StringBuilder up = new StringBuilder();
         for (int i = 0; i < myLength(s); i++) {
             if (myCharAt(s, i) == 32) {
-                up += " ";
+                up.append(" ");
             } else if (97 <= myCharAt(s, i) && myCharAt(s, i) <= 122) {
-                up += (char) (myCharAt(s, i) - 32);
+                up.append((char) (myCharAt(s, i) - 32));
             } else {
-                up += myCharAt(s, i);
+                up.append(myCharAt(s, i));
             }
         }
-        return up;
+        return up.toString();
     }
     // end toUpperCase
 
