@@ -24,7 +24,7 @@ public class DBConsoleAppUtils {
      * List of commands available.
      */
     private static final List<String> comandi = Arrays.asList(
-            "add", "search", "modify", "export", "import", "delete", "listAll", "help", "quit");
+            "aggiungi", "cerca", "modifica", "esporta", "importa", "cancella", "mostra tutto", "aiuto", "esci");
 
     /**
      * The path were the program will export CSV and XML files. Also used for imports.
@@ -43,14 +43,15 @@ public class DBConsoleAppUtils {
      * Outputs the possible commands and a short explanation for them.
      */
     public static void showHelp(){
-        System.out.println("Add:	Aggiungi un contatto al Database.");
-        System.out.println("Search: Cerca nel DB.");
-        System.out.println("Modify: Modifica un contatto nel DB.");
-        System.out.println("Export: Export DB to file.");
-        System.out.println("Import: Import a file into the DB.");
-        System.out.println("Delete: Delete a Contatto from the DB.");
-        System.out.println("ListAll:Stampa tutti gli elementi presenti nel DB.");
-        System.out.println("Quit:   Exit the program.");
+        System.out.println("Aggiungi:           Aggiungi un contatto al Database.");
+        System.out.println("Cerca:              Cerca nel Database.");
+        System.out.println("Modifica:           Modifica un contatto nel Database.");
+        System.out.println("Esporta:            Esporta il Database su file.");
+        System.out.println("Importa:            Importa un file nel Database.");
+        System.out.println("Cancella:           Cancella un contatto dal Database.");
+        System.out.println("Mostra Tutto:       Stampa tutti gli elementi presenti nel Database.");
+        System.out.println("Aiuto:              Stampa le istruzioni a schermo.");
+        System.out.println("Esci:               Esci dal programma.");
         System.out.println();
     }
 
@@ -85,9 +86,9 @@ public class DBConsoleAppUtils {
      * Shows possible inputs for the user
      */
     public static void showInit() {
-        System.out.println("Input possibili:");
-        for (String s : comandi)
-            System.out.print(s + " ");
+        System.out.println("Comandi possibili:");
+        showHelp();
+        System.out.println("Per scegliere, scrivi il comando desiderato e premi invio.");
         System.out.println();
     }
 

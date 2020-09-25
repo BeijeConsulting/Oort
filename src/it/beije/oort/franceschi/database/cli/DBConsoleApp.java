@@ -57,28 +57,28 @@ public class DBConsoleApp {
             }
             // Do things depending on input
             switch (line) {
-                case "help":
+                case "aiuto":
                     DBConsoleAppUtils.showHelp();
                     break;
-                case "add":
+                case "aggiungi":
                     add();
                     break;
-                case "listall":
+                case "mostra tutto":
                     getAllFromDB(true);
                     break;
-                case "search":
+                case "cerca":
                     search();
                     break;
-                case "modify":
+                case "modifica":
                     modify();
                     break;
-                case "delete":
+                case "cancella":
                     delete();
                     break;
-                case "export":
+                case "esporta":
                     export();
                     break;
-                case "import":
+                case "importa":
                     importFile();
                     break;
             }
@@ -248,18 +248,98 @@ public class DBConsoleApp {
 
     /**
      * Search in the Database. User choose column to search into and what to search (of course).
+     * Can choose up to 3 columns.
      */
     private static void search(){
-        System.out.println("In che campo vuoi cercare? Opzioni: ID, NOME, COGNOME, EMAIL, TELEFONO");
-        String searchColumn = sc.nextLine().trim();
-        if (DBConsoleAppUtils.isValidColumn(searchColumn)){
+        System.out.println("In che campo vuoi cercare? Opzioni: ID, NOME, COGNOME, EMAIL, TELEFONO. Scegli 1 o 2 opzioni.");
+        String s = sc.nextLine().trim();
+        String[] searchColumns = s.split(" ");
+        if (searchColumns.length < 1){
+            System.out.println("Errore nell'input.");
+        } else if (searchColumns.length == 1 && DBConsoleAppUtils.isValidColumn(searchColumns[0])){
             System.out.println("Cosa vuoi cercare?");
             String searchQuery = sc.nextLine().trim();
-            searchBy(searchColumn, searchQuery);
-        } else {
-            System.out.println("Nome del campo non valido.");
+            searchBy(searchColumns[0], searchQuery);
+        } else if (searchColumns.length == 2 && DBConsoleAppUtils.isValidColumn(searchColumns[0])
+                && DBConsoleAppUtils.isValidColumn(searchColumns[1])){
+            System.out.println("Cosa vuoi cercare?");
+            String searchQuery = sc.nextLine().trim();
+            searchBy(searchColumns[0], searchColumns[1], searchQuery);
+        } else if (searchColumns.length == 3 && DBConsoleAppUtils.isValidColumn(searchColumns[0]) &&
+                DBConsoleAppUtils.isValidColumn(searchColumns[1]) &&
+                DBConsoleAppUtils.isValidColumn(searchColumns[2])){
+            System.out.println("Cosa vuoi cercare?");
+            String searchQuery = sc.nextLine().trim();
+            searchBy(searchColumns[0], searchColumns[1], searchColumns[2], searchQuery);
         }
     }
+
+    /**
+     * Actual method to search the Database. This method uses the "LIKE" operator.
+     * @param col The column to search
+     * @param query The "thing" to search.
+     */
+    private static void searchBy(String col, String query){
+        try (Connection conn = DBManager.getDefaultConnection()) {
+            String preparedQuery = "SELECT * FROM rubrica WHERE " + col + " LIKE ?";
+            PreparedStatement ps = conn.prepareStatement(preparedQuery);
+            ps.setString(1, "%" + query + "%");
+
+            ResultSet rs = ps.executeQuery();
+
+            resultSetToList(rs);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        pageManager();
+    }
+
+    /**
+     * Actual method to search the Database. This method uses the "LIKE" operator.
+     * @param col The column to search
+     * @param col2 The second column to search
+     * @param query The "thing" to search.
+     */
+    private static void searchBy(String col, String col2, String query){
+        try (Connection conn = DBManager.getDefaultConnection()) {
+            String preparedQuery = "SELECT * FROM rubrica WHERE " + col + " LIKE ? OR " + col2 + " LIKE ?";
+            PreparedStatement ps = conn.prepareStatement(preparedQuery);
+            ps.setString(1, "%" + query + "%");
+            ps.setString(2, "%" + query + "%");
+
+            ResultSet rs = ps.executeQuery();
+
+            resultSetToList(rs);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        pageManager();
+    }
+
+    /**
+     * Actual method to search the Database. This method uses the "LIKE" operator.
+     * @param col The column to search
+     * @param col2 The second column to search
+     * @param col3 The third column to search
+     * @param query The "thing" to search.
+     */
+    private static void searchBy(String col, String col2, String col3, String query){
+        try (Connection conn = DBManager.getDefaultConnection()) {
+            String preparedQuery = "SELECT * FROM rubrica WHERE " + col + " LIKE ? OR " + col2 + " LIKE ? OR " + col3 + " LIKE ?";
+            PreparedStatement ps = conn.prepareStatement(preparedQuery);
+            ps.setString(1, "%" + query + "%");
+            ps.setString(2, "%" + query + "%");
+            ps.setString(3, "%" + query + "%");
+
+            ResultSet rs = ps.executeQuery();
+
+            resultSetToList(rs);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        pageManager();
+    }
+
 
     /**
      * Returns every contact in the Database.
@@ -302,26 +382,6 @@ public class DBConsoleApp {
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Actual method to search the Database. This method uses the "LIKE" operator.
-     * @param col The column to search
-     * @param query The "thing" to search.
-     */
-    private static void searchBy(String col, String query){
-        try (Connection conn = DBManager.getDefaultConnection()) {
-            String preparedQuery = "SELECT * FROM rubrica WHERE " + col + " LIKE ?";
-            PreparedStatement ps = conn.prepareStatement(preparedQuery);
-            ps.setString(1, "%" + query + "%");
-
-            ResultSet rs = ps.executeQuery();
-
-            resultSetToList(rs);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        pageManager();
     }
 
     /**
