@@ -198,7 +198,7 @@ public class RubricaToolset {
 
 	public static void contattoToCsv (List<Contatto> list, String csvPath) {
 		try {	
-			Random r = new Random();
+//			Random r = new Random();
 			File f = new File(csvPath);
 			boolean ex = f.exists();
 			BufferedWriter bf = Files.newBufferedWriter(f.toPath(),
