@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Runner {
 
@@ -26,7 +27,7 @@ public class Runner {
 
 		System.out.println("Start: " + LocalTime.now());
 
-		List<Contact> recordsList = Phonebook.recordsGenerator(10, namesList, surnamesList, prefixsList, mobilesList,
+		List<Contact> recordsList = Phonebook.recordsGenerator(1000, namesList, surnamesList, prefixsList, mobilesList,
 				domainsList, emailsList);
 
 		System.out.println("Done records: " + LocalTime.now());
@@ -45,13 +46,23 @@ public class Runner {
 
 		// List<Contact> contactsFromXml = Phonebook.readXmlFile("/temp/rubrica.xml");
 
-		List<Contact> temp = Phonebook.readCsvFile("/temp/rubrica_bassanelli.csv");
+		// List<Contact> temp = Phonebook.readCsvFile("/temp/rubrica_bassanelli.csv");
+		
+		// DBManager.writeIntoDatabase(temp);
 
-		Phonebook.sortByField(recordsList, "NOME");
+		// List<Contact> list2 = DBManager.readFromDatabase();
 
-		Phonebook.writeCsvFile(temp, "COGNOME;NOME;EMAIL;TELEFONO", "/temp/new_rubrica.csv", true);
+		// Phonebook.writeCsvFile(temp, "COGNOME;NOME;EMAIL;TELEFONO", "/temp/new_rubrica.csv", true);
 
-		Phonebook.printAllRecords(recordsList, "NOME;COGNOME;TELEFONO;EMAIL");
+		// Phonebook.printAllRecords(recordsList, "NOME;COGNOME;TELEFONO;EMAIL");
+		
+		// Map<String, Integer> duplicates = DuplicateManager.searchDuplicates(recordsList, "EMAIL");
+		
+		// List<Contact> t = DuplicateManager.joinContattiWithAlias(recordsList, "EMAIL");
+		
+		// Phonebook.sortByField(t, "NOME");
+		
+		// Phonebook.printAllRecords(list2, "NOME;COGNOME;TELEFONO;EMAIL");
 
 	}
 

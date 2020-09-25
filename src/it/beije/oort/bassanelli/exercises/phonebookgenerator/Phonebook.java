@@ -363,16 +363,16 @@ public class Phonebook {
 		return list;
 	}
 
-	public static void writeCsvFile(List<Contact> list, String pattern, String filepath, boolean useRandom)
+	public static void writeCsvFile(List<Contact> list, String pattern, String filepath, boolean isRandom)
 			throws IOException {
 
 		File file = new File(filepath);
 
-		writeCsvFile(list, pattern, file, useRandom);
+		writeCsvFile(list, pattern, file, isRandom);
 
 	}
 
-	public static void writeCsvFile(List<Contact> list, String pattern, File file, boolean useRandom)
+	public static void writeCsvFile(List<Contact> list, String pattern, File file, boolean isRandom)
 			throws IOException {
 
 		if (file.exists()) {
@@ -383,7 +383,7 @@ public class Phonebook {
 
 			for (Contact contact : list) {
 				
-				fileWriter.write(contact.toCsvRow(pattern, useRandom));
+				fileWriter.write(contact.toCsvRow(pattern, isRandom));
 			}
 
 			fileWriter.flush();
@@ -634,12 +634,17 @@ public class Phonebook {
 				public int compare(final Contact contactObject1, final Contact contactObject2) {
 
 					switch (field) {
+					case "ID":
+						return contactObject1.getId().compareTo(contactObject2.getId());
 					default:
 					case "NOME":
+					case "NAME":
 						return contactObject1.getName().compareTo(contactObject2.getName());
 					case "COGNOME":
+					case "SURNAME":
 						return contactObject1.getSurname().compareTo(contactObject2.getSurname());
 					case "TELEFONO":
+					case "MOBILE":
 						return contactObject1.getMobile().compareTo(contactObject2.getMobile());
 					case "EMAIL":
 						return contactObject1.getEmail().compareTo(contactObject2.getEmail());

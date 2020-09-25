@@ -6,6 +6,7 @@ import java.util.Random;
 
 public class Contact {
 
+	private Integer id;
 	private String name;
 	private String surname;
 	private String mobile;
@@ -24,6 +25,14 @@ public class Contact {
 		this.surname = cognome;
 		this.mobile = mobile;
 		this.email = email;
+	}
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -67,25 +76,31 @@ public class Contact {
 	}
 
 	public String toString() {
-		return this.toString("NOME;COGNOMET;TELEFONO;EMAIL");
+		return this.toString("NOME;COGNOME;TELEFONO;EMAIL");
 	}
 
 	public String toString(String pattern) {
 
 		String[] fields = pattern.split(";", -1);
 
-		StringBuilder builder = new StringBuilder("CONTACT [ ");
+		StringBuilder builder = new StringBuilder("[ ");
 
 		for (int i = 0; i < fields.length; i++) {
 
 			switch (fields[i].toUpperCase()) {
+			case "ID":
+				builder.append("ID: ").append(this.id).append(" ");
+				break;
 			case "NOME":
+			case "NAME":
 				builder.append("NAME: ").append(this.name).append(" ");
 				break;
 			case "COGNOME":
+			case "SURNAME":
 				builder.append("SURNAME: ").append(this.surname).append(" ");
 				break;
 			case "TELEFONO":
+			case "MOBILE":
 				builder.append("MOBILE: ").append(this.mobile).append(" ");
 				break;
 			case "EMAIL":
@@ -155,5 +170,4 @@ public class Contact {
 
 		return builder.toString();
 	}
-
 }
