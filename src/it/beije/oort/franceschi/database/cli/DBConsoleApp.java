@@ -46,39 +46,39 @@ public class DBConsoleApp {
         DBConsoleAppUtils.showInit();
         String line = "";
         // Start the loop to get the user input
-        while (!line.equalsIgnoreCase("quit")) {
+        while (!line.equalsIgnoreCase("9")) {
             // Get the input
             System.out.println("Cosa desideri fare?");
             line = sc.nextLine().trim().toLowerCase();
             // Verify the input
             if (!DBConsoleAppUtils.isValidInput(line)) {
-                System.out.println("Input non valido");
+                System.err.println("Input non valido");
                 continue;
             }
             // Do things depending on input
             switch (line) {
-                case "aiuto":
+                case "8":
                     DBConsoleAppUtils.showHelp();
                     break;
-                case "aggiungi":
+                case "1":
                     add();
                     break;
-                case "mostra tutto":
+                case "7":
                     getAllFromDB(true);
                     break;
-                case "cerca":
+                case "2":
                     search();
                     break;
-                case "modifica":
+                case "3":
                     modify();
                     break;
-                case "cancella":
+                case "6":
                     delete();
                     break;
-                case "esporta":
+                case "4":
                     export();
                     break;
-                case "importa":
+                case "5":
                     importFile();
                     break;
             }
@@ -251,7 +251,7 @@ public class DBConsoleApp {
      * Can choose up to 3 columns.
      */
     private static void search(){
-        System.out.println("In che campo vuoi cercare? Opzioni: ID, NOME, COGNOME, EMAIL, TELEFONO. Scegli 1 o 2 opzioni.");
+        System.out.println("In che campo vuoi cercare? Opzioni: ID, NOME, COGNOME, EMAIL, TELEFONO. Scegli fino a 3 colonne.");
         String s = sc.nextLine().trim();
         String[] searchColumns = s.split(" ");
         if (searchColumns.length < 1){

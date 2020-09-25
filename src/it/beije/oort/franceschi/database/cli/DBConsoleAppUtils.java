@@ -1,16 +1,12 @@
 package it.beije.oort.franceschi.database.cli;
 
 import it.beije.oort.file.rubrica.Contatto;
-
 import it.beije.oort.franceschi.csvToXml.CSVParser;
 import it.beije.oort.franceschi.csvToXml.InputManager;
 import it.beije.oort.franceschi.csvToXml.XMLParser;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,11 +18,6 @@ public class DBConsoleAppUtils {
      * A static scanner
      */
     private static final Scanner sc = new Scanner(System.in);
-    /**
-     * List of commands available.
-     */
-    private static final List<String> comandi = Arrays.asList(
-            "aggiungi", "cerca", "modifica", "esporta", "importa", "cancella", "mostra tutto", "aiuto", "esci");
 
     /**
      * The path were the program will export CSV and XML files. Also used for imports.
@@ -45,15 +36,15 @@ public class DBConsoleAppUtils {
      * Outputs the possible commands and a short explanation for them.
      */
     public static void showHelp(){
-        System.out.println("Aggiungi:           Aggiungi un contatto al Database.");
-        System.out.println("Cerca:              Cerca nel Database.");
-        System.out.println("Modifica:           Modifica un contatto nel Database.");
-        System.out.println("Esporta:            Esporta il Database su file.");
-        System.out.println("Importa:            Importa un file nel Database.");
-        System.out.println("Cancella:           Cancella un contatto dal Database.");
-        System.out.println("Mostra Tutto:       Stampa tutti gli elementi presenti nel Database.");
-        System.out.println("Aiuto:              Stampa le istruzioni a schermo.");
-        System.out.println("Esci:               Esci dal programma.");
+        System.out.println("1) Aggiungi:           Aggiungi un contatto al Database.");
+        System.out.println("2) Cerca:              Cerca nel Database.");
+        System.out.println("3) Modifica:           Modifica un contatto nel Database.");
+        System.out.println("4) Esporta:            Esporta il Database su file.");
+        System.out.println("5) Importa:            Importa un file nel Database.");
+        System.out.println("6) Cancella:           Cancella un contatto dal Database.");
+        System.out.println("7) Mostra Tutto:       Stampa tutti gli elementi presenti nel Database.");
+        System.out.println("8) Aiuto:              Stampa le istruzioni a schermo.");
+        System.out.println("9) Esci:               Esci dal programma.");
         System.out.println();
     }
 
@@ -63,10 +54,10 @@ public class DBConsoleAppUtils {
      * @return true if the string is a valid command
      */
     public static boolean isValidInput(String s) {
-        for (String string : comandi) {
-            if (string.equalsIgnoreCase(s)) {
-                return true;
-            }
+        try {
+            return Integer.parseInt(s) < 10 && Integer.parseInt(s) > 0;
+        } catch (NumberFormatException e){
+            System.err.println("Devi inserire un numero.");
         }
         return false;
     }
@@ -91,7 +82,7 @@ public class DBConsoleAppUtils {
         System.out.println("Benvenuto in DBConsoleApp, una CLI per Database.");
         System.out.println("Comandi disponibili:");
         showHelp();
-        System.out.println("Per scegliere, scrivi il comando desiderato e premi INVIO.");
+        System.out.println("Per scegliere, scrivi il numero relativo al comando desiderato e premi INVIO.");
         System.out.println();
     }
 
