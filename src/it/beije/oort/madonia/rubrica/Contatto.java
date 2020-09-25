@@ -3,7 +3,7 @@ package it.beije.oort.madonia.rubrica;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Contatto implements Comparable<Contatto> {
+public class Contatto implements Comparable<Contatto>, Cloneable {
 
 	private String nome;
 	private String cognome;
@@ -81,6 +81,16 @@ public class Contatto implements Comparable<Contatto> {
 		}
 		
 		return posizione;
+	}
+	
+	public Contatto clone() {
+		Contatto contatto = new Contatto();
+		contatto.setNome(this.getNome());
+		contatto.setCognome(this.getCognome());
+		contatto.setTelefono(this.getTelefono());
+		contatto.setEmail(this.getEmail());
+		
+		return contatto;
 	}
 
 }
