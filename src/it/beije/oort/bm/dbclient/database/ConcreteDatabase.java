@@ -23,7 +23,7 @@ class ConcreteDatabase extends Database {
 	private static final String SURNAME_VAL = "cognome = ? ";
 	private static final String PHONE_VAL = "telefono = ? ";
 	private static final String EMAIL_VAL = "email = ? ";
-	private static final String ID_VAL = "id = ? ";
+	private static final String ID_VAL = "id_rubrica = ? ";
 	private static final String AND = "AND ";
 //	private static final String OR = "OR ";
 	private static final String UPDATE = "UPDATE rubrica SET ";
@@ -96,7 +96,7 @@ class ConcreteDatabase extends Database {
 		}
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
-			Contatto c = new Contatto(rs.getInt("id"));
+			Contatto c = new Contatto(rs.getInt("id_rubrica"));
 			c.setCognome(rs.getString("cognome"));
 			c.setCognome(rs.getString("nome"));
 			c.setCognome(rs.getString("telefono"));
@@ -180,7 +180,7 @@ class ConcreteDatabase extends Database {
 		PreparedStatement stmt = connection.prepareStatement(SELECT);
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
-			Contatto c = new Contatto(rs.getInt("id"));
+			Contatto c = new Contatto(rs.getInt("id_rubrica"));
 			c.setCognome(rs.getString("cognome"));
 			c.setCognome(rs.getString("nome"));
 			c.setCognome(rs.getString("telefono"));
