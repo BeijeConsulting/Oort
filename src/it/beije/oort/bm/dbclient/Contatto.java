@@ -59,10 +59,11 @@ public class Contatto implements Comparable<Contatto>{
 	
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(" - nome : ").append(this.nome).append('\n')
-			.append(" - cognome : ").append(this.cognome).append('\n')
-			.append(" - telefono : ").append(this.telefono).append('\n')
-			.append(" - email : ").append(this.email);
+		builder.append("id: ").append(id).append(" | ")
+			.append("surname : ").append(this.cognome).append(" | ")
+			.append("name : ").append(this.nome).append(" | ")
+			.append("phone_n° : ").append(this.telefono).append(" | ")
+			.append("e-mail : ").append(this.email);
 		
 		return builder.toString();
 	}

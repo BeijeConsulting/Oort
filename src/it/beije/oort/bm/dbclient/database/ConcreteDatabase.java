@@ -27,7 +27,7 @@ class ConcreteDatabase extends Database {
 	private static final String AND = "AND ";
 //	private static final String OR = "OR ";
 	private static final String UPDATE = "UPDATE rubrica SET ";
-	private static final String DELETE = "DELETE FROM rubrica WHERE ";
+	private static final String DELETE = "DELETE FROM rubrica ";
 	private static final String INSERT = "INSERT INTO rubrica (cognome, nome, telefono, email) VALUES (?,?,?,?)";
 	
 	static {
@@ -98,9 +98,9 @@ class ConcreteDatabase extends Database {
 		while(rs.next()) {
 			Contatto c = new Contatto(rs.getInt("id_rubrica"));
 			c.setCognome(rs.getString("cognome"));
-			c.setCognome(rs.getString("nome"));
-			c.setCognome(rs.getString("telefono"));
-			c.setCognome(rs.getString("email"));
+			c.setNome(rs.getString("nome"));
+			c.setTelefono(rs.getString("telefono"));
+			c.setEmail(rs.getString("email"));
 			result.add(c);
 		}
 		rs.close();
@@ -144,19 +144,26 @@ class ConcreteDatabase extends Database {
 	public boolean update(int id, boolean[] selector, String[] vals) throws SQLException {
 		if(vals.length != selector.length) throw new IllegalArgumentException();
 		boolean result;
+		boolean requireComma = false;
 		getConnection();
 		StringBuilder query = new StringBuilder();
 		query.append(UPDATE);
 		if(selector[0]) {
-			query.append(SURNAME_VAL).append(", ");
+			query.append(SURNAME_VAL);
+			requireComma = true;
 		}
 		if(selector[1]) {
-			query.append(NAME_VAL).append(", ");
+			if(requireComma) query.append(", ");
+			query.append(NAME_VAL);
+			requireComma = true;
 		}
 		if(selector[2]) {
-			query.append(PHONE_VAL).append(", ");
+			if(requireComma) query.append(", ");
+			query.append(PHONE_VAL);
+			requireComma = true;
 		}
 		if(selector[3]) {
+			if(requireComma) query.append(", ");
 			query.append(EMAIL_VAL);
 		}
 		query.append(WHERE).append(ID_VAL);
@@ -182,9 +189,9 @@ class ConcreteDatabase extends Database {
 		while(rs.next()) {
 			Contatto c = new Contatto(rs.getInt("id_rubrica"));
 			c.setCognome(rs.getString("cognome"));
-			c.setCognome(rs.getString("nome"));
-			c.setCognome(rs.getString("telefono"));
-			c.setCognome(rs.getString("email"));
+			c.setNome(rs.getString("nome"));
+			c.setTelefono(rs.getString("telefono"));
+			c.setEmail(rs.getString("email"));
 			result.add(c);
 		}
 		rs.close();
