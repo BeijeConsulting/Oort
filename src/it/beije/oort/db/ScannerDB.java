@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 
 public class ScannerDB {
@@ -15,10 +16,8 @@ public class ScannerDB {
 	public static final String DB_URL = "jdbc:mysql://localhost:3306/rubrica?serverTimezone=CET";
 	public static String pathFile = "/tempDB/rubricaCSV_from_DB.csv";
 	static Scanner scan = new Scanner(System.in);
-	static String value1 = "";
-	static String value2 = "";
-	static String value3 = "";
-	static String value4 = "";
+	static String value = "";
+	static String col = "";
 	static String id_values = "";
 	static String parola = "";
 	static String sc = "";
@@ -29,6 +28,7 @@ public class ScannerDB {
 	static String email = "";
 	static boolean flag = true;
 	static boolean flag2 = true;
+	static boolean flag3 = true;
 	
 	public static Connection getMySqlConnection(String url, String user, String password) throws SQLException, ClassNotFoundException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
@@ -65,8 +65,40 @@ public class ScannerDB {
 				System.out.println("Selezionare, indicando l'ID il contatto da modificare: ");
 				System.out.print("ID: ");
 				id_values = scan.nextLine();
-				update(id_values);
-				
+				do {
+				String choose = "";
+				System.out.println("Scegliere quale campo modificare: ");
+				System.out.println("1) Nome");
+				System.out.println("2) Cognome");
+				System.out.println("3) Telefono");
+				System.out.println("4) Email");
+				System.out.println("5) Annulla e torna al menù precedente!");
+				System.out.print("Inserire scelta: ");  choose = scan.nextLine();
+				if(choose.equals("1")) {
+					System.out.print("Inserire il nome da andare a sostituire (ID = "+ id_values + "): ");	value = scan.nextLine();
+					col = "nome";
+					update(col,value,id_values);
+				}else {
+					if(choose.equals("2")) {
+						System.out.print("Inserire il cognome da andare a sostiture: "); value = scan.nextLine();
+						col = "cognome";
+					}else {
+						if(choose.equals("3")) {
+							System.out.print("Inserire il numero di telefono da sostituire: "); value = scan.nextLine();
+							col = "telefono";
+						}else {
+							if(choose.equals("4")) {
+								System.out.print("Inserire la email da sostiture: "); value = scan.nextLine();
+								col = "email";
+							}else {
+								if(choose.equals("5"))
+									System.out.println();
+										flag3 = false;
+							}
+						}
+					}
+				}
+				}while(flag3);
 			}else {
 				if(scelta.equals("3")) {
 					System.out.println("delete");
@@ -132,23 +164,23 @@ public class ScannerDB {
 		}while(flag);
 	}
 	
-	public static void update(String id_values) {
+	public static void update(String col, String value, String id_values) {
 		Connection connection = null;
 		PreparedStatement ps = null;
+		Statement statement = null;
+		ResultSet rs = null;
 		
+		StringBuilder sbuilder = new StringBuilder("UPDATE contatti set" + col + "='" + value + "'  where id = '" + id_values + "'");
 		try {
 			connection = ScannerDB.getMySqlConnection(ScannerDB.DB_URL, ScannerDB.DB_USER, ScannerDB.DB_PASSWORD);
-			System.out.print("Inserire il nome da andare a sostituire: ");	value1 = scan.next();
-			ps = connection.prepareStatement("UPDATE contatti set nome = " + value1 + "  where id = " + id_values );
-			System.out.print("Inserire il cognome da andare a sostituire: ");	value2 = scan.next();
-			ps = connection.prepareStatement("UPDATE contatti set cognome = " + value2 + " where id = " + id_values );
-			System.out.print("Inserire il telefono da andare a sostituire: ");	value3 = scan.next();
-			ps = connection.prepareStatement("UPDATE contatti set telefono = " + value3 + "where id = " + id_values );
-			System.out.print("Inserire l'email da andare a sostituire: ");	value4 = scan.next();
-			ps = connection.prepareStatement("UPDATE contatti set email = " + value4 + " where id = " + id_values );
-			
+			ps = connection.prepareStatement(sbuilder.toString());
 			ps.execute();
-									
+			System.out.println("Update eseguito!");
+			statement = connection.createStatement();
+			rs = statement.executeQuery("SELECT * FROM contatti where id = '" + id_values + "'");
+			System.out.println("[ID: " + rs.getString("id")+ " - Nome: " + rs.getString("nome") + " - Cognome: " + rs.getString("cognome") +
+					" - Telefono: " + rs.getString("telefono") + " - Email: " + rs.getString("email") + "]");
+											
 		} catch (SQLException sqlException) {
 			sqlException.printStackTrace();
 		} catch (ClassNotFoundException cnfEx) {
