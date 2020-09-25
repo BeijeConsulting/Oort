@@ -86,9 +86,9 @@ public class DBConsoleAppUtils {
      * Shows possible inputs for the user
      */
     public static void showInit() {
-        System.out.println("Comandi possibili:");
+        System.out.println("Comandi disponibili:");
         showHelp();
-        System.out.println("Per scegliere, scrivi il comando desiderato e premi invio.");
+        System.out.println("Per scegliere, scrivi il comando desiderato e premi INVIO.");
         System.out.println();
     }
 
