@@ -144,14 +144,26 @@ public class DbManager {
 		Scanner inputFromUser = new Scanner(System.in);
 		String menuFirstLine = "Per visualizzare un contatto inserisci 1: ";
 		String menuSecondLine = "Per modificare un contatto inserisci 2: ";
+		String menuThirdLine = "Per inserire un contatto inserisci 3: ";
+		String menuFourthLine = "Per rimuovere un contatto inserisci 4:";
+		String menuFifthLine = "Per esportare una lista di contatti in un file .csv premi 5: ";
 		System.out.println(menuFirstLine);
 		System.out.println(menuSecondLine);
+		System.out.println(menuThirdLine);
+		System.out.println(menuFourthLine);
+		System.out.println(menuFifthLine);
 		String lineFromInput = inputFromUser.next();
 		int numberFromInput = Integer.parseInt(lineFromInput);
 		switch (numberFromInput) {
 		case 1: searchRecord();
 				break;
 		case 2: modifyRecordById();
+				break;
+		case 3: insertContactByCmd();
+				break;
+		case 4: removeRecordById();
+				break;
+		case 5: exportListFromMenu();
 				break;
 
 		default: System.out.println("hai inserito un numero non valido");
@@ -275,5 +287,72 @@ public class DbManager {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public static void insertContactByCmd () {
+		System.out.println("Inserisci nome, cognome, telefono, email in questo ordine");
+		Scanner myObj = new Scanner(System.in);
+		String name = myObj.nextLine();
+		String surname = myObj.nextLine();
+		String mobile = myObj.nextLine();
+		String email = myObj.nextLine();
+		Contact contact = new Contact();
+		contact.setName(name);
+		contact.setSurname(surname);
+		contact.setMobile(mobile);
+		contact.setEmail(email);
+		insertContact(contact);
+	}
+	
+	public static void removeRecordById() {
+		System.out.println("Per rimuovere un contatto inserisci il suo id: ");
+		Scanner inputFromUser = new Scanner(System.in);
+		String idFromInput = inputFromUser.nextLine();
+		int id = Integer.parseInt(idFromInput);
+		readRecordByIdFromInput();
+		System.out.println("Sei sicuro di voler rimuovere il contatto? SI | NO");
+		String confirm = inputFromUser.nextLine();
+		if(confirm.equalsIgnoreCase("SI")) {
+			String query = "DELETE FROM rubrica WHERE id = '" + idFromInput + "'";
+			System.out.println(query);
+			Connection connection = null;
+			Statement statement = null;
+			boolean rs;
+			try {
+				connection = getMySqlConnection(DB_URL, DB_USER, DB_PASSWORD);
+//				System.out.println("connection is open? " + !connection.isClosed());
+				statement = connection.createStatement();
+				rs = statement.execute(query);
+//				while (rs.next()) {
+//					contact.setName(rs.getString("nome"));
+//					contact.setSurname(rs.getString("cognome"));
+//					contact.setMobile(rs.getString("telefono"));
+//					contact.setEmail(rs.getString("email"));
+//				}
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				try {
+					statement.close();
+					connection.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public static void exportListFromMenu () {
+		System.out.println("Inserisci la path del file: ");
+		Scanner inputFromUser = new Scanner(System.in);
+		String path = inputFromUser.nextLine();
+		System.out.println("Inserisci il primo id del file: ");
+		String firstId = inputFromUser.nextLine();
+		int id1 = Integer.parseInt(firstId);
+		System.out.println("Inserisci l'ultimo (da escludere) id del file: ");
+		String lastId = inputFromUser.nextLine();
+		int idfinal = Integer.parseInt(lastId);
+		exportListToCsv(readRecords(id1, idfinal), path);
 	}
 }
