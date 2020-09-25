@@ -6,6 +6,8 @@ import it.beije.oort.franceschi.csvToXml.CSVParser;
 import it.beije.oort.franceschi.csvToXml.InputManager;
 import it.beije.oort.franceschi.csvToXml.XMLParser;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,6 +88,7 @@ public class DBConsoleAppUtils {
      * Shows possible inputs for the user
      */
     public static void showInit() {
+        System.out.println("Benvenuto in DBConsoleApp, una CLI per Database.");
         System.out.println("Comandi disponibili:");
         showHelp();
         System.out.println("Per scegliere, scrivi il comando desiderato e premi INVIO.");
