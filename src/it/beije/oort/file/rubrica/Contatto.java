@@ -8,11 +8,19 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Contatto {
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    private int ID;
     private String nome;
     private String cognome;
     private String cell = "";
     private String email = "";
-    private String alias = "";
 
     public Contatto() {
     }
@@ -70,13 +78,18 @@ public class Contatto {
      */
     public String toFormattedString() {
         return new StringBuilder("\"").append(cognome).append("\";\"").append(nome).append("\";\"").append(email)
-                .append("\";\"").append(cell).append("\";\"").append("[" + this.getAlias() + "]")
+                .append("\";\"").append(cell).append("\";\"")
                 .append("\"").toString();
     }
 
     public String toString() {
         return new StringBuilder("Nome: " + this.getNome() + ". Cognome: " + this.getCognome() + ". Email: "
-                + this.getEmail() + ". Telefono: " + this.getCell()) + " [" + this.getAlias() + "]";
+                + this.getEmail() + ". Telefono: " + this.getCell()).toString();
+    }
+
+    public String toNakedString(){
+        return new StringBuilder(this.getNome() + "\t\t" + this.getCognome() + "\t\t"
+                + this.getEmail() + "\t\t" + this.getCell()).toString();
     }
 
     public static String getContattoFormattatoToString(ArrayList<Contatto> rubrica, int i, Random r) {
@@ -113,14 +126,6 @@ public class Contatto {
         final Contatto c = (Contatto) obj;
 
         return (this.email == null) ? (c.getEmail() == null) : this.email.equals(c.getEmail());
-    }
-
-    public String getAlias() {
-        return alias;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
     }
 }
 

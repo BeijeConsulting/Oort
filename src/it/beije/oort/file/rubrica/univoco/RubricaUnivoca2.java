@@ -108,14 +108,14 @@ public class RubricaUnivoca2 {
                     k = 0;
                     continue;
                 }
-                if (!c.getNome().equals(b.getNome()) && !c.getAlias().contains(b.getNome())) {
-                    String alias = c.getAlias();
-                    alias += ", " + b.getNome();
-                    c.setAlias(alias);
-                    stessaMail.remove(b);
-                    i = 0;
-                    k = 0;
-                }
+//                if (!c.getNome().equals(b.getNome()) && !c.getAlias().contains(b.getNome())) {
+//                    String alias = c.getAlias();
+//                    alias += ", " + b.getNome();
+//                    c.setAlias(alias);
+//                    stessaMail.remove(b);
+//                    i = 0;
+//                    k = 0;
+//                }
 
 
 //				if (c.getNome().equals("") & !b.getNome().equals("")) {
