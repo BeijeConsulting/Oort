@@ -47,7 +47,7 @@ public class MyScannerCSV {
 	public static void main(String[] args) throws IOException {
 		
 		// 1) creazione o lettura del file:
-		File file = new File("C:\\Users\\Padawan05\\Desktop\\file_txt\\rubrica.txt");
+		File file = new File("C:\\Users\\Padawan05\\Desktop\\file_testo\\rubrica.txt");
 		
 //		File file = new File("C:\\Users\\Padawan05\\eclipse-work"
 //				+ "space\\FirstProject\\src\\inOut\\rubrica.txt");

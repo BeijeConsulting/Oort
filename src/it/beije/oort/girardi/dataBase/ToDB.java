@@ -18,7 +18,7 @@ public class ToDB {
 	
 // ------------ METODI ------------
 	
-//inserisce la List di conttti nel database. Usa il metodo ToDB.insertContatto
+//inserisce un contatto nel database. 
 	public static void insertContatto(Connection connection,Contatto contatto) {
 		PreparedStatement ps = null;
 		
@@ -32,7 +32,8 @@ public class ToDB {
 			
 			ps.execute();
 			
-			System.out.println("insert record : " + ++count);
+		//	System.out.println("insert record : " + ++count);
+			System.out.println("contatto inserito correttamente");
 			
 		} catch (SQLException sqlException) {
 			sqlException.printStackTrace();
@@ -47,7 +48,7 @@ public class ToDB {
 	}
 	
 	
-//inserisce la List di conttti nel database. Usa il metodo ToDB.insertContatto
+//inserisce la List di contatti nel database. Usa il metodo ToDB.insertContatto
 	public static void insertListContatti(Connection connection,List<Contatto> listContatti) {
 		for (Contatto contatto : listContatti)
 			ToDB.insertContatto(connection,contatto);
