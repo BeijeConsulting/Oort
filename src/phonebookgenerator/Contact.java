@@ -60,10 +60,11 @@ public class Contact {
 	
 	public String toRow() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(this.mobile).append(";")
-			.append(this.email).append(";")
+		builder
 			.append(this.name).append(";")
-			.append(this.surname).append("\n");
+			.append(this.surname).append(";")
+			.append(this.mobile).append(";")
+			.append(this.email).append("\n");
 		
 		return builder.toString();
 	}
