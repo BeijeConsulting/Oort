@@ -1,5 +1,7 @@
 package it.beije.oort.rubrica;
 
+
+
 public class Contatto {
 	
 	private String nome;
@@ -56,6 +58,14 @@ public class Contatto {
 			.append(this.email).append(';');
 		
 		return builder.toString();
+	}
+	
+	public boolean myEquals(Contatto a, Contatto c) {
+
+		return (a.getNome().equalsIgnoreCase(c.getNome())&&
+				a.getCognome().equalsIgnoreCase(c.getCognome())&&
+				a.getTelefono().equals(c.getTelefono())&&
+				a.getEmail().equals(c.getEmail()));		
 	}
 	
 }
