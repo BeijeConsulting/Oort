@@ -12,18 +12,18 @@ public class ExportDB {
 	public static final String DB_USER = "root";
 	public static final String DB_PASSWORD = "simone9810";
 	public static final String DB_URL = "jdbc:mysql://localhost:3306/rubrica?serverTimezone=CET";
-	
+	public static String pathFile = "/tempDB/export_from_DB.csv"; 
 	public static Connection getMySqlConnection(String url, String user, String password) throws SQLException, ClassNotFoundException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection connection = DriverManager.getConnection(url, user, password);
 		return connection;
 	}
 	
-	public static void preparedSelect() throws IOException {
+	public static void preparedSelect(String pathFile) throws IOException {
 		Connection connection = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		FileWriter fileWriter = new FileWriter("/tempDB/export_from_DB.csv");
+		FileWriter fileWriter = new FileWriter(pathFile);
 		
 		try {
 			connection = ExportDB.getMySqlConnection(ExportDB.DB_URL, ExportDB.DB_USER, ExportDB.DB_PASSWORD);
@@ -55,6 +55,6 @@ public class ExportDB {
 
 	public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
 		Connection connection = getMySqlConnection(DB_URL, DB_USER, DB_PASSWORD);
-		preparedSelect();
+		preparedSelect(pathFile);
 	}
 }

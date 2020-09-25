@@ -54,7 +54,7 @@ public class ScannerForRubrica {
 							flag = false;
 				}
 			}
-		}while(!flag);
+		}while(flag);
 		
 	}
 		
