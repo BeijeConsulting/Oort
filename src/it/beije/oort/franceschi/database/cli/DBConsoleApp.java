@@ -1,8 +1,7 @@
-package it.beije.oort.file.rubrica.consoleapp;
+package it.beije.oort.franceschi.database.cli;
 
 import it.beije.oort.file.rubrica.Contatto;
 import it.beije.oort.file.rubrica.consoleapp.utils.ConsoleAppUtils;
-import it.beije.oort.file.rubrica.consoleapp.utils.DBConsoleAppUtils;
 import it.beije.oort.file.rubrica.jdbcRubrica.DBManager;
 import it.beije.oort.franceschi.csvToXml.CSVWriter;
 import it.beije.oort.franceschi.csvToXml.XMLWriter;
@@ -15,13 +14,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * CLI for a Database
+ */
 public class DBConsoleApp {
     ///////////////////////////////////////////////
     // GLOBAL STATIC VARS
     ///////////////////////////////////////////////
+    /**
+     * Global static scanner used in most of the methods.
+     */
     private static final  Scanner sc = new Scanner(System.in);
+    /**
+     * A List containing all the contacts returned by methods querying the Database.
+     */
     private static final List<Contatto> resultList = new ArrayList<>();
+    /**
+     * Array containing the names of the columns of the table.
+     */
     private static final String[] columnNames = new String[5];
+    /**
+     * Maximum amount of entries per page.
+     */
     private static final int MAX_ENTRIES_PER_PAGE = 10;
 
 
@@ -37,7 +51,7 @@ public class DBConsoleApp {
         while (!line.equalsIgnoreCase("quit")) {
             // Get the input
             System.out.println("Cosa desideri fare?");
-            line = sc.nextLine().toLowerCase();
+            line = sc.nextLine().trim().toLowerCase();
 
             // Verify the input
             if (!DBConsoleAppUtils.isValidInput(line)) {
@@ -86,9 +100,9 @@ public class DBConsoleApp {
      * User insert the file name and extension.
      */
     private static void importFile(){
-        System.out.println("Inserisci nome del file da importaee con l'estensione.");
+        System.out.println("Inserisci nome del file da importare con l'estensione.");
         System.out.println("Il file si deve trovare in questa cartella: " + DBConsoleAppUtils.getOutputPath());
-        String inputFile = sc.nextLine();
+        String inputFile = sc.nextLine().trim();
         List<Contatto> contattiImport = DBConsoleAppUtils.loadFile(inputFile);
         if (contattiImport != null){
             for (Contatto c : contattiImport){
@@ -106,7 +120,7 @@ public class DBConsoleApp {
      */
     private static void export(){
         System.out.println("Inserisci nome del file con l'estensione desiderata.");
-        String outputFile = sc.nextLine();
+        String outputFile = sc.nextLine().trim();
         String ext = DBConsoleAppUtils.getFileExt(outputFile);
 
         // Get all entries of DB into the List, without showing them.
@@ -127,14 +141,14 @@ public class DBConsoleApp {
      */
     private static void delete(){
         System.out.println("Inserisci l'ID del contatto da cancellare.");
-        String id = sc.nextLine();
+        String id = sc.nextLine().trim();
         Contatto c = getContattoFromDB(id);
         if (c == null) {
             return;
         }
         System.out.println("Hai selezionato questo contatto: " + c.toString());
         System.out.println("Vuoi davvero cancellarlo? Scrivi [yes] per confermare.");
-        if (sc.nextLine().equalsIgnoreCase("yes")){
+        if (sc.nextLine().trim().equalsIgnoreCase("yes")){
             // Delete
             try (Connection conn = DBManager.getDefaultConnection()) {
                 PreparedStatement ps = conn.prepareStatement("DELETE FROM rubrica WHERE id = ?");
@@ -154,7 +168,7 @@ public class DBConsoleApp {
     private static void modify(){
         // Get the contact to modify
         System.out.println("Inserisci l'ID del contatto da modificare.");
-        String id = sc.nextLine();
+        String id = sc.nextLine().trim();
         Contatto c = getContattoFromDB(id);
         if (c == null) {
             return;
@@ -165,15 +179,15 @@ public class DBConsoleApp {
         String s;
         do {
             System.out.println("Cosa vuoi modificare? [N]ome, [C]ognome, [T]elefono, [E]mail. [Done] per concludere");
-            s = sc.nextLine().toLowerCase();
+            s = sc.nextLine().trim().toLowerCase();
             switch (s) {
                 case "n":
                     System.out.println("Inserisci il nuovo nome:");
-                    c.setNome(sc.nextLine());
+                    c.setNome(sc.nextLine().trim());
                     break;
                 case "c":
                     System.out.println("Inserisci il nuovo cognome:");
-                    c.setCognome(sc.nextLine());
+                    c.setCognome(sc.nextLine().trim());
                     break;
                 case "t":
                     System.out.println("Inserisci il nuovo telefono:");
@@ -181,7 +195,7 @@ public class DBConsoleApp {
                     break;
                 case "e":
                     System.out.println("Inserisci la nuova email:");
-                    c.setEmail(sc.nextLine());
+                    c.setEmail(sc.nextLine().trim());
                     break;
             }
         } while (!s.equalsIgnoreCase("done"));
@@ -209,13 +223,13 @@ public class DBConsoleApp {
     private static void add(){
         Contatto c = new Contatto();
         System.out.print("Nome: ");
-        c.setNome(sc.nextLine());
+        c.setNome(sc.nextLine().trim());
         System.out.print("Cognome: ");
-        c.setCognome(sc.nextLine());
+        c.setCognome(sc.nextLine().trim());
         System.out.print("Telefono: ");
         ConsoleAppUtils.phoneInput(c);
         System.out.print("Email: ");
-        c.setEmail(sc.nextLine());
+        c.setEmail(sc.nextLine().trim());
 
         if (ConsoleAppUtils.isEmpty(c)) {
             System.out.println("Input invalido. Inserire almeno un campo.");
@@ -225,7 +239,7 @@ public class DBConsoleApp {
             String v;
             do {
                 System.out.print("Confermi? [S]i - [N]o:");
-                v = sc.nextLine();
+                v = sc.nextLine().trim();
                 if (v.equalsIgnoreCase("s")) {
                     if (c != null) addToDB(c);
                     System.out.println("Contatto aggiunto.");
@@ -242,10 +256,10 @@ public class DBConsoleApp {
      */
     private static void search(){
         System.out.println("In che campo vuoi cercare? Opzioni: ID, NOME, COGNOME, EMAIL, TELEFONO");
-        String searchColumn = sc.nextLine();
+        String searchColumn = sc.nextLine().trim();
         if (DBConsoleAppUtils.isValidColumn(searchColumn)){
             System.out.println("Cosa vuoi cercare?");
-            String searchQuery = sc.nextLine();
+            String searchQuery = sc.nextLine().trim();
             searchBy(searchColumn, searchQuery);
         } else {
             System.out.println("Nome del campo non valido.");
@@ -324,9 +338,10 @@ public class DBConsoleApp {
         // Loop until the user wants to exit
         while (!command.equals("quit")){
             listPage(page);
-            command = sc.nextLine();
+            command = sc.nextLine().trim();
             switch (command){
                 // Will only go next if there's actually some entries in the possible "next" page
+                case "": //Did this so i can also press ENTER to go to the next page. Saves time
                 case "next":
                     if (page < (resultList.size()/MAX_ENTRIES_PER_PAGE)) page++;
                     else System.out.println("Sei all'ultima pagina.");
@@ -366,40 +381,59 @@ public class DBConsoleApp {
      * @param rs The ResultSet from which we will take the column's names.
      */
     private static void saveColumnNames(ResultSet rs) {
-        for (int i = 0; i < columnNames.length; i++){
+        for (int i = 0; i < columnNames.length; ){
             try{
-                columnNames[i] = rs.getMetaData().getColumnName(i+1); // +1 perché saltiamo lo 0, inesistente. I DB partono da 1.
+                columnNames[i] = rs.getMetaData().getColumnName(++i); // Faccio subito qui l'aumento perché almeno mi prende la colonna 1 nel DB (la 0 non esiste)
             } catch (SQLException e){
+                System.err.println("Eccezione SQL cercando di salvare i nomi delle colonne.");
                 e.printStackTrace();
             }
         }
     }
 
-    private static void resultSetToList(ResultSet rs) throws SQLException {
+    /**
+     * Save the ResultSet to the global list.
+     * @param rs The ResultSet returned from the DB.
+     */
+    private static void resultSetToList(ResultSet rs){
         saveColumnNames(rs);
         resultList.clear();
-        while (rs.next()) {
-            Contatto c = new Contatto();
-            c.setNome(rs.getString("NOME"));
-            c.setCognome(rs.getString("COGNOME"));
-            c.setCell(rs.getString("TELEFONO"));
-            c.setEmail(rs.getString("EMAIL"));
-            c.setID(rs.getInt("ID"));
-            resultList.add(c);
+        try{
+            while (rs.next()) {
+                Contatto c = new Contatto();
+                c.setNome(rs.getString("NOME"));
+                c.setCognome(rs.getString("COGNOME"));
+                c.setCell(rs.getString("TELEFONO"));
+                c.setEmail(rs.getString("EMAIL"));
+                c.setID(rs.getInt("ID"));
+                resultList.add(c);
+            }
+        } catch (SQLException e){
+            System.err.println("Eccezione SQL cercando di salvare il ResultSet nella Lista");
+            e.printStackTrace();
         }
     }
 
+    /**
+     * Returns a single contact from the DB, chosen by ID.
+     * @param id The id of the desired contact.
+     * @return A Contatto object from the DB.
+     */
     private static Contatto getContattoFromDB(String id){
+        // Connette al DB
         try (Connection conn = DBManager.getDefaultConnection()) {
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM rubrica WHERE id = ?");
             ps.setString(1, id);
 
             ResultSet rs = ps.executeQuery();
             Contatto c = new Contatto();
+
+            // Controllo che ci sia una riga oltre all'intestazione. Se sì, so che qualcosa ha trovato.
             if (!rs.isBeforeFirst() ) {
                 System.out.println("ID non presente.");
                 return null;
             } else {
+                // Se la query ha trovato qualcosa, so che è il contatto desiderato (avendo fatto per ID non posso avere più di un risultato.
                 rs.next();
                 c.setNome(rs.getString("NOME"));
                 c.setCognome(rs.getString("COGNOME"));
@@ -410,6 +444,9 @@ public class DBConsoleApp {
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        // In caso di eccezione o altro errore, ritorno un oggetto null.
         return null;
     }
+
+    private DBConsoleApp(){}
 }

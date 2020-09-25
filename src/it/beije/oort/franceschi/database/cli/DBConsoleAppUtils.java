@@ -1,4 +1,4 @@
-package it.beije.oort.file.rubrica.consoleapp.utils;
+package it.beije.oort.franceschi.database.cli;
 
 import it.beije.oort.file.rubrica.Contatto;
 import it.beije.oort.file.rubrica.jdbcRubrica.DBManager;
