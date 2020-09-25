@@ -60,7 +60,7 @@ public class Menu {
 		System.out.println("7) Termina programma.");
 		
 		Scanner sc = new Scanner(System.in);
-		int scelta = sc.nextInt();
+		int scelta = Integer.parseInt(sc.nextLine());
 		switch(scelta) {
 			case 1:
 				visualizzaContatti();
@@ -101,12 +101,20 @@ public class Menu {
 	 */
 	private static void visualizzaContatti() throws IOException, ParserConfigurationException, TransformerException {
 		Map<Integer, Contatto> contatti = Menu.readContatti();
+		Scanner sc = new Scanner(System.in);
 		
 		System.out.println("Caricati " + contatti.size() + " contatti.");
+		int value = 0; 
 		
 		System.out.println("Quanti contatti vuoi visualizzare per pagina?");
-		Scanner sc = new Scanner(System.in);
-		int value = Integer.parseInt(sc.nextLine());
+		
+		try {
+			value = Integer.parseInt(sc.nextLine());
+		} catch(NumberFormatException e) {
+			System.out.println("ERRORE: Inserire un numero valido!");
+			Menu.visualizzaContatti();
+			System.exit(0);
+		}
 		
 		int i = 0;
 		char scelta = ' ';

@@ -86,7 +86,7 @@ public class UpdateFile {
 				}
 				if (sceltaScrittura == 2) {
 					// xml
-					WriterXml.writeContatti(contattiLocali, new File("/temp/generated-csv.csv"));
+					WriterXml.writeContatti(contattiLocali, new File("/temp/generated-xml.xml"));
 					System.out.println("File xml salvato correttamente!");
 				}
 				if (sceltaScrittura == 3) {
