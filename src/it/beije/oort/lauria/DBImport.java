@@ -12,7 +12,7 @@ public class DBImport {
 	
 	public static void main(String[] args) {
 		
-		String fileName = "contatti_busseni.xml";
+		String fileName = "rubrica.csv";
 		File fileRubrica = new File(PATH_FILES + fileName);
 		
 		List<Contatto> recordContatti = new ArrayList<>();

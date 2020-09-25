@@ -270,7 +270,7 @@ public class RubricaBuilder {
 	// scrittura record sui file
 	public static String rowBuilderCsv(Contatto contatto) {
 		return RubricaBuilder.rowBuilderCsv(contatto.getCognome(), contatto.getNome(), 
-											contatto.getEmail(), contatto.getTelefono());
+											contatto.getTelefono(), contatto.getEmail());
 	}
 	
 	public static String rowBuilderCsv(String... campi) {

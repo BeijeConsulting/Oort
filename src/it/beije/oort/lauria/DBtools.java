@@ -124,7 +124,6 @@ public class DBtools {
 		
 		try {
 			connection = DBManager.getMySqlConnection(DBManager.DB_URL, DBManager.DB_USER, DBManager.DB_PASSWORD);
-			System.out.println("connection is open? " + !connection.isClosed());
 			
 			ps = connection.prepareStatement("INSERT INTO "+ table +" (cognome, nome, telefono, email) VALUES (?, ?, ?, ?)");
 			ps.setString(1, cognome);
@@ -133,15 +132,12 @@ public class DBtools {
 			ps.setString(4, email);
 			
 			ps.execute();
-			
-			System.out.println("insert record : " + ps.getUpdateCount());
+
 			
 		} catch (SQLException sqlException) {
 			sqlException.printStackTrace();
 		} catch (ClassNotFoundException cnfEx) {
 			cnfEx.printStackTrace();
-//		} catch (Exception e) {
-//			e.printStackTrace();
 		} finally {
 			try {
 				ps.close();
@@ -159,7 +155,7 @@ public class DBtools {
 		
 		try {
 			connection = DBManager.getMySqlConnection(DBManager.DB_URL, DBManager.DB_USER, DBManager.DB_PASSWORD);
-			System.out.println("connection is open? " + !connection.isClosed());
+			//System.out.println("connection is open? " + !connection.isClosed());
 			
 			for(Contatto contattoTemp : recordContatti) {
 				ps = connection.prepareStatement("INSERT INTO "+ table +" (cognome, nome, telefono, email) VALUES (?, ?, ?, ?)");
@@ -202,7 +198,7 @@ public class DBtools {
 		
 		try {
 			connection = DBManager.getMySqlConnection(DBManager.DB_URL, DBManager.DB_USER, DBManager.DB_PASSWORD);
-			System.out.println("connection is open? " + !connection.isClosed());
+			//System.out.println("connection is open? " + !connection.isClosed());
 			
 			ps = connection.prepareStatement("SELECT * FROM " + table);
 			
@@ -210,6 +206,7 @@ public class DBtools {
 			
 			while (rs.next()) {
 				Contatto c = new Contatto();
+				c.setId(rs.getString("id"));
 				c.setCognome(rs.getString("cognome"));
 				c.setNome(rs.getString("nome"));
 				c.setTelefono(rs.getString("telefono"));
@@ -235,5 +232,119 @@ public class DBtools {
 		}
 		
 		return recordContatti;
+	}
+	
+	public static void preparedSelect(String table, String cognome, String nome, String telefono, String email) {
+		Connection connection = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			connection = DBManager.getMySqlConnection(DBManager.DB_URL, DBManager.DB_USER, DBManager.DB_PASSWORD);
+						
+//			ps = connection.prepareStatement("SELECT * FROM "+ table +" where cognome like ? and nome like ? and telefono like ? and email like ?");
+			ps = connection.prepareStatement("SELECT * FROM "+ table +" where cognome like '%"+ cognome +"%' and nome like '%"+ nome +"%' and telefono like '%"+ telefono +"%' and email like '%"+ email +"%'");
+//			ps.setString(1, cognome);
+//			ps.setString(2, nome);
+//			ps.setString(3, telefono);
+//			ps.setString(4, email);
+			
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				System.out.print( rs.getString("id") + " - ");
+				System.out.print("cognome : "+ rs.getString("cognome") + " - ");
+				System.out.print("nome : "+ rs.getString("nome") + " - ");
+				System.out.print("telefono : "+ rs.getString("telefono") + " - ");
+				System.out.println("email : "+ rs.getString("email"));
+			}
+
+			
+			//System.out.println("insert record : " + ps.getUpdateCount());
+			
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
+		} catch (ClassNotFoundException cnfEx) {
+			cnfEx.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				ps.close();
+				connection.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	public static void updateSelect(String table, String cognome, String nome, String telefono, String email, int id) {
+		Connection connection = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			connection = DBManager.getMySqlConnection(DBManager.DB_URL, DBManager.DB_USER, DBManager.DB_PASSWORD);
+						
+			ps = connection.prepareStatement("UPDATE "+ table +" set cognome = ? , nome = ? , telefono = ? , email = ? where id = ?");
+			ps.setString(1, cognome);
+			ps.setString(2, nome);
+			ps.setString(3, telefono);
+			ps.setString(4, email);
+			ps.setInt(5, id);
+			
+			ps.execute();
+			
+			ps = connection.prepareStatement("SELECT * FROM "+ table +" where id = ? ");
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				System.out.print( rs.getString("id") + " - ");
+				System.out.print("cognome : "+ rs.getString("cognome") + " - ");
+				System.out.print("nome : "+ rs.getString("nome") + " - ");
+				System.out.print("telefono : "+ rs.getString("telefono") + " - ");
+				System.out.println("email : "+ rs.getString("email"));
+			}
+			
+			
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
+		} catch (ClassNotFoundException cnfEx) {
+			cnfEx.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				ps.close();
+				connection.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static void deleteSelect(String table, int id) {
+		Connection connection = null;
+		PreparedStatement ps = null;
+		try {
+			connection = DBManager.getMySqlConnection(DBManager.DB_URL, DBManager.DB_USER, DBManager.DB_PASSWORD);
+						
+			ps = connection.prepareStatement("DELETE FROM "+ table +" where id = ?");
+			ps.setInt(1, id);
+			
+			ps.execute();
+			
+			
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
+		} catch (ClassNotFoundException cnfEx) {
+			cnfEx.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+				connection.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

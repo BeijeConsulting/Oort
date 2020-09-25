@@ -11,9 +11,9 @@ public class Rubrica {
 	
 	// ATTENZIONE: modificare l'INTESTAZIONE comporta modificare l'ordine di scrittura dei campi 
 	//			   dei contatti nel metodo rowBuilderCsv(Contatto contatto) di RubricaBuilder.
-	private static final String INTESTAZIONE = "COGNOME;NOME;E-MAIL;TELEFONO";
+	private static final String INTESTAZIONE = "COGNOME;NOME;TELEFONO;EMAIL";
 	
-	private static final int NUMERO_CONTATTI = 10;
+	private static final int NUMERO_CONTATTI = 1000;
 	
 	public static void main(String[] args) throws IOException {
 		
