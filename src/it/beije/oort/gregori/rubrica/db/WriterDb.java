@@ -41,7 +41,7 @@ public class WriterDb {
 		
 		try {
 			connection = DBManager.getMySqlConnection(DBManager.DB_URL, DBManager.DB_USER, DBManager.DB_PASSWORD);
-			System.out.println("Connected? " + !connection.isClosed());
+			//System.out.println("Connected? " + !connection.isClosed());
 			
 			statement = connection.createStatement();
 			

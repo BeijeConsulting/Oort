@@ -21,7 +21,7 @@ public class ReaderDb {
 		
 		try {
 			connection = DBManager.getMySqlConnection(DBManager.DB_URL, DBManager.DB_USER, DBManager.DB_PASSWORD);
-			System.out.println("connection is open? " + !connection.isClosed());
+			//System.out.println("connection is open? " + !connection.isClosed());
 			
 			ps = connection.prepareStatement("SELECT cognome, nome, telefono, email FROM rubrica.rubrica");
 			
