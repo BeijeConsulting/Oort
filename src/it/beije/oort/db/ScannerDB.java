@@ -144,8 +144,8 @@ public class ScannerDB {
 			ps = connection.prepareStatement("UPDATE contatti set cognome = " + value2 + " where id = " + id_values );
 			System.out.print("Inserire il telefono da andare a sostituire: ");	value3 = scan.next();
 			ps = connection.prepareStatement("UPDATE contatti set telefono = " + value3 + "where id = " + id_values );
-//			System.out.print("Inserire l'email da andare a sostituire: ");	value4 = scan.next();
-//			ps = connection.prepareStatement("UPDATE contatti set email = " + value4 + " where id = " + id_values );
+			System.out.print("Inserire l'email da andare a sostituire: ");	value4 = scan.next();
+			ps = connection.prepareStatement("UPDATE contatti set email = " + value4 + " where id = " + id_values );
 			
 			ps.execute();
 									
