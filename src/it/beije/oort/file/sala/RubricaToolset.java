@@ -115,98 +115,112 @@ public class RubricaToolset {
 	    return rubrica;
 	}
 
-	public static void contattoToXml (List<Contatto> list, String xmlPath) 
-			throws IOException, ParserConfigurationException, SAXException, TransformerException {
-		File f = new File(xmlPath);
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document;
-	    if(f.exists()) {  
-	        document = builder.parse(f);
-	        Element docElement = document.getDocumentElement(); 
-	        
-	        for (Contatto c : list) {
-	        	Element contatto = document.createElement("contatto");
-	        	
-	        	Element nome = document.createElement("nome");
-	        	Element cognome = document.createElement("cognome");
-	        	Element telefono = document.createElement("telefono");
-	        	Element email = document.createElement("email");
-	        	
-	        	nome.setTextContent(c.getNome());
-	        	cognome.setTextContent(c.getCognome());
-	        	telefono.setTextContent(c.getTelefono());
-	        	email.setTextContent(c.getEmail());
-	        	
-	        	contatto.appendChild(nome);
-	        	contatto.appendChild(cognome);
-	        	contatto.appendChild(telefono);
-	        	contatto.appendChild(email);
-	
-	        	docElement.appendChild(contatto);
-	        }
-	    } else {
-	    	document = builder.newDocument();
-	        Element docElement = document.createElement("contatti");
-	        document.appendChild(docElement);
-	        
-	        for (Contatto c : list) {
-	        	Element contatto = document.createElement("contatto");
-	        	
-	        	Element nome = document.createElement("nome");
-	        	Element cognome = document.createElement("cognome");
-	        	Element telefono = document.createElement("telefono");
-	        	Element email = document.createElement("email");
-	        	
-	        	nome.setTextContent(c.getNome());
-	        	cognome.setTextContent(c.getCognome());
-	        	telefono.setTextContent(c.getTelefono());
-	        	email.setTextContent(c.getEmail());
-	        	
-	        	contatto.appendChild(nome);
-	        	contatto.appendChild(cognome);
-	        	contatto.appendChild(telefono);
-	        	contatto.appendChild(email);
-	
-	        	docElement.appendChild(contatto);
-	        }
-	    }
-	    TransformerFactory transformerFactory = TransformerFactory.newInstance();
-		Transformer transformer = transformerFactory.newTransformer();
-		DOMSource source = new DOMSource(document);
+	public static void contattoToXml (List<Contatto> list, String xmlPath) {
+		try {	
+			File f = new File(xmlPath);
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	        DocumentBuilder builder = factory.newDocumentBuilder();
+	        Document document;
+		    if(f.exists()) {  
+		        document = builder.parse(f);
+		        Element docElement = document.getDocumentElement(); 
+		        
+		        for (Contatto c : list) {
+		        	Element contatto = document.createElement("contatto");
+		        	
+		        	Element nome = document.createElement("nome");
+		        	Element cognome = document.createElement("cognome");
+		        	Element telefono = document.createElement("telefono");
+		        	Element email = document.createElement("email");
+		        	
+		        	nome.setTextContent(c.getNome());
+		        	cognome.setTextContent(c.getCognome());
+		        	telefono.setTextContent(c.getTelefono());
+		        	email.setTextContent(c.getEmail());
+		        	
+		        	contatto.appendChild(nome);
+		        	contatto.appendChild(cognome);
+		        	contatto.appendChild(telefono);
+		        	contatto.appendChild(email);
 		
-		StreamResult result = new StreamResult(f);
-
-		transformer.transform(source, result);
-	    System.out.println("Scritto file XML con successo.");
+		        	docElement.appendChild(contatto);
+		        }
+		    } else {
+		    	document = builder.newDocument();
+		        Element docElement = document.createElement("contatti");
+		        document.appendChild(docElement);
+		        
+		        for (Contatto c : list) {
+		        	Element contatto = document.createElement("contatto");
+		        	
+		        	Element nome = document.createElement("nome");
+		        	Element cognome = document.createElement("cognome");
+		        	Element telefono = document.createElement("telefono");
+		        	Element email = document.createElement("email");
+		        	
+		        	nome.setTextContent(c.getNome());
+		        	cognome.setTextContent(c.getCognome());
+		        	telefono.setTextContent(c.getTelefono());
+		        	email.setTextContent(c.getEmail());
+		        	
+		        	contatto.appendChild(nome);
+		        	contatto.appendChild(cognome);
+		        	contatto.appendChild(telefono);
+		        	contatto.appendChild(email);
+		
+		        	docElement.appendChild(contatto);
+		        }
+		    }
+		    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(document);
+			
+			StreamResult result = new StreamResult(f);
+	
+			transformer.transform(source, result);
+		    System.out.println("Scritto file XML con successo.");
+		} catch(IOException e) {
+			e.printStackTrace();
+		} catch(ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch(SAXException e) {
+			e.printStackTrace();
+		} catch(TransformerException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public static void contattoToXml (Contatto contatto, String xmlPath) 
-			throws IOException, ParserConfigurationException, SAXException, TransformerException {
+	public static void contattoToXml (Contatto contatto, String xmlPath) {
 		List<Contatto> temp = new ArrayList<Contatto>();
 		temp.add(contatto);
 		contattoToXml(temp, xmlPath);
 	}
 
-	public static void contattoToCsv (List<Contatto> list, String csvPath) throws IOException {
-		Random r = new Random();
-		File f = new File(csvPath);
-		boolean ex = f.exists();
-		BufferedWriter bf = Files.newBufferedWriter(f.toPath(),
-				StandardCharsets.UTF_8,
-				StandardOpenOption.APPEND,
-				StandardOpenOption.CREATE);
-		if(!ex) bf.write("COGNOME;NOME;EMAIL;TELEFONO\n");
-		for(Contatto c : list) {
-			if(r.nextInt(5)==1) bf.write(c.toCsvSimpleNoNome());		//rimuovere queste due per
-			else if(r.nextInt(3)==1) bf.write(c.toCsvSimpleNoCognome());//scrivere sempre tutti i campi
-			else bf.write(c.toCsvSimple());
+	public static void contattoToCsv (List<Contatto> list, String csvPath) {
+		try {	
+			Random r = new Random();
+			File f = new File(csvPath);
+			boolean ex = f.exists();
+			BufferedWriter bf = Files.newBufferedWriter(f.toPath(),
+					StandardCharsets.UTF_8,
+					StandardOpenOption.APPEND,
+					StandardOpenOption.CREATE);
+			if(!ex) bf.write("COGNOME;NOME;EMAIL;TELEFONO\n");
+			for(Contatto c : list) {
+				bf.write(c.toCsvSimple());
+//				if(r.nextInt(5)==1) bf.write(c.toCsvSimpleNoNome());		//rimuovere queste due per
+//				else if(r.nextInt(3)==1) bf.write(c.toCsvSimpleNoCognome());//scrivere sempre tutti i campi
+//				else bf.write(c.toCsvSimple());
+			}
+			System.out.println("File CSV scritto con succeso!");
+			bf.close();
+		} catch(IOException e) {
+			e.printStackTrace();
 		}
-		System.out.println("File CSV scritto con succeso!");
-		bf.close();
 	}
 	
-	public static void contattoToCsv (Contatto contatto, String csvPath) throws IOException {
+	public static void contattoToCsv (Contatto contatto, String csvPath) {
+
 		List<Contatto> temp = new ArrayList<Contatto>();
 		temp.add(contatto);
 		RubricaToolset.contattoToCsv(temp, csvPath);
@@ -281,5 +295,88 @@ public class RubricaToolset {
 			}
 		}
 		return contatti;
+	}
+	
+	public static List<Contatto> selectFilter(String field, String value){
+		Connection connection = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder("SELECT * FROM rubrica WHERE "+field+" like '%"+value+"%';");
+		List<Contatto> contatti = new ArrayList<>();
+		try { 
+			connection = DBManager.getMySqlConnection();
+			ps = connection.prepareStatement(sb.toString());
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				contatti.add(new Contatto(rs.getString("nome"),
+										rs.getString("cognome"),
+										rs.getString("telefono"),
+										rs.getString("email"),
+										rs.getString("id_rubrica")));
+			}
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
+		} catch (ClassNotFoundException cnfEx) {
+			cnfEx.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				ps.close();
+				connection.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return contatti;
+	}
+	
+	public static void updateWithId(String id, String field, String value) {
+		Connection connection = null;
+		PreparedStatement ps = null;
+		StringBuilder sb = new StringBuilder("UPDATE rubrica SET "+field+"='"+value+"'WHERE id_rubrica ='"+id+"';");
+		
+		try {
+			connection = DBManager.getMySqlConnection();
+			ps = connection.prepareStatement(sb.toString());
+			ps.execute();
+			System.out.println("Update Completed Successfully!");
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
+		} catch (ClassNotFoundException cnfEx) {
+			cnfEx.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+				connection.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public static void deleteWithId(String id) {
+		Connection connection = null;
+		PreparedStatement ps = null;
+		StringBuilder sb = new StringBuilder("DELETE FROM rubrica WHERE id_rubrica ='"+id+"';");
+		
+		try {
+			connection = DBManager.getMySqlConnection();
+			ps = connection.prepareStatement(sb.toString());
+			ps.execute();
+			System.out.println("Delete operation completed successfully!");
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
+		} catch (ClassNotFoundException cnfEx) {
+			cnfEx.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+				connection.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

@@ -27,5 +27,6 @@ public class Runner {
 		for(Contatto c : list) {
 			System.out.println(c.toString());
 		}
+		
 	}
 }
