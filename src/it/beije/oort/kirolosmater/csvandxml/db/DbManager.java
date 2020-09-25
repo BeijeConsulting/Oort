@@ -145,10 +145,13 @@ public class DbManager {
 		String menuFirstLine = "Per visualizzare un contatto inserisci 1: ";
 		String menuSecondLine = "Per modificare un contatto inserisci 2: ";
 		System.out.println(menuFirstLine);
+		System.out.println(menuSecondLine);
 		String lineFromInput = inputFromUser.next();
 		int numberFromInput = Integer.parseInt(lineFromInput);
 		switch (numberFromInput) {
 		case 1: searchRecord();
+				break;
+		case 2: modifyRecordById();
 				break;
 
 		default: System.out.println("hai inserito un numero non valido");
@@ -187,11 +190,22 @@ public class DbManager {
 		System.out.println("questo è il record: " + readRecordFromDb(id));
 	}
 	
+	public static Contact contactFromRecordByIdFromInput (int id) {
+		
+		Contact contact = readRecordFromDb(id);
+		System.out.println("hai inserito questo id: " + id);
+		System.out.println("questo è il record: " + contact);
+		return contact;
+	}
+	
 	public static void readRecordByStringFromInput () {
-		String showRecordById = "Inserisci la stringa iniziale: ";
-		System.out.println(showRecordById);
+		String parameterRequest = "Inserisci il parametro da analizzare: ";
+		System.out.println(parameterRequest);
 		Scanner inputFromUser = new Scanner(System.in);
-		String lineFromInput = inputFromUser.nextLine();
+		String parameter = inputFromUser.nextLine();
+		String stringRequest = "Inserisci la stringa iniziale: ";
+		System.out.println(stringRequest);
+		String lineFromInput = inputFromUser.nextLine();		
 		Contact contact = new Contact();
 		Connection connection = null;
 		Statement statement = null;
@@ -200,7 +214,7 @@ public class DbManager {
 			connection = getMySqlConnection(DB_URL, DB_USER, DB_PASSWORD);
 //			System.out.println("connection is open? " + !connection.isClosed());
 			statement = connection.createStatement();
-			rs = statement.executeQuery("SELECT * FROM rubrica r where cognome LIKE '" + lineFromInput + "%" + "'");
+			rs = statement.executeQuery("SELECT * FROM rubrica r where " + parameter + " LIKE '" + lineFromInput + "%" + "'");
 			while (rs.next()) {
 				contact.setName(rs.getString("nome"));
 				contact.setSurname(rs.getString("cognome"));
@@ -219,5 +233,47 @@ public class DbManager {
 			}
 		}
 		System.out.println(contact);
+	}
+	
+	public static void modifyRecordById () {
+		String showRecordById = "Per modificare un contatto inserisci il suo id: ";
+		System.out.println(showRecordById);
+		Scanner inputFromUser = new Scanner(System.in);
+		String idFromInput = inputFromUser.nextLine();
+		int id = Integer.parseInt(idFromInput);
+		Contact contact = contactFromRecordByIdFromInput(id);
+		String parameterRequest = "Inserisci il parametro da modificare: ";
+		System.out.println(parameterRequest);
+		String parameter = inputFromUser.nextLine();
+		String parameterValue = "Inserisci il valore ";
+		System.out.println(parameterValue);
+		String value = inputFromUser.nextLine();
+		String query = "UPDATE rubrica r SET " + parameter + " = '" + value + "' WHERE id = '" + idFromInput + "'";
+		System.out.println(query);
+		Connection connection = null;
+		Statement statement = null;
+		boolean rs;
+		try {
+			connection = getMySqlConnection(DB_URL, DB_USER, DB_PASSWORD);
+//			System.out.println("connection is open? " + !connection.isClosed());
+			statement = connection.createStatement();
+			rs = statement.execute(query);
+//			while (rs.next()) {
+//				contact.setName(rs.getString("nome"));
+//				contact.setSurname(rs.getString("cognome"));
+//				contact.setMobile(rs.getString("telefono"));
+//				contact.setEmail(rs.getString("email"));
+//			}
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+				connection.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
