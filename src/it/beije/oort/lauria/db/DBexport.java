@@ -1,7 +1,9 @@
-package it.beije.oort.lauria;
+package it.beije.oort.lauria.db;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import it.beije.oort.lauria.Contatto;
 
 public class DBexport {
 

@@ -1,4 +1,4 @@
-package it.beije.oort.lauria;
+package it.beije.oort.lauria.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,7 +22,7 @@ public class DBManager {
 	
 	public static void main(String[] args) throws SQLException, ClassNotFoundException {
 		Connection connection = getMySqlConnection(DB_URL, DB_USER, DB_PASSWORD);
-		//System.out.println("connection is open? " + !connection.isClosed());
+		System.out.println("connection is open? " + !connection.isClosed());
 	}
 
 }

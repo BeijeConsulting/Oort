@@ -1,9 +1,13 @@
-package it.beije.oort.lauria;
+package it.beije.oort.lauria.db;
 
 import java.io.File;
 //import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import it.beije.oort.lauria.Contatto;
+import it.beije.oort.lauria.CsvParser;
+import it.beije.oort.lauria.XmlParser;
 
 public class DBImport {
 	
