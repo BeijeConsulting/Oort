@@ -1,22 +1,20 @@
 package it.beije.oort.bru.db;
 
+import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-
 import javax.xml.parsers.ParserConfigurationException;
-import org.xml.sax.SAXException;
-
+import javax.xml.transform.TransformerException;
 import it.beije.oort.files.Contatto;
+import it.beije.oort.files.CsvParser;
+import it.beije.oort.files.XmlParser;
 
 public class Client {
 
-	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException, SQLException, ClassNotFoundException {
-		List<Contatto> rubrica = new ArrayList<Contatto>();
-		DBUtilities.exportDB(rubrica);
+	public static void main(String[] args) {
 		int option = 0;
 		Scanner keyboard = new Scanner(System.in);
 		while (option != 5) {
@@ -52,17 +50,17 @@ public class Client {
 						String telefono = keyboard.nextLine();
 						System.out.println(DBUtilities.searchContact("telefono",telefono));
 					case 4:
-						System.out.println("Inserisci cognome:");
+						System.out.println("Inserisci email:");
 						String email = keyboard.nextLine();
 						System.out.println(DBUtilities.searchContact("email",email));
 					}
 				} else {
 					//IMPAGINAZIONE
-//					List<Contatto> contacts = new ArrayList<Contatto>();
-//					DBUtilities.exportDB(contacts);
-					Map<Integer, List<Contatto>> pages = DBUtilities.layout(rubrica);
+					List<Contatto> contacts = new ArrayList<Contatto>();
+					DBUtilities.exportDB(contacts);
+					Map<Integer, List<Contatto>> pages = DBUtilities.layout(contacts);
 					List<Contatto> contactForPage;
-					int page = 0;
+					int page = 1;
 					while (page != -1) {
 						System.out.println("Inserisci il numero della pagina o premi -1 per uscire dal menu impaginazione.");
 						System.out.println("--------------------PAGINA "+page+" DI "+pages.keySet().size()+"----------------------");
@@ -80,20 +78,22 @@ public class Client {
 				}
 				break;
 			case 2:
+				List<Contatto> contacts = new ArrayList<Contatto>();
+				DBUtilities.exportDB(contacts);
 				System.out.println("1. Modifica contatto.");
 				System.out.println("2. Cancella contatto.");
 				option = Integer.parseInt(keyboard.nextLine());
 				System.out.println("Inserisci id contatto:");
 				int id = Integer.parseInt(keyboard.nextLine());
 				if (option == 1) {
-					System.out.println(DBUtilities.exportContact(rubrica, id));
+					System.out.println(DBUtilities.exportContact(contacts, id));
 					System.out.println("Modifica nome, cognome, email, telefono:");
 					String paramMod = keyboard.nextLine();
 					System.out.println("Inserisci nuovo valore:");
 					String newValue = keyboard.nextLine();
 					DBUtilities.modifyContact(paramMod, newValue, id);
 				} else {
-					System.out.println(DBUtilities.exportContact(rubrica, id));
+					System.out.println(DBUtilities.exportContact(contacts, id));
 					DBUtilities.deleteContact(id);
 					System.out.println("Contatto eliminato");
 				}
@@ -107,16 +107,33 @@ public class Client {
 				String telefono = keyboard.nextLine();
 				System.out.println("Inserisci email");
 				String email = keyboard.nextLine();
-				//metodo per inserire un record.
+				DBUtilities.insertRecord(cognome, nome, telefono, email);
 				break;
 			case 4:
-				System.out.println("1. Esporta csv");
-				System.out.println("2. Esporta xml");
-				option = Integer.parseInt(keyboard.nextLine());
-				if (option == 1) {
-					//metodo per esportare csv
+				contacts = new ArrayList<Contatto>();
+				System.out.println("Dove vuoi salvare il file? Inserisci il path");
+				String path = keyboard.nextLine();
+				System.out.println("Inserisci il nome del file");
+				String fileName = keyboard.nextLine();
+				File file = new File(path + "/" + fileName);
+				if (fileName.contains(".csv")) {
+					DBUtilities.exportDB(contacts);
+					try {
+						CsvParser.buildContatti(contacts, file);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					System.out.println("Completato");
 				} else {
-					//metodo per esportare csv
+					DBUtilities.exportDB(contacts);
+					try {
+						XmlParser.buildContatti(contacts, file);
+						System.out.println("Completato");
+					} catch (ParserConfigurationException e) {
+						e.printStackTrace();
+					} catch (TransformerException e) {
+						e.printStackTrace();
+					}
 				}
 				break;
 			case 5:
