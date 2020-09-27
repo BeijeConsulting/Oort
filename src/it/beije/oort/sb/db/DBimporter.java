@@ -76,6 +76,35 @@ public class DBimporter {
 		}
 	}
 	
+	public static void individualInsert(Contatto c) {
+		Connection connection = null;
+		PreparedStatement ps = null;
+		
+		try {
+			connection = DBManager.getMySqlConnection(DBManager.DB_URL, DBManager.DB_USER, DBManager.DB_PASSWORD);
+			
+			ps = connection.prepareStatement("INSERT INTO rubrica (cognome, nome, telefono, email) VALUES (?, ?, ?, ?)");
+			ps.setString(1, c.getCognome());
+			ps.setString(2, c.getNome());
+			ps.setString(3, c.getTelefono());
+			ps.setString(4, c.getEmail());
+			ps.execute();
+			
+			
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
+		} catch (ClassNotFoundException cnfEx) {
+			cnfEx.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+				connection.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	
 	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
 		File file = new File("./src/it/beije/oort/rubrica/rubrica2.xml");

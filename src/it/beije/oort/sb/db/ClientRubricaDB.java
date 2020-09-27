@@ -1,5 +1,7 @@
 package it.beije.oort.sb.db;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -7,10 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+
+import org.w3c.dom.DOMException;
+
 import it.beije.oort.rubrica.Contatto;
+import it.beije.oort.rubrica.RubricaCsvXml;
 
 public class ClientRubricaDB {
 	static Scanner sc = new Scanner(System.in);
+
 
 	
 	public static Contatto cWriter() {
@@ -110,16 +119,16 @@ public class ClientRubricaDB {
 		System.out.println("contatto cancellato \n");
 	}
 	
-	public static void client() {
-	//	System.out.println("Buongiorno, questo è un comodo tool per scrivere contatti su un DB");
-		
+	public static void client() throws DOMException, IOException, ParserConfigurationException, TransformerException {
+		System.out.println("Buongiorno, questo è un comodo tool per importare e/o esportare contatti da un DB \n");		
 		String concl = "";
 		List<Contatto> list = new ArrayList<Contatto>();
 		List<String> campi = new ArrayList<String>();
 		List<Integer> indici = new ArrayList<Integer>();
-		Contatto c = new Contatto();
 		while(!concl.equalsIgnoreCase("quit")) {
-			System.out.println("Cosa vuoi fare? Scegli tra Visualizza, Modifica, Cancella, Inserisci, o Export, se vuoi concludere digita quit");
+			System.out.println("Cosa vuoi fare? Scegli tra: \n-Visualizza : per visualizzare tutti i contatti con determinate caratteristiche, \n-Modifica : per modificare un contatto già presente nel database,");
+			System.out.println("-Cancella : per cancellare un contatto presente nel database, \n-Inserisci : per inserire un nuovo contatto in fondo alla rubrica del database,");
+			System.out.println("-Export : per salvare la rubrica su file (xml o csv), \n-Quit : se vuoi concludere la sessione in corso.");
 			switch(sc.nextLine().toLowerCase()) {
 			case "visualizza" :
 				campi = DBSupport.visualizza();
@@ -132,23 +141,19 @@ public class ClientRubricaDB {
 				indici.clear();
 				break;
 			case "inserisci" :
-				c = cWriter();
-				list.add(c);
-				DBimporter.preparedInsert(list); //utilizzo il prepared insert di DBimporter che vuole una lista
-				list.clear();
+				DBimporter.individualInsert(cWriter());
+				System.out.println("Contatto inserito in fondo alla rubrica");
 				break;
 			case "modifica" :
-				list = DBexporter.preparedSelect();
-				consoleModifier(list);
-				list.clear();
+				consoleModifier(DBexporter.preparedSelect());
 				break;
 			case "export" :
-				//da fare
+				File file = new File(DBSupport.export().toString());
+				RubricaCsvXml.rubricaWriter(file, DBexporter.preparedSelect());
+				System.out.println("rubrica salvata");
 				break;
 			case "cancella" :
-				list = DBexporter.preparedSelect();
-				consoleDeleter(list);
-				list.clear();
+				consoleDeleter(DBexporter.preparedSelect());
 				break;
 			case "quit" :
 				concl = "quit";
@@ -160,9 +165,8 @@ public class ClientRubricaDB {
 
 		}
 		sc.close();
-		//listPrinter(list);
 }
-			public static void main(String[] args) {
-				client();
-			}
+		public static void main(String[] args) throws DOMException, IOException, ParserConfigurationException, TransformerException {
+		client();
+		}
 }

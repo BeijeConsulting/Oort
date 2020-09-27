@@ -12,6 +12,7 @@ import it.beije.oort.rubrica.Contatto;
 
 public class DBSupport {
 	static Scanner sc = new Scanner(System.in);
+	static final String PATH ="./src/it/beije/oort/sb/db/";
 	
 	public static List<String> visualizza() {
 		List<String> list = new ArrayList<String>(0);
@@ -48,7 +49,7 @@ public class DBSupport {
 	
 	public static void listPrinterWithIndex(List<Contatto> list) {
 		int numPag=1;
-		for(int i = 0; i < list.size(); i+=30) {
+	CICLO :	for(int i = 0; i < list.size(); i+=30) {
 			for(int count=i;count<i+30&&count<list.size();count++) {
 				System.out.print("indice : " + indexList().get(count) + " ");
 				System.out.println(list.get(count));
@@ -61,16 +62,21 @@ public class DBSupport {
 			}
 		System.out.println("numero della pagina: " + numPag);
 		numPag++;
-		System.out.println("\nse vuoi vedere i prossimo trenta contatti digita next");
-		if(sc.next().equalsIgnoreCase("next")) continue;
-		else break;
+		System.out.println("\nse vuoi vedere i prossimo trenta contatti digita next. In caso contrario digita stop");
+		String temp = "";
+		while(temp.toLowerCase()!="next" || temp.toLowerCase()!= "stop") {
+			temp = sc.next();
+			if(temp.equalsIgnoreCase("next")) continue CICLO;
+			else if(temp.equalsIgnoreCase("stop")) break CICLO;
+			else System.out.println("non ho compreso il comando inserito, digita stop o next");
+			}
 		}
 	}
 	
 	
 	public static void listViewPrinter(List<Contatto> list, List<Integer> indici) {
 		int numPag=1;
-		for(int i = 0; i < list.size(); i+=30) {
+	CICLO:	for(int i = 0; i < list.size(); i+=30) {
 			for(int count=i;count<i+30&&count<list.size();count++) {
 				System.out.print("indice: " + indici.get(count)+" ");
 				System.out.println(list.get(count));
@@ -83,9 +89,14 @@ public class DBSupport {
 			}
 		System.out.println("numero della pagina: " + numPag);
 		numPag++;
-		System.out.println("\nse vuoi vedere i prossimo trenta contatti digita next");
-		if(sc.next().equalsIgnoreCase("next")) continue;
-		else break;
+		System.out.println("\nse vuoi vedere i prossimo trenta contatti digita next. In caso contrario digita stop");
+		String temp = "";
+		while(!temp.toLowerCase().equalsIgnoreCase("next") || !temp.toLowerCase().equalsIgnoreCase("stop")) {
+			temp = sc.next();
+			if(temp.equalsIgnoreCase("next")) continue CICLO;
+			else if(temp.equalsIgnoreCase("stop")) break CICLO;
+			else System.out.println("non ho compreso il comando inserito, digita stop o next");
+			}
 		}
 	}
 	
@@ -116,5 +127,22 @@ public class DBSupport {
 			}
 		}
 		return list;
+	}
+	
+	public static StringBuilder export() {
+		StringBuilder temp = new StringBuilder(PATH);
+		System.out.println("digita il nome del file su cui salvare la rubrica");
+		temp.append(sc.next());
+		System.out.println("ora digita l'estensione, se xml o csv");
+		String s = "";
+		while(!s.equals("xml") || !s.equals("csv")) {
+		s = sc.next();
+		if(!s.equals("xml") && !s.equals("csv")) {
+			System.out.println("non riconosco l'estensione, lavoro solo con csv o xml");
+			continue;
+			} else break;
+		}
+		temp.append(".").append(s);
+		return temp;
 	}
 }
