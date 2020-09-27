@@ -26,20 +26,20 @@ public class ClientRubricaDB {
 		String temp = "";
 		Contatto nullo = new Contatto("","","","");
 			Contatto c = new Contatto();				
-			System.out.println("inserisci il nome del Contatto");
+			System.out.println("Inserisci il nome del Contatto");
 			temp = sc.nextLine();
 			c.setNome(temp);
-			System.out.println("inserisci il cognome del Contatto");
+			System.out.println("Inserisci il cognome del Contatto");
 			temp = sc.nextLine();
 			c.setCognome(temp);
-			System.out.println("inserisci l'email del Contatto");
+			System.out.println("Inserisci l'email del Contatto");
 			temp = sc.nextLine();
 			c.setEmail(temp);
-			System.out.println("inserisci il numero di telefono del Contatto");
+			System.out.println("Inserisci il numero di telefono del Contatto");
 			temp = sc.nextLine();
 			c.setTelefono(temp);
 			if(c.myEquals(c, nullo)) { 
-				System.out.println("mi serve almeno un campo non vuoto \n");
+				System.out.println("Mi serve almeno un campo non vuoto \n");
 				c = cWriter();
 			}  return c;
 			
@@ -50,10 +50,19 @@ public class ClientRubricaDB {
 	
 	public static void modifier(List<Contatto> list, int ind) {
 		System.out.println("Dimmi quale campo vuoi modificare");
-		String temp = sc.next();
-		System.out.println("ora dammi l'attributo da inserire");
+		String temp = sc.next().toLowerCase();
+		List<String> campi2 = new ArrayList<String>();
+		campi2.add("nome");
+		campi2.add("cognome");
+		campi2.add("email");
+		campi2.add("telefono");
+		if(!campi2.contains(temp)) {
+			System.out.println("Inserisci un campo valido tra nome cognome email e telefono");
+			temp = sc.next().toLowerCase();
+		}
+		System.out.println("Ora inserisci il nuovo valore di "+temp);
 		String att = sc.next();
-		switch(temp.toLowerCase()) {
+		switch(temp) {
 		case ("nome") :
 			list.get(ind).setNome(att);
 			break;
@@ -66,8 +75,6 @@ public class ClientRubricaDB {
 		case ("telefono") :
 			list.get(ind).setTelefono(att);
 			break;
-		default :
-			System.out.println("non ho trovato il campo da modificare");
 		}
 	}
 	
@@ -116,7 +123,7 @@ public class ClientRubricaDB {
 		System.out.println("Digita l'indice del contatto da cancellare");
 		int ind = sc.nextInt();
 		deleteContact(ind);
-		System.out.println("contatto cancellato \n");
+		System.out.println("Contatto cancellato \n");
 	}
 	
 	public static void client() throws DOMException, IOException, ParserConfigurationException, TransformerException {
@@ -126,9 +133,9 @@ public class ClientRubricaDB {
 		List<String> campi = new ArrayList<String>();
 		List<Integer> indici = new ArrayList<Integer>();
 		while(!concl.equalsIgnoreCase("quit")) {
-			System.out.println("Cosa vuoi fare? Scegli tra: \n-Visualizza : per visualizzare tutti i contatti con determinate caratteristiche, \n-Modifica : per modificare un contatto già presente nel database,");
-			System.out.println("-Cancella : per cancellare un contatto presente nel database, \n-Inserisci : per inserire un nuovo contatto in fondo alla rubrica del database,");
-			System.out.println("-Export : per salvare la rubrica su file (xml o csv), \n-Quit : se vuoi concludere la sessione in corso.");
+			System.out.println("Cosa vuoi fare? Scegli tra: \n-Visualizza : per visualizzare tutti i contatti con determinate caratteristiche; \n-Modifica : per modificare un contatto già presente nel database;");
+			System.out.println("-Cancella : per cancellare un contatto presente nel database; \n-Inserisci : per inserire un nuovo contatto in fondo alla rubrica del database;");
+			System.out.println("-Export : per salvare la rubrica su file (xml o csv); \n-Quit : se vuoi concludere la sessione in corso.");
 			switch(sc.nextLine().toLowerCase()) {
 			case "visualizza" :
 				campi = DBSupport.visualizza();
@@ -136,7 +143,7 @@ public class ClientRubricaDB {
 				else if(campi.size()==4) list = DBexporter.visualizzaList(campi.get(0), campi.get(1), campi.get(2), campi.get(3), indici);
 				else if(campi.size()==2) list = DBexporter.visualizzaList(campi.get(0), campi.get(1), indici);
 				DBSupport.listViewPrinter(list, indici);
-				if(list.size()==0) System.out.println("non ho trovato nessun contatto con queste specifiche");
+				if(list.size()==0) System.out.println("Non ho trovato nessun contatto con queste specifiche");
 				list.clear();
 				indici.clear();
 				break;
@@ -150,17 +157,17 @@ public class ClientRubricaDB {
 			case "export" :
 				File file = new File(DBSupport.export().toString());
 				RubricaCsvXml.rubricaWriter(file, DBexporter.preparedSelect());
-				System.out.println("rubrica salvata");
+				System.out.println("Rubrica salvata");
 				break;
 			case "cancella" :
 				consoleDeleter(DBexporter.preparedSelect());
 				break;
 			case "quit" :
 				concl = "quit";
-				System.out.println("grazie per averci usato!");
+				System.out.println("Grazie per averci usato!");
 				break;
 			default :
-				System.out.println("non ho riconosciuto il comando");
+				System.out.println("Non ho riconosciuto il comando");
 			}
 
 		}
