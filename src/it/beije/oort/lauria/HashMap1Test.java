@@ -14,7 +14,7 @@ public class HashMap1Test {
 	
 	public static void main(String[] args) throws IOException {
 	
-		File fileRubrica = new File(PATH_FILES + "rubrica.csv");
+		File fileRubrica = new File(PATH_FILES + "rubricaDuplicatiIvo.csv");
 		
 		List<Contatto> recordContatti = new ArrayList<>();
 		List<Contatto> recordDuplicati = new ArrayList<>();
