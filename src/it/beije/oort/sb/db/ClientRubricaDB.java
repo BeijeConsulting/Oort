@@ -143,13 +143,13 @@ public class ClientRubricaDB {
 				else if(campi.size()==4) list = DBexporter.visualizzaList(campi.get(0), campi.get(1), campi.get(2), campi.get(3), indici);
 				else if(campi.size()==2) list = DBexporter.visualizzaList(campi.get(0), campi.get(1), indici);
 				DBSupport.listViewPrinter(list, indici);
-				if(list.size()==0) System.out.println("Non ho trovato nessun contatto con queste specifiche");
+				if(list.size()==0) System.out.println("Non ho trovato nessun contatto con queste caratteristiche\n");
 				list.clear();
 				indici.clear();
 				break;
 			case "inserisci" :
 				DBimporter.individualInsert(cWriter());
-				System.out.println("Contatto inserito in fondo alla rubrica");
+				System.out.println("Contatto inserito in fondo alla rubrica\n");
 				break;
 			case "modifica" :
 				consoleModifier(DBexporter.preparedSelect());
@@ -157,7 +157,7 @@ public class ClientRubricaDB {
 			case "export" :
 				File file = new File(DBSupport.export().toString());
 				RubricaCsvXml.rubricaWriter(file, DBexporter.preparedSelect());
-				System.out.println("Rubrica salvata");
+				System.out.println("Rubrica salvata\n");
 				break;
 			case "cancella" :
 				consoleDeleter(DBexporter.preparedSelect());

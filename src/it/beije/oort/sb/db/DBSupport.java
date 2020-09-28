@@ -34,7 +34,7 @@ public class DBSupport {
 				list.add(att3);
 				}
 			
-				System.out.println("Ora inserisci quale "+campo2+ "vuoi ricercare");
+				System.out.println("Ora inserisci quale "+campo2+" vuoi ricercare");
 				String att2 = sc.next();
 				list.add(campo2);
 				list.add(att2);
