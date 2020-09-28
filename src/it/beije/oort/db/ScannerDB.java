@@ -174,8 +174,10 @@ public class ScannerDB {
 	
 		try {
 			connection = ScannerDB.getMySqlConnection(ScannerDB.DB_URL, ScannerDB.DB_USER, ScannerDB.DB_PASSWORD);
-			StringBuilder sbuilder = new StringBuilder("UPDATE contatti set").append(col).append("='").append(value).append("' where id =  '").append(id_values).append("';");
+			StringBuilder sbuilder = new StringBuilder("UPDATE contatti set").append(col).append("= ?").append(" where id = ?");
 			ps = connection.prepareStatement(sbuilder.toString());
+			ps.setString(1, value);
+			ps.setString(2, id_values);
 			ps.execute();
 			System.out.println("Update eseguito!");
 //			statement = connection.createStatement();
