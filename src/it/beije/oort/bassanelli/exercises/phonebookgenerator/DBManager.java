@@ -223,7 +223,7 @@ public class DBManager {
 		}
 	}
 
-	public static Contact getContactById(Integer id) {
+	public static Contact getContactById(int id) {
 
 		Connection connection = null;
 		PreparedStatement ps = null;
@@ -238,7 +238,7 @@ public class DBManager {
 					.append("ID").append(" = ?");
 
 			ps = connection.prepareStatement(builder.toString());
-			ps.setString(1, id.toString());
+			ps.setInt(1, id);
 
 			rs = ps.executeQuery();
 
@@ -311,7 +311,7 @@ public class DBManager {
 		}
 	}
 
-	public static void deleteById(Integer id) {
+	public static void deleteById(int id) {
 
 		Connection connection = null;
 		PreparedStatement ps = null;
@@ -323,7 +323,7 @@ public class DBManager {
 					.append("ID").append(" = ?");
 
 			ps = connection.prepareStatement(builder.toString());
-			ps.setString(1, id.toString());
+			ps.setInt(1, id);
 
 			ps.execute();
 
@@ -342,7 +342,8 @@ public class DBManager {
 				e.printStackTrace();
 			}
 		}
-
 	}
+	
+	
 
 }

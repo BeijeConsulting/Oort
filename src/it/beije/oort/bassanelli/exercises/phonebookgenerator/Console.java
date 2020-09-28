@@ -256,7 +256,7 @@ public class Console {
 							}
 						}
 						break;
-						
+
 					case "3":
 
 						boolean exitFromAddContact = false;
@@ -300,73 +300,132 @@ public class Console {
 						}
 						break;
 					case "4":
-						
+
 						boolean exitFromEditContact = false;
-						
-						while(!exitFromEditContact) {
-							
+
+						while (!exitFromEditContact) {
+
 							System.out.println("- EDIT CONTACT -");
 							System.out.print("Insert ID: ");
-							
+
 							String id = s.nextLine();
+
+							contact = DBManager.getContactById(Integer.parseInt(id));
 							
+							if(contact == null) {
+								System.out.println("Not found!");
+							} else {
+								System.out.println("Id: " + contact.getId());
+								System.out.println("Name: " + contact.getName());
+								System.out.println("Surame: " + contact.getSurname());
+								System.out.println("Mobile: " + contact.getMobile());
+								System.out.println("Email: " + contact.getEmail());
+
+								System.out.print("Name: ");
+								contact.setName(s.nextLine());
+								System.out.print("Surname: ");
+								contact.setSurname(s.nextLine());
+								System.out.print("Mobile: ");
+								contact.setMobile(s.nextLine());
+								System.out.print("Email: ");
+								contact.setEmail(s.nextLine());
+
+								if (!(contact.getName().isEmpty() && contact.getSurname().isEmpty()
+										&& contact.getMobile().isEmpty() && contact.getEmail().isEmpty())) {
+
+									System.out.println("1) Ok");
+									System.out.println("2) Cancel");
+
+									System.out.print("Command: ");
+									command = s.nextLine();
+
+									switch (command) {
+									case "1":
+										DBManager.editContact(contact);
+										System.out.println("Done!");
+										break;
+									case "2":
+										exitFromAddContact = true;
+										break;
+									default:
+										System.out.println("Command not valid");
+										break;
+									}
+
+								}
+							}
+						}
+
+						break;
+					case "5":
+
+						boolean exitFromDeleteContact = false;
+
+						while (!exitFromDeleteContact) {
+
+							System.out.println("- DELETE CONTACT -");
+							System.out.print("Insert ID: ");
+
+							String id = s.nextLine();
+
 							contact = DBManager.getContactById(Integer.valueOf(id));
-							
+
 							System.out.println("Id: " + contact.getId());
 							System.out.println("Name: " + contact.getName());
 							System.out.println("Surame: " + contact.getSurname());
 							System.out.println("Mobile: " + contact.getMobile());
 							System.out.println("Email: " + contact.getEmail());
 							
-							System.out.print("Name: ");
-							contact.setName(s.nextLine());
-							System.out.print("Surname: ");
-							contact.setSurname(s.nextLine());
-							System.out.print("Mobile: ");
-							contact.setMobile(s.nextLine());
-							System.out.print("Email: ");
-							contact.setEmail(s.nextLine());
+							System.out.println("1) Delete");
+							System.out.println("2) Cancel");
+
+							System.out.print("Command: ");
+							command = s.nextLine();
 							
-							if (!(contact.getName().isEmpty() && contact.getSurname().isEmpty()
-									&& contact.getMobile().isEmpty() && contact.getEmail().isEmpty())) {
-
-								System.out.println("1) Ok");
-								System.out.println("2) Cancel");
-
-								System.out.print("Command: ");
-								command = s.nextLine();
-
-								switch (command) {
-								case "1":
-									DBManager.editContact(contact);
-									break;
-								case "2":
-									exitFromAddContact = true;
-									break;
-								default:
-									System.out.println("Command not valid");
-									break;
-								}
-
+							switch (command) {
+							case "1":
+								DBManager.deleteById(Integer.parseInt(id));
+								System.out.println("Done!");
+								break;
+							case "2":
+								exitFromDeleteContact = true;
+								break;
+							default:
+								System.out.println("Command not valid");
+								break;
 							}
-							
-						}
-						
-						break;
-					case "5":
-						
-						boolean exitFromDeleteContact = false;
-						
-						while(!exitFromDeleteContact) {
-							
-							System.out.println("- DELETE CONTACT -");
-							System.out.print("Insert ID: ");
-							
-							
 						}
 						
 						break;
 					case "6":
+						
+						boolean exitFromExportContacts = false;
+						
+						do {
+							
+							System.out.println("- EXPORT CONTACTS -");
+							System.out.println("1) File CSV");
+							System.out.println("2) File XML");
+							
+							/*
+							System.out.print("Command: ");
+							command = s.nextLine();
+							
+							switch(command) {
+							case "1":
+								DBManager.deleteById(Integer.parseInt(id));
+								System.out.println("Done!");
+								break;
+							case "2":
+								exitFromDeleteContact = true;
+								break;
+							default:
+								System.out.println("Command not valid");
+								break;
+							}*/
+							
+						} while (!exitFromExportContacts);
+						
 						break;
 					case "7":
 						exitFromDatabaseClient = true;
