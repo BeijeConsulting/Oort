@@ -6,7 +6,7 @@ public class Contatto {
 	private String cognome;
 	private String telefono;
 	private String email;
-	private String id_db;
+	private int id;
 	
 	public Contatto() {}
 	
@@ -19,14 +19,13 @@ public class Contatto {
 		this.cognome = cognome;
 		this.telefono = telefono;
 		this.email = email;
-		this.id_db="";
 	}
-	public Contatto(String nome, String cognome, String telefono, String email, String id_db) {
+	public Contatto(String nome, String cognome, String telefono, String email, int id) {
 		this.nome = nome;
 		this.cognome = cognome;
 		this.telefono = telefono;
 		this.email = email;
-		this.id_db=id_db;
+		this.id=id;
 	}
 	public String getNome() {
 		return nome;
@@ -56,10 +55,14 @@ public class Contatto {
 		this.email = email;
 	}
 	
-//	public String getNominativo() { //nominativo
-//		return this.nome + " " + this.cognome;
-//	}
-	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String toString() {
 		StringBuilder builder = new StringBuilder("contatto [");
 		builder.append("nome : ").append(this.nome)
@@ -115,7 +118,7 @@ public class Contatto {
 	}
 	public String toStringFromDatabase() {
 		return new StringBuilder("contatto [")
-				.append("id: ").append(this.id_db)
+				.append("id: ").append(this.id)
 				.append(" | nome : ").append(this.nome)
 				.append(" | cognome : ").append(this.cognome)
 				.append(" | telefono : ").append(this.telefono)

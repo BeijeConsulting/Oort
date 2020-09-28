@@ -25,6 +25,10 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -313,7 +317,7 @@ public class RubricaToolset {
 										rs.getString("cognome"),
 										rs.getString("telefono"),
 										rs.getString("email"),
-										rs.getString("id_rubrica")));
+										rs.getInt("id_rubrica")));
 			}
 		} catch (SQLException sqlException) {
 			sqlException.printStackTrace();
@@ -378,5 +382,20 @@ public class RubricaToolset {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public static List<Contatto> selectHibernate(String field, String value) {
+		Configuration configuration = new Configuration().configure();
+		SessionFactory factory = configuration.buildSessionFactory();
+		Session session = factory.openSession();
+		
+		String hql = "SELECT c FROM Contatto WHERE ? = ?";
+		Query<Contatto> query = session.createQuery(hql).setParameter(0, field).setParameter(1, value);
+		return query.list();
+
+	}
+	
+	public static void insertHibernate() {
+		
 	}
 }
