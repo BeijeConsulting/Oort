@@ -83,14 +83,17 @@ public class ScannerDB {
 					if(choose.equals("2")) {
 						System.out.print("Inserire il cognome da andare a sostiture: "); value = scan.nextLine();
 						col = "cognome";
+						update(col,value,id_values);
 					}else {
 						if(choose.equals("3")) {
 							System.out.print("Inserire il numero di telefono da sostituire: "); value = scan.nextLine();
 							col = "telefono";
+							update(col,value,id_values);
 						}else {
 							if(choose.equals("4")) {
 								System.out.print("Inserire la email da sostiture: "); value = scan.nextLine();
 								col = "email";
+								update(col,value,id_values);
 							}else {
 								if(choose.equals("5"))
 									System.out.println();
@@ -174,10 +177,11 @@ public class ScannerDB {
 	
 		try {
 			connection = ScannerDB.getMySqlConnection(ScannerDB.DB_URL, ScannerDB.DB_USER, ScannerDB.DB_PASSWORD);
-			StringBuilder sbuilder = new StringBuilder("UPDATE contatti set").append(col).append("= ?").append(" where id = ?");
-			ps = connection.prepareStatement(sbuilder.toString());
+	//		StringBuilder sbuilder = new StringBuilder("UPDATE contatti set").append(col).append("= ?").append(" where id = ?");
+			ps = connection.prepareStatement("UPDATE contatti set" + col + "= ? where id = ?");
 			ps.setString(1, value);
-			ps.setString(2, id_values);
+			int primitive = Integer.parseInt(id_values);
+			ps.setInt(2, primitive);
 			ps.execute();
 			System.out.println("Update eseguito!");
 //			statement = connection.createStatement();

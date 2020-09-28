@@ -2,6 +2,7 @@ package it.beije.oort.rubrica;
 
 public class Contatto {
 	
+	private int id;
 	private String nome;
 	private String cognome;
 	private String telefono;
@@ -19,7 +20,15 @@ public class Contatto {
 		this.telefono = telefono;
 		this.email = email;
 	}
-	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getNome() {
 		return nome;
 	}
@@ -66,5 +75,6 @@ public class Contatto {
 		return(this.nome.equals(c.getNome()) && this.cognome.equals(c.getCognome()) &&
 			this.telefono.equals(c.getTelefono()) && this.email.equals(c.getEmail()));
 	}
+
 
 }
