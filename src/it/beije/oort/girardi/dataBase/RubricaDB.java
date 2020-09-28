@@ -1,6 +1,7 @@
 package it.beije.oort.girardi.dataBase;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,42 +16,53 @@ public class RubricaDB {
 	
 // ------------ METODI ------------
 	
+//1) Visualizzazione contatti
+	public static void visualizzaContatto (Connection connection) {
+		
+	}
+	
+	
 //2) Cancellazione contatto dal Database
 	public static void cancellaContatto (Connection connection) {
 		Scanner myInput = new Scanner(System.in);  //apre lo scanner
-		Statement statement = null;
+//		Statement statement = null;
+		PreparedStatement ps = null;
 		ResultSet rs = null;
-		int id = 0;
-		boolean done = false;
+		int id = 0;		
 		
-		do {
 			try {
 				System.out.print("inserire l'id del contatto che si vuole eliminare:");
-				id = Integer.parseInt(myInput.nextLine());
+				id = (int) Integer.parseInt(myInput.nextLine());
+//				statement = connection.createStatement();
+//				rs = statement.executeQuery("DELETE FROM rubrica r WHERE id = " + id );
 				
-				statement = connection.createStatement();
-				rs = statement.executeQuery("DELETE FROM rubrica r WHERE id = '" + id + "'");
-				done = true;
+				ps = connection.prepareStatement("DELETE FROM rubrica r WHERE id = ?");
+				ps.setInt(1, id);
+	
+				rs = ps.executeQuery();			
+				
 				System.out.println("azione eseguita con successo");
 				
 				rs.close();
-				statement.close();
 			} catch (NumberFormatException nfe) {
 				nfe.printStackTrace();
 				System.out.println("riprova");
-				continue;
 			} catch (InputMismatchException ime) {
 				ime.printStackTrace();
 				System.out.println("riprova");
-				continue;
 			} catch (NoSuchElementException nse) {
 				nse.printStackTrace();
 				System.out.println("riprova");
-				continue;
 			} catch (SQLException sqlException) {
-				sqlException.printStackTrace();		
+				sqlException.printStackTrace();	
+			} finally {
+				try {
+//					statement.close();
+					ps.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
-		} while (done);
 	}
 	
 	

@@ -34,20 +34,20 @@ public class HDBtools {
 //		System.out.println(c);
 		
 		//esempio query HQL
-		String hql = "SELECT c FROM Contatto as c WHERE cognome = 'rossi'";
-		Query<Contatto> query = session.createQuery(hql);
-		System.out.println(query.list().size());
-		for (Contatto contatto : query.list()) {
-			System.out.println("id : " + contatto.getId());
-			System.out.println("nome : " + contatto.getNome());
-			System.out.println("cognome : " + contatto.getCognome());
-			System.out.println("telefono : " + contatto.getTelefono());
-			System.out.println("email : " + contatto.getEmail());
-		}
+//		String hql = "SELECT c FROM Contatto as c WHERE cognome = 'bravo'";
+//		Query<Contatto> query = session.createQuery(hql);
+//		System.out.println(query.list().size());
+//		for (Contatto contatto : query.list()) {
+//			System.out.println("id : " + contatto.getId());
+//			System.out.println("nome : " + contatto.getNome());
+//			System.out.println("cognome : " + contatto.getCognome());
+//			System.out.println("telefono : " + contatto.getTelefono());
+//			System.out.println("email : " + contatto.getEmail());
+//		}
 
 		//esempio Criteria
 //		Criteria criteria = session.createCriteria(Contatto.class);
-//		criteria.add(Restrictions.eq("cognome", "rossi"));
+//		criteria.add(Restrictions.eq("cognome", "bravo"));
 //		List<Contatto> contatti = criteria.list();
 //		for (Contatto contatto : contatti) {
 //			System.out.println("id : " + contatto.getId());
@@ -62,7 +62,7 @@ public class HDBtools {
 		
 		//esempio INSERT
 		Contatto contatto = new Contatto();
-		contatto.setId(3);
+		contatto.setId(4);
 		contatto.setNome("Fiorenza");
 		contatto.setCognome("Volpe");
 		contatto.setEmail("fiore@volpe.it");
@@ -70,14 +70,21 @@ public class HDBtools {
 		System.out.println("id : " + contatto.getId());
 		session.save(contatto);
 		System.out.println("id : " + contatto.getId());
-
+		
 		//esempio UPDATE
-//		Contatto contatto = session.get(Contatto.class, 5);
+//		Contatto contatto = session.get(Contatto.class, 6);
 //		System.out.println(contatto);
-//		contatto.setNome("clara");
-//		contatto.setTelefono("432432421243");
+//		contatto.setNome("Johnny");
+//		contatto.setCognome("Bravo");
+//		contatto.setTelefono("333");
+//		contatto.setEmail("johnny@be.good");
 //		System.out.println(contatto);
 //		session.save(contatto);
+		
+		//esempio DELETE
+//		Contatto contatto = session.get(Contatto.class, 4);
+//		System.out.println(contatto);
+//		session.delete(contatto);
 		
 //		//confermo aggiornamento su DB
 		transaction.commit();

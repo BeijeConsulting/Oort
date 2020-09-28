@@ -13,7 +13,7 @@ import it.beije.oort.db.DBManager;
 import it.beije.oort.rubrica.Contatto;
 import it.beije.oort.girardi.inOut.RubricaCSV;
 
-public class FromDB {
+public class FromDB { 
 
 	private static final String PATH_FILES = "C:\\Users\\Padawan05\\Desktop\\file_testo\\";
 	private static int count = 0;
