@@ -25,7 +25,7 @@ public class FromDB {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Contatto> listContatti = new ArrayList<>();
-		
+
 		try {
 			ps = connection.prepareStatement("SELECT * FROM rubrica");
 			rs = ps.executeQuery();

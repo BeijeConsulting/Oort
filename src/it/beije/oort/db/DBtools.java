@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DBtools {
-
+ 
 	public static void select(String editore) {
 		Connection connection = null;
 		Statement statement = null;
