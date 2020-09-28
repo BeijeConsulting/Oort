@@ -1,7 +1,6 @@
 package it.beije.oort.rubrica;
 
 
-
 public class Contatto {
 	
 	private String nome;
@@ -65,7 +64,6 @@ public class Contatto {
 		return (a.getNome().equalsIgnoreCase(c.getNome())&&
 				a.getCognome().equalsIgnoreCase(c.getCognome())&&
 				a.getTelefono().equals(c.getTelefono())&&
-				a.getEmail().equals(c.getEmail()));		
+				a.getEmail().equals(c.getEmail()));	
 	}
-	
 }
