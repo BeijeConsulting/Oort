@@ -2,7 +2,7 @@ package it.beije.oort.rubrica;
 
 public class Contatto {
 	
-	private int id;	
+	private int id;
 	private String nome;
 	private String cognome;
 	private String telefono;
