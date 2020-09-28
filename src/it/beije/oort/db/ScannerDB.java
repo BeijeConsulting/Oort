@@ -65,6 +65,7 @@ public class ScannerDB {
 				System.out.println("Selezionare, indicando l'ID il contatto da modificare: ");
 				System.out.print("ID: ");
 				id_values = scan.nextLine();
+				int s = Integer.parseInt(id_values);
 				do {
 				String choose = "";
 				System.out.println("Scegliere quale campo modificare: ");
@@ -78,26 +79,27 @@ public class ScannerDB {
 					System.out.print("Inserire il nome da andare a sostituire (ID = "+ id_values + "): ");	
 					value = scan.nextLine();
 					col = "nome";
-					update(col,value,id_values);
+					update(col,value,s);
 				}else {
 					if(choose.equals("2")) {
 						System.out.print("Inserire il cognome da andare a sostiture: "); value = scan.nextLine();
 						col = "cognome";
-						update(col,value,id_values);
+						update(col,value,s);
 					}else {
 						if(choose.equals("3")) {
 							System.out.print("Inserire il numero di telefono da sostituire: "); value = scan.nextLine();
 							col = "telefono";
-							update(col,value,id_values);
+							update(col,value,s);
 						}else {
 							if(choose.equals("4")) {
 								System.out.print("Inserire la email da sostiture: "); value = scan.nextLine();
 								col = "email";
-								update(col,value,id_values);
+								update(col,value,s);
 							}else {
-								if(choose.equals("5"))
+								if(choose.equals("5")) {
 									System.out.println();
-										flag3 = false;
+									flag3 = false;
+								}
 							}
 						}
 					}
@@ -105,15 +107,20 @@ public class ScannerDB {
 				}while(flag3);
 			}else {
 				if(scelta.equals("3")) {
-					System.out.println("delete");
+					System.out.println("Selezionare, indicando l'ID il contatto da cancellare: ");
+					System.out.print("ID: ");
+					id_values = scan.nextLine();
+					int s = Integer.parseInt(id_values);
+					delete(s);
 				}else {
 					if(scelta.equals("4")) {
 						do {
 						System.out.println();
 						System.out.println("Scegliere per quale campo si vuole effettuare la ricerca: ");
-						System.out.println("1) Ricerca per ID!");
-						System.out.println("2) Ricerca per Nome!");
-						System.out.println("3) Ricerca per Cognome!");
+						System.out.println("Se effettuando la ricerca non viene stampato nessuno contatto, il contatto non esiste! (Es. Ricerca per ID : 105, se 105 non è presente nel DB l'operazione non stamperà nulla!");
+						System.out.println("1) Ricerca per ID! ");
+						System.out.println("2) Ricerca per Nome!(E' possibile inserire anche solo una lettera, verrano stampati tutti i nomi che iniziano con la lettera o le lettere inserite)");
+						System.out.println("3) Ricerca per Cognome!(E' possibile inserire anche solo una lettera, verrano stampati tutti i cognomi che iniziano con la lettera o le lettere inserite)");
 						System.out.println("4) Stampa tutti i contatti!");
 						System.out.print("Scegliere l'opzione di ricerca: ");
 						sc = scan.nextLine();
@@ -168,28 +175,48 @@ public class ScannerDB {
 		}while(flag);
 	}
 	
-	public static void update(String col, String value, String id_values) {
+	public static void delete(int s) {
+		Connection connection = null;
+		PreparedStatement ps = null;
+		StringBuilder sbuilder = new StringBuilder("DELETE FROM contatti  where id = '" + s + "';");
+		try {
+			connection = ScannerDB.getMySqlConnection(ScannerDB.DB_URL, ScannerDB.DB_USER, ScannerDB.DB_PASSWORD);
+			ps = connection.prepareStatement(sbuilder.toString());
+			ps.execute();
+			System.out.println("Elimino contatto..");
+			System.out.println("Contatto eliminato! \n");
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
+		} catch (ClassNotFoundException cnfEx) {
+			cnfEx.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+				connection.close();
+			} catch (Exception e) {
+			e.printStackTrace();
+			}
+		}
+	}
+	
+	public static void update(String col, String value, int s) {
 		Connection connection = null;
 		PreparedStatement ps = null;
 		Statement statement = null;
 		ResultSet rs = null;
-		
-	
+		StringBuilder sbuilder = new StringBuilder("UPDATE contatti set " + col + " = '" + value + "' where id = '" + s + "';");
 		try {
 			connection = ScannerDB.getMySqlConnection(ScannerDB.DB_URL, ScannerDB.DB_USER, ScannerDB.DB_PASSWORD);
-	//		StringBuilder sbuilder = new StringBuilder("UPDATE contatti set").append(col).append("= ?").append(" where id = ?");
-			ps = connection.prepareStatement("UPDATE contatti set" + col + "= ? where id = ?");
-			ps.setString(1, value);
-			int primitive = Integer.parseInt(id_values);
-			ps.setInt(2, primitive);
+			ps = connection.prepareStatement(sbuilder.toString());
 			ps.execute();
-			System.out.println("Update eseguito!");
-//			statement = connection.createStatement();
-//			rs = statement.executeQuery("SELECT * FROM contatti where id = '" + id_values + "'");
-//			
-//			System.out.println("[ID: " + rs.getString("id")+ " - Nome: " + rs.getString("nome") + " - Cognome: " + rs.getString("cognome") +
-//					" - Telefono: " + rs.getString("telefono") + " - Email: " + rs.getString("email") + "]");
-											
+			System.out.println("Update eseguito!");			
+			statement = connection.createStatement();
+			rs = statement.executeQuery("SELECT * FROM contatti where id = '" + s + "'");
+			while(rs.next()) {
+				
+			System.out.println("Nuovo contatto aggiornato: [ID: " + rs.getString("id")+ " - Nome: " + rs.getString("nome") + " - Cognome: " + rs.getString("cognome") +
+					" - Telefono: " + rs.getString("telefono") + " - Email: " + rs.getString("email") + "]");
+			}							
 		} catch (SQLException sqlException) {
 			sqlException.printStackTrace();
 		} catch (ClassNotFoundException cnfEx) {
@@ -203,8 +230,6 @@ public class ScannerDB {
 			}
 		}
 	}
-			
-	
 	
 	public static void exportForDB(String pathFile) throws IOException {
 		Connection connection = null;
