@@ -2,6 +2,8 @@ package it.beije.oort.kirolosmater.csvandxml;
 
 public class ContactXml {
 	
+	
+	private int id;
 	private String name;
 	private String surname;
 	private String mobile;
@@ -20,6 +22,14 @@ public class ContactXml {
 		this.email = email;
 	}
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getName() {
 		return name;
 	}
