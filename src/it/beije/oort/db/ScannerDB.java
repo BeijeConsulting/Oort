@@ -72,10 +72,11 @@ public class ScannerDB {
 				System.out.println("2) Cognome");
 				System.out.println("3) Telefono");
 				System.out.println("4) Email");
-				System.out.println("5) Annulla e torna al menù precedente!");
+				System.out.println("5) Termina modifiche e torna al menù precedente!");
 				System.out.print("Inserire scelta: ");  choose = scan.nextLine();
 				if(choose.equals("1")) {
-					System.out.print("Inserire il nome da andare a sostituire (ID = "+ id_values + "): ");	value = scan.nextLine();
+					System.out.print("Inserire il nome da andare a sostituire (ID = "+ id_values + "): ");	
+					value = scan.nextLine();
 					col = "nome";
 					update(col,value,id_values);
 				}else {
@@ -170,16 +171,18 @@ public class ScannerDB {
 		Statement statement = null;
 		ResultSet rs = null;
 		
-		StringBuilder sbuilder = new StringBuilder("UPDATE contatti set" + col + "='" + value + "'  where id = '" + id_values + "'");
+	
 		try {
 			connection = ScannerDB.getMySqlConnection(ScannerDB.DB_URL, ScannerDB.DB_USER, ScannerDB.DB_PASSWORD);
+			StringBuilder sbuilder = new StringBuilder("UPDATE contatti set").append(col).append( "='").append(value).append("' where id = ' ").append(id_values).append("';");
 			ps = connection.prepareStatement(sbuilder.toString());
 			ps.execute();
 			System.out.println("Update eseguito!");
-			statement = connection.createStatement();
-			rs = statement.executeQuery("SELECT * FROM contatti where id = '" + id_values + "'");
-			System.out.println("[ID: " + rs.getString("id")+ " - Nome: " + rs.getString("nome") + " - Cognome: " + rs.getString("cognome") +
-					" - Telefono: " + rs.getString("telefono") + " - Email: " + rs.getString("email") + "]");
+//			statement = connection.createStatement();
+//			rs = statement.executeQuery("SELECT * FROM contatti where id = '" + id_values + "'");
+//			
+//			System.out.println("[ID: " + rs.getString("id")+ " - Nome: " + rs.getString("nome") + " - Cognome: " + rs.getString("cognome") +
+//					" - Telefono: " + rs.getString("telefono") + " - Email: " + rs.getString("email") + "]");
 											
 		} catch (SQLException sqlException) {
 			sqlException.printStackTrace();
