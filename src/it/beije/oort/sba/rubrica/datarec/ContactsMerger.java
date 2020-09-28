@@ -30,16 +30,22 @@ public class ContactsMerger {
 			contacts.add(c);
 		}
 		set.clear();
+		boolean[] merged = new boolean[contacts.size()];
+		for(int i = 0; i<merged.length; i++) {
+			merged[i] = false;
+		}
 		for (int i = 0; i < contacts.size()-1; i++) {
-			boolean merged = false;
 			for (int j = i + 1; j < contacts.size(); j++) {
 				if (isCompatible(contacts.get(i), contacts.get(j))) {
 					set.add(merge(contacts.get(i),contacts.get(j)));
-					merged = true;
+					merged[i] = true;
+					merged[j] = true;
 					compatible = true;
 				}
 			}
-			if (!merged) {
+		}
+		for(int i = 0; i<merged.length; i++) {
+			if(!merged[i]) {
 				set.add(contacts.get(i));
 			}
 		}
