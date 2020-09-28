@@ -1,6 +1,7 @@
 package it.beije.oort.lauria.db;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,11 +17,15 @@ public class DBClient {
 
 	public static void main(String[] args) {
 		
-		int scelta ; 
-		do {
+		int scelta  ; 
+			do {
 			DBClient.menu();
 			// TODO gestire scelta: deve digitare un numero, non altro.
-			scelta = in.nextInt();
+			
+				scelta = in.nextInt();
+//			}catch(InputMismatchException e) {
+//				//System.out.println("Azione non valida.");
+//			}
 			System.out.println();
 			in.nextLine();
 			
@@ -46,20 +51,7 @@ public class DBClient {
 							break;
 						}
 						case 2:{
-							// TODO da rifare
-							String nome ="", cognome="", telefono="", email="";
-							System.out.println("Digitare contatto da ricercare: ");
-							System.out.print("nome : ");
-							nome = in.nextLine();
-							System.out.print("cognome : ");
-							cognome = in.nextLine();
-							System.out.print("telefono : ");
-							telefono = in.nextLine();
-							System.out.print("email : ");
-							email = in.nextLine();
-							System.out.println();
-	
-							DBtools.preparedSelect(TABLE_NAME, cognome, nome, telefono, email);
+							DBClient.searchContact();
 							break;
 						}
 	//					default:{
@@ -119,6 +111,7 @@ public class DBClient {
 				}
 			}
 		}while(scelta != 5);
+
 		in.close();
 	}
 	
@@ -180,7 +173,22 @@ public class DBClient {
 		return scelta;
 		//in.close();
 	}
-	
+	public static void searchContact() {
+		String nome ="", cognome="", telefono="", email="";
+		System.out.println("Digitare contatto da ricercare: ");
+		System.out.print("nome : ");
+		nome = in.nextLine();
+		System.out.print("cognome : ");
+		cognome = in.nextLine();
+		System.out.print("telefono : ");
+		telefono = in.nextLine();
+		System.out.print("email : ");
+		email = in.nextLine();
+		System.out.println();
+
+		DBtools.preparedSelect(TABLE_NAME, cognome, nome, telefono, email);
+		System.out.println();
+	}
 	public static void modifyContact() {
 		String nome ="", cognome="", telefono="", email="";
 		System.out.println("Digitare l'identificativo numerico del contatto da modificare e le modifiche da apportare: ");

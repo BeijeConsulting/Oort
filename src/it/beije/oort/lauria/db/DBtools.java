@@ -208,7 +208,7 @@ public class DBtools {
 			
 			while (rs.next()) {
 				Contatto c = new Contatto();
-				c.setId(rs.getString("id"));
+				c.setId(rs.getInt("id"));
 				c.setCognome(rs.getString("cognome"));
 				c.setNome(rs.getString("nome"));
 				c.setTelefono(rs.getString("telefono"));

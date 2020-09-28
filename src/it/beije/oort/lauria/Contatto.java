@@ -3,7 +3,7 @@ package it.beije.oort.lauria;
 
 public class Contatto {
 	
-	private String id;
+	private int id;
 	private String nome;
 	private String cognome;
 	private String telefono;
@@ -61,10 +61,10 @@ public class Contatto {
 		this.duplicatiEmail.append(duplicatiEmail);
 	}
 	
-	public String getId() {
+	public int getId() {
 		return this.id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
