@@ -29,13 +29,7 @@ public class RubricaDB {
 
 		try {
 			ps = connection.prepareStatement("SELECT * FROM rubrica");
-			rs = ps.executeQuery();
-			
-//			System.out.print("inserire l'id del contatto che si vuole eliminare:");
-//			id = Integer.parseInt(myInput.nextLine());			
-//			ps = connection.prepareStatement("SELECT * FROM rubrica r where nome = ? and telefono = ?");
-//			ps.setInt(1, id);
-			
+			rs = ps.executeQuery();			
 			
 			//fase di stampa a terminale:
 			System.out.println("ID, COGNOME, NOME, TELEFONO, EMAIL");
@@ -64,84 +58,124 @@ public class RubricaDB {
 	}
 	
 //ricerca e visualizza contatto per ID:
-	public static void visualizzaContatto (Connection connection) {
-		Scanner myInput = new Scanner(System.in);  //apre lo scanner
-//		PreparedStatement ps = null;
-		Statement statement = null;
+	public static void visualizzaId(Connection connection,int id) {
+		PreparedStatement ps = null;
 		ResultSet rs = null;
-
-		try {
-			System.out.print("inserire l'id del contatto che si vuole visualizzare: ");
-			String id = myInput.nextLine();			
-//			ps = connection.prepareStatement("SELECT * FROM rubrica where id = '?'");
-//			ps.setString(1, id);
-//			rs = ps.executeQuery();
-//			rs.next();
-		System.out.println(id);
-			rs = statement.executeQuery("SELECT * FROM rubrica where id = '" + id + "'");
-			
-//			//fase di stampa a terminale:
+		
+		try {	
+			ps = connection.prepareStatement("SELECT * FROM rubrica where id = ?");
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+		
+			rs.next();
 			System.out.println("ID, COGNOME, NOME, TELEFONO, EMAIL");	
 			System.out.println(rs.getString(1)+"   "+rs.getString(2)+"   "+
 					rs.getString(3)+"   "+rs.getString(4)+"   "+rs.getString(5));
 			
 			rs.close();
 		} catch (SQLException sqlException) {
-			sqlException.printStackTrace();
-		} catch (NullPointerException npe) {
-			npe.printStackTrace();
+//			sqlException.printStackTrace();
+			System.out.println("Id non disponibile");
 		} finally {
-//			try {
-//				ps.close();
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
+			try {
+				ps.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	
+// viualizza rubrica o contatto da Database
+	public static void visualizza (Connection connection) {
+		Scanner myInput = new Scanner(System.in);  //apre lo scanner
+		int id = 0;	
+		String in = "";
+		
+		try {
+			System.out.println("digitare 1 o 2 per le seguenti azioni: ");
+			System.out.println("\t 1) visualizza tutti i contatti");
+			System.out.println("\t 2) visualizza singolo contatto");
+			in = myInput.nextLine();
+			
+			switch (in) {
+			case "1": 
+				RubricaDB.visualizzaTutti(connection);
+				break;
+			case "2": 
+				System.out.print("inserire l'id del contatto che si vuole visualizzare: ");
+				id = (int) Integer.parseInt(myInput.nextLine());
+				
+				RubricaDB.visualizzaId(connection, id);
+				break;
+			default:
+				System.out.println("inserimento non valido");
+			}
+			
+		} catch (NumberFormatException nfe) {
+//				nfe.printStackTrace();
+			System.out.println("inserimento non valido");
+		} catch (InputMismatchException ime) {
+			ime.printStackTrace();
+			System.out.println("riprova");
+		} catch (NoSuchElementException nse) {
+			nse.printStackTrace();
+			System.out.println("riprova");
 		}
 	}
 	
 	
+	
+	
+	
+	
+	
 //2) Modifica / Cancellazione ---------------------------------
+//cancella id dal database
+	public static void deleteId(Connection connection,int id) {
+		PreparedStatement ps = null;
+		
+		try {	
+			ps = connection.prepareStatement("DELETE FROM rubrica where id = ?");
+			ps.setInt(1, id);
+			
+			ps.execute();
+		
+			System.out.println("id contatto eliminiato");
+			
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	
 // Cancellazione contatto dal Database
 	public static void cancellaContatto (Connection connection) {
 		Scanner myInput = new Scanner(System.in);  //apre lo scanner
-//		Statement statement = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
 		int id = 0;		
 		
 			try {
 				System.out.print("inserire l'id del contatto che si vuole eliminare:");
 				id = (int) Integer.parseInt(myInput.nextLine());
-//				statement = connection.createStatement();
-//				rs = statement.executeQuery("DELETE FROM rubrica r WHERE id = " + id );
 				
-				ps = connection.prepareStatement("DELETE FROM rubrica r WHERE id = ?");
-				ps.setInt(1, id);
-	
-				rs = ps.executeQuery();			
+				RubricaDB.deleteId(connection, id);
 				
-				System.out.println("azione eseguita con successo");
-				
-				rs.close();
 			} catch (NumberFormatException nfe) {
-				nfe.printStackTrace();
-				System.out.println("riprova");
+//				nfe.printStackTrace();
+				System.out.println("inserimento non valido");
 			} catch (InputMismatchException ime) {
 				ime.printStackTrace();
 				System.out.println("riprova");
 			} catch (NoSuchElementException nse) {
 				nse.printStackTrace();
 				System.out.println("riprova");
-			} catch (SQLException sqlException) {
-				sqlException.printStackTrace();	
-			} finally {
-				try {
-//					statement.close();
-					ps.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
 			}
 	}
 	
@@ -171,11 +205,13 @@ public class RubricaDB {
 			contatto.getTelefono().trim().equals("") && contatto.getEmail().trim().equals("") )
 			System.out.println("ALERT: il contatto è vuoto e non verrà inserito\n");
 		else {
-			ToDB.insertContatto(connection, contatto); 
+			ToDB.insertContatto(connection, contatto);
 			System.out.println("");
 		}
 	}
-
+	
+	
+	
 	
 	
 // -------------- MAIN -----------------
@@ -217,12 +253,11 @@ public class RubricaDB {
 				switch (azione) {
 				case "1" : 	//1) Visualizzazione contatti
 					System.out.println("Hai selto di eseguire: " + menu[0]);
-//					RubricaDB.visualizzaTutti(connection);
-					RubricaDB.visualizzaContatto(connection);
+					RubricaDB.visualizza(connection);
 					break;
 										
 				case "2" : 	//2) Modifica / Cancellazione
-					System.out.println("Hai selto di eseguire: " + menu[1] + "ALTER: NON VA!");
+					System.out.println("Hai selto di eseguire: " + menu[1]);
 					RubricaDB.cancellaContatto (connection);
 					break;
 										
