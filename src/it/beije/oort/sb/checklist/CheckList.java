@@ -1,4 +1,4 @@
-package it.beije.oort.sb.checklist;
+/*package it.beije.oort.sb.checklist;
 
 import java.util.*;
 
@@ -21,7 +21,7 @@ public class CheckList {
 		}
 }		return equals;
 
-}
+} 
 
 	public static void main(String[] args) {
 		List<String> a = new ArrayList<>();
@@ -39,4 +39,4 @@ public class CheckList {
 
 	}
 
-}
+}*/

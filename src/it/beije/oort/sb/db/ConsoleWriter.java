@@ -104,6 +104,6 @@ public class ConsoleWriter {
 		
 		
 			public static void main(String[] args) {
-				List<Contatto> c = ConsoleHandler();
+//				List<Contatto> c = ConsoleHandler();
 			}
 }
