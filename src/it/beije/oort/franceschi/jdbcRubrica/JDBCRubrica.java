@@ -1,6 +1,6 @@
-package it.beije.oort.file.rubrica.jdbcRubrica;
+package it.beije.oort.franceschi.jdbcRubrica;
 
-import it.beije.oort.file.rubrica.Contatto;
+import it.beije.oort.franceschi.rubrica.Contatto;
 
 import java.util.List;
 

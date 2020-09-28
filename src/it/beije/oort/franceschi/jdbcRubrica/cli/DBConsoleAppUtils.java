@@ -1,6 +1,6 @@
-package it.beije.oort.franceschi.database.cli;
+package it.beije.oort.franceschi.jdbcRubrica.cli;
 
-import it.beije.oort.file.rubrica.Contatto;
+import it.beije.oort.franceschi.rubrica.Contatto;
 import it.beije.oort.franceschi.csvToXml.CSVParser;
 import it.beije.oort.franceschi.csvToXml.InputManager;
 import it.beije.oort.franceschi.csvToXml.XMLParser;

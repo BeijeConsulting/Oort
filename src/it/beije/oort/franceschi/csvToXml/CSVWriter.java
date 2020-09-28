@@ -1,7 +1,7 @@
 package it.beije.oort.franceschi.csvToXml;
 
-import it.beije.oort.file.rubrica.Contatto;
-import it.beije.oort.file.rubrica.comparators.ContattoNomeComparator;
+import it.beije.oort.franceschi.rubrica.Contatto;
+import it.beije.oort.franceschi.rubrica.comparators.ContattoNomeComparator;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class CSVWriter {
     public static void writeCSV(List<Contatto> list, String outputPath, Comparator<Contatto> c) {
-        Collections.sort(list, c);
+        list.sort(c);
         try (BufferedWriter bf = new BufferedWriter(
                 new OutputStreamWriter(new FileOutputStream(outputPath, false), StandardCharsets.UTF_8))) {
             bf.write("COGNOME;NOME;EMAIL;TELEFONO;\n");
@@ -31,7 +31,7 @@ public class CSVWriter {
     }
 
     public static void writeCSV(List<Contatto> list, String outputPath) {
-        Collections.sort(list, new ContattoNomeComparator());
+        list.sort(new ContattoNomeComparator());
         //Collections.sort(list, new ContattoCognomeComparator())
         try (BufferedWriter bf = new BufferedWriter(
                 new OutputStreamWriter(new FileOutputStream(outputPath, false), StandardCharsets.UTF_8))) {
@@ -49,7 +49,7 @@ public class CSVWriter {
     }
 
     public static void overWriteCSV(List<Contatto> list, String outputPath) {
-        Collections.sort(list, new ContattoNomeComparator());
+        list.sort(new ContattoNomeComparator());
         //Collections.sort(list, new ContattoCognomeComparator())
         try (BufferedWriter bf = new BufferedWriter(
                 new OutputStreamWriter(new FileOutputStream(outputPath, true), StandardCharsets.UTF_8))) {

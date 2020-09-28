@@ -1,7 +1,7 @@
 package it.beije.oort.franceschi.csvToXml;
 
-import it.beije.oort.file.rubrica.Contatto;
-import it.beije.oort.file.rubrica.comparators.ContattoNomeComparator;
+import it.beije.oort.franceschi.rubrica.Contatto;
+import it.beije.oort.franceschi.rubrica.comparators.ContattoNomeComparator;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -32,7 +32,6 @@ public class Appenditore {
         }
     }
 
-    @SuppressWarnings("unused")
     @SafeVarargs
     private static List<Contatto> unisciListe(List<Contatto>... list) {
         List<Contatto> listUnita = new ArrayList<>();
@@ -67,10 +66,8 @@ public class Appenditore {
                 e.printStackTrace();
             }
         }
-        for (Contatto c : vecchiaList2) {
-            vecchiaList.add(c);
-        }
-        Collections.sort(vecchiaList, new ContattoNomeComparator());
+        vecchiaList.addAll(vecchiaList2);
+        vecchiaList.sort(new ContattoNomeComparator());
         return vecchiaList;
     }
 

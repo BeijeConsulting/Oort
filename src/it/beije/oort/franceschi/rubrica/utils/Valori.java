@@ -1,6 +1,6 @@
-package it.beije.oort.file.rubrica.utils;
+package it.beije.oort.franceschi.rubrica.utils;
 
-import it.beije.oort.file.rubrica.Contatto;
+import it.beije.oort.franceschi.rubrica.Contatto;
 
 import java.util.ArrayList;
 

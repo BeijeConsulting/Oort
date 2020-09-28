@@ -1,6 +1,6 @@
 package it.beije.oort.franceschi.csvToXml;
 
-import it.beije.oort.file.rubrica.Contatto;
+import it.beije.oort.franceschi.rubrica.Contatto;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -79,8 +79,8 @@ public class CSVParser {
      * @return a List containing all the ContattoBean present in the CSV.
      */
     public List<Contatto> creaListaContatti() {
-        String contattoLine = "";
-        List<Contatto> contatti = new ArrayList<Contatto>();
+        String contattoLine;
+        List<Contatto> contatti = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             br.readLine();
             while (br.ready()) {

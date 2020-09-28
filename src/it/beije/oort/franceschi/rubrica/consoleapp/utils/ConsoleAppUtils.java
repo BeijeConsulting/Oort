@@ -1,7 +1,7 @@
-package it.beije.oort.file.rubrica.consoleapp.utils;
+package it.beije.oort.franceschi.rubrica.consoleapp.utils;
 
-import it.beije.oort.file.rubrica.Contatto;
-import it.beije.oort.file.rubrica.comparators.ContattoNomeComparator;
+import it.beije.oort.franceschi.rubrica.Contatto;
+import it.beije.oort.franceschi.rubrica.comparators.ContattoNomeComparator;
 import it.beije.oort.franceschi.csvToXml.CSVParser;
 import it.beije.oort.franceschi.csvToXml.InputManager;
 import it.beije.oort.franceschi.csvToXml.XMLParser;

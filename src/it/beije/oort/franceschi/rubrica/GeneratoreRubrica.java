@@ -1,7 +1,7 @@
-package it.beije.oort.file.rubrica;
+package it.beije.oort.franceschi.rubrica;
 
-import it.beije.oort.file.rubrica.comparators.ContattoNomeComparator;
-import it.beije.oort.file.rubrica.utils.Valori;
+import it.beije.oort.franceschi.rubrica.comparators.ContattoNomeComparator;
+import it.beije.oort.franceschi.rubrica.utils.Valori;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -37,8 +37,7 @@ public class GeneratoreRubrica {
 
     public static void writeRubrica(ArrayList<Contatto> rubrica, String filename) {
         Random r = new Random();
-        Collections.sort(rubrica, new ContattoNomeComparator());
-        //Collections.sort(rubrica, new ContattoCognomeComparator())
+        rubrica.sort(new ContattoNomeComparator());
         try (BufferedWriter bf = new BufferedWriter(
                 new OutputStreamWriter(new FileOutputStream(filename, true), StandardCharsets.UTF_8))) {
 

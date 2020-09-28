@@ -1,7 +1,7 @@
-package it.beije.oort.file.rubrica.univoco;
+package it.beije.oort.franceschi.rubrica.univoco;
 
-import it.beije.oort.file.rubrica.Contatto;
-import it.beije.oort.file.rubrica.comparators.ContattoEmailComparator;
+import it.beije.oort.franceschi.rubrica.Contatto;
+import it.beije.oort.franceschi.rubrica.comparators.ContattoEmailComparator;
 import it.beije.oort.franceschi.csvToXml.CSVParser;
 import it.beije.oort.franceschi.csvToXml.CSVWriter;
 import it.beije.oort.franceschi.csvToXml.InputManager;
@@ -83,7 +83,6 @@ public class RubricaUnivoca2 {
 
     // non funziona come dovrebbe
     private static List<Contatto> accorpaDupes(List<Contatto> stessaMail) {
-        List<Contatto> nuovaList = new ArrayList<>();
 
         System.out.println(stessaMail.toString());
         //boolean modified ;
@@ -140,8 +139,7 @@ public class RubricaUnivoca2 {
 //				}
             }
         }
-        nuovaList.addAll(stessaMail);
-        return nuovaList;
+        return new ArrayList<>(stessaMail);
     }
 
     private static boolean checkSeCompatibili(Contatto a, Contatto b) {

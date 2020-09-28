@@ -1,10 +1,10 @@
-package it.beije.oort.file.rubrica.consoleapp;
+package it.beije.oort.franceschi.rubrica.consoleapp;
 
-import it.beije.oort.file.rubrica.Contatto;
-import it.beije.oort.file.rubrica.consoleapp.utils.ConsoleAppUtils;
-import it.beije.oort.file.rubrica.consoleapp.utils.ConsoleAppValues;
-import it.beije.oort.file.rubrica.jdbcRubrica.DBValues;
-import it.beije.oort.file.rubrica.jdbcRubrica.DBWriter;
+import it.beije.oort.franceschi.rubrica.Contatto;
+import it.beije.oort.franceschi.rubrica.consoleapp.utils.ConsoleAppUtils;
+import it.beije.oort.franceschi.rubrica.consoleapp.utils.ConsoleAppValues;
+import it.beije.oort.franceschi.jdbcRubrica.DBValues;
+import it.beije.oort.franceschi.jdbcRubrica.DBWriter;
 import it.beije.oort.franceschi.csvToXml.CSVWriter;
 import it.beije.oort.franceschi.csvToXml.XMLWriter;
 

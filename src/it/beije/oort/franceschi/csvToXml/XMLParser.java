@@ -1,6 +1,6 @@
 package it.beije.oort.franceschi.csvToXml;
 
-import it.beije.oort.file.rubrica.Contatto;
+import it.beije.oort.franceschi.rubrica.Contatto;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -37,7 +37,7 @@ public class XMLParser {
         Document document = builder.parse(new File(filePath));
         Element element = document.getDocumentElement();
 
-        List<Contatto> rubrica = new ArrayList<Contatto>();
+        List<Contatto> rubrica = new ArrayList<>();
         NodeList contatti = element.getChildNodes();
         for (int i = 0; i < contatti.getLength(); i++) {
             Node node = contatti.item(i);

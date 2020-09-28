@@ -1,4 +1,4 @@
-package it.beije.oort.file.rubrica.utils;
+package it.beije.oort.franceschi.rubrica.utils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

@@ -1,4 +1,4 @@
-package it.beije.oort.file.rubrica.jdbcRubrica;
+package it.beije.oort.franceschi.jdbcRubrica;
 
 public class DBValues {
     private static final String XML_PATH = "C:\\Code\\Oort\\xml\\rubriche\\rubrica_sala.xml";

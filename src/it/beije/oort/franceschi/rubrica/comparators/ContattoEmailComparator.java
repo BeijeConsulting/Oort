@@ -1,6 +1,6 @@
-package it.beije.oort.file.rubrica.comparators;
+package it.beije.oort.franceschi.rubrica.comparators;
 
-import it.beije.oort.file.rubrica.Contatto;
+import it.beije.oort.franceschi.rubrica.Contatto;
 
 import java.util.Comparator;
 

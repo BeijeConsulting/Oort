@@ -1,8 +1,8 @@
-package it.beije.oort.file.rubrica;
+package it.beije.oort.franceschi.rubrica;
 
-import it.beije.oort.file.rubrica.utils.GeneraMail;
-import it.beije.oort.file.rubrica.utils.GeneraNumero;
-import it.beije.oort.file.rubrica.utils.Valori;
+import it.beije.oort.franceschi.rubrica.utils.GeneraMail;
+import it.beije.oort.franceschi.rubrica.utils.GeneraNumero;
+import it.beije.oort.franceschi.rubrica.utils.Valori;
 
 import java.util.ArrayList;
 import java.util.Random;

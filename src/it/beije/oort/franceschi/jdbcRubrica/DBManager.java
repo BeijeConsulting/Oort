@@ -1,4 +1,4 @@
-package it.beije.oort.file.rubrica.jdbcRubrica;
+package it.beije.oort.franceschi.jdbcRubrica;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

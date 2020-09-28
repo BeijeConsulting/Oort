@@ -1,4 +1,4 @@
-package it.beije.oort.file.rubrica.utils;
+package it.beije.oort.franceschi.rubrica.utils;
 
 import java.util.Random;
 
@@ -6,7 +6,7 @@ public class GeneraNumero {
     public static String generaNumero() {
         Random r = new Random();
         StringBuilder suffisso = new StringBuilder();
-        String num = "";
+        String num;
         for (int i = 0; i < 7; i++) {
             suffisso.append(r.nextInt(10));
         }

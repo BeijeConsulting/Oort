@@ -1,4 +1,4 @@
-package it.beije.oort.file.rubrica.utils;
+package it.beije.oort.franceschi.rubrica.utils;
 
 import java.util.Random;
 
@@ -23,15 +23,14 @@ public class GeneraMail {
                 for (int i = 0; i < r.nextInt(15) + 6; i++) {
                     email.append(r.nextInt(10));
                 }
-                email.append("@" + dominio);
+                email.append("@").append(dominio);
             } else if (!usaNome) {
-                if (rand != 1) email.append(removeSpace(cognome) + r.nextInt(10) +
-                        r.nextInt(10) + "@" + dominio);
+                if (rand != 1) email.append(removeSpace(cognome)).append(r.nextInt(10)).append(r.nextInt(10)).append("@").append(dominio);
                 else email.append(removeSpace(cognome) + "@" + dominio);
             } else if (!usaCognome) {
                 if (rand != 1) email.append(removeSpace(nome) + r.nextInt(10) +
                         r.nextInt(10) + "@" + dominio);
-                else email.append(removeSpace(nome) + "@" + dominio);
+                else email.append(removeSpace(nome)).append("@").append(dominio);
             } else {
                 email.append(mailNomeCognome(nome, cognome, dominio));
             }
