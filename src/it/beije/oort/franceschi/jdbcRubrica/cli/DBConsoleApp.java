@@ -421,7 +421,7 @@ public class DBConsoleApp {
         // Print all contacts in list depending on the page we're at
         for (int i = (MAX_ENTRIES_PER_PAGE * page); i < (MAX_ENTRIES_PER_PAGE*(page+1)) && i < DBConsoleApp.resultList.size(); i++) {
             System.out.format("%10d%20s%20s%20s%35s\n",
-                    DBConsoleApp.resultList.get(i).getID(),
+                    DBConsoleApp.resultList.get(i).getId(),
                     DBConsoleApp.resultList.get(i).getNome(),
                     DBConsoleApp.resultList.get(i).getCognome(),
                     DBConsoleApp.resultList.get(i).getCell(),
@@ -460,7 +460,7 @@ public class DBConsoleApp {
                 c.setCognome(rs.getString("COGNOME"));
                 c.setCell(rs.getString("TELEFONO"));
                 c.setEmail(rs.getString("EMAIL"));
-                c.setID(rs.getInt("ID"));
+                c.setId(rs.getInt("ID"));
                 resultList.add(c);
             }
         } catch (SQLException e){
