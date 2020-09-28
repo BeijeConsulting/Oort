@@ -105,8 +105,10 @@ public class RubricaClient {
 		int start = 0;
 		int end = contacts.size() < 10 ? contacts.size() : 10;
 		String command;
-		boolean previous = page > 1, next = page < pages;
+		boolean previous, next;
 		do {
+			previous = page > 1;
+			next = page < pages;
 			for(int i = start; i<end; i++) {
 				System.out.println(contacts.get(i));
 			}
@@ -119,13 +121,14 @@ public class RubricaClient {
 				case "0":
 					return;
 				case "2":
-					if(next)
+					if(next) {
 						page++;
-					start = end;
-					end += 10;
-					if(end > contacts.size()) {
-						end = contacts.size();
-					}
+						start = end;
+						end += 10;
+						if(end > contacts.size()) {
+							end = contacts.size();
+						}
+					}	
 					break;
 				case "1":
 					if(previous) {
