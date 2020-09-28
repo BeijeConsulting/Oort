@@ -57,6 +57,10 @@ public class Contatto implements Comparable<Contatto>{
 		return id;
 	}
 	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("id: ").append(id).append(" | ")

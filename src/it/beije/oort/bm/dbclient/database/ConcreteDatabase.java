@@ -52,7 +52,8 @@ class ConcreteDatabase extends Database {
 		}
 	}
 	
-	private void close() throws SQLException {
+	@Override
+	public void close() throws SQLException {
 		connection.close();
 	}
 	

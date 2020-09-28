@@ -13,6 +13,13 @@ public abstract class Database {
 		return DB;
 	}
 	
+	public void disconnect() throws SQLException {
+		DB.close();
+		DB = null;
+	}
+	
+	public abstract void close() throws SQLException;
+	
 	public abstract List<Contatto> select(boolean[] selector, String[] vals) throws SQLException;
 	
 	public abstract boolean insert(Contatto c) throws SQLException;
