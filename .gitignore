@@ -24,6 +24,9 @@ hs_err_pid*
 /bin/
 /.classpath
 /.project
+/target/
+/.settings/
+/.gitignore
 
 .idea
 .iml
