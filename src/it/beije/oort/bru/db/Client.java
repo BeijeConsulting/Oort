@@ -40,19 +40,23 @@ public class Client {
 					case 1:
 						System.out.println("Inserisci nome:");
 						String nome = keyboard.nextLine();
-						System.out.println(DBUtilities.searchContact("nome",nome));
+						System.out.println(HDBUtilities.searchContact("nome",nome));
+						break;
 					case 2:
 						System.out.println("Inserisci cognome:");
 						String cognome = keyboard.nextLine();
-						System.out.println(DBUtilities.searchContact("cognome",cognome));
+						System.out.println(HDBUtilities.searchContact("cognome",cognome));
+						break;
 					case 3:
 						System.out.println("Inserisci telefono:");
 						String telefono = keyboard.nextLine();
-						System.out.println(DBUtilities.searchContact("telefono",telefono));
+						System.out.println(HDBUtilities.searchContact("telefono",telefono));
+						break;
 					case 4:
 						System.out.println("Inserisci email:");
 						String email = keyboard.nextLine();
-						System.out.println(DBUtilities.searchContact("email",email));
+						System.out.println(HDBUtilities.searchContact("email",email));
+						break;
 					}
 				} else {
 					//IMPAGINAZIONE
@@ -91,7 +95,7 @@ public class Client {
 					String paramMod = keyboard.nextLine();
 					System.out.println("Inserisci nuovo valore:");
 					String newValue = keyboard.nextLine();
-					DBUtilities.modifyContact(paramMod, newValue, id);
+					HDBUtilities.editContact(paramMod, newValue, id);
 				} else {
 					System.out.println(DBUtilities.exportContact(contacts, id));
 					DBUtilities.deleteContact(id);
@@ -107,7 +111,7 @@ public class Client {
 				String telefono = keyboard.nextLine();
 				System.out.println("Inserisci email");
 				String email = keyboard.nextLine();
-				DBUtilities.insertRecord(cognome, nome, telefono, email);
+				HDBUtilities.insertRecord(cognome, nome, telefono, email);
 				break;
 			case 4:
 				contacts = new ArrayList<Contatto>();

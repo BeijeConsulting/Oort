@@ -74,7 +74,7 @@ public class DBUtilities {
 		return contact;
 	}
 	
-	public static void modifyContact(String paramMod, String newValue, int id) {
+	public static void editContact(String paramMod, String newValue, int id) {
 		try (Connection connection = getConnection();
 			PreparedStatement ps = connection.prepareStatement("UPDATE rubrica set " + paramMod + " = ? where id = ?");) {
 			ps.setString(1, newValue);
