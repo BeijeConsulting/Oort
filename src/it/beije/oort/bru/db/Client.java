@@ -63,7 +63,7 @@ public class Client {
 					int page = 1;
 					while (page != -1) {
 						System.out.println("Inserisci il numero della pagina o premi -1 per uscire dal menu impaginazione.");
-						System.out.println("--------------------PAGINA "+page+" DI "+pages.keySet().size()+"----------------------");
+						System.out.println("---------------PAGINA "+page+" DI "+pages.keySet().size()+"---------------");
 						try {
 							contactForPage = pages.get(page);
 							for (int i = 0; i < contactForPage.size(); i++) {
