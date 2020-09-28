@@ -34,11 +34,13 @@ public class RubricaClient {
 			switch(command) {
 			case "1":
 				contacts = db.selectAll();
-				System.out.println(contacts);
+				//System.out.println(contacts);
+				pagedPrint(contacts);
 				break;
 			case "2":
 				contacts = selectContact();
-				System.out.println(contacts);
+				//System.out.println(contacts);
+				pagedPrint(contacts);
 				break;
 			case "3":
 				System.out.println(addContact() ? "OK" : "FAIL");
@@ -91,6 +93,52 @@ public class RubricaClient {
 //		}
 //		
 
+	}
+
+	private static void pagedPrint(List<Contatto> contacts) throws IOException {
+		if(contacts.size() == 0) {
+			System.out.println(contacts);
+			return;
+		}
+		int pages = contacts.size()/10 + (contacts.size()%10 > 0 ? 1 : 0);
+		int page = 1;
+		int start = 0;
+		int end = contacts.size() < 10 ? contacts.size() : 10;
+		String command;
+		boolean previous = page > 1, next = page < pages;
+		do {
+			for(int i = start; i<end; i++) {
+				System.out.println(contacts.get(i));
+			}
+			System.out.println();
+			System.out.println("Page " + page + "      " + start + " to " + end + " of " + contacts.size());
+			System.out.println();
+			System.out.println((previous ? "1 - previous    " : "") + (next ? "2 - next    " : "") + "0 - back");
+			command = in.readLine();
+			switch(command) {
+				case "0":
+					return;
+				case "2":
+					if(next)
+						page++;
+					start = end;
+					end += 10;
+					if(end > contacts.size()) {
+						end = contacts.size();
+					}
+					break;
+				case "1":
+					if(previous) {
+						page--;
+						start -= 10;
+						end = start + 10;
+					}
+					break;
+				default:
+					System.out.println("What do you mean?");
+			}
+		}while(true);
+		
 	}
 
 	private static List<Contatto> selectContact() throws IOException, SQLException {
