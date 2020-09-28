@@ -1,16 +1,21 @@
 package it.beije.oort.bm.dbclient;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+
 import it.beije.oort.bm.dbclient.database.Database;
 
 public class RubricaClient {
 	private static Database db;
 	private static BufferedReader in;
-	public static void main(String[] args) throws SQLException, IOException {
+	public static void main(String[] args) throws SQLException, IOException, ParserConfigurationException, TransformerException {
 		db = Database.getDatabase();
 		List<Contatto> contacts;
 		String command;
@@ -45,7 +50,7 @@ public class RubricaClient {
 				System.out.println(deleteContact() ? "OK" : "FAIL");
 				break;
 			case "6":
-				exportContact();
+				exportContacts();
 				break;
 			case "0":
 				System.out.println("See ya!");
@@ -170,8 +175,9 @@ public class RubricaClient {
 		
 	}
 	
-	private static void exportContact() {
-		System.out.println("Not implemented yet.");
+	private static void exportContacts() throws SQLException, ParserConfigurationException, TransformerException {
+		List<Contatto> contacts = db.selectAll();
+		XmlParser.writeFile(new File("exported_contacts.xml"), contacts);
 		
 	}
 
