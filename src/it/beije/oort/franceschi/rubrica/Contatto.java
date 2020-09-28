@@ -8,15 +8,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Contatto {
-    public int getID() {
-        return ID;
-    }
 
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
-    private int ID;
+    private int id;
     private String nome;
     private String cognome;
     private String cell = "";
@@ -39,6 +32,14 @@ public class Contatto {
         this.cognome = cognomi.get(r.nextInt(cognomi.size()));
         this.cell = GeneraNumero.generaNumero();
         this.email = GeneraMail.generaMail(nome, cognome);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCell() {
@@ -110,6 +111,9 @@ public class Contatto {
     public int hashCode() {
         int hash = 3;
         hash = 53 * hash + (this.email != null ? this.email.hashCode() : 0);
+        hash += 53 * hash + (this.cell != null ? this.cell.hashCode() : 0);
+        hash += 53 * hash + (this.nome != null ? this.nome.hashCode() : 0);
+        hash += 53 * hash + (this.cognome != null ? this.cognome.hashCode() : 0);
         return hash;
     }
 
