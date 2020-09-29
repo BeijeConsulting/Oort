@@ -18,7 +18,9 @@ public class HDBtools {
 
 		//inizializzo configurazione
 		Configuration configuration = new Configuration();
-		configuration = configuration.configure();
+		configuration = configuration.configure()
+				.addAnnotatedClass(Contatto.class);
+				//.addAnnotatedClass(AltraClasse.class);
 		
 		//chiedo generatore di sessioni
 		SessionFactory factory = configuration.buildSessionFactory();
@@ -58,18 +60,18 @@ public class HDBtools {
 //		}
 		
 		//apro transazione
-		Transaction transaction = session.beginTransaction();
-		
-		//esempio INSERT
-		Contatto contatto = new Contatto();
-		contatto.setId(3);
-		contatto.setNome("Fiorenza");
-		contatto.setCognome("Volpe");
-		contatto.setEmail("fiore@volpe.it");
-		contatto.setTelefono("34556616");
-		System.out.println("id : " + contatto.getId());
-		session.save(contatto);
-		System.out.println("id : " + contatto.getId());
+//		Transaction transaction = session.beginTransaction();
+//		
+//		//esempio INSERT
+//		Contatto contatto = new Contatto();
+//		contatto.setId(3);
+//		contatto.setNome("Fiorenza");
+//		contatto.setCognome("Volpe");
+//		contatto.setEmail("fiore@volpe.it");
+//		contatto.setTelefono("34556616");
+//		System.out.println("id : " + contatto.getId());
+//		session.save(contatto);
+//		System.out.println("id : " + contatto.getId());
 
 		//esempio UPDATE
 //		Contatto contatto = session.get(Contatto.class, 5);
@@ -80,7 +82,7 @@ public class HDBtools {
 //		session.save(contatto);
 		
 //		//confermo aggiornamento su DB
-		transaction.commit();
+//		transaction.commit();
 		
 		//annullo aggiornamento su DB
 		//transaction.rollback();
