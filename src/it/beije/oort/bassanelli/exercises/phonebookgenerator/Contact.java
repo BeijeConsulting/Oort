@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,6 +34,9 @@ public class Contact {
 	@Column(name = "email")
 	private String email;
 
+	@ElementCollection
+	@CollectionTable(name = "alias_contact")
+	@Column(name = "alias")
 	private List<String> alias;
 
 	public Contact() {
@@ -54,6 +59,10 @@ public class Contact {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public void setId(String id) {
+		setId(Integer.parseInt(id));
 	}
 
 	public String getName() {
@@ -89,7 +98,7 @@ public class Contact {
 	}
 
 	public List<String> getAlias() {
-		if(alias == null) {
+		if (alias == null) {
 			alias = new ArrayList<String>();
 		}
 		return alias;
@@ -153,6 +162,9 @@ public class Contact {
 		for (int i = 0; i < fields.length; i++) {
 
 			switch (fields[i].toUpperCase()) {
+			case "ID":
+				builder.append(this.id);
+				break;
 			case "NOME":
 				if (useRandom) {
 

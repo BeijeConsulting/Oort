@@ -327,6 +327,9 @@ public class Phonebook {
 				for (int i = 0; i < fields.length; i++) {
 
 					switch (fields[i].toUpperCase()) {
+					case "ID":
+						contact.setId(values[i]);
+						break;
 					case "NOME":
 						contact.setName(values[i]);
 						break;
@@ -498,8 +501,6 @@ public class Phonebook {
 			Element rootElement = document.createElement("rubrica");
 			document.appendChild(rootElement);
 
-			int count = 0;
-
 			for (Contact contact : list) {
 
 				Element contactElement = document.createElement("contatto");
@@ -509,7 +510,7 @@ public class Phonebook {
 //	        	contatto.setAttribute("telefono", c.getTelefono());
 //	        	contatto.setAttribute("email", c.getEmail());
 
-				contactElement.setAttribute("id", Integer.toString(count++));
+				contactElement.setAttribute("id", String.valueOf(contact.getId()));
 
 				Element nameElement = document.createElement("nome");
 				Element surnameElement = document.createElement("cognome");
