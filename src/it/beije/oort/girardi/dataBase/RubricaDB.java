@@ -1,5 +1,6 @@
 package it.beije.oort.girardi.dataBase;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,11 +13,15 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import it.beije.oort.db.DBManager;
+import it.beije.oort.girardi.inOut.RubricaCSV;
 import it.beije.oort.rubrica.Contatto;
 
 public class RubricaDB {
 	
 // ------------ METODI ------------
+
+	private static final String PATH_FILES = "C:\\Users\\Padawan05\\Desktop\\file_testo\\";
+	private static String file_destinazione = "RubricaFromDB";
 	
 //1) Visualizzazione contatti -----------------------------------------
 	
@@ -129,8 +134,6 @@ public class RubricaDB {
 	
 	
 	
-	
-	
 //2) Modifica / Cancellazione ---------------------------------
 //cancella id dal database
 	public static void deleteId(Connection connection,int id) {
@@ -184,6 +187,9 @@ public class RubricaDB {
 // Modifica contatto dal Database
 	
 	
+	
+	
+	
 //3) inserimento contatto nel DataBase ----------------------------------
 	public static void inserisciContatto (Connection connection) {
 		Contatto contatto = new Contatto();
@@ -213,10 +219,25 @@ public class RubricaDB {
 	
 	
 	
+//4) esporta rubrica
+//esporta in un file csv
+	public static void esportaCSV (Connection connection) throws IOException {
+		List<Contatto> listContatti = new ArrayList<>();
+		
+		//prendo la lista dei Contatti dal database:
+		listContatti = FromDB.selectContatti(connection);
+		
+		//scrittura di un nuovo file csv con la List di Contatti:
+		RubricaCSV.writeContatti(listContatti, PATH_FILES + file_destinazione);
+		
+		System.out.println("percorso file rubrica esportata: " + PATH_FILES + file_destinazione );
+		System.out.println("");
+	}
+	
 	
 // -------------- MAIN -----------------
 //Permette di gestire la rubrica di mySQL inserendo comandi da tastiera:
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		//A) collegamento al DataBase (db):
 		Connection connection = null;
 		
@@ -268,6 +289,7 @@ public class RubricaDB {
 										
 				case "4" : 	//4) Esporta rubrica
 					System.out.println("Hai selto di eseguire: " + menu[3]);
+					RubricaDB.esportaCSV(connection);
 					break;
 
 				case "5" :	//5) Termina programma

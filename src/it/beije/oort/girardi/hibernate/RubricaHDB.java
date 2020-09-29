@@ -200,9 +200,12 @@ public class RubricaHDB {
 		Contatto contatto = new Contatto();
 		Scanner myInput = new Scanner(System.in);  //apre lo scanner
 		
+		//apro transazione
+		Transaction transaction = session.beginTransaction();
+		
 		//cognome, nome, telefono, email
 		System.out.println("inserire i campi relativi al contatto:");
-		System.out.println("(se non si conosce il campo richiesto premere invio)");
+		System.out.println("(se si vuole lasciare il campo vuoto premere invio)");
 		System.out.print("\t inserire il nome: ");
 		contatto.setNome(myInput.nextLine());
 		System.out.print("\t inserire il cognome: ");
@@ -211,29 +214,16 @@ public class RubricaHDB {
 		contatto.setTelefono(myInput.nextLine());
 		System.out.print("\t inserire la email: ");
 		contatto.setEmail(myInput.nextLine());
-		
-		
-		//apro transazione
-		Transaction transaction = session.beginTransaction();
-		
-		//INSERT
-		Contatto contatto = new Contatto();
-		contatto.setId(3);
-		contatto.setNome("Fiorenza");
-		contatto.setCognome("Volpe");
-		contatto.setEmail("fiore@volpe.it");
-		contatto.setTelefono("34556616");
-		System.out.println("id : " + contatto.getId());
-		System.out.println("id : " + contatto.getId());
-		
-		
+			
 		if (contatto.getNome().trim().equals("") && contatto.getCognome().trim().equals("") &&
-			contatto.getTelefono().trim().equals("") && contatto.getEmail().trim().equals("") )
+			contatto.getTelefono().trim().equals("") && contatto.getEmail().trim().equals("") ) {
 			System.out.println("ALERT: il contatto è vuoto e non verrà inserito\n");
 			//annullo aggiornamento su DB
 			transaction.rollback();
-		else {
+		} else {
 			session.save(contatto);
+			System.out.println("id assegnato: " + contatto.getId());
+			System.out.println("contatto inserito: " + contatto);
 			//confermo aggiornamento su DB
 			transaction.commit();
 		}
@@ -291,7 +281,7 @@ public class RubricaHDB {
 									
 			case "3" :	//3) Inserimento contatto
 				System.out.println("Hai selto di eseguire: " + menu[2]);
-//				RubricaDB.inserisciContatto (connection); 
+				RubricaHDB.inserisciContatto (session);
 				break;
 									
 			case "4" : 	//4) Esporta rubrica
