@@ -13,7 +13,7 @@ public class Runner {
 	public static void main(String[] args)
 			throws IOException, ParserConfigurationException, SAXException, TransformerException{
 //		GeneratoreRubrica g = new GeneratoreRubrica();
-//		List<Contatto> list = g.generaRubrica(Valori.getNomi(), Valori.getCognomi(), 25);
+//		List<Contatto> list = g.generaRubrica(Valori.getNomi(), Valori.getCognomi(), 50);
 //		List<Contatto> list2 = g.generaRubrica(Valori.getNomi(), Valori.getCognomi(), 5);
 //		RubricaToolset.contattoToCsv(list, "C:/Users/Padawan12/Desktop/rubrica_test_input_handler.csv");
 //		RubricaToolset.contattoToXml(list, "C:/Users/Padawan12/Desktop/rubrica_test_output1_handler.xml");
@@ -23,10 +23,14 @@ public class Runner {
 //		RubricaHandler.tranferRubrica("C:/Users/Padawan12/Desktop/rubrica_test_input_handler.csv",
 //				"C:/Users/Padawan12/Desktop/rubrica_test_output2_handler.xml");
 //		RubricaToolset.contattoToSql(list);
-		List<Contatto> list = RubricaToolset.readSqlToList();
-		for(Contatto c : list) {
-			System.out.println(c.toString());
-		}
-		
+//		HibernateToolset.insertHibernate(list);
+//		List<Contatto> temp = HibernateToolset.selectHibernate(true);
+//		for(Contatto c : temp) {
+//			System.out.println(c.toString());
+//		}
+//		HibernateToolset.insertHibernate(list);
+//		System.out.println(HibernateToolset.selectHibernate(true));
+		//HibernateToolset.updateHibernate(53, "nome", "Pippo");
+		System.out.println(HibernateToolset.selectHibernate("nome", "a"));
 	}
 }

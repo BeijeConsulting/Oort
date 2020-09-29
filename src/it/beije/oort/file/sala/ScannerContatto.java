@@ -41,14 +41,41 @@ public class ScannerContatto {
 		}
 		System.out.println("Inserisci la parola chiave da usare per la ricerca:");
 		String value=s.nextLine();
-		List<Contatto> temp = RubricaToolset.selectFilter(fieldName, value);
+		System.out.println("-"+fieldName+"-"+value+"-");
+		List<Contatto> temp = HibernateToolset.selectHibernate(fieldName, value);
 		for(Contatto c : temp) {
 			System.out.println(c.toStringFromDatabase());
 		}
 	}
 	
-	private void selectBulk() {
-		
+	private void selectBulkRoutine() {
+		List<Contatto> temp = HibernateToolset.selectHibernate(true);
+		if(temp.size()<=20) {
+			for(Contatto c : temp) {
+				System.out.println(c.toStringFromDatabase());
+			}
+		} else if(temp.size()>20) {
+			boolean pagFlag=true;
+			int offset = temp.size()-20;
+			int j = 0;
+			while(pagFlag) {
+				for(;j<temp.size()-offset;j++) {
+					System.out.println(temp.get(j).toStringFromDatabase());
+				}
+				if(offset!=0) {
+					System.out.println("Visualizzate righe da "+(j-20)+" a "+(temp.size()-offset)+" di "+temp.size()+
+							". Premere un tasto qualsiasi per visualizzare le prossime 20");
+					offset-=20;
+					if(offset<0) offset=0;
+					s.nextLine();
+				} else {
+					System.out.println("Non ci sono più righe da stampare.");
+					pagFlag = false;
+				}
+			}
+		} else {
+			System.out.println("Nessun risultato dalla query, la tabella potrebbe essere vuota.");
+		}
 	}
 
 	private void insertRoutine() {
@@ -78,7 +105,7 @@ public class ScannerContatto {
 			}
 			if(buffer.equalsIgnoreCase("save")) {
 				insertFlag = false;
-				RubricaToolset.contattoToSql(listContatti);
+				HibernateToolset.insertHibernate(listContatti);
 				listContatti.clear();
 				continue;
 			}
@@ -97,24 +124,28 @@ public class ScannerContatto {
 		else if(sc.equalsIgnoreCase("cancella")) flagDelete = true;
 
 		while(flagUpdate) {
-			String id, field, value, check;
+			int id;
+			String field, value, check;
 			System.out.println("Inserisci l'id del campo che vuoi modificare:");
-			id = s.nextLine();
+			id = Integer.parseInt(s.nextLine());
 			System.out.println("Inserisci il nome del campo da modificare (nome, cognome, telefono o email):");
 			field = s.nextLine();
 			System.out.println("Inserisci il nuovo valore da assegnare al campo:");
 			value = s.nextLine();
-			RubricaToolset.updateWithId(id, field, value);
+			//RubricaToolset.updateWithId(id, field, value);
+			HibernateToolset.updateHibernate(id, field, value);
 			System.out.println(":q per tornare indietro, qualsiasi altra cosa per effettuare un'altra modifica.");
 			check = s.nextLine();
 			if(check.equalsIgnoreCase(EXIT_TOKEN)) flagUpdate=false;
 		}
 		
 		while(flagDelete) {
-			String id, check;
+			String check;
+			int id;
 			System.out.println("Inserisci l'id del campo che vuoi eliminare");
-			id = s.nextLine();
-			RubricaToolset.deleteWithId(id);
+			id = Integer.parseInt(s.nextLine());
+			//RubricaToolset.deleteWithId(id);
+			HibernateToolset.deleteHibernate(id);
 			System.out.println(":q per tornare indietro, qualsiasi altra cosa per cancellare un altra riga.");
 			check = s.nextLine();
 			if(check.equalsIgnoreCase(EXIT_TOKEN)) flagDelete=false;
@@ -127,7 +158,7 @@ public class ScannerContatto {
 		fieldName=s.nextLine();
 		System.out.println("Inserire la parola chiave che si vuole usare nella ricerca:");
 		value=s.nextLine();
-		List<Contatto> temp = RubricaToolset.selectFilter(fieldName, value);
+		List<Contatto> temp = HibernateToolset.selectHibernate(fieldName, value);
 		System.out.println("Inserire il nome del file di destinazione (con formato .csv o .xml):");
 		filename = s.nextLine();
 		if(filename.endsWith(".csv")) RubricaToolset.contattoToCsv(temp, filename);
@@ -153,7 +184,7 @@ public class ScannerContatto {
 			}
 			else if(buffer.equals("1")) insertRoutine();
 			else if(buffer.equals("2")) selectRoutine();
-			else if(buffer.equals("3")) selectBulk();
+			else if(buffer.equals("3")) selectBulkRoutine();
 			else if(buffer.equals("4")) modifyRoutine();
 			else if(buffer.equals("5")) exportRoutine();
 			else {

@@ -383,19 +383,4 @@ public class RubricaToolset {
 			}
 		}
 	}
-
-	public static List<Contatto> selectHibernate(String field, String value) {
-		Configuration configuration = new Configuration().configure();
-		SessionFactory factory = configuration.buildSessionFactory();
-		Session session = factory.openSession();
-		
-		String hql = "SELECT c FROM Contatto WHERE ? = ?";
-		Query<Contatto> query = session.createQuery(hql).setParameter(0, field).setParameter(1, value);
-		return query.list();
-
-	}
-	
-	public static void insertHibernate() {
-		
-	}
 }

@@ -1,11 +1,27 @@
 package it.beije.oort.file.sala;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "rubrica")
 public class Contatto {
 	
+	@Column
 	private String nome;
+	@Column
 	private String cognome;
+	@Column
 	private String telefono;
+	@Column
 	private String email;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_rubrica")
 	private int id;
 	
 	public Contatto() {}
