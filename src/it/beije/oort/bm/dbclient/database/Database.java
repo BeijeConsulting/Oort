@@ -8,8 +8,21 @@ import it.beije.oort.bm.dbclient.Contatto;
 public abstract class Database {
 	private static Database DB;
 	
+	static final String SELECT = "SELECT * FROM rubrica ";
+	static final String WHERE = "WHERE ";
+	static final String NAME_VAL = "nome = ? ";
+	static final String SURNAME_VAL = "cognome = ? ";
+	static final String PHONE_VAL = "telefono = ? ";
+	static final String EMAIL_VAL = "email = ? ";
+	static final String ID_VAL = "id_rubrica = ? ";
+	static final String AND = "AND ";
+//	static final String OR = "OR ";
+	static final String UPDATE = "UPDATE rubrica SET ";
+	static final String DELETE = "DELETE FROM rubrica ";
+	static final String INSERT = "INSERT INTO rubrica (cognome, nome, telefono, email) VALUES (?,?,?,?)";
+	
 	public static Database getDatabase() {
-		if(DB == null) DB = new ConcreteDatabase();
+		if(DB == null) DB = new ConcreteHibernateDatabase();
 		return DB;
 	}
 	

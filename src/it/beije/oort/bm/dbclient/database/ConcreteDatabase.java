@@ -17,19 +17,6 @@ class ConcreteDatabase extends Database {
 	private static final String DB_PASSWORD = "root";
 	private static final String DB_URL = "jdbc:mysql://localhost:3306/rubrica?serverTimezone=CET";
 	
-	private static final String SELECT = "SELECT * FROM rubrica ";
-	private static final String WHERE = "WHERE ";
-	private static final String NAME_VAL = "nome = ? ";
-	private static final String SURNAME_VAL = "cognome = ? ";
-	private static final String PHONE_VAL = "telefono = ? ";
-	private static final String EMAIL_VAL = "email = ? ";
-	private static final String ID_VAL = "id_rubrica = ? ";
-	private static final String AND = "AND ";
-//	private static final String OR = "OR ";
-	private static final String UPDATE = "UPDATE rubrica SET ";
-	private static final String DELETE = "DELETE FROM rubrica ";
-	private static final String INSERT = "INSERT INTO rubrica (cognome, nome, telefono, email) VALUES (?,?,?,?)";
-	
 	static {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");

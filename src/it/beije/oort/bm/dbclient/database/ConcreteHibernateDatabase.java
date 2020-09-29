@@ -13,26 +13,21 @@ public class ConcreteHibernateDatabase extends Database {
 	private Session session;
 	
 	private static final String SELECT = "SELECT c FROM Contatto as c ";
-	private static final String WHERE = "WHERE ";
-	private static final String NAME_VAL = "nome = :name ";
-	private static final String SURNAME_VAL = "cognome = :surname ";
-	private static final String PHONE_VAL = "telefono = :phone ";
-	private static final String EMAIL_VAL = "email = :email ";
-	private static final String ID_VAL = "id = :id ";
-	private static final String AND = "AND ";
-//	private static final String OR = "OR ";
+	private static final String NAME_VAL = "nome = ?2 ";
+	private static final String SURNAME_VAL = "cognome = ?1 ";
+	private static final String PHONE_VAL = "telefono = ?3 ";
+	private static final String EMAIL_VAL = "email = ?4 ";
 	
 	ConcreteHibernateDatabase() {
-		session = new Configuration().configure().buildSessionFactory().openSession();
+		session = new Configuration().configure().addAnnotatedClass(Contatto.class).buildSessionFactory().openSession();
 	}
 	
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "unchecked" })
 	@Override
 	public List<Contatto> select(boolean[] selector, String[] vals) throws SQLException {
 		if(vals.length != selector.length) throw new IllegalArgumentException();
 		StringBuilder query = new StringBuilder();
 		boolean requireAnd = false;
-		int param = 1;
 		query.append(SELECT).append(WHERE);
 		if(selector[0]) {
 			query.append(SURNAME_VAL);
@@ -55,7 +50,7 @@ public class ConcreteHibernateDatabase extends Database {
 
 		Query<Contatto> results = session.createQuery(query.toString());
 		for(int i = 0; i<vals.length;i++) {
-			if(selector[i]) results.setString(param++, vals[i]);
+			if(selector[i]) results.setParameter(i+1, vals[i]);
 		}
 		
 		return results.getResultList();
@@ -71,8 +66,13 @@ public class ConcreteHibernateDatabase extends Database {
 
 	@Override
 	public boolean delete(int id) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+		Contatto c = session.find(Contatto.class, id);
+		if(c != null) {
+			session.beginTransaction();
+			session.delete(c);
+			session.getTransaction().commit();
+		}
+		return true;
 	}
 
 	@Override
@@ -97,6 +97,7 @@ public class ConcreteHibernateDatabase extends Database {
 		return true;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Contatto> selectAll() throws SQLException {
 		Query<Contatto> results = session.createQuery(SELECT);
