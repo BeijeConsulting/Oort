@@ -173,7 +173,7 @@ public class DbManager {
 	
 	public static void searchRecord () {
 		String firstLine = "Per cercare un contatto in base al suo id inserisci 1: ";
-		String secondLine = "Per cercare un contatto in base alla sua iniziale inserisci 2 ";
+		String secondLine = "Per cercare un contatto in base alla sua iniziale inserisci 2: ";
 		System.out.println(firstLine);
 		System.out.println(secondLine);
 		
@@ -211,8 +211,8 @@ public class DbManager {
 	}
 	
 	public static void readRecordByStringFromInput () {
-		String parameterRequest = "Inserisci il parametro da analizzare: ";
-		System.out.println(parameterRequest);
+		//parameter & initial string request
+		System.out.println("Inserisci il parametro da analizzare: ");
 		Scanner inputFromUser = new Scanner(System.in);
 		String parameter = inputFromUser.nextLine();
 		String stringRequest = "Inserisci la stringa iniziale: ";
