@@ -67,10 +67,10 @@ private static void creaNuovoFileCsv() throws IOException {
 			throws IOException, ParserConfigurationException, TransformerException {
 		switch (RecordFile.getExtension(output)) {
 			case "csv":
-				WriterCsvRubrica.writeCsvFile(intestazioneCsv, contattiFinali, output);
+				WriterCsvRubrica.writeCsvFile(intestazioneCsv, contattiFinali, output, true);
 				break;
 			case "xml":
-				WriterXmlRubrica.writeXmlFile(contattiFinali, output);
+				WriterXmlRubrica.writeXmlFile(contattiFinali, output, true);
 				break;
 		}
 	}

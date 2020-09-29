@@ -17,8 +17,11 @@ import org.w3c.dom.Element;
 
 public class WriterXmlRubrica {
 	
-	public static void writeXmlFile(List<Contatto> contatti, File fileXml) throws ParserConfigurationException, TransformerException {
+	public static void writeXmlFile(List<Contatto> contatti, File fileXml, boolean inOrdineNome) throws ParserConfigurationException, TransformerException {
 		
+		if(inOrdineNome) {
+			contatti.sort(null);
+		}
         Document document = costruisciDocumento(contatti);
         
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -28,13 +31,11 @@ public class WriterXmlRubrica {
 		StreamResult result = new StreamResult(fileXml);
 
 		transformer.transform(source, result);
-
-		System.out.println("File saved!");
 	}
 	
-	public static void writeXmlFile(List<Contatto> contatti, String pathfile) throws ParserConfigurationException, TransformerException {
+	public static void writeXmlFile(List<Contatto> contatti, String pathfile, boolean inOrdineNome) throws ParserConfigurationException, TransformerException {
 		File fileXml = new File(pathfile);
-		WriterXmlRubrica.writeXmlFile(contatti,fileXml);
+		WriterXmlRubrica.writeXmlFile(contatti,fileXml, inOrdineNome);
 	}
 	
 	private static Document costruisciDocumento(List<Contatto> contatti) throws ParserConfigurationException {
@@ -45,7 +46,6 @@ public class WriterXmlRubrica {
         Element docElement = document.createElement("rubrica");
         document.appendChild(docElement);
         
-        contatti.sort(null);
         for (Contatto c : contatti) {
         	Element contatto = document.createElement("contatto");
         	Element nome = document.createElement("nome");

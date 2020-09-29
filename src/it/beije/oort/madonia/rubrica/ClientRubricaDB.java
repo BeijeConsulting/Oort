@@ -1,5 +1,6 @@
 package it.beije.oort.madonia.rubrica;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,56 +9,103 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.persistence.NoResultException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import it.beije.oort.madonia.rubrica.db.DBManager;
-import it.beije.oort.madonia.rubrica.db.HDBtools;
+import it.beije.oort.madonia.rubrica.db.HybSessionFactory;
 
 public class ClientRubricaDB {
 	
-	private static Scanner sc = new Scanner(System.in);
-	private static HDBtools connettoreDB = new HDBtools();
+	private final static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
-		System.out.println("Benvenuto alla gestione del DB della rubrica, scegliere l'operazione che si vuole intraprendere");
-		System.out.println("1 - VISUALIZZAZIONE CONTATTI");
-		System.out.println("2 - MODIFICA/CANCELLAZIONE CONTATTI");
-		System.out.println("3 - INSERIMENTO CONTATTO");
-		System.out.println("4 - EXPORT DATI");
-		
-		operazioneModificaCancellazione();
-		
-		connettoreDB.close();
+		System.out.println("Benvenuto alla gestione del DB della rubrica");
+		ClientRubricaDB.menuPrincipale();
+	}
+
+	public static void menuPrincipale() {
+		boolean chiudiProgramma = false;
+		while (!chiudiProgramma) {
+			System.out.println("MENU PRINCIPALE");
+			System.out.println("Scegliere l'operazione che si vuole intraprendere");
+			System.out.println("1 - VISUALIZZAZIONE CONTATTI");
+			System.out.println("2 - MODIFICA/CANCELLAZIONE CONTATTI");
+			System.out.println("3 - INSERIMENTO CONTATTO");
+			System.out.println("4 - EXPORT DATI");
+			System.out.println("0 - CHIUDI PROGRAMMA");
+			String inputUtente = sc.nextLine();
+			switch (inputUtente) {
+			case "1":
+				ClientRubricaDB.operazioneVisualizzazioneContatti();
+				break;
+			case "2":
+				ClientRubricaDB.operazioneModificaCancellazione();
+				break;
+			case "3":
+				ClientRubricaDB.operazioneInserimento();
+				break;
+			case "4":
+				ClientRubricaDB.operazioneExport();
+				break;
+			case "0":
+				System.out.println("Grazie per aver usato il client, uscita programma");
+				chiudiProgramma = true;
+				break;
+			default:
+				System.out.println("Comando non riconosciuto");
+			}
+		}
 	}
 	
 	private static void operazioneVisualizzazioneContatti() {
-		System.out.println("VISUALIZZAZIONE CONTATTI");
-		System.out.println("Scegliere l'operazione da intraprendere");
-		System.out.println("1 - RICERCA");
-		System.out.println("2 - MOSTRA TUTTI");
-		System.out.println("0 - TORNA INDIETRO");
+		boolean tornaIndietro = false;
+		while (!tornaIndietro) {
+			System.out.println("VISUALIZZAZIONE CONTATTI");
+			System.out.println("Scegliere l'operazione da intraprendere");
+			System.out.println("1 - RICERCA");
+			System.out.println("2 - MOSTRA TUTTI");
+			System.out.println("0 - TORNA INDIETRO");
+			String inputUtente = sc.nextLine();
+			switch (inputUtente) {
+			case "1":
+				ClientRubricaDB.operazioneVisualizzazioneContattiRicerca();
+				break;
+			case "2":
+				ClientRubricaDB.operazioneVisualizzazioneContattiCompleta();
+				break;
+			case "0":
+				tornaIndietro = true;
+				break;
+			default:
+				System.out.println("Comando non riconosciuto");
+			}
+		}
 	}
 	
 	private static void operazioneVisualizzazioneContattiRicerca() {
+		System.out.println("VISUALIZZAZIONE CONTATTI - RICERCA");
+		
 		String nome = "";
 		String cognome = "";
 		String telefono = "";
 		String email = "";
 		
-		System.out.println("VISUALIZZAZIONE CONTATTI - RICERCA");
-		System.out.println("Impostare i filtri di ricerca");
-		System.out.println("1 - IMPOSTA NOME");
-		System.out.println("2 - IMPOSTA COGNOME");
-		System.out.println("3 - IMPOSTA TELEFONO");
-		System.out.println("4 - IMPOSTA EMAIL");
-		System.out.println("5 - CERCA");
-		System.out.println("9 - RESETTA CAMPI");
-		System.out.println("0 - TORNA INDIETRO");
-		
 		boolean tornaIndietro = false;
-		do {
+		while (!tornaIndietro) {
+			System.out.println("Impostare i filtri di ricerca");
+			System.out.println("1 - IMPOSTA NOME");
+			System.out.println("2 - IMPOSTA COGNOME");
+			System.out.println("3 - IMPOSTA TELEFONO");
+			System.out.println("4 - IMPOSTA EMAIL");
+			System.out.println("5 - CERCA");
+			System.out.println("9 - RESETTA CAMPI");
+			System.out.println("0 - TORNA INDIETRO");
 			String inputUtente = sc.nextLine();
 			boolean filtroModificato = false;
 			boolean cerca = false;
@@ -66,30 +114,25 @@ public class ClientRubricaDB {
 				System.out.println("Nome: ");
 				nome = sc.nextLine();
 				filtroModificato = true;
-				System.out.println("Impostato! Impostare altro?");
 				break;
 			case "2":
 				System.out.println("Cognome: ");
 				cognome = sc.nextLine();
 				filtroModificato = true;
-				System.out.println("Impostato! Impostare altro?");
 				break;
 			case "3":
 				System.out.println("Telefono: ");
 				telefono = sc.nextLine();
 				filtroModificato = true;
-				System.out.println("Impostato! Impostare altro?");
 				break;
 			case "4":
 				System.out.println("Email: ");
 				email = sc.nextLine();
 				filtroModificato = true;
-				System.out.println("Impostato! Impostare altro?");
 				break;
 			case "5":
 				if (nome.equals("") && cognome.equals("") && telefono.equals("") && email.equals("")) {
 					System.out.println("Non hai impostato alcun filtro, la ricerca è annullata");
-					System.out.println("Imposta per favore i filtri");
 				} else {
 					cerca = true;
 				}
@@ -103,6 +146,7 @@ public class ClientRubricaDB {
 				break;
 			case "0":
 				tornaIndietro = true;
+				break;
 			default:
 				System.out.println("Comando non riconosciuto");
 				break;
@@ -118,21 +162,24 @@ public class ClientRubricaDB {
 				System.out.println(sb.toString());
 			} else if (cerca) {
 				try {
-					stampaContatti(ottieniListaContattiHDB(nome, cognome, telefono, email));
+					List<Contatto> contatti = ottieniListaContattiHDB(nome, cognome, telefono, email);
+					if (contatti.size() > 0) {
+						stampaContatti(contatti);
+					} else {
+						System.out.println("Nessun contatto trovato");
+					}
 				} catch (Exception e) {
 					System.err.println("Errore non riconosciuto");
 					e.printStackTrace();
 				}
-			}
-			
-		} while (!tornaIndietro);
+			}	
+		}
 	}
 	
 	private static void operazioneVisualizzazioneContattiCompleta() {
 		System.out.println("VISUALIZZAZIONE CONTATTI - COMPLETA");
 		System.out.println();
 		
-		int pagina = 0;
 		boolean tornaIndietro = false;
 		boolean errore = false;
 		List<Contatto> listaContatti = null;
@@ -144,12 +191,21 @@ public class ClientRubricaDB {
 			errore = true;
 		}
 		
+		int pagina = 0;
+		int maxPagina = (listaContatti.size() - 1)/20;
 		while (!errore && !tornaIndietro && listaContatti.size() > 0) {
 			int start = 20*pagina;
 			int end = 20 + 20*pagina;
-			end = end > listaContatti.size() ? listaContatti.size() : end;
+			end = end > listaContatti.size() ? listaContatti.size() : end; // Controllo se la lista ha raggiunto la fine
 			stampaContatti(listaContatti, start, end);
-			boolean comandoCorretto = false;
+			StringBuilder numeroPagina = 
+					new StringBuilder()
+					.append("[PAG. ")
+					.append(pagina + 1)
+					.append("/")
+					.append(maxPagina + 1)
+					.append("] ");
+			System.out.print(numeroPagina);
 			if (pagina != 0) {
 				System.out.print("1 - PREC; ");
 			}
@@ -158,6 +214,7 @@ public class ClientRubricaDB {
 			}
 			System.out.println("0 - TORNA INDIETRO");
 			
+			boolean comandoCorretto = false;
 			while(!comandoCorretto) {
 				String inputUtente = sc.nextLine();
 				switch (inputUtente) {
@@ -190,7 +247,6 @@ public class ClientRubricaDB {
 	
 	private static void operazioneModificaCancellazione() {
 		System.out.println("MODIFICA/CANCELLAZIONE CONTATTI");
-		System.out.println();
 		boolean tornaIndietroGenerale = false;
 		while(!tornaIndietroGenerale) {
 			int id = -1;
@@ -202,7 +258,11 @@ public class ClientRubricaDB {
 				String inputId = sc.nextLine();
 				try {
 					id = Integer.parseInt(inputId);
-					inputIdCorretto = true;
+					if (id < 0) {
+						System.out.println("Gli ID non possono essere negativi");
+					} else {
+						inputIdCorretto = true;
+					}
 				} catch (NumberFormatException e) {
 					System.out.println("La ID inserita non è un numero nel formato corretto, riprova");
 				}
@@ -214,25 +274,18 @@ public class ClientRubricaDB {
 				} else if (id == 0) {
 					tornaIndietroGenerale = true;
 				}
+			} catch (NoResultException e) {
+				System.out.println("Il contatto non è stato trovato nel database");
 			} catch (Exception e) {
 				System.err.println("Errore non riconosciuto");
 				e.printStackTrace();
-			}
-			
-			if (!tornaIndietroGenerale) {
-
-				if (contatto == null) {
-					System.out.println("Il contatto non è stato trovato nel database");
-				} else {
-					System.out.println("Il contatto selezionato è");
-					System.out.println(contatto);
-				}
 			}
 			
 			if (!tornaIndietroGenerale && contatto != null) {
 				boolean tornaIndietroModifica = false;
 				while(!tornaIndietroModifica) {
 					System.out.println("Cosa vuoi fare con questo contatto?");
+					System.out.println(contatto);
 					System.out.println("1 - MODIFICA");
 					System.out.println("2 - CANCELLAZIONE");
 					System.out.println("0 - TORNA INDIETRO");
@@ -242,9 +295,10 @@ public class ClientRubricaDB {
 					switch (inputUtente) {
 					case "1":
 						operazioneModifica(contatto);
+						tornaIndietroModifica = true;
 						break;
 					case "2":
-						System.out.println("CANCELLAZIONE");
+						tornaIndietroModifica = operazioneCancellazione(contatto);
 						break;
 					case "0":
 						tornaIndietroModifica = true;
@@ -260,12 +314,11 @@ public class ClientRubricaDB {
 	private static void operazioneModifica(Contatto contatto) {
 		Contatto contattoClonato = contatto.clone();
 		System.out.println("MODIFICA CONTATTO");
-		System.out.println("Scegli cosa modificare");
 		
 		boolean tornaIndietro = false;
 		
 		while(!tornaIndietro) {
-			
+			System.out.println("Scegli cosa modificare");
 			System.out.println("1 - MODIFICA NOME");
 			System.out.println("2 - MODIFICA COGNOME");
 			System.out.println("3 - MODIFICA TELEFONO");
@@ -307,6 +360,7 @@ public class ClientRubricaDB {
 						modificaContatto(contattoClonato);
 						contatto = contattoClonato.clone();
 						System.out.println("Modifica effettuata");
+						tornaIndietro = true;
 						} catch (IllegalArgumentException e) {
 							System.out.println("Modifica non eseguita");
 							System.out.println(e.getMessage());
@@ -337,12 +391,212 @@ public class ClientRubricaDB {
 		}
 	}
 
-	private static Contatto ottieniContattoHDB(int id) {
-		String hql = "SELECT c FROM Contatto as c WHERE c.id = :id";
-		Query<Contatto> query = connettoreDB.getSession().createQuery(hql);
-		query.setParameter("id", id);
+	private static boolean operazioneCancellazione(Contatto contatto) {
+		boolean tornaIndietro = false;
+		System.out.println("CANCELLAZIONE CONTATTO");
+		System.out.println("Sei sicuro di voler cancellare questo contatto?");
+		System.out.println(contatto);
+		System.out.println("1 - Sì; 2 - No");
 		
-		return query.getSingleResult();
+		boolean comandoValido = false;
+		
+		while(!comandoValido) {
+			String inputUtente = sc.nextLine();
+			if (inputUtente.equals("1")) {
+				System.out.println("Cancellazione in corso...");
+				cancellaContattoHDB(contatto);
+				System.out.println("Cancellazione avvenuta!");
+				comandoValido = true;
+				tornaIndietro = true;
+			} else if (inputUtente.equals("2")) {
+				System.out.println("Cancellazione contatto annullata");
+				comandoValido = true;
+			} else {
+				System.out.println("Comando non riconosciuto");
+			}
+		}
+		
+		return tornaIndietro;
+	}
+	
+	private static void operazioneInserimento() {
+		System.out.println("INSERIMENTO CONTATTO");
+		System.out.println("Inserisci i dati del contatto (almeno un campo deve essere riempito)");
+		Contatto contatto = new Contatto("","","","");
+
+		boolean tornaIndietro = false;
+		while(!tornaIndietro) {
+			System.out.println("1 - INSERISCI NOME");
+			System.out.println("2 - INSERISCI COGNOME");
+			System.out.println("3 - INSERISCI TELEFONO");
+			System.out.println("4 - INSERISCI EMAIL");
+			System.out.println("5 - INSERISCI CONTATTO SUL DATABASE");
+			System.out.println("9 - RESETTA CONTATTO");
+			System.out.println("0 - TORNA INDIETRO");
+			
+			String valore = null;
+			String inputUtente = sc.nextLine();
+			if (inputUtente.equals("1")) {
+				System.out.println("Nome: ");
+				valore = sc.nextLine();
+				contatto.setNome(valore);
+			} else if (inputUtente.equals("2")) {
+				System.out.println("Cognome: ");
+				valore = sc.nextLine();
+				contatto.setCognome(valore);
+			} else if (inputUtente.equals("3")) {
+				System.out.println("Telefono: ");
+				valore = sc.nextLine();
+				contatto.setTelefono(valore);
+			} else if (inputUtente.equals("4")) {
+				System.out.println("Email: ");
+				valore = sc.nextLine();
+				contatto.setEmail(valore);
+			} else if (inputUtente.equals("5")) {
+				if (contatto.isEmpty()) {
+					System.out.println("Il contatto è vuoto, non puoi inserirlo");
+				} else {
+					System.out.println("Il contatto che vuoi inserire è:");
+					System.out.println(contatto);
+					do {
+						System.out.println("Confermare l'inserimento? 1 - Sì; 2 - No");
+						valore = sc.nextLine();
+						if (valore.equals("1")) {
+							try {
+								System.out.println("Contatto in inserimento nel database...");
+								inserisciContatto(contatto);
+								System.out.println("Inserimento effettuato");
+								tornaIndietro = true;
+							} catch (IllegalArgumentException e) {
+								System.out.println("Inserimento non eseguito");
+								System.out.println(e.getMessage());
+							}
+						} else if (valore.equals("2")) {
+							System.out.println("Inserimento nel database non eseguito");
+						} else {
+							System.out.println("Comando non riconosciuto");
+						}
+					} while (valore != null && !valore.equals("1") && !valore.equals("2"));
+				}
+			} else if (inputUtente.equals("9")) {
+				contatto = new Contatto("","","","");
+				System.out.println("Contatto resettato!");
+			} else if (inputUtente.equals("0")) {
+				tornaIndietro = true;
+			} else {
+				System.out.println("Comando non riconosciuto");
+			}
+			
+			if (!tornaIndietro) {
+				System.out.println("Il contatto in creazione è:");
+				System.out.println(contatto);
+				System.out.println("Puoi continuare con i seguenti comandi");
+			}
+		}
+	}
+	
+	private static void operazioneExport() {
+		System.out.println("EXPORT");
+		System.out.println("Esportazione dati database su file");
+		boolean tornaIndietro = false;
+		String estensione = null;
+		
+		while(!tornaIndietro) {
+			StringBuilder s = new StringBuilder();
+			boolean comandoValido = false;
+			while(!comandoValido && !tornaIndietro) {
+				System.out.println("Scegliere il formato verso il quale esportare i dati del database");
+				System.out.println("1 - CSV");
+				System.out.println("2 - XML");
+				System.out.println("0 - TORNA INDIETRO");
+				String inputUtente = sc.nextLine();
+
+				if (inputUtente.equals("1")) {
+					estensione = "csv";
+					comandoValido = true;
+				} else if (inputUtente.equals("2")) {
+					estensione = "xml";
+					comandoValido = true;
+				} else if (inputUtente.equals("0")) {
+					tornaIndietro = true;
+				} else {
+					System.out.println("Comando non riconosciuto");
+				}
+			}
+			
+			if (!tornaIndietro) {
+				System.out.println("Inserisci il nome del file (senza indicare l'estensione)");
+				String inputUtente = sc.nextLine();
+				s.append("/temp/rubrica/")
+					.append(inputUtente)
+					.append(".")
+					.append(estensione);
+				comandoValido = false;
+				while (!comandoValido) {
+					System.out.print("Confermare il salvataggio in \"");
+					System.out.print(s);
+					System.out.println("\"?");
+					System.out.println("1 - Sì; 2 - No");
+					
+					inputUtente = sc.nextLine();
+					
+					if (inputUtente.equals("1")) {
+						exportDati(s.toString(), estensione);
+						System.out.println("Esportazione completata");
+						comandoValido = true;
+					} else if (inputUtente.equals("2")) {
+						System.out.println("Esportazione annullata");
+						comandoValido = true;
+					} else {
+						System.out.println("Comando non riconosciuto");
+					}
+				}
+			}
+		}
+	}
+	
+	private static void exportDati(String pathfile, String estensione) {
+		String[] intestazione = {"NOME", "COGNOME", "TELEFONO", "EMAIL"};
+		List<Contatto> contatti = ClientRubricaDB.ottieniListaContattiHDB();
+		switch (estensione) {
+		case "csv":
+			try {
+				WriterCsvRubrica.writeCsvFile(intestazione, contatti, pathfile, false);
+			} catch (IOException e) {
+				System.out.println("Errore nel salvataggio del file");
+				e.printStackTrace();
+			}
+			break;
+		case "xml":
+			try {
+				WriterXmlRubrica.writeXmlFile(contatti, pathfile, false);
+			} catch (ParserConfigurationException e) {
+				System.out.println("Errore nel salvataggio del file");
+				e.printStackTrace();
+			} catch (TransformerException e) {
+				System.out.println("Errore nel salvataggio del file");
+				e.printStackTrace();
+			}
+		}
+	}
+	
+ 	private static Contatto ottieniContattoHDB(int id) {
+		Session session = null;
+		Query<Contatto> query = null;
+		Contatto contatto = null;
+		try {
+			session = HybSessionFactory.getSession();
+			String hql = "SELECT c FROM Contatto as c WHERE c.id = :id";
+			query = session.createQuery(hql);
+			query.setParameter("id", id);
+			contatto = query.getSingleResult();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+		
+		return contatto;
 	}
 	
 	private static List<Contatto> ottieniListaContattiHDB() {
@@ -382,31 +636,92 @@ public class ClientRubricaDB {
 		
 		hql.append("ORDER BY c.id");
 		
-		Query<Contatto> query = connettoreDB.getSession().createQuery(hql.toString());
-		if(addNome) { query.setParameter("nome", nome); }
-		if(addCognome) { query.setParameter("cognome", cognome); }
-		if(addTelefono) { query.setParameter("telefono", telefono); }
-		if(addEmail) { query.setParameter("email", email); }
+		Session session = null;
+		Query<Contatto> query = null;
+		List<Contatto> contatti = null;
 		
-		return query.list();
+		try {
+			session = HybSessionFactory.getSession();
+			query = session.createQuery(hql.toString());
+			if(addNome) { query.setParameter("nome", nome); }
+			if(addCognome) { query.setParameter("cognome", cognome); }
+			if(addTelefono) { query.setParameter("telefono", telefono); }
+			if(addEmail) { query.setParameter("email", email); }
+			contatti = query.list();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+		
+		return contatti;
 	}
 	
 	private static void modificaContatto(Contatto contatto) {
 		if (contatto == null) throw new NullPointerException();
-		if (contatto.getNome().length() == 0
-				&& contatto.getCognome().length() == 0
-				&& contatto.getTelefono().length() == 0
-				&& contatto.getEmail().length() == 0) throw new IllegalArgumentException("Il contatto deve avere almeno un campo riempito");
+		if (contatto.isEmpty()) throw new IllegalArgumentException("Il contatto deve avere almeno un campo riempito");
 		
-		Session session = connettoreDB.getSession();
-		Transaction transaction = session.beginTransaction();
-		Contatto nuovoContatto = session.get(Contatto.class, contatto.getId());
-		nuovoContatto.setNome(contatto.getNome());
-		nuovoContatto.setCognome(contatto.getCognome());
-		nuovoContatto.setTelefono(contatto.getTelefono());
-		nuovoContatto.setEmail(contatto.getEmail());
-		session.save(nuovoContatto);
-		transaction.commit();
+		Session session = null;
+		Transaction transaction = null;
+		
+		try {
+			session = HybSessionFactory.getSession();
+			transaction = session.beginTransaction();
+			Contatto nuovoContatto = session.get(Contatto.class, contatto.getId());
+			nuovoContatto.setNome(contatto.getNome());
+			nuovoContatto.setCognome(contatto.getCognome());
+			nuovoContatto.setTelefono(contatto.getTelefono());
+			nuovoContatto.setEmail(contatto.getEmail());
+			session.save(nuovoContatto);
+			transaction.commit();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+	
+	private static void cancellaContattoHDB(Contatto contatto) {
+		if (contatto == null) throw new NullPointerException();
+		
+		Session session = null;
+		Transaction transaction = null;
+		
+		try {
+			session = HybSessionFactory.getSession();
+			transaction = session.beginTransaction();
+			Contatto nuovoContatto = session.get(Contatto.class, contatto.getId());
+			session.delete(nuovoContatto);
+			transaction.commit();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+	
+	private static void inserisciContatto(Contatto contatto) {
+		if (contatto == null) throw new NullPointerException();
+		if (contatto.isEmpty()) throw new IllegalArgumentException("Il contatto non ha almeno un campo pieno");
+		
+		Session session = null;
+		Transaction transaction = null;
+		
+		try {
+			session = HybSessionFactory.getSession();
+			transaction = session.beginTransaction();
+			session.save(contatto);
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		}finally {
+			if (session != null) {
+				session.close();
+			}
+		}
 	}
 
 	private static void stampaContatti(List<Contatto> listaContatti) {

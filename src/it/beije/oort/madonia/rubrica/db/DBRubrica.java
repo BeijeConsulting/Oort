@@ -91,9 +91,9 @@ public class DBRubrica {
 		String extension = file.getPath().substring(punto + 1).toLowerCase();
 		try {
 			if (extension.equals("csv")) {
-				WriterCsvRubrica.writeCsvFile(intestazione, contatti, file);
+				WriterCsvRubrica.writeCsvFile(intestazione, contatti, file, true);
 			} else if (extension.equals("xml")) {
-				WriterXmlRubrica.writeXmlFile(contatti, file);
+				WriterXmlRubrica.writeXmlFile(contatti, file, true);
 			}
 			
 			successo = true;

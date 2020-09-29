@@ -8,10 +8,12 @@ import java.util.List;
 
 public class WriterCsvRubrica {
 	
-	public static void writeCsvFile(String[] intestazione, List<Contatto> contatti, File fileCsv) throws IOException {
+	public static void writeCsvFile(String[] intestazione, List<Contatto> contatti, File fileCsv, boolean inOrdineNome) throws IOException {
 		FileWriter writer = new FileWriter(fileCsv);
-
-		contatti.sort(null);
+		
+		if (inOrdineNome) {
+			contatti.sort(null);
+		}
 		writer.write(WriterCsvRubrica.costruisciRiga(intestazione));
 		for (Contatto contatto : contatti) {
 			writer.write("\n");
@@ -23,9 +25,9 @@ public class WriterCsvRubrica {
 		System.out.println("Rubrica completata!");
 	}
 	
-	public static void writeCsvFile(String[] intestazione, List<Contatto> contatti, String pathfile) throws IOException {
+	public static void writeCsvFile(String[] intestazione, List<Contatto> contatti, String pathfile, boolean inOrdineNome) throws IOException {
 		File fileCsv = new File(pathfile);
-		WriterCsvRubrica.writeCsvFile(intestazione, contatti, fileCsv);
+		WriterCsvRubrica.writeCsvFile(intestazione, contatti, fileCsv, inOrdineNome);
 	}
 	
 	public static void writeCsvFileCasuale(String[] intestazione, List<Contatto> contatti, File fileCsv) throws IOException {
@@ -40,7 +42,6 @@ public class WriterCsvRubrica {
 		
 		writer.flush();
 		writer.close();
-		System.out.println("Rubrica completata!");
 	}
 	
 	public static void writeCsvFileCasuale(String[] intestazione, List<Contatto> contatti, String pathfile) throws IOException {

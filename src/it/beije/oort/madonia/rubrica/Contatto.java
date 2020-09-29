@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="rubrica")
@@ -31,6 +32,8 @@ public class Contatto implements Comparable<Contatto>, Cloneable {
 	@Column(name="email")
 	private String email;
 	
+	// Si può creare anche una classe di supporto
+	@Transient
 	private List<String> alias = new ArrayList<String>();
 
 	public Contatto() {}
@@ -90,6 +93,13 @@ public class Contatto implements Comparable<Contatto>, Cloneable {
 	}
 	public void addAlias(String alias) {
 		this.alias.add(alias);
+	}
+	
+	public boolean isEmpty() {
+		return !(nome != null && nome.length() > 0
+				|| cognome != null && cognome.length() > 0
+				|| telefono != null && telefono.length() > 0
+				|| email != null && email.length() > 0);
 	}
 
 	public String toString() {

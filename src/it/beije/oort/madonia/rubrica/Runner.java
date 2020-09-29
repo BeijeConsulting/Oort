@@ -26,13 +26,13 @@ public class Runner {
 		String pathfileCsv = csvFiles.get((int) (Math.random() * csvFiles.size()));
 		String pathfileXml = new StringBuilder().append(pathfileCsv.split("\\.")[0]).append(".xml").toString();
 		System.out.println(pathfileXml);
-		WriterXmlRubrica.writeXmlFile(ParserCsvRubrica.creaListaContatti(PATH_FILES + pathfileCsv), PATH_FILES + pathfileXml);
+		WriterXmlRubrica.writeXmlFile(ParserCsvRubrica.creaListaContatti(PATH_FILES + pathfileCsv), PATH_FILES + pathfileXml, true);
 	}
 	
 	private static void xmlToCsv() throws ParserConfigurationException, SAXException, IOException {
 		String[] intestazione = "COGNOME;NOME;EMAIL;TELEFONO".split(";");
 		List<Contatto> contatti = ParserXmlRubrica.readContatti(PATH_FILES + "rubrica_sala.xml");
-		WriterCsvRubrica.writeCsvFile(intestazione, contatti, PATH_FILES + "output_csv.csv");
+		WriterCsvRubrica.writeCsvFile(intestazione, contatti, PATH_FILES + "output_csv.csv", true);
 	}
 
 }

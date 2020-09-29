@@ -20,7 +20,7 @@ public class DuplicateManager {
 //		List<Contatto> contattiSenzaDuplicati = DuplicateManager.joinContatti(contatti);
 		List<Contatto> contattiSenzaDuplicati = DuplicateManager.joinContattiConAlias(contatti);
 		
-		WriterCsvRubrica.writeCsvFile(new String[] {"EMAIL","COGNOME","NOME","TELEFONO","ALIAS"}, contattiSenzaDuplicati, output);
+		WriterCsvRubrica.writeCsvFile(new String[] {"EMAIL","COGNOME","NOME","TELEFONO","ALIAS"}, contattiSenzaDuplicati, output, true);
 	}
 	
 	public static List<Contatto> joinContattiConAlias(List<Contatto> contatti) {
