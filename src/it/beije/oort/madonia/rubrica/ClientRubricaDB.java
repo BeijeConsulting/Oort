@@ -5,25 +5,31 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
 import it.beije.oort.madonia.rubrica.db.DBManager;
+import it.beije.oort.madonia.rubrica.db.HDBtools;
 
 public class ClientRubricaDB {
 	
 	private static Scanner sc = new Scanner(System.in);
+	private static HDBtools connettoreDB = new HDBtools();
 
 	public static void main(String[] args) {
 		System.out.println("Benvenuto alla gestione del DB della rubrica, scegliere l'operazione che si vuole intraprendere");
 		System.out.println("1 - VISUALIZZAZIONE CONTATTI");
-		System.out.println("2 - MODIFICA/ELIMINAZIONE CONTATTI");
+		System.out.println("2 - MODIFICA/CANCELLAZIONE CONTATTI");
 		System.out.println("3 - INSERIMENTO CONTATTO");
 		System.out.println("4 - EXPORT DATI");
 		
 		operazioneModificaCancellazione();
+		
+		connettoreDB.close();
 	}
 	
 	private static void operazioneVisualizzazioneContatti() {
@@ -112,13 +118,7 @@ public class ClientRubricaDB {
 				System.out.println(sb.toString());
 			} else if (cerca) {
 				try {
-					stampaContatti(ottieniRisultatoRicerca(nome, cognome, telefono, email));
-				} catch (ClassNotFoundException e) {
-					System.err.println("Driver collegamento al DB non trovato");
-					e.printStackTrace();
-				} catch (SQLException e) {
-					System.err.println("Errore nella definizione SQL");
-					e.printStackTrace();
+					stampaContatti(ottieniListaContattiHDB(nome, cognome, telefono, email));
 				} catch (Exception e) {
 					System.err.println("Errore non riconosciuto");
 					e.printStackTrace();
@@ -135,33 +135,25 @@ public class ClientRubricaDB {
 		int pagina = 0;
 		boolean tornaIndietro = false;
 		boolean errore = false;
-		Map<Integer,Contatto> mappaContatti = null;
+		List<Contatto> listaContatti = null;
 		try {
-			mappaContatti = ottieniContattiCompleti();
-			System.out.println(mappaContatti.size());
-		} catch (ClassNotFoundException e) {
-			System.err.println("Driver collegamento al DB non trovato");
-			e.printStackTrace();
-			errore = true;
-		} catch (SQLException e) {
-			System.err.println("Errore nella definizione SQL");
-			e.printStackTrace();
-			errore = true;
+			listaContatti = ottieniListaContattiHDB();
 		} catch (Exception e) {
 			System.err.println("Errore non riconosciuto");
 			e.printStackTrace();
 			errore = true;
 		}
-		while (!errore && !tornaIndietro && mappaContatti.size() > 0) {
+		
+		while (!errore && !tornaIndietro && listaContatti.size() > 0) {
 			int start = 20*pagina;
 			int end = 20 + 20*pagina;
-			end = end > mappaContatti.size() ? mappaContatti.size() : end;
-			stampaContatti(mappaContatti, start, end);
+			end = end > listaContatti.size() ? listaContatti.size() : end;
+			stampaContatti(listaContatti, start, end);
 			boolean comandoCorretto = false;
 			if (pagina != 0) {
 				System.out.print("1 - PREC; ");
 			}
-			if (pagina < (mappaContatti.size() - 1)/20) {
+			if (pagina < (listaContatti.size() - 1)/20) {
 				System.out.print("2 - SUCC; ");
 			}
 			System.out.println("0 - TORNA INDIETRO");
@@ -178,7 +170,7 @@ public class ClientRubricaDB {
 					}
 					break;
 				case "2":
-					if (pagina < (mappaContatti.size() - 1)/20) {
+					if (pagina < (listaContatti.size() - 1)/20) {
 						pagina++;
 						comandoCorretto = true;
 					} else {
@@ -200,11 +192,10 @@ public class ClientRubricaDB {
 		System.out.println("MODIFICA/CANCELLAZIONE CONTATTI");
 		System.out.println();
 		boolean tornaIndietroGenerale = false;
-		boolean contattoIsNull = false;
 		while(!tornaIndietroGenerale) {
 			int id = -1;
 			Contatto contatto = null;
-			System.out.println("Inserire l'id del contatto da modificare/cancellare");
+			System.out.println("Inserire l'id del contatto da modificare/cancellare (0 - TORNA INDIETRO)");
 			
 			boolean inputIdCorretto = false;
 			while(!inputIdCorretto) {
@@ -219,16 +210,10 @@ public class ClientRubricaDB {
 			
 			try {
 				if (id > 0) {
-				contatto = ottieniContatto(id);
+				contatto = ottieniContattoHDB(id);
 				} else if (id == 0) {
 					tornaIndietroGenerale = true;
 				}
-			} catch (ClassNotFoundException e) {
-				System.err.println("Driver collegamento al DB non trovato");
-				e.printStackTrace();
-			} catch (SQLException e) {
-				System.err.println("Errore nella definizione SQL");
-				e.printStackTrace();
 			} catch (Exception e) {
 				System.err.println("Errore non riconosciuto");
 				e.printStackTrace();
@@ -237,7 +222,6 @@ public class ClientRubricaDB {
 			if (!tornaIndietroGenerale) {
 
 				if (contatto == null) {
-					contattoIsNull = true;
 					System.out.println("Il contatto non è stato trovato nel database");
 				} else {
 					System.out.println("Il contatto selezionato è");
@@ -245,7 +229,7 @@ public class ClientRubricaDB {
 				}
 			}
 			
-			if (!tornaIndietroGenerale && !contattoIsNull) {
+			if (!tornaIndietroGenerale && contatto != null) {
 				boolean tornaIndietroModifica = false;
 				while(!tornaIndietroModifica) {
 					System.out.println("Cosa vuoi fare con questo contatto?");
@@ -257,7 +241,7 @@ public class ClientRubricaDB {
 					
 					switch (inputUtente) {
 					case "1":
-						System.out.println("MODIFICA");
+						operazioneModifica(contatto);
 						break;
 					case "2":
 						System.out.println("CANCELLAZIONE");
@@ -277,34 +261,176 @@ public class ClientRubricaDB {
 		Contatto contattoClonato = contatto.clone();
 		System.out.println("MODIFICA CONTATTO");
 		System.out.println("Scegli cosa modificare");
-		System.out.println("1 - MODIFICA NOME");
-		System.out.println("2 - MODIFICA COGNOME");
-		System.out.println("3 - MODIFICA TELEFONO");
-		System.out.println("4 - MODIFICA EMAIL");
-		System.out.println("9 - ANNULLA MODIFICHE");
-		System.out.println("0 - TORNA INDIETRO");
 		
-		String inputUtente = sc.nextLine();
+		boolean tornaIndietro = false;
 		
-		switch (inputUtente) {
-		case "1":
-			System.out.println("MODIFICA");
-			break;
-		case "2":
-			System.out.println("CANCELLAZIONE");
-			break;
-		case "0":
-			break;
-		default:
-			break;
+		while(!tornaIndietro) {
+			
+			System.out.println("1 - MODIFICA NOME");
+			System.out.println("2 - MODIFICA COGNOME");
+			System.out.println("3 - MODIFICA TELEFONO");
+			System.out.println("4 - MODIFICA EMAIL");
+			System.out.println("5 - CONFERMA LA MODIFICA EFFETTUATA");
+			System.out.println("9 - ANNULLA MODIFICHE");
+			System.out.println("0 - TORNA INDIETRO");
+
+			String valore = null;
+
+			String inputUtente = sc.nextLine();
+			if (inputUtente.equals("1")) {
+				System.out.println("Nome: ");
+				valore = sc.nextLine();
+				contattoClonato.setNome(valore);
+			} else if (inputUtente.equals("2")) {
+				System.out.println("Cognome: ");
+				valore = sc.nextLine();
+				contattoClonato.setCognome(valore);
+			} else if (inputUtente.equals("3")) {
+				System.out.println("Telefono: ");
+				valore = sc.nextLine();
+				contattoClonato.setTelefono(valore);
+			} else if (inputUtente.equals("4")) {
+				System.out.println("Email: ");
+				valore = sc.nextLine();
+				contattoClonato.setEmail(valore);
+			} else if (inputUtente.equals("5")) {
+				System.out.println("Il contatto che stai per modificare è:");
+				System.out.println(contatto);
+				System.out.println("Verrà trasformato in questo contatto:");
+				System.out.println(contattoClonato);
+				do {
+					System.out.println("Confermare la modifica? 1 - Sì; 2 - No");
+					valore = sc.nextLine();
+					if (valore.equals("1")) {
+						try {
+						System.out.println("Contatto in modifica nel database...");
+						modificaContatto(contattoClonato);
+						contatto = contattoClonato.clone();
+						System.out.println("Modifica effettuata");
+						} catch (IllegalArgumentException e) {
+							System.out.println("Modifica non eseguita");
+							System.out.println(e.getMessage());
+						}
+					} else if (valore.equals("2")) {
+						System.out.println("Modifica nel database annullata");
+					} else {
+						System.out.println("Comando non riconosciuto");
+					}
+				} while (valore != null && !valore.equals("1") && !valore.equals("2"));
+			} else if (inputUtente.equals("9")) {
+				contattoClonato = contatto.clone();
+				System.out.println("Contatto precedente ripristinato!");
+			} else if (inputUtente.equals("0")) {
+				tornaIndietro = true;
+			} else {
+				System.out.println("Comando non riconosciuto");
+			}
+			
+			if (!tornaIndietro) {
+				System.out.println("Le tue modifiche sono queste:");
+				System.out.print("Vecchio: ");
+				System.out.println(contatto);
+				System.out.print("Nuovo: ");
+				System.out.println(contattoClonato);
+				System.out.println("Puoi continuare con i seguenti comandi");
+			}
 		}
 	}
-	
-	private static Map<Integer, Contatto> ottieniContattiCompleti() throws ClassNotFoundException, SQLException {
-		return ottieniRisultatoRicerca("","","","");
+
+	private static Contatto ottieniContattoHDB(int id) {
+		String hql = "SELECT c FROM Contatto as c WHERE c.id = :id";
+		Query<Contatto> query = connettoreDB.getSession().createQuery(hql);
+		query.setParameter("id", id);
+		
+		return query.getSingleResult();
 	}
 	
-	private static Contatto ottieniContatto(int id) throws ClassNotFoundException, SQLException {
+	private static List<Contatto> ottieniListaContattiHDB() {
+		return ottieniListaContattiHDB("","","","");
+	}
+	
+	private static List<Contatto> ottieniListaContattiHDB(String nome, String cognome, String telefono, String email) {
+		boolean addAnd = false;
+		boolean addNome = nome != null && nome.length() > 0;
+		boolean addCognome = cognome != null && cognome.length() > 0;
+		boolean addTelefono = telefono != null && telefono.length() > 0;
+		boolean addEmail = email != null && email.length() > 0;
+		StringBuilder hql = new StringBuilder("SELECT c FROM Contatto as c ");
+		
+		if (addNome || addCognome || addTelefono || addEmail) {
+			hql.append("WHERE ");
+		}
+		
+		if (addNome) {
+			hql.append("c.nome like :nome ");
+			addAnd = true;
+		}
+		if (addCognome) {
+			if (addAnd) { hql.append("AND "); }
+			hql.append("c.cognome like :cognome ");
+			addAnd = true;
+		}
+		if (addTelefono) {
+			if (addAnd) { hql.append("AND "); }
+			hql.append("c.telefono like :telefono ");
+			addAnd = true;
+		}
+		if (addEmail) {
+			if (addAnd) { hql.append("AND "); }
+			hql.append("c.email like :email ");
+		}
+		
+		hql.append("ORDER BY c.id");
+		
+		Query<Contatto> query = connettoreDB.getSession().createQuery(hql.toString());
+		if(addNome) { query.setParameter("nome", nome); }
+		if(addCognome) { query.setParameter("cognome", cognome); }
+		if(addTelefono) { query.setParameter("telefono", telefono); }
+		if(addEmail) { query.setParameter("email", email); }
+		
+		return query.list();
+	}
+	
+	private static void modificaContatto(Contatto contatto) {
+		if (contatto == null) throw new NullPointerException();
+		if (contatto.getNome().length() == 0
+				&& contatto.getCognome().length() == 0
+				&& contatto.getTelefono().length() == 0
+				&& contatto.getEmail().length() == 0) throw new IllegalArgumentException("Il contatto deve avere almeno un campo riempito");
+		
+		Session session = connettoreDB.getSession();
+		Transaction transaction = session.beginTransaction();
+		Contatto nuovoContatto = session.get(Contatto.class, contatto.getId());
+		nuovoContatto.setNome(contatto.getNome());
+		nuovoContatto.setCognome(contatto.getCognome());
+		nuovoContatto.setTelefono(contatto.getTelefono());
+		nuovoContatto.setEmail(contatto.getEmail());
+		session.save(nuovoContatto);
+		transaction.commit();
+	}
+
+	private static void stampaContatti(List<Contatto> listaContatti) {
+		if (listaContatti.size() == 0) return;
+		stampaContatti(listaContatti, 0, listaContatti.size());
+	}
+	
+	private static void stampaContatti(List<Contatto> listaContatti, int start, int end) {
+		if (start < 0 || end > listaContatti.size()) throw new IllegalArgumentException();
+		if (listaContatti.size() == 0) return;
+		
+		for (int i = start; i < end; i++) {
+			Contatto contatto = listaContatti.get(i);
+			StringBuilder sb = new StringBuilder()
+					.append(contatto.getId())
+					.append(" - ")
+					.append(contatto);
+			System.out.println(sb.toString());
+		}
+	}
+
+	/* VECCHIO CONNETTORE */
+	
+	private static Contatto ottieniContattoJDBC(int id) throws ClassNotFoundException, SQLException {
 		Connection connection = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -333,12 +459,16 @@ public class ClientRubricaDB {
 		return contatto;
 	}
 	
-	private static Map<Integer, Contatto> ottieniRisultatoRicerca(String nome, String cognome, String telefono, String email) throws ClassNotFoundException, SQLException {
+	private static List<Contatto> ottieniListaContattiJDBC() throws ClassNotFoundException, SQLException {
+		return ottieniListaContattiJDBC("","","","");
+	}
+	
+	private static List<Contatto> ottieniListaContattiJDBC(String nome, String cognome, String telefono, String email) throws ClassNotFoundException, SQLException {
 		
 		Connection connection = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		Map<Integer, Contatto> mappaContatti = new HashMap<Integer, Contatto>();
+		List<Contatto> listaContatti = new ArrayList<Contatto>();
 		try {
 			connection = DBManager.getMySqlConnection(DBManager.DB_URL, DBManager.DB_USER, DBManager.DB_PASSWORD);
 
@@ -384,13 +514,13 @@ public class ClientRubricaDB {
 
 			while(rs.next()) {
 				Contatto contatto = new Contatto();
+				contatto.setId(rs.getInt("id"));
 				contatto.setNome(rs.getString("nome"));
 				contatto.setCognome(rs.getString("cognome"));
 				contatto.setTelefono(rs.getString("telefono"));
 				contatto.setEmail(rs.getString("email"));
 
-				Integer id = rs.getInt("id");
-				mappaContatti.put(id, contatto);
+				listaContatti.add(contatto);
 			}
 		} finally {
 			rs.close();
@@ -398,28 +528,7 @@ public class ClientRubricaDB {
 			connection.close();
 		}
 		
-		return mappaContatti;
-	}
-	
-	private static void stampaContatti(Map<Integer, Contatto> mappaContatti) {
-		if (mappaContatti.size() == 0) return;
-		stampaContatti(mappaContatti, 0, mappaContatti.size());
-	}
-	
-	private static void stampaContatti(Map<Integer, Contatto> mappaContatti, int start, int end) {
-		if (start < 0 || end > mappaContatti.size()) throw new IllegalArgumentException();
-		if (mappaContatti.size() == 0) return;
-		
-		List<Integer> keys = new ArrayList<Integer>(mappaContatti.keySet());
-		keys.sort(null);
-		for(int i = start; i < end; i++) {
-			Integer key = keys.get(i);
-			StringBuilder sb = new StringBuilder()
-					.append(key)
-					.append(" - ")
-					.append(mappaContatti.get(key));
-			System.out.println(sb.toString());
-		}
+		return listaContatti;
 	}
 
 }

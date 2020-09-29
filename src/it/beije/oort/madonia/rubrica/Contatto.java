@@ -3,12 +3,34 @@ package it.beije.oort.madonia.rubrica;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="rubrica")
 public class Contatto implements Comparable<Contatto>, Cloneable {
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
+	private int id;
+	
+	@Column(name="nome")
 	private String nome;
+	
+	@Column(name="cognome")
 	private String cognome;
+	
+	@Column(name="telefono")
 	private String telefono;
+	
+	@Column(name="email")
 	private String email;
+	
 	private List<String> alias = new ArrayList<String>();
 
 	public Contatto() {}
@@ -22,6 +44,13 @@ public class Contatto implements Comparable<Contatto>, Cloneable {
 		this.cognome = cognome;
 		this.telefono = telefono;
 		this.email = email;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getNome() {
@@ -85,6 +114,7 @@ public class Contatto implements Comparable<Contatto>, Cloneable {
 	
 	public Contatto clone() {
 		Contatto contatto = new Contatto();
+		contatto.setId(this.getId());
 		contatto.setNome(this.getNome());
 		contatto.setCognome(this.getCognome());
 		contatto.setTelefono(this.getTelefono());
