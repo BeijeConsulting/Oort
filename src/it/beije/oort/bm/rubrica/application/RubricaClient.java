@@ -198,9 +198,17 @@ public class RubricaClient {
 		
 	}
 	
-	private static void exportContacts() throws SQLException, ParserConfigurationException, TransformerException {
+	private static void exportContacts() throws ParserConfigurationException, TransformerException {
 		List<Contatto> contacts = db.selectAll();
-		XmlParser.writeFile(new File("exported_contacts.xml"), contacts);
+		try {
+			XmlParser.writeFile(new File("exported_contacts.xml"), contacts);
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("Export failed!");
+			return;
+		}
+		System.out.println("Contacts exported in: \"exoprted_contacts.xml\"");
+		
 		
 	}
 
