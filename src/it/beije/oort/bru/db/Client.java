@@ -62,7 +62,7 @@ public class Client {
 					} else {
 						//IMPAGINAZIONE
 						List<Contatto> contacts = new ArrayList<Contatto>();
-						HDBUtilities.exportDB(contacts);
+						HDBUtilities.exportContacts(contacts);
 						Map<Integer, List<Contatto>> pages = Utilities.layout(contacts);
 						List<Contatto> contactForPage;
 						int page = 1;
@@ -84,7 +84,7 @@ public class Client {
 					break;
 				case 2:
 					List<Contatto> contacts = new ArrayList<Contatto>();
-					HDBUtilities.exportDB(contacts);
+					HDBUtilities.exportContacts(contacts);
 					System.out.println("1. Modifica contatto.");
 					System.out.println("2. Cancella contatto.");
 					option = Integer.parseInt(keyboard.nextLine());
@@ -122,7 +122,7 @@ public class Client {
 					String fileName = keyboard.nextLine();
 					File file = new File(path + "/" + fileName);
 					if (fileName.contains(".csv")) {
-						HDBUtilities.exportDB(contacts);
+						HDBUtilities.exportContacts(contacts);
 						try {
 							CsvParser.buildContatti(contacts, file);
 						} catch (IOException e) {
@@ -130,7 +130,7 @@ public class Client {
 						}
 						System.out.println("Completato");
 					} else {
-						HDBUtilities.exportDB(contacts);
+						HDBUtilities.exportContacts(contacts);
 						try {
 							XmlParser.buildContatti(contacts, file);
 							System.out.println("Completato");

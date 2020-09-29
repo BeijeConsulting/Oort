@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import it.beije.oort.biblioteca.Autore;
+import it.beije.oort.biblioteca.Editore;
 import it.beije.oort.files.Contatto;
 
 public class Utilities {
@@ -23,5 +25,28 @@ public class Utilities {
 			pageEnd += 50;
 		}
 		return pages;
+	}
+	
+	//Stampa una lista di autori e restituisce l'id dell'ultimo autore.
+	public static int printAuthors(List<Autore> authors) {
+		int lastID = 0;
+		for (int i = 0; i < authors.size(); i++) {
+			System.out.println(authors.get(i));
+			if (i == authors.size()-1) {
+				lastID = authors.get(i).getId();
+			}
+		}
+		return lastID;
+	}
+	
+	public static int printPublishers(List<Editore> publishers) {
+		int lastID = 0;
+		for (int i = 0; i < publishers.size(); i++) {
+			System.out.println(publishers.get(i));
+			if (i == publishers.size()-1) {
+				lastID = publishers.get(i).getId();
+			}
+		}
+		return lastID;
 	}
 }

@@ -7,16 +7,40 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
+
+import it.beije.oort.biblioteca.Autore;
+import it.beije.oort.biblioteca.Editore;
+import it.beije.oort.biblioteca.Libro;
 import it.beije.oort.files.Contatto;
 
 public class HDBUtilities {
 	
-	public static void exportDB(List<Contatto> contacts) {
+	public static void exportContacts(List<Contatto> contacts) {
 		Session session = SessionFactorySingleton.openSession();
 		String hql = "FROM Contatto";
 		Query<Contatto> query = session.createQuery(hql);
 		for (Contatto c : query.list()) {
 			contacts.add(c);
+		}
+		session.close();
+	}
+	
+	public static void exportAuthors(List<Autore> authors) {
+		Session session = SessionFactorySingleton.openSession();
+		String hql = "FROM Autore";
+		Query<Autore> query = session.createQuery(hql);
+		for (Autore a : query.list()) {
+			authors.add(a);
+		}
+		session.close();
+	}
+	
+	public static void exportPublishers(List<Editore> publishers) {
+		Session session = SessionFactorySingleton.openSession();
+		String hql = "FROM Editore";
+		Query<Editore> query = session.createQuery(hql);
+		for (Editore e : query.list()) {
+			publishers.add(e);
 		}
 		session.close();
 	}
@@ -51,6 +75,45 @@ public class HDBUtilities {
 		contact.setTelefono(telefono);
 		contact.setEmail(email);
 		session.save(contact);
+		transaction.commit();
+		session.close();
+	}
+	
+	public static void insertBook(String titolo, String descrizione, int id_autore, int id_editore, int anno) {
+		Session session = SessionFactorySingleton.openSession();
+		Transaction transaction = session.beginTransaction();
+		Libro book = new Libro();
+		book.setTitolo(titolo);
+		book.setDescrizione(descrizione);
+		book.setId_autore(id_autore);
+		book.setId_editore(id_editore);
+		book.setAnno(anno);
+		session.save(book);
+		transaction.commit();
+		session.close();
+	}
+	
+	public static void insertAuthor(String cognome, String nome, String data_nascita, String data_morte, String biografia) {
+		Session session = SessionFactorySingleton.openSession();
+		Transaction transaction = session.beginTransaction();
+		Autore author = new Autore();
+		author.setCognome(cognome);
+		author.setNome(nome);
+		author.setData_nascita(data_nascita);
+		author.setData_morte(data_morte);
+		author.setBiografia(biografia);
+		session.save(author);
+		transaction.commit();
+		session.close();
+	}
+	
+	public static void insertPublisher(String denominazione, String descrizione) {
+		Session session = SessionFactorySingleton.openSession();
+		Transaction transaction = session.beginTransaction();
+		Editore publisher = new Editore();
+		publisher.setDenominazione(denominazione);
+		publisher.setDescrizione(descrizione);
+		session.save(publisher);
 		transaction.commit();
 		session.close();
 	}
