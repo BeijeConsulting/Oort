@@ -56,7 +56,7 @@ public class ClientRubricaDB {
 		campi2.add("cognome");
 		campi2.add("email");
 		campi2.add("telefono");
-		if(!campi2.contains(temp)) {
+		while(!campi2.contains(temp)) {
 			System.out.println("Inserisci un campo valido tra nome cognome email e telefono");
 			temp = sc.next().toLowerCase();
 		}

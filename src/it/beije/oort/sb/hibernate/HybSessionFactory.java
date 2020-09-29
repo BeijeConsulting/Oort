@@ -1,8 +1,10 @@
-package it.beije.oort.rubrica;
+package it.beije.oort.sb.hibernate;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+
+import it.beije.oort.rubrica.Contatto;
 
 public class HybSessionFactory {
 	
@@ -20,8 +22,7 @@ public class HybSessionFactory {
 			
 			//chiedo generatore di sessioni
 			factory = configuration.buildSessionFactory();
-			
-			System.out.println("SessionFactory is create? " + factory.isOpen());
+
 		}
 		
 		return factory.openSession();

@@ -73,7 +73,7 @@ public class DBSupport {
 		}
 	}
 	
-	
+	//stampa i contatti coi vari indici
 	public static void listViewPrinter(List<Contatto> list, List<Integer> indici) {
 		int numPag=1;
 	CICLO:	for(int i = 0; i < list.size(); i+=30) {
@@ -99,7 +99,7 @@ public class DBSupport {
 			}
 		}
 	}
-	
+	// mi ridà una lista con gli indici dei contatti del db
 	public static List<Integer> indexList() {
 		List<Integer> list = new ArrayList<Integer>();
 		Connection connection = null;
@@ -129,16 +129,35 @@ public class DBSupport {
 		return list;
 	}
 	
+	
+	//mi ridà la stringa col nome su cui salvare il file
 	public static StringBuilder export() {
 		StringBuilder temp = new StringBuilder(PATH);
-		System.out.println("digita il nome del file su cui salvare la rubrica");
+		System.out.println("Inserisci il nome del file su cui salvare la rubrica");
 		temp.append(sc.next());
-		System.out.println("ora digita l'estensione, se xml o csv");
+		System.out.println("Ora digita l'estensione, se xml o csv");
 		String s = "";
 		while(!s.equals("xml") || !s.equals("csv")) {
 		s = sc.next();
 		if(!s.equals("xml") && !s.equals("csv")) {
-			System.out.println("non riconosco l'estensione, lavoro solo con csv o xml");
+			System.out.println("Non riconosco l'estensione, lavoro solo con csv o xml");
+			continue;
+			} else break;
+		}
+		temp.append(".").append(s);
+		return temp;
+	}
+	
+	public static StringBuilder importer() {
+		StringBuilder temp = new StringBuilder(PATH);
+		System.out.println("Inserisci il nome del file da cui vuoi importare la rubrica");
+		temp.append(sc.next());
+		System.out.println("Ora digita l'estensione, se xml o csv");
+		String s = "";
+		while(!s.equals("xml") || !s.equals("csv")) {
+		s = sc.next();
+		if(!s.equals("xml") && !s.equals("csv")) {
+			System.out.println("Non riconosco l'estensione, lavoro solo con csv o xml");
 			continue;
 			} else break;
 		}
