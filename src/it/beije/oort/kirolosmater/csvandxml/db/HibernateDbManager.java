@@ -1,5 +1,14 @@
 package it.beije.oort.kirolosmater.csvandxml.db;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -43,12 +52,12 @@ public class HibernateDbManager {
 				break;
 		case 2: modifyRecordById();
 				break;
-//		case 3: insertContactByCmd();
-//				break;
-//		case 4: removeRecordById();
-//				break;
-//		case 5: exportListFromMenu();
-//				break;
+		case 3: insertContactByCmd();
+				break;
+		case 4: removeRecordById();
+				break;
+		case 5: exportListFromMenu();
+				break;
 
 		default: System.out.println("hai inserito un numero non valido");
 			break;
@@ -76,7 +85,7 @@ public class HibernateDbManager {
 		
 	}
 	
-	public void readRecordByIdFromInput () {
+	public static void readRecordByIdFromInput () {
 		String showRecordById = "Per visualizzare un contatto inserisci il suo id: ";
 		System.out.println(showRecordById);
 		Scanner inputFromUser = new Scanner(System.in);
@@ -98,9 +107,9 @@ public class HibernateDbManager {
 		String stringRequest = "Inserisci la stringa iniziale: ";
 		System.out.println(stringRequest);
 		String lineFromInput = inputFromUser.nextLine();
-		String hql = "SELECT c FROM contatto AS where " + parameter + " LIKE '" + lineFromInput + "%" + "'";
-		Contatto contattoOutput = new Contatto();
-		Query<Contatto> query = session.createQuery(hql);
+		String hql = "SELECT c FROM Contatto as c WHERE " + parameter + " LIKE :epf";
+		Query<Contatto> query = session.createQuery(hql)
+			       .setParameter("epf", lineFromInput + "%");
 //		System.out.println(query.list().size());
 		for (Contatto contatto : query.list()) {
 			System.out.println("id : " + contatto.getId());
@@ -108,7 +117,6 @@ public class HibernateDbManager {
 			System.out.println("cognome : " + contatto.getCognome());
 			System.out.println("telefono : " + contatto.getTelefono());
 			System.out.println("email : " + contatto.getEmail());
-			contattoOutput = contatto;
 		}
 		//chiudo sessione
 		session.close();
@@ -174,6 +182,7 @@ public class HibernateDbManager {
 		//conferma salvataggio
 		System.out.println("Vuoi  confermare le modifiche? SI | NO");
 		String confirmation = inputFromUser.nextLine();
+		session.save(contatto);
 		if(confirmation.equalsIgnoreCase("SI")) {
 			//confermo aggiornamento su DB
 			transaction.commit();
@@ -181,7 +190,7 @@ public class HibernateDbManager {
 			//annullo aggiornamento su DB
 			transaction.rollback();
 		}				
-		session.save(contatto);
+//		session.save(contatto);
 		//chiudo sessione
 		session.close();
 	}
@@ -192,5 +201,118 @@ public class HibernateDbManager {
 		System.out.println("hai inserito questo id: " + id);
 		System.out.println("questo è il record: " + contact);
 		return contact;
+	}
+	
+	public static void insertContactByCmd () {
+		//apro sessione
+		Session session = HybSessionFactory.openSession();
+		System.out.println("session is open? " + session.isOpen());
+		//apro transazione
+		Transaction transaction = session.beginTransaction();
+		//scanner
+		System.out.println("Inserisci nome, cognome, telefono, email in questo ordine");
+		Scanner myObj = new Scanner(System.in);
+		String nome = myObj.nextLine();
+		String cognome = myObj.nextLine();
+		String telefono = myObj.nextLine();
+		String email = myObj.nextLine();
+		//Insert
+		Contatto contatto = new Contatto();
+//		contatto.setId(3);
+		contatto.setNome(nome);
+		contatto.setCognome(cognome);
+		contatto.setEmail(email);
+		contatto.setTelefono(telefono);
+		session.save(contatto);
+		//conferma salvataggio
+		System.out.println("Vuoi  confermare le modifiche? SI | NO");
+		String confirmation = myObj.nextLine();
+		if(confirmation.equalsIgnoreCase("SI")) {
+			//confermo aggiornamento su DB
+			transaction.commit();
+		} else {
+			//annullo aggiornamento su DB
+			transaction.rollback();
+		}				
+		
+		//chiudo sessione
+		session.close();
+	}
+	
+	public static void removeRecordById() {
+		//apro sessione
+		Session session = HybSessionFactory.openSession();
+		System.out.println("session is open? " + session.isOpen());
+		//apro transazione
+		Transaction transaction = session.beginTransaction();
+		//scanner
+		System.out.println("Per rimuovere un contatto inserisci il suo id: ");
+		Scanner inputFromUser = new Scanner(System.in);
+		String idFromInput = inputFromUser.nextLine();
+		int id = Integer.parseInt(idFromInput);
+		readRecordByIdFromInput();
+		System.out.println("Sei sicuro di voler rimuovere il contatto? SI | NO");
+		String confirm = inputFromUser.nextLine();
+		if(confirm.equalsIgnoreCase("SI")) {
+			String hql = "DELETE FROM Contatto WHERE id = '" + idFromInput + "'";
+			Query query = session.createQuery(hql);
+			query.executeUpdate();
+			//confermo aggiornamento su DB
+			transaction.commit();
+		} else {
+			//annullo aggiornamento su DB
+			transaction.rollback();
+		}
+		//chiudo sessione
+		session.close();
+	}
+	
+	public static void exportListFromMenu () {
+		System.out.println("Inserisci la path del file: ");
+		Scanner inputFromUser = new Scanner(System.in);
+		String path = inputFromUser.nextLine();
+		System.out.println("Inserisci il primo id del file: ");
+		String firstId = inputFromUser.nextLine();
+		int id1 = Integer.parseInt(firstId);
+		System.out.println("Inserisci l'ultimo (da escludere) id del file: ");
+		String lastId = inputFromUser.nextLine();
+		int idfinal = Integer.parseInt(lastId);
+		exportListToCsv(readRecords(id1, idfinal), path);
+	}
+	public static List<Contatto> readRecords (int first, int last) {
+		List<Contatto> contacts = new ArrayList<Contatto>();
+		for(int i = first; i < last; i++) {
+			contacts.add(readRecordFromDb(i));
+		}
+		return contacts;
+	}
+	
+	public static void exportListToCsv (List<Contatto> list, String path) {
+		File fileCsv = new File(path);
+		try {
+			FileWriter writer = new FileWriter(fileCsv);
+			writer.write("NOME;COGNOME;TELEFONO;EMAIL\n");
+			for (Contatto contact : list ) {
+				writer.write(contattoToCsv(contact));
+			}
+			System.out.println("Done records: " + LocalTime.now());
+			writer.flush();
+			writer.close();
+			System.out.println("Done file: " + LocalTime.now());
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static String contattoToCsv (Contatto contatto) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(contatto.getNome()).append(";")
+			.append(contatto.getCognome()).append(";")
+			.append(contatto.getTelefono()).append(";")
+			.append(contatto.getEmail()).append("\n");
+		
+		return builder.toString();
 	}
 }
