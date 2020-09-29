@@ -8,6 +8,7 @@ import it.beije.oort.files.Contatto;
 
 public class Utilities {
 	
+	//Metodo per impaginare una lista di contatti, 50 record per pagina.
 	public static Map<Integer, List<Contatto>> layout(List<Contatto> contacts) {
 		Map<Integer, List<Contatto>> pages = new HashMap<Integer, List<Contatto>>();
 		int pageStart = 0;
