@@ -28,7 +28,7 @@ public class Contatto {
 	@Column(name = "email")
 	private String email;
 	
-	private StringBuilder duplicatiEmail = new StringBuilder();
+	//private StringBuilder duplicatiEmail = new StringBuilder();
 	
 	public Contatto() {}
 	
@@ -42,10 +42,10 @@ public class Contatto {
 		this.telefono = telefono;
 		this.email = email;
 	}
-	public Contatto(String nome, String cognome, String telefono, String email, String duplicatiEmail) {
-		this(nome, cognome, telefono, email);
-		this.duplicatiEmail.append(duplicatiEmail);
-	}
+//	public Contatto(String nome, String cognome, String telefono, String email, String duplicatiEmail) {
+//		this(nome, cognome, telefono, email);
+//		this.duplicatiEmail.append(duplicatiEmail);
+//	}
 	public String getNome() {
 		return nome;
 	}
@@ -74,12 +74,12 @@ public class Contatto {
 		this.email = email;
 	}
 	
-	public StringBuilder getDuplicatiEmail() {
-		return duplicatiEmail;
-	}
-	public void setDuplicatiEmail(String duplicatiEmail) {
-		this.duplicatiEmail.append(duplicatiEmail);
-	}
+//	public StringBuilder getDuplicatiEmail() {
+//		return duplicatiEmail;
+//	}
+//	public void setDuplicatiEmail(String duplicatiEmail) {
+//		this.duplicatiEmail.append(duplicatiEmail);
+//	}
 	
 	public int getId() {
 		return this.id;
@@ -89,12 +89,12 @@ public class Contatto {
 	}
 	
 	public String toString() {
-		StringBuilder builder = new StringBuilder("contatto [");
+		StringBuilder builder = new StringBuilder("[");
 		builder.append("nome : ").append(this.nome)
 			.append(" - cognome : ").append(this.cognome)
 			.append(" - telefono : ").append(this.telefono)
-			.append(" - email : ").append(this.email).append("] [")
-			.append(this.duplicatiEmail.toString()).append("]");
+			.append(" - email : ").append(this.email).append("]");
+		// [").append(this.duplicatiEmail.toString()).append("]");
 		
 		return builder.toString();
 	}

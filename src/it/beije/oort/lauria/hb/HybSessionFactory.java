@@ -23,7 +23,7 @@ public class HybSessionFactory {
 			//chiedo generatore di sessioni
 			factory = configuration.buildSessionFactory();
 			
-			System.out.println("SessionFactory is create? " + factory.isOpen());
+			//System.out.println("SessionFactory is create? " + factory.isOpen());
 		}
 		
 		return factory.openSession();

@@ -98,7 +98,7 @@ public class HashMap1Test {
 		}
 		
 		result = recordDuplicati.get(start);
-		result.setDuplicatiEmail(duplicati.toString());
+		//result.setDuplicatiEmail(duplicati.toString());
 		return result;
 	}
 

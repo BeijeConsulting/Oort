@@ -63,7 +63,7 @@ public class MapClass {
 				}
 			}
 		
-		duplicato.setDuplicatiEmail(duplicatiList.toString());
+		//duplicato.setDuplicatiEmail(duplicatiList.toString());
 		return duplicato;
 	}
 
