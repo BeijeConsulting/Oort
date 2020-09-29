@@ -94,23 +94,7 @@ public class DBUtilities {
 			e.printStackTrace();
 		}
 	}
-	
-	public static Map<Integer, List<Contatto>> layout(List<Contatto> contacts) {
-		Map<Integer, List<Contatto>> pages = new HashMap<Integer, List<Contatto>>();
-		int pageStart = 0;
-		int pageEnd = 50;
-		int end = (contacts.size()/50) + 1;
-		for (int i = 1; i <= end; i++) {
-			if (pageEnd > contacts.size()) {
-				pageEnd = contacts.size();
-			}
-			pages.put(i, contacts.subList(pageStart, pageEnd));
-			pageStart = pageEnd;
-			pageEnd += 50;
-		}
-		return pages;
-	}
-	
+
 	public static void exportDB(List<Contatto> contacts) {
 		Connection connection = null;
 		PreparedStatement ps = null;

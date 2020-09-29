@@ -1,11 +1,27 @@
 package it.beije.oort.files;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "rubrica")
 public class Contatto {
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
 	private int id;
+	@Column
 	private String nome;
+	@Column
 	private String cognome;
+	@Column
 	private String telefono;
+	@Column
 	private String email;
 	
 	public Contatto() {}
@@ -57,9 +73,11 @@ public class Contatto {
 		this.email = email;
 	}
 	
+	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(this.nome).append(";")
+		builder.append(this.id).append(";")
+		.append(this.nome).append(";")
 		.append(this.cognome).append(";")
 		.append(this.email).append(";")
 		.append(this.telefono).append(";");
