@@ -1,8 +1,10 @@
-package it.beije.oort.file.sala;
+package it.beije.oort.file.sala.db;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+
+import it.beije.oort.file.sala.rubrica.Contatto;
 
 public class HibernateSessionFactory {
 	

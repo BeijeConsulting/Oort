@@ -1,4 +1,4 @@
-package it.beije.oort.file.sala;
+package it.beije.oort.file.sala.rubrica;
 
 import java.io.IOException;
 import java.util.ArrayList;

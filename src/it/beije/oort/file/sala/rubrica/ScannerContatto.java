@@ -1,8 +1,10 @@
-package it.beije.oort.file.sala;
+package it.beije.oort.file.sala.rubrica;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import it.beije.oort.file.sala.db.HibernateToolset;
 
 public class ScannerContatto {
 

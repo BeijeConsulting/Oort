@@ -1,4 +1,4 @@
-package it.beije.oort.file.sala;
+package it.beije.oort.file.sala.rubrica;
 
 import java.io.IOException;
 import java.util.List;
@@ -7,6 +7,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import org.xml.sax.SAXException;
+
+import it.beije.oort.file.sala.db.HibernateToolset;
 
 public class Runner {
 

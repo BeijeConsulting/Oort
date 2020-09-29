@@ -1,10 +1,12 @@
-package it.beije.oort.file.sala;
+package it.beije.oort.file.sala.db;
 
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+
+import it.beije.oort.file.sala.rubrica.Contatto;
 
 public class HibernateToolset {
 
@@ -31,7 +33,7 @@ public class HibernateToolset {
 	public static void insertHibernate(List<Contatto> contatti) {
 		Session session = HibernateSessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
-		for(Contatto c : contatti) {
+		for(Object c : contatti) {
 			session.save(c);
 		}
 		transaction.commit();

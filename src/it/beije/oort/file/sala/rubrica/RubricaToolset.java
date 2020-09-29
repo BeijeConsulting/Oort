@@ -1,4 +1,4 @@
-package it.beije.oort.file.sala;
+package it.beije.oort.file.sala.rubrica;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
