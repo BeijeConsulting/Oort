@@ -1,9 +1,9 @@
 package it.beije.oort.franceschi.jdbcRubrica.cli;
 
-import it.beije.oort.franceschi.rubrica.Contatto;
 import it.beije.oort.franceschi.csvToXml.CSVParser;
 import it.beije.oort.franceschi.csvToXml.InputManager;
 import it.beije.oort.franceschi.csvToXml.XMLParser;
+import it.beije.oort.franceschi.rubrica.Contatto;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -79,7 +79,6 @@ public class DBConsoleAppUtils {
      * Shows possible inputs for the user
      */
     public static void showInit() {
-        System.out.println("Benvenuto in DBConsoleApp, una CLI per Database.");
         System.out.println("Comandi disponibili:");
         showHelp();
         System.out.println("Per scegliere, scrivi il numero relativo al comando desiderato e premi INVIO.");

@@ -28,27 +28,37 @@ public class HDBConsoleApp {
      * Global static scanner used in most of the methods.
      */
     private static final Scanner sc = new Scanner(System.in);
+
     /**
      * A List containing all the contacts returned by methods querying the Database.
      */
     private static List<Contatto> resultList = new ArrayList<>();
+
     /**
      * Array containing the names of the columns of the table.
      */
     private static final String[] columnNames = {"ID", "NOME", "COGNOME", "TELEFONO", "EMAIL"};
+
     /**
      * Maximum amount of entries per page.
      */
     private static final int MAX_ENTRIES_PER_PAGE = 10;
 
+    /**
+     * A global static Hibernate session created using a Singleton.
+     */
     private static Session session;
 
-    public static void main(String[] args) {
-        init();
+    /**
+     * This method starts the program
+     */
+    private void start(){
+        System.out.println("Benvenuto in HDBConsoleApp, una CLI per Database che utilizza il framework Hibernate.");
+        session = SingletonSessionFactory.openSession();
         String line = "";
         // Start the loop to get the user input
         while (!line.equalsIgnoreCase("9")) {
-            // Show instructions
+            // Show instructions and possible commands to the user
             DBConsoleAppUtils.showInit();
             // Get the input
             System.out.println("Cosa desideri fare?");
@@ -58,7 +68,7 @@ public class HDBConsoleApp {
                 System.err.println("Input non valido");
                 continue;
             }
-            // Do things depending on input
+            // Main program loop
             switch (line) {
                 case "8":
                     DBConsoleAppUtils.showHelp();
@@ -90,6 +100,10 @@ public class HDBConsoleApp {
         session.close();
         sc.close();
     }
+
+    ///////////////////////////////////////////////
+    // METODI PRINCIPALI
+    ///////////////////////////////////////////////
 
     /**
      * Export all the Database content into a CSV or XML file.
@@ -159,13 +173,6 @@ public class HDBConsoleApp {
             session.delete(c);
             ts.commit();
         }
-    }
-
-    /**
-     * Initializaton method.
-     */
-    private static void init() {
-        session = SingletonSessionFactory.openSession();
     }
 
     /**
@@ -284,11 +291,13 @@ public class HDBConsoleApp {
                 System.err.println("Non hai inserito un numero!");
                 return;
             }
-            resultList.add(HDBReader.getContattoById(id));
+            Contatto result = HDBReader.getContattoById(id);
+            System.out.println("Trovato il seguente Contatto con ID " + id + ": ");
+            System.out.println(result);
         } else {
             resultList = HDBReader.searchBy(col, query);
+            pageManager();
         }
-        pageManager();
     }
 
     /**
@@ -300,6 +309,10 @@ public class HDBConsoleApp {
         resultList.addAll(session.createQuery(selectAll, Contatto.class).list());
         if (showPage) pageManager();
     }
+
+    ///////////////////////////////////////////////
+    // PAGINAZIONE
+    ///////////////////////////////////////////////
 
     /**
      * Main method to paginate query results. It's basically used to increment or decrement the page.
@@ -346,5 +359,9 @@ public class HDBConsoleApp {
         }
         System.out.println();
         System.out.println("<- Prev --- [QUIT] --- Next ->");
+    }
+
+    public static void main(String[] args) {
+        new HDBConsoleApp().start();
     }
 }

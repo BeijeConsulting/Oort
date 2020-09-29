@@ -41,7 +41,7 @@ public class HDBWriter {
      * Adds a List of Contatto to the database.
      * @param contatti an Array of Contatto to add to the Database
      */
-    public static void addContatti(List<Contatto> contatti){
+    public static void addAllContatto(List<Contatto> contatti){
         Session session = SingletonSessionFactory.openSession();
         Transaction ts;
         for (Contatto c : contatti){
