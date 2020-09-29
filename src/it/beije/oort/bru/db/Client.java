@@ -145,11 +145,11 @@ public class Client {
 					System.out.println("arrivederci");
 					break;
 				default:
-					System.out.println("inserisci un'opzione valida");
+					System.out.println("Le opzioni vanno da 1 a 5!");
 					break;
 				}
 			} catch (NumberFormatException e) {
-				System.out.println("Inserisci un'opzione valida!");
+				System.out.println("Inserisci un numero da 1 a 5!");
 			}
 		}
 		keyboard.close();
