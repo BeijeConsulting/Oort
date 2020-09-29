@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "author")
-public class Author implements Comparable<Author>, Serializable {
+public class Author extends LibraryBean implements Comparable<Author>, Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

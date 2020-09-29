@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "loan")
-public class Loan implements Comparable<Loan>, Serializable {
+public class Loan extends LibraryBean implements Comparable<Loan>, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
