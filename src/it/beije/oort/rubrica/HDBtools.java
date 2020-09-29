@@ -16,19 +16,19 @@ public class HDBtools {
 	public static void main(String[] args) {
 		System.out.println("INIZIO");
 
-		//inizializzo configurazione
-		Configuration configuration = new Configuration();
-		configuration = configuration.configure()
-				.addAnnotatedClass(Contatto.class);
-				//.addAnnotatedClass(AltraClasse.class);
-		
-		//chiedo generatore di sessioni
-		SessionFactory factory = configuration.buildSessionFactory();
-		
-		System.out.println("is open? " + factory.isOpen());
+//		//inizializzo configurazione
+//		Configuration configuration = new Configuration();
+//		configuration = configuration.configure()
+//				.addAnnotatedClass(Contatto.class);
+//				//.addAnnotatedClass(AltraClasse.class);
+//		
+//		//chiedo generatore di sessioni
+//		SessionFactory factory = configuration.buildSessionFactory();
+//		
+//		System.out.println("is open? " + factory.isOpen());
 		
 		//apro sessione
-		Session session = factory.openSession();
+		Session session = HybSessionFactory.openSession();
 		System.out.println("session is open? " + session.isOpen());
 
 		//esempio lettura tramite id
@@ -91,6 +91,12 @@ public class HDBtools {
 		session.close();
 		
 		System.out.println("session is open? " + session.isOpen());
+
+		
+		//test HybSessionFactory
+		session = HybSessionFactory.openSession();
+		System.out.println("new session is open? " + session.isOpen());
+		session.close();
 		
 		System.out.println("FINE");
 	}
