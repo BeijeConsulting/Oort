@@ -382,7 +382,7 @@ public class Phonebook {
 			fileWriter.write(pattern + "\n");
 
 			for (Contact contact : list) {
-				
+
 				fileWriter.write(contact.toCsvRow(pattern, isRandom));
 			}
 
@@ -629,13 +629,14 @@ public class Phonebook {
 
 		if (list.size() > 0) {
 			Collections.sort(list, new Comparator<Contact>() {
-				
+
 				@Override
 				public int compare(final Contact contactObject1, final Contact contactObject2) {
 
-					switch (field) {
+					switch (field.toUpperCase()) {
 					case "ID":
-						return contactObject1.getId().compareTo(contactObject2.getId());
+						return Integer.valueOf(contactObject1.getId())
+								.compareTo(Integer.valueOf(contactObject2.getId()));
 					default:
 					case "NOME":
 					case "NAME":

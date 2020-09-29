@@ -87,6 +87,7 @@ public class HDBtools {
 		
 //		//chiudo la sessione
 		session.close();
+		
 		System.out.println("session is open? " + session.isOpen());
 		
 		System.out.println("FINE");

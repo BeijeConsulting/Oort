@@ -4,14 +4,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "phonebook")
 public class Contact {
 
-	private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private int id;
+
+	@Column(name = "name")
 	private String name;
+
+	@Column(name = "surname")
 	private String surname;
+
+	@Column(name = "mobile")
 	private String mobile;
+
+	@Column(name = "email")
 	private String email;
-	private List<String> alias = new ArrayList<String>();
+
+	private List<String> alias;
 
 	public Contact() {
 	}
@@ -26,8 +47,8 @@ public class Contact {
 		this.mobile = mobile;
 		this.email = email;
 	}
-	
-	public Integer getId() {
+
+	public int getId() {
 		return id;
 	}
 
@@ -68,6 +89,9 @@ public class Contact {
 	}
 
 	public List<String> getAlias() {
+		if(alias == null) {
+			alias = new ArrayList<String>();
+		}
 		return alias;
 	}
 
@@ -135,7 +159,7 @@ public class Contact {
 					if (r.nextInt(5) + 1 == 1) {
 						builder.append(this.name);
 					}
-					
+
 				} else {
 					builder.append(this.name);
 				}

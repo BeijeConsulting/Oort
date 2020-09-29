@@ -289,7 +289,7 @@ public class DBManager {
 			ps.setString(2, contact.getSurname());
 			ps.setString(3, contact.getMobile());
 			ps.setString(4, contact.getEmail());
-			ps.setString(5, contact.getId().toString());
+			ps.setInt(5, contact.getId());
 
 			ps.execute();
 
