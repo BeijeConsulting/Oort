@@ -34,7 +34,7 @@ public class HDBtools {
 //		System.out.println(c);
 		
 		//esempio query HQL
-		String hql = "SELECT c FROM Contatto as c WHERE cognome = 'rossi'";
+		String hql = "SELECT c FROM Contatto as c WHERE cognome = 'maisto'";
 		Query<Contatto> query = session.createQuery(hql);
 		System.out.println(query.list().size());
 		for (Contatto contatto : query.list()) {
