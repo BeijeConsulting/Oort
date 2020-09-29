@@ -9,7 +9,7 @@ import org.hibernate.cfg.Configuration;
 
 import it.beije.oort.bm.dbclient.Contatto;
 
-public class ConcreteHybernateDatabase extends Database {
+public class ConcreteHibernateDatabase extends Database {
 	private Session session;
 	
 	private static final String SELECT = "SELECT c FROM Contatto as c ";
@@ -22,7 +22,7 @@ public class ConcreteHybernateDatabase extends Database {
 	private static final String AND = "AND ";
 //	private static final String OR = "OR ";
 	
-	ConcreteHybernateDatabase() {
+	ConcreteHibernateDatabase() {
 		session = new Configuration().configure().buildSessionFactory().openSession();
 	}
 	
