@@ -4,21 +4,34 @@ import it.beije.oort.franceschi.rubrica.utils.GeneraMail;
 import it.beije.oort.franceschi.rubrica.utils.GeneraNumero;
 import it.beije.oort.franceschi.rubrica.utils.Valori;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Random;
 
+@Entity
+@Table(name = "rubrica")
 public class Contatto {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
+
+    @Column(name = "nome")
     private String nome;
+
+    @Column(name = "cognome")
     private String cognome;
+
+    @Column(name = "telefono")
     private String cell = "";
+
+    @Column(name = "email")
     private String email = "";
 
     public Contatto() {
     }
 
-    public Contatto(boolean random) {
+    public Contatto(boolean isRandom) {
         Random r = new Random();
         this.nome = Valori.getNomi().get(r.nextInt(Valori.getNomi().size()));
         this.cognome = Valori.getCognomi().get(r.nextInt(Valori.getCognomi().size()));
@@ -77,7 +90,7 @@ public class Contatto {
     /**
      * @return the formatted string following the CSV convention with quotes.
      */
-    public String toFormattedString() {
+    public String toCSVString() {
         return "\"" + cognome + "\";\"" + nome + "\";\"" + email +
                 "\";\"" + cell + "\";\"" +
                 "\"";
@@ -107,7 +120,6 @@ public class Contatto {
         return s.toString();
     }
 
-
     public int hashCode() {
         int hash = 3;
         hash = 53 * hash + (this.email != null ? this.email.hashCode() : 0);
@@ -119,16 +131,10 @@ public class Contatto {
 
 
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-
-        if (obj.getClass() != this.getClass()) {
-            return false;
-        }
+        if (obj == null) return false;
+        if (obj.getClass() != this.getClass()) return false;
 
         final Contatto c = (Contatto) obj;
-
         return (this.email == null) ? (c.getEmail() == null) : this.email.equals(c.getEmail());
     }
 }

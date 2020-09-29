@@ -10,7 +10,8 @@ import org.hibernate.query.Query;
 public class HDBTester {
     public static void main(String[] args){
         // Inizializzo la configurazione base di Hibernate con file
-        Configuration configuration = new Configuration().configure();
+        Configuration configuration = new Configuration().configure()
+                .addAnnotatedClass(Contatto.class);
         // Creo la SessionFactory
         SessionFactory sessionFactory = configuration.buildSessionFactory();
         // Apro una nuova sessione

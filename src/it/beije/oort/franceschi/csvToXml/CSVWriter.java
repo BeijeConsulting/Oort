@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -20,9 +19,9 @@ public class CSVWriter {
             bf.write("COGNOME;NOME;EMAIL;TELEFONO;\n");
             for (int i = 0; i < list.size(); i++) {
                 if (i != list.size() - 1) {
-                    bf.write(list.get(i).toFormattedString() + '\n');
+                    bf.write(list.get(i).toCSVString() + '\n');
                 } else {
-                    bf.write(list.get(i).toFormattedString());
+                    bf.write(list.get(i).toCSVString());
                 }
             }
         } catch (IOException e) {
@@ -38,9 +37,9 @@ public class CSVWriter {
             bf.write("COGNOME;NOME;EMAIL;TELEFONO;\n");
             for (int i = 0; i < list.size(); i++) {
                 if (i != list.size() - 1) {
-                    bf.write(list.get(i).toFormattedString() + '\n');
+                    bf.write(list.get(i).toCSVString() + '\n');
                 } else {
-                    bf.write(list.get(i).toFormattedString());
+                    bf.write(list.get(i).toCSVString());
                 }
             }
         } catch (IOException e) {
@@ -56,9 +55,9 @@ public class CSVWriter {
             bf.write("COGNOME;NOME;EMAIL;TELEFONO;\n");
             for (int i = 0; i < list.size(); i++) {
                 if (i != list.size() - 1) {
-                    bf.write(list.get(i).toFormattedString() + '\n');
+                    bf.write(list.get(i).toCSVString() + '\n');
                 } else {
-                    bf.write(list.get(i).toFormattedString());
+                    bf.write(list.get(i).toCSVString());
                 }
             }
         } catch (IOException e) {
