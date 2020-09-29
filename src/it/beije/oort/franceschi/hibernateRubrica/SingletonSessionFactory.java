@@ -8,18 +8,17 @@ import org.hibernate.cfg.Configuration;
 public class SingletonSessionFactory {
     private SingletonSessionFactory(){}
 
-    private static Session session;
+    private static SessionFactory sessionFactory;
 
     public static Session openSession(){
-        if (session == null){
+        if (sessionFactory == null){
             // Inizializzo la configurazione base di Hibernate con file
             Configuration configuration = new Configuration().configure()
                     .addAnnotatedClass(Contatto.class);
             // Creo la SessionFactory
-            SessionFactory sessionFactory = configuration.buildSessionFactory();
-            // Apro una nuova sessione
-            session = sessionFactory.openSession();
+            sessionFactory = configuration.buildSessionFactory();
         }
-        return session;
+        // Creo e ritorno una nuova sessione
+        return sessionFactory.openSession();
     }
 }
