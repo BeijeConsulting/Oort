@@ -6,10 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -18,15 +15,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
 import it.beije.oort.gregori.parser.WriterCsv;
 import it.beije.oort.gregori.parser.WriterXml;
 import it.beije.oort.gregori.rubrica.db.*;
 import it.beije.oort.rubrica.Contatto;
+import it.beije.oort.rubrica.HybSessionFactory;
 
 /**
  * Client da riga di comando per la gestione di un database "rubrica".
@@ -46,27 +42,7 @@ import it.beije.oort.rubrica.Contatto;
  *
  */
 public class Menu {
-	public static Configuration configuration;
-	public static SessionFactory factory;
-	public static Session session;
-	
-	static {
-		System.out.println("INIZIO");
-
-		//inizializzo configurazione
-		configuration = new Configuration();
-		configuration = configuration.configure();
-		
-		//chiedo generatore di sessioni
-		factory = configuration.buildSessionFactory();
-		
-		System.out.println("is open? " + factory.isOpen());
-		
-		//apro sessione
-		session = factory.openSession();
-		System.out.println("session is open? " + session.isOpen());
-	}
-	
+	private static Scanner sc = new Scanner(System.in);
 	
 	/**
 	 * Metodo che si occupa della chiamata delle varie funzioni
@@ -118,17 +94,19 @@ public class Menu {
 	}
 
 	/**
+	 * Metodo che carica tutti i contatti del db in una lista
+	 * chiede all'utente quanti records visualizzare per pagina
+	 * per uscire dalla visualizzazione l'utente deve inserire il carattere 'q'
+	 * per visualizzare la pagina seguente può inserire un carattere qualsiasi
 	 * 
 	 * @throws IOException
 	 * @throws ParserConfigurationException
 	 * @throws TransformerException
 	 */
 	private static void visualizzaContatti() throws IOException, ParserConfigurationException, TransformerException {
-		String hql = "SELECT c FROM Contatto as c";
-		Query<Contatto> contatti = session.createQuery(hql);
-		Scanner sc = new Scanner(System.in);
+		List<Contatto> contatti = Menu.readContatti();
 		
-		System.out.println("Caricati " + contatti.list().size() + " contatti.");
+		System.out.println("Caricati " + contatti.size() + " contatti.");
 		int value = 0; 
 		
 		System.out.println("Quanti contatti vuoi visualizzare per pagina?");
@@ -144,13 +122,13 @@ public class Menu {
 		int i = 0;
 		char scelta = ' ';
 		do {
-			int maxSize = ((value + i) > contatti.list().size() ? contatti.list().size() : (value + i));
+			int maxSize = ((value + i) > contatti.size() ? contatti.size() : (value + i));
 			while(i < maxSize) {
-				System.out.println(contatti.list().get(i).getId() + ") " + contatti.list().get(i));
+				System.out.println(contatti.get(i).getId() + ") " + contatti.get(i));
 				i++;
 			}
 
-			if(i >= contatti.list().size()) {
+			if(i >= contatti.size()) {
 				System.out.println("Non ci sono più pagine da visualizzare");
 				System.out.println("Premere q per terminare la visualizzazione.");
 			}
@@ -160,7 +138,7 @@ public class Menu {
 			}
 			scelta = sc.nextLine().charAt(0);
 		} while(scelta != 'q');
-		showMenu();
+		Menu.showMenu();
 	}
 	
 	/**
@@ -169,45 +147,14 @@ public class Menu {
 	 * 
 	 * @return
 	 */
-//	private static Map<Integer, Contatto> readContatti() {
-//		Map<Integer, Contatto> contatti = new HashMap<Integer, Contatto>();
-//		
-//		Connection connection = null;
-//		PreparedStatement ps = null;
-//		ResultSet rs = null;
-//		
-//		try {
-//			connection = DBManager.getMySqlConnection(DBManager.DB_URL, DBManager.DB_USER, DBManager.DB_PASSWORD);
-//			//System.out.println("connection is open? " + !connection.isClosed());
-//			
-//			ps = connection.prepareStatement("SELECT id, cognome, nome, telefono, email FROM rubrica.rubrica");
-//			
-//			rs = ps.executeQuery();
-//			
-//			while (rs.next()) {
-//				Contatto c = new Contatto();
-//				c.setCognome(rs.getString("cognome"));
-//				c.setNome(rs.getString("nome"));
-//				c.setTelefono(rs.getString("telefono"));
-//				c.setEmail(rs.getString("email"));
-//				contatti.put(rs.getInt("id"), c);
-//				//contatti.add(c);
-//			}
-//		} catch (SQLException sqlException) {
-//			sqlException.printStackTrace();
-//		} catch (ClassNotFoundException cnfEx) {
-//			cnfEx.printStackTrace();
-//		} finally {
-//			try {
-//				rs.close();
-//				ps.close();
-//				connection.close();
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return contatti;
-//	}
+	private static List<Contatto> readContatti() {
+		String hql = "SELECT c FROM Contatto as c";
+		Session session = HybSessionFactory.openSession();
+		List<Contatto> contatti = session.createQuery(hql).list();
+		session.close();
+		
+		return contatti;
+	}
 
 	/**
 	 * Metodo che permette di effettuare la ricerca di un contatto sul database
@@ -224,12 +171,9 @@ public class Menu {
 		System.out.println("Inserisci cosa vuoi cercare:");
 		System.out.println("Inserire % se si vuole cercare in stile SQL");
 		
-		Scanner sc = new Scanner(System.in);
-		
 		String search = sc.nextLine();
-		List<Contatto> contatti = select(search);
+		List<Contatto> contatti = Menu.select(search);
 		
-//		contatti.forEach((key, value) -> System.out.println(key + ") " + value));
 		for(Contatto contatto : contatti) {
 			System.out.println(contatto.getId() + ") " + contatto);
 		}
@@ -255,61 +199,26 @@ public class Menu {
 	 * @return
 	 */
 	private static List<Contatto> select(String search){
-//		Connection connection = null;
-//		PreparedStatement ps = null;
-//		ResultSet rs = null;
+		Session session = HybSessionFactory.openSession();
 		
-//		try {
-//			connection = DBManager.getMySqlConnection(DBManager.DB_URL, DBManager.DB_USER, DBManager.DB_PASSWORD);
 		String hql = "";
 		
 			if(search.contains("%")) {
 				hql = ("SELECT c "
 						+ "FROM Contatto as c "
 						+ "WHERE id like '" + search + "' OR nome like '" + search + "' OR cognome like '" + search + "' OR telefono like '" + search + "' OR email like  '" + search + "'");
-//				ps.setString(1, search);
-//				ps.setString(2, search);
-//				ps.setString(3, search);
-//				ps.setString(4, search);
-//				ps.setString(5, search);
 			}
 			else {
 				hql = ("SELECT c "
 						+ "FROM Contatto as c "
 						+ "WHERE id = '" + search + "' OR nome = '" + search + "' OR cognome = '" + search + "' OR telefono = '" + search + "' OR email = '" + search + "'");
-//				ps.setString(1, search);
-//				ps.setString(2, search);
-//				ps.setString(3, search);
-//				ps.setString(4, search);
-//				ps.setString(5, search);
 			}
 			
 			Query<Contatto> query = session.createQuery(hql);
 			List<Contatto> contatti = query.list();
 			
-//			rs = ps.executeQuery();
-//			
-//			while (rs.next()) {
-//				Contatto contatto = new Contatto();
-//				contatto.setNome(rs.getString("nome"));
-//				contatto.setCognome(rs.getString("cognome"));
-//				contatto.setEmail(rs.getString("email"));
-//				contatto.setTelefono(rs.getString("telefono"));
-//				contatti.put(rs.getInt("id"), contatto);
-//			}
-//		} catch (SQLException sqlException) {
-//			sqlException.printStackTrace();
-//		} catch (ClassNotFoundException cnfEx) {
-//			cnfEx.printStackTrace();
-//		} finally {
-//			try {
-//				rs.close();
-//				ps.close();
-//				connection.close();
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
+			session.close();
+			
 		return contatti;
 	}
 	
@@ -322,33 +231,33 @@ public class Menu {
 	 * @throws TransformerException
 	 */
 	private static void modificaContatto() throws IOException, ParserConfigurationException, TransformerException {
-		String hql = "SELECT c FROM Contatto as c";
-		Query<Contatto> query = session.createQuery(hql);
+		List<Contatto> tempList = Menu.readContatti();
 		Map<Integer, Contatto> contatti = new HashMap<Integer, Contatto>();
 		
-		for(Contatto contatto : query.list()) {
+		for(Contatto contatto : tempList) {
 			contatti.put(contatto.getId(), contatto);
 		}
 	
 		System.out.println("Inserisci l'id del contatto da modificare: ");		
-		Scanner sc = new Scanner(System.in);
 		int id = Integer.parseInt(sc.nextLine());
 		if (!contatti.containsKey(id)) {
 			System.out.println("L'id inserito non è presente nel database!");
 			Menu.modificaContatto();
 		} 
-		//Contatto contatto = creaContatto();
-//		update(id, contatto);
+		
+		Session session = HybSessionFactory.openSession();
 		
 		Transaction transaction = session.beginTransaction();
 		Contatto contatto = session.get(Contatto.class, id);
-		Contatto temp = creaContatto();
+		Contatto temp = Menu.creaContatto();
 		contatto.setCognome(temp.getCognome());
 		contatto.setNome(temp.getNome());
 		contatto.setTelefono(temp.getTelefono());
 		contatto.setEmail(temp.getEmail());
 		session.save(contatto);
 		transaction.commit();
+		
+		session.close();
 		
 		Menu.showMenu();
 	}
@@ -362,8 +271,6 @@ public class Menu {
 	 * @throws TransformerException
 	 */
 	private static Contatto creaContatto() throws IOException, ParserConfigurationException, TransformerException {
-		
-		Scanner sc = new Scanner(System.in);
 		
 		System.out.println("Inserimento di un contatto.");
 		Contatto contatto = new Contatto();
@@ -389,46 +296,6 @@ public class Menu {
 		
 		return contatto;
 	}
-	
-	/**
-	 * Metodo di utility che sostituisce il contatto presente sul db all'id 
-	 * passato come parametro con il contatto passato.
-	 * 
-	 * @param id
-	 * @param contatto
-	 */
-	private static void update(int id, Contatto contatto) {
-		Connection connection = null;
-		Statement statement = null;
-		
-		try {
-			connection = DBManager.getMySqlConnection(DBManager.DB_URL, DBManager.DB_USER, DBManager.DB_PASSWORD);
-			
-			statement = connection.createStatement();
-			
-			statement.execute("UPDATE rubrica "
-							+ "SET nome = '" + contatto.getNome() + "', " + 
-								"cognome = '"  + contatto.getCognome() + "', " +
-								"email = '"  + contatto.getEmail() + "', " +
-								"telefono = '"  + contatto.getTelefono() + "'"
-							+ "WHERE id = '" + id + "'");
-			
-			//System.out.println("Record inserted: " + statement.getUpdateCount());
-			System.out.println("Contatto aggiornato correttamente!");
-			
-		} catch (SQLException sqlException) {
-			sqlException.printStackTrace();
-		} catch (ClassNotFoundException cnfEx) {
-			cnfEx.printStackTrace();
-		} finally {
-			try {
-				statement.close();
-				connection.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
 
 	/**
 	 * Metodo che rimuove un contatto presente sul db con
@@ -441,9 +308,8 @@ public class Menu {
 	private static void rimuoviContatto() throws IOException, ParserConfigurationException, TransformerException {
 		System.out.println("Inserisci l'id del contatto da eliminare: ");
 		
-		Scanner sc = new Scanner(System.in);
 		int id = Integer.parseInt(sc.nextLine());
-		delete(id);
+		Menu.delete(id);
 		Menu.showMenu();
 	}
 	
@@ -453,31 +319,15 @@ public class Menu {
 	 * @param id
 	 */
 	private static void delete(int id) {
-		Connection connection = null;
-		Statement statement = null;
+		Session session = HybSessionFactory.openSession();
 		
-		try {
-			connection = DBManager.getMySqlConnection(DBManager.DB_URL, DBManager.DB_USER, DBManager.DB_PASSWORD);
-			
-			statement = connection.createStatement();
-			
-			statement.execute("DELETE FROM rubrica WHERE id = '" + id + "'");
-			
-			//System.out.println("Record inserted: " + statement.getUpdateCount());
-			System.out.println("Contatto eliminato correttamente!");
-			
-		} catch (SQLException sqlException) {
-			sqlException.printStackTrace();
-		} catch (ClassNotFoundException cnfEx) {
-			cnfEx.printStackTrace();
-		} finally {
-			try {
-				statement.close();
-				connection.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		Transaction transaction = session.beginTransaction();
+		session.delete(session.get(Contatto.class, id));
+		transaction.commit();
+		
+		session.close();
+		
+		System.out.println("Contatto eliminato correttamente!");
 	}
 
 	/**
@@ -499,31 +349,12 @@ public class Menu {
 	 * @param contatto
 	 */
 	private static void insert(Contatto contatto) {
-		Connection connection = null;
-		Statement statement = null;
+		Session session = HybSessionFactory.openSession();
 		
-		try {
-			connection = DBManager.getMySqlConnection(DBManager.DB_URL, DBManager.DB_USER, DBManager.DB_PASSWORD);
-			//System.out.println("Connected? " + !connection.isClosed());
-			
-			statement = connection.createStatement();
-			
-			statement.execute("INSERT INTO rubrica (cognome, nome, telefono, email) "
-							+ "VALUES ('"+contatto.getCognome()+"', '"+contatto.getNome()+
-										"', '"+contatto.getTelefono()+"', '"+contatto.getEmail()+"')");
-			System.out.println("Contatto inserito correttamente!");
-		} catch (SQLException sqlException) {
-			sqlException.printStackTrace();
-		} catch (ClassNotFoundException cnfEx) {
-			cnfEx.printStackTrace();
-		} finally {
-			try {
-				statement.close();
-				connection.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		Transaction transaction = session.beginTransaction();
+		session.save(contatto);
+		transaction.commit();
+		session.close();
 	}
 
 	/**
@@ -535,7 +366,6 @@ public class Menu {
 	 * @throws TransformerException
 	 */
 	private static void exportDatabase() throws IOException, ParserConfigurationException, TransformerException {
-		Scanner sc = new Scanner(System.in);
 		
 		System.out.println("Inserire il nome del file: (formato non necessario)");
 		String fileName = sc.nextLine();
@@ -563,5 +393,6 @@ public class Menu {
 	
 	public static void main(String[] args) throws IOException, ParserConfigurationException, TransformerException {
 		Menu.showMenu();
+		Menu.sc.close();
 	}
 }
