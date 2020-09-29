@@ -83,15 +83,25 @@ public class Contatto {
 //	}
 	
 	public String toString() {
-		StringBuilder builder = new StringBuilder("contatto [");
-		builder.append("nome : ").append(this.nome)
-			.append(" - cognome : ").append(this.cognome)
-			.append(" - telefono : ").append(this.telefono)
-			.append(" - email : ").append(this.email).append("]");
+		StringBuilder builder = new StringBuilder("[");
+		builder.append("ID : ").append(this.id).append(" - Nome : ").append(this.nome)
+		.append(" - Cognome : ").append(this.cognome)
+		.append(" - Telefono : ").append(this.telefono)
+		.append(" - Email : ").append(this.email).append("]");
 		
 		return builder.toString();
 	}
 
+	public String toFormattString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(this.id)
+		.append(";").append(this.nome)
+		.append(";").append(this.cognome)
+		.append(";").append(this.telefono)
+		.append(";").append(this.email);
+		
+		return builder.toString();
+	}
 	public boolean equals(Contatto c) {
 		return(this.nome.equals(c.getNome()) && this.cognome.equals(c.getCognome()) &&
 			this.telefono.equals(c.getTelefono()) && this.email.equals(c.getEmail()));

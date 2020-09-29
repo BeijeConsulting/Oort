@@ -92,10 +92,10 @@ public class HDBtools {
 		System.out.println("session is open? " + session.isOpen());
 
 		
-		//test HybSessionFactory
-		session = HybSessionFactory.openSession();
-		System.out.println("new session is open? " + session.isOpen());
-		session.close();
+//		//test HybSessionFactory
+//		session = HybSessionFactory.openSession();
+//		System.out.println("new session is open? " + session.isOpen());
+//		session.close();
 		
 		System.out.println("FINE");
 	}
