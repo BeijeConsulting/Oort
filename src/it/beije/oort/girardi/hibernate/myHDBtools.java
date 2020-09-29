@@ -1,4 +1,4 @@
-package it.beije.oort.rubrica;
+package it.beije.oort.girardi.hibernate;
 
 import java.util.List;
 
@@ -10,8 +10,10 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 
+import it.beije.oort.rubrica.Contatto;
 
-public class HDBtools {
+
+public class myHDBtools {
 	
 	public static void main(String[] args) {
 		System.out.println("INIZIO");
@@ -61,25 +63,25 @@ public class HDBtools {
 		Transaction transaction = session.beginTransaction();
 		
 		//esempio INSERT
-		Contatto contatto = new Contatto();
-		contatto.setId(4);
-		contatto.setNome("Fiorenza");
-		contatto.setCognome("Volpe");
-		contatto.setEmail("fiore@volpe.it");
-		contatto.setTelefono("34556616");
-		System.out.println("id : " + contatto.getId());
-		session.save(contatto);
-		System.out.println("id : " + contatto.getId());
+//		Contatto contatto = new Contatto();
+//		contatto.setId(4);
+//		contatto.setNome("Fiorenza");
+//		contatto.setCognome("Volpe");
+//		contatto.setEmail("fiore@volpe.it");
+//		contatto.setTelefono("34556616");
+//		System.out.println("id : " + contatto.getId());
+//		session.save(contatto);
+//		System.out.println("id : " + contatto.getId());
 		
 		//esempio UPDATE
-//		Contatto contatto = session.get(Contatto.class, 6);
-//		System.out.println(contatto);
-//		contatto.setNome("Johnny");
-//		contatto.setCognome("Bravo");
-//		contatto.setTelefono("333");
-//		contatto.setEmail("johnny@be.good");
-//		System.out.println(contatto);
-//		session.save(contatto);
+		Contatto contatto = session.get(Contatto.class, 6);
+		System.out.println(contatto);
+		contatto.setNome("Johnny");
+		contatto.setCognome("Bravo");
+		contatto.setTelefono("333");
+		contatto.setEmail("johnny@be.good");
+		System.out.println(contatto);
+		session.save(contatto);
 		
 		//esempio DELETE
 //		Contatto contatto = session.get(Contatto.class, 4);
