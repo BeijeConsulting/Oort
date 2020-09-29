@@ -1,23 +1,25 @@
 package it.beije.oort.franceschi.hibernateRubrica.cli;
 
+import it.beije.oort.franceschi.csvToXml.CSVWriter;
+import it.beije.oort.franceschi.csvToXml.XMLWriter;
 import it.beije.oort.franceschi.hibernateRubrica.HDBReader;
 import it.beije.oort.franceschi.hibernateRubrica.HDBWriter;
 import it.beije.oort.franceschi.hibernateRubrica.SingletonSessionFactory;
-import it.beije.oort.franceschi.jdbcRubrica.DBManager;
-import it.beije.oort.franceschi.jdbcRubrica.DBReader;
-import it.beije.oort.franceschi.jdbcRubrica.cli.DBConsoleApp;
 import it.beije.oort.franceschi.jdbcRubrica.cli.DBConsoleAppUtils;
 import it.beije.oort.franceschi.rubrica.Contatto;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.persistence.NoResultException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * CLI app for a Database using Hibernate.
+ * This app recycles some util methods from the previous one.
+ */
 public class HDBConsoleApp {
     ///////////////////////////////////////////////
     // GLOBAL STATIC VARS
@@ -41,14 +43,12 @@ public class HDBConsoleApp {
 
     private static Session session;
 
-
     public static void main(String[] args) {
         init();
-        // Show instructions.
-        DBConsoleAppUtils.showInit();
         String line = "";
         // Start the loop to get the user input
         while (!line.equalsIgnoreCase("9")) {
+            // Show instructions
             DBConsoleAppUtils.showInit();
             // Get the input
             System.out.println("Cosa desideri fare?");
@@ -72,18 +72,18 @@ public class HDBConsoleApp {
                 case "2":
                     search();
                     break;
-//                case "3":
-//                    modify();
-//                    break;
-//                case "6":
-//                    delete();
-//                    break;
-//                case "4":
-//                    export();
-//                    break;
-//                case "5":
-//                    importFile();
-//                    break;
+                case "3":
+                    modify();
+                    break;
+                case "6":
+                    delete();
+                    break;
+                case "4":
+                    export();
+                    break;
+                case "5":
+                    importFile();
+                    break;
             }
         }
         System.out.println("Programma terminato");
@@ -91,6 +91,79 @@ public class HDBConsoleApp {
         sc.close();
     }
 
+    /**
+     * Export all the Database content into a CSV or XML file.
+     * Filename and extension chosen by the user.
+     */
+    private static void export(){
+        System.out.println("Inserisci nome del file con l'estensione desiderata.");
+        String outputFile = sc.nextLine().trim();
+        String ext = DBConsoleAppUtils.getFileExt(outputFile);
+
+        // Get all entries of DB into the List, without showing them.
+        getAllFromDB(false);
+        if (ext.equalsIgnoreCase("csv")){
+            CSVWriter.writeCSV(resultList, DBConsoleAppUtils.getOutputPath() + outputFile);
+            System.out.println("Scritto file CSV a questo indirizzo: " + DBConsoleAppUtils.getOutputPath() + outputFile);
+        } else if (ext.equalsIgnoreCase("xml")){
+            XMLWriter.writeList(resultList, DBConsoleAppUtils.getOutputPath() + outputFile);
+            System.out.println("Scritto file XML a questo indirizzo: " + DBConsoleAppUtils.getOutputPath() + outputFile);
+        } else{
+            System.out.println("Errore, input non valido.");
+        }
+    }
+
+    /**
+     * Import a file into the Database. File must be CSV or XML and in a specific path.
+     * User insert the file name and extension.
+     */
+    private static void importFile(){
+        System.out.println("Inserisci nome del file da importare con l'estensione.");
+        System.out.println("Il file si deve trovare in questa cartella: " + DBConsoleAppUtils.getOutputPath());
+        String inputFile = sc.nextLine().trim();
+        List<Contatto> contattiImport = DBConsoleAppUtils.loadFile(inputFile);
+        if (contattiImport != null){
+            for (Contatto c : contattiImport){
+                HDBWriter.addContatto(c);
+            }
+            HDBWriter.addContatti((Contatto) contattiImport);
+            System.out.println("Importazione completata.");
+        } else {
+            System.out.println("Errore. Importazione fallita.");
+        }
+    }
+
+    /**
+     * Delete a contact chosen by ID.
+     */
+    private static void delete(){
+        System.out.println("Inserisci l'ID del contatto da cancellare.");
+        int id;
+        try{
+            id = sc.nextInt();
+        } catch (InputMismatchException inputMismatchException){
+            System.err.println("Devi inserire un numero.");
+            delete();
+            return;
+        }
+        Contatto c = HDBReader.getContattoById(id);
+        if (c == null) {
+            return;
+        }
+        System.out.println("Hai selezionato questo contatto: " + c.toString());
+        System.out.println("Vuoi davvero cancellarlo? Scrivi [yes] per confermare.");
+        if (sc.nextLine().trim().equalsIgnoreCase("yes")){
+            // Delete
+            session = SingletonSessionFactory.openSession();
+            Transaction ts = session.beginTransaction();
+            session.delete(c);
+            ts.commit();
+        }
+    }
+
+    /**
+     * Initializaton method.
+     */
     private static void init() {
         session = SingletonSessionFactory.openSession();
     }
@@ -101,14 +174,17 @@ public class HDBConsoleApp {
     private static void modify(){
         // Get the contact to modify
         System.out.println("Inserisci l'ID del contatto da modificare.");
-        String idString = sc.nextLine().trim();
+        // Convert it to int
         int id;
         try{
-            id = Integer.parseInt(idString);
-        } catch (Exception e){
-            System.err.println("Non hai inserito un numero.");
+            id = sc.nextInt();
+        } catch (InputMismatchException inputMismatchException){
+            System.err.println("Devi inserire un numero.");
+            modify();
             return;
         }
+        // begin transaction and get the contact to modify
+        Transaction ts = session.beginTransaction();
         Contatto c = HDBReader.getContattoById(id);
         if (c == null) {
             return;
@@ -116,8 +192,8 @@ public class HDBConsoleApp {
         System.out.println("Hai selezionato questo contatto: " + c.toString());
 
         // Modify the contact here
-        String s;
-        do {
+        String s = "";
+        while (!s.equalsIgnoreCase("done")) {
             System.out.println("Cosa vuoi modificare? [N]ome, [C]ognome, [T]elefono, [E]mail. [Done] per concludere");
             s = sc.nextLine().trim().toLowerCase();
             switch (s) {
@@ -138,9 +214,10 @@ public class HDBConsoleApp {
                     c.setEmail(sc.nextLine().trim());
                     break;
             }
-        } while (!s.equalsIgnoreCase("done"));
-
+        }
         // Update the Database
+        session.save(c);
+        ts.commit();
     }
 
     /**
@@ -186,16 +263,31 @@ public class HDBConsoleApp {
         String col = sc.nextLine().trim();
         System.out.println("Cosa vuoi cercare?");
         String searchQuery = sc.nextLine().trim();
-        searchBy(col, searchQuery);
+        try{
+            searchBy(col, searchQuery);
+        } catch (NoResultException e){
+            System.err.println("Nessun risultato.");
+        }
     }
 
     /**
-     * Actual method to search the Database. This method uses the "LIKE" operator.
+     * Actual method to search the Database
      * @param col The column to search
      * @param query The "thing" to search.
      */
     private static void searchBy(String col, String query){
-        resultList = HDBReader.searchBy(col, query);
+        if (col.equalsIgnoreCase("id")){
+            int id;
+            try {
+                id = Integer.parseInt(query);
+            } catch (Exception e){
+                System.err.println("Non hai inserito un numero!");
+                return;
+            }
+            resultList.add(HDBReader.getContattoById(id));
+        } else {
+            resultList = HDBReader.searchBy(col, query);
+        }
         pageManager();
     }
 
