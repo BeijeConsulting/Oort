@@ -1,4 +1,4 @@
-package it.beije.oort.db.hybernate;
+package it.beije.oort.db.hybernate.rubrica;
 
 import java.io.IOException;
 import java.sql.SQLException;

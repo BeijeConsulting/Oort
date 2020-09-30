@@ -28,7 +28,7 @@ public class HDBtools {
 //		System.out.println("is open? " + factory.isOpen());
 		
 		//apro sessione
-		Session session = HybSessionFactory.openSession();
+		Session session = HybSessionFactoryContatto.openSession();
 		System.out.println("session is open? " + session.isOpen());
 
 		//esempio lettura tramite id

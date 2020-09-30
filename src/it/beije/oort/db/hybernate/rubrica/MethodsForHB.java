@@ -1,4 +1,4 @@
-package it.beije.oort.db.hybernate;
+package it.beije.oort.db.hybernate.rubrica;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import it.beije.oort.rubrica.Contatto;
-import it.beije.oort.rubrica.HybSessionFactory;
+import it.beije.oort.rubrica.HybSessionFactoryContatto;
 
 public class MethodsForHB {
 	
@@ -32,7 +32,7 @@ public class MethodsForHB {
 	
 	//Metodo per inserire un nuovo contatto nel DB
 	public static Contatto insert() {
-		Session session = HybSessionFactory.openSession();
+		Session session = HybSessionFactoryContatto.openSession();
 		Transaction transaction = session.beginTransaction();
 		System.out.println("Session is open? " + session.isOpen());
 		Contatto contatto = new Contatto();
@@ -54,7 +54,7 @@ public class MethodsForHB {
 	
 	//Metodo per modificare il nome
 	public static Contatto updateNome(int id_values) {
-		Session session = HybSessionFactory.openSession();
+		Session session = HybSessionFactoryContatto.openSession();
 		Transaction transaction = session.beginTransaction();
 		Contatto contatto = session.get(Contatto.class, id_values);
 		System.out.println("Contatto da modificare: " + contatto);
@@ -69,7 +69,7 @@ public class MethodsForHB {
 	
 	//Metodo per modificare il cognome
 	public static Contatto updateCognome(int id_values) {
-		Session session = HybSessionFactory.openSession();
+		Session session = HybSessionFactoryContatto.openSession();
 		Transaction transaction = session.beginTransaction();
 		Contatto contatto = session.get(Contatto.class, id_values);
 		System.out.println("Contatto da modificare: " + contatto);
@@ -84,7 +84,7 @@ public class MethodsForHB {
 	
 	//Metodo per modificare il telefono
 	public static Contatto updateTelefono(int id_values) {
-		Session session = HybSessionFactory.openSession();
+		Session session = HybSessionFactoryContatto.openSession();
 		Transaction transaction = session.beginTransaction();
 		Contatto contatto = session.get(Contatto.class, id_values);
 		System.out.println("Contatto da modificare: " + contatto);
@@ -99,7 +99,7 @@ public class MethodsForHB {
 	
 	//Metodo per modificare l'email
 	public static Contatto updateEmail(int id_values) {
-		Session session = HybSessionFactory.openSession();
+		Session session = HybSessionFactoryContatto.openSession();
 		Transaction transaction = session.beginTransaction();
 		Contatto contatto = session.get(Contatto.class, id_values);
 		System.out.println("Contatto da modificare: " + contatto);
@@ -162,7 +162,7 @@ public class MethodsForHB {
 		System.out.print("ID: ");
 		id_values = scan.nextLine();
 		int s = Integer.parseInt(id_values);
-		Session session = HybSessionFactory.openSession();
+		Session session = HybSessionFactoryContatto.openSession();
 		Transaction transaction = session.beginTransaction();
 		Contatto contatto = session.get(Contatto.class,s);
 		System.out.println("Contatto da cancellare: " + contatto);
@@ -183,7 +183,7 @@ public class MethodsForHB {
 	
 	//Metodo visualizzazione tramite ID
 	public static Contatto selectID(int id_values) {
-		Session session = HybSessionFactory.openSession();
+		Session session = HybSessionFactoryContatto.openSession();
 		Contatto contatto = session.get(Contatto.class,id_values);
 		String hql = "SELECT c FROM Contatto as c WHERE id = '" +  id_values + "'";
 		Query<Contatto> query = session.createQuery(hql);		
@@ -198,7 +198,7 @@ public class MethodsForHB {
 	
 	//Metodo visualizzazione tramite nome
 	public static void selectNome(String nome) {
-		Session session = HybSessionFactory.openSession();
+		Session session = HybSessionFactoryContatto.openSession();
 		String hql = "SELECT c FROM Contatto as c WHERE nome like '" + nome + "%'";
 		Query<Contatto> query = session.createQuery(hql);		
 		for (Contatto contatti : query.list()) {
@@ -212,7 +212,7 @@ public class MethodsForHB {
 	
 	//Metodo visualizzazione tramite cognome
 	public static void selectCognome(String cognome) {
-		Session session = HybSessionFactory.openSession();
+		Session session = HybSessionFactoryContatto.openSession();
 		String hql = "SELECT c FROM Contatto as c WHERE cognome like '" + cognome + "%'";
 		Query<Contatto> query = session.createQuery(hql);		
 		for (Contatto contatti : query.list()) {
@@ -232,7 +232,7 @@ public class MethodsForHB {
 		System.out.print("Inserire la scelta: ");  
 		String options = scan.nextLine();
 		if(options.contentEquals("1")) {
-		Session session = HybSessionFactory.openSession();
+		Session session = HybSessionFactoryContatto.openSession();
 		String hql = "SELECT c FROM Contatto as c";
 		Query<Contatto> query = session.createQuery(hql);		
 		for (Contatto contatti : query.list()) {
@@ -246,7 +246,7 @@ public class MethodsForHB {
 			List<Contatto> list1;
 			Contatto contatto = new Contatto();
 			String num;
-			Session session = HybSessionFactory.openSession();
+			Session session = HybSessionFactoryContatto.openSession();
 			String hql = "SELECT c FROM Contatto as c";
 			Query<Contatto> query = session.createQuery(hql);
 			System.out.println("\n Il DB contiente " + query.list().size() + " contatti. Quanti se ne vogliono stampare? ");
@@ -265,7 +265,7 @@ public class MethodsForHB {
 					List<Contatto> list2;
 					Contatto contatto = new Contatto();
 					String pag;
-					Session session = HybSessionFactory.openSession();
+					Session session = HybSessionFactoryContatto.openSession();
 					String hql = "SELECT c FROM Contatto as c where id > 0";
 					Query<Contatto> query = session.createQuery(hql);
 					System.out.println("Il DB contiente " + query.list().size() + " contatti. Quanti se ne vogliono stampare in una pagina? ");
@@ -351,7 +351,7 @@ public class MethodsForHB {
 	//Metodo per l'EXPORT del DB in un file CSV con destinazione Path prestabilito
 	public static void ExportDB(String pathFile) throws IOException, SQLException {
 		FileWriter fileWriter = new FileWriter(pathFile);
-		Session session = HybSessionFactory.openSession();
+		Session session = HybSessionFactoryContatto.openSession();
 		try {
 		
 		String hql = "SELECT c FROM Contatto as c";
