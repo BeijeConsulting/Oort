@@ -1,8 +1,10 @@
-package it.beije.oort.rubrica;
+package it.beije.oort.db;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+
+import it.beije.oort.rubrica.Contatto;
 
 public class HybSessionFactoryContatto {
 	

@@ -11,8 +11,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import it.beije.oort.db.HybSessionFactoryContatto;
 import it.beije.oort.rubrica.Contatto;
-import it.beije.oort.rubrica.HybSessionFactoryContatto;
 
 public class MethodsForHB {
 	

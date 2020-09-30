@@ -1,4 +1,4 @@
-package it.beije.oort.rubrica;
+package it.beije.oort.db;
 
 import java.util.List;
 
@@ -9,6 +9,8 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
+
+import it.beije.oort.rubrica.Contatto;
 
 
 public class HDBtools {
