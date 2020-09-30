@@ -14,12 +14,12 @@ public class RunnerBiblio {
 //		insertList.add(new Libro(null, null, null, "Libro3", "descrizione libro 3", new Short((short)1987)));
 //		JPAToolset.insertJPA(insertList);
 		
-		List<Databasable> list = JPAToolset.selectJPA("Libro", "descrizione", "descri");
-		if(list.get(0) instanceof Libro) System.out.println("Instance of Libro");
+		JPAToolset.deleteJPA("Libro", 2);
+		List<Databasable> list = JPAToolset.selectJPA("Libro", "descrizione", "");
+//		if(list.get(0) instanceof Libro) System.out.println("Instance of Libro");
 		for(Databasable d : list) {
 			System.out.println(d.toString());
 		}
-
 	}
 
 }
