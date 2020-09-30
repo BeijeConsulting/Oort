@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
+    <persistence-unit name="Biblioorteca">
+        <class>it.beije.oort.franceschi.biblioteca.model.Autore</class>
+        <class>it.beije.oort.franceschi.biblioteca.model.Libro</class>
+        <class>it.beije.oort.franceschi.biblioteca.model.Editore</class>
+        <class>it.beije.oort.franceschi.biblioteca.model.Utente</class>
+        <class>it.beije.oort.franceschi.biblioteca.model.Prestito</class>
+
+
+    </persistence-unit>
+</persistence>
