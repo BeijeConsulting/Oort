@@ -1,4 +1,4 @@
-package it.beije.oort.gregori.biblioteca;
+package it.beije.oort.gregori.biblioteca.jpa;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,8 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-//@Entity
-//@Table(name = "utenti")
+@Entity
+@Table(name = "utenti")
 public class Utente {
 
 	@Id

@@ -1,4 +1,4 @@
-package it.beije.oort.gregori.biblioteca;
+package it.beije.oort.gregori.biblioteca.jpa;
 
 import java.time.LocalDate;
 
@@ -9,8 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-//@Entity
-//@Table(name = "autori")
+@Entity
+@Table(name = "autori")
 public class Autore {
 
 	@Id
