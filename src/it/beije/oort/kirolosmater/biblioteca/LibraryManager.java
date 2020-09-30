@@ -1,19 +1,29 @@
 package it.beije.oort.kirolosmater.biblioteca;
 
+import java.util.Map;
 import java.util.Scanner;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import org.hibernate.Session;
+
 
 import it.beije.oort.rubrica.HybSessionFactory;
 
 public class LibraryManager {
+	static Map entityManagerFromPersistence = JPAEntityManagerSingleton
+			.getJpaEntityManager("OortBiblioteca");
+	static EntityManager entityManager = (EntityManager) entityManagerFromPersistence.get("OortBiblioteca");
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
 		LibraryManager libraryManager = new LibraryManager();
-		Session session = HybSessionFactory.openSession();
-		session.close();
+//		EntityManagerFactory factory = Persistence.createEntityManagerFactory("OortRubrica");
+//		EntityManager entityManager = factory.createEntityManager();
+		
 		libraryManager.menuBiblioteca();
 		
 				
@@ -29,6 +39,14 @@ public class LibraryManager {
 		System.out.println("inserisci 5 | Per gestire gli utenti");
 		String lineFromInput = inputFromUser.nextLine();
 		int numberFromInput = Integer.parseInt(lineFromInput);
+		switch (numberFromInput) {
+		case 1: MetodiAutore.menuAutore();
+			
+			break;
+
+		default:
+			break;
+		}
 	}
 	
 

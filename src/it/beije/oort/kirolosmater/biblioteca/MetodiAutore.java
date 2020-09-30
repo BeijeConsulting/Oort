@@ -1,6 +1,9 @@
 package it.beije.oort.kirolosmater.biblioteca;
 
+import java.util.Map;
 import java.util.Scanner;
+
+import javax.persistence.EntityManager;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -10,7 +13,11 @@ import it.beije.oort.rubrica.HybSessionFactory;
 
 public class MetodiAutore {
 	
-	public void menuAutore () {
+	static Map entityManagerFromPersistence = JPAEntityManagerSingleton
+			.getJpaEntityManager("OortBiblioteca");
+	static EntityManager entityManager = (EntityManager) entityManagerFromPersistence.get("OortBiblioteca");
+	
+	public static void menuAutore () {
 		Scanner inputFromUser = new Scanner(System.in);
 		System.out.println("inserisci 1 | Per visualizzare un autore in base al suo id");
 		System.out.println("inserisci 2 | Per visualizzare più autori in base ad un parametro differente");
@@ -20,10 +27,18 @@ public class MetodiAutore {
 		System.out.println("inserisci 6 | Per esportare una lista di autori");
 		String lineFromInput = inputFromUser.nextLine();
 		int numberFromInput = Integer.parseInt(lineFromInput);
+		switch (numberFromInput) {
+		case 1: visualizzaAutoreById();
+			
+			break;
+
+		default:
+			break;
+		}
 		
 	}
 	
-	public void visualizzaAutoreById () {
+	public static void visualizzaAutoreById () {
 		String showRecordById = "Per visualizzare un autore inserisci il suo id: ";
 		System.out.println(showRecordById);
 		Scanner inputFromUser = new Scanner(System.in);
@@ -34,25 +49,27 @@ public class MetodiAutore {
 		readRecordFromDb(id);
 	}
 	
-	public static Autore readRecordFromDb(int id) {
+	public static Autore readRecordFromDb(int id) { 
 		//apro sessione
-		Session session = HybSessionFactory.openSession();
-		System.out.println("session is open? " + session.isOpen());
-		String hql = "SELECT c FROM Autore as c WHERE id = " + id ;
-		Autore autoreOutput = new Autore();
-		Query<Autore> query = session.createQuery(hql);
-//		System.out.println(query.list().size());
-		for (Autore autore : query.list()) {
-			System.out.println("id : " + autore.getId());			
-			System.out.println("cognome : " + autore.getCognome());
-			System.out.println("nome : " + autore.getNome());
-			System.out.println("data_nascita : " + autore.getData_nascita());
-			System.out.println("data_morte : " + autore.getData_morte());
-			System.out.println("biografia: " + autore.getBiografia());
-			autoreOutput = autore;
-		}
-		//chiudo sessione
-		session.close();
-		return autoreOutput;
+//		Session session = HybSessionFactory.openSession();
+//		System.out.println("session is open? " + session.isOpen());
+//		String hql = "SELECT c FROM Autore as c WHERE id = " + id ;
+//		Autore autoreOutput = new Autore();
+//		Query<Autore> query = session.createQuery(hql);
+////		System.out.println(query.list().size());
+//		for (Autore autore : query.list()) {
+//			System.out.println("id : " + autore.getId());			
+//			System.out.println("cognome : " + autore.getCognome());
+//			System.out.println("nome : " + autore.getNome());
+//			System.out.println("data_nascita : " + autore.getData_nascita());
+//			System.out.println("data_morte : " + autore.getData_morte());
+//			System.out.println("biografia: " + autore.getBiografia());
+//			autoreOutput = autore;
+//		}
+//		//chiudo sessione
+//		session.close();
+//		return autoreOutput;
+		Autore autore = entityManager.find(Autore.class, id);
+		return autore;
 	}
 }
