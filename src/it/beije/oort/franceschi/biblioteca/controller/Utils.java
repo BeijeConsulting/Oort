@@ -1,5 +1,9 @@
 package it.beije.oort.franceschi.biblioteca.controller;
 
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
+
 public class Utils {
     //TODO: Anche lettura, modifica e cancellazione
     public static void showInstructions(){
@@ -19,16 +23,22 @@ public class Utils {
                 "bibliotecario.");
     }
 
-    public static int getIntFromUserInput(String userInput){
-        int result = -1;
+    public static int getUserInput(Scanner sc){
+        int input = -1;
         try{
-            result = Integer.parseInt(userInput);
-        } catch (NumberFormatException e){
-            System.err.println("Devi inserire un input numerico.");
+            if (sc.hasNext()){
+                input = sc.nextInt();
+            }
+        } catch (InputMismatchException inputMismatchException){
+           System.err.println("Devi inserire un input numerico.");
+        } catch (NoSuchElementException e){
+            System.err.println("Input vuoto.");
         }
-        if (result >= 0 && result <= 5) return result;
+        if (input >= 0 && input <= 5){
+            return input;
+        }
         else {
-            System.err.println("Errore. Non hai inserito un numero valido.");
+            System.err.println("Errore. Non hai inserito un numero nel range valido.");
             return -1;
         }
     }

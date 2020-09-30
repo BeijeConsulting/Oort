@@ -5,7 +5,7 @@ import java.sql.Date;
 
 @Entity
 @Table(name="libri")
-public class Libro {
+public class Libro implements IBibliotecaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column

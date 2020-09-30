@@ -15,10 +15,11 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
+          <factory-entry name="Biblioorteca" value="87b82351-4019-48f3-91c1-d51ae34aee3e" />
           <factory-entry name="Oort" value="87b82351-4019-48f3-91c1-d51ae34aee3e" />
         </datasource-mapping>
         <naming-strategy-map />
-        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/META-INF/persistence.xml" />
+        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/resources/persistence.xml" />
       </configuration>
     </facet>
   </component>

@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-	<persistence-unit name="OortRubrica">
-		<class>it.beije.oort.rubrica.Contatto</class>
-		<properties>
-			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/rubrica?serverTimezone=CET"/>
-			<property name="javax.persistence.jdbc.user" value="root"/>
-			<property name="javax.persistence.jdbc.password" value="beije"/>
-		</properties>
-	</persistence-unit>
-	<persistence-unit name="OortBiblioteca">
-	</persistence-unit>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
+    <persistence-unit name="Biblioorteca">
+        <class>it.beije.oort.franceschi.biblioteca.model.Autore</class>
+        <class>it.beije.oort.franceschi.biblioteca.model.Libro</class>
+        <class>it.beije.oort.franceschi.biblioteca.model.Editore</class>
+        <class>it.beije.oort.franceschi.biblioteca.model.Utente</class>
+        <class>it.beije.oort.franceschi.biblioteca.model.Prestito</class>
+
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/biblioteca?serverTimezone=CET"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="Beije09"/>
+        </properties>
+    </persistence-unit>
 </persistence>

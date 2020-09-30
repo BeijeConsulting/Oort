@@ -5,10 +5,10 @@ import java.util.Scanner;
 public class Main {
     static final Scanner sc = new Scanner(System.in);
 
-
     public void run(){
         // Preparo le cose basilari, come mostrare le istruzioni e inizializzare le variabili
         int userChoice = -1;
+        JPADatabaseOperationsManager db = new JPADatabaseOperationsManager("Biblioorteca");
         Utils.showWelcome();
 
         // Loop principale del programma
@@ -20,10 +20,17 @@ public class Main {
                Potrei forse prendere l'input in un altro metodo. Da testare: TODO
                Inoltre, il metodo mi valida l'input
             */
-            userChoice = Utils.getIntFromUserInput(sc.nextLine());
+            userChoice = Utils.getUserInput(sc);
+            System.out.println(userChoice);
             if (userChoice < 0) continue;
 
             switch (userChoice){
+                case 1:
+
+                    break;
+                case 2:
+
+                    break;
 
             }
         }
