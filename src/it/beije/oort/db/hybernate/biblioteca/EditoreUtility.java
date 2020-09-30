@@ -13,7 +13,7 @@ public class EditoreUtility {
 public static List<Editore> visualizza() {
 
 		String hql = "SELECT e FROM Editore as e";
-		Session session = HybSessionFactory.openSession();
+		Session session = HybSessionFactorybiblio.openSession();
 		List<Editore> editori = session.createQuery(hql).list();
 
 		session.close();
@@ -24,7 +24,7 @@ public static List<Editore> visualizza() {
 public static void inserisci() {
 	Scanner sc = new  Scanner(System.in);
 
-	Session session = HybSessionFactory.openSession();
+	Session session = HybSessionFactorybiblio.openSession();
 
 	Transaction transaction = session.beginTransaction();
 	Editore editore = new Editore();

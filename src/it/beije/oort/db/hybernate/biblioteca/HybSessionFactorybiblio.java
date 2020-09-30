@@ -4,9 +4,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class HybSessionFactory {
+public class HybSessionFactorybiblio {
 
-	private HybSessionFactory() {}
+	private HybSessionFactorybiblio() {}
 
 	private static SessionFactory factory;
 

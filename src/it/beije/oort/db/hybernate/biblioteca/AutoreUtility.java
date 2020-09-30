@@ -14,7 +14,7 @@ public class AutoreUtility {
 public static List<Autori> visualizza() {
 
 		String hql = "SELECT a FROM Autore as a";
-		Session session = HybSessionFactory.openSession();
+		Session session = HybSessionFactorybiblio.openSession();
 		List<Autori> autori = session.createQuery(hql).list();
 
 		session.close();
@@ -25,7 +25,7 @@ public static List<Autori> visualizza() {
 public static void inserisci() {
 	Scanner sc = new  Scanner(System.in);
 
-	Session session = HybSessionFactory.openSession();
+	Session session = HybSessionFactorybiblio.openSession();
 
 	Transaction transaction = session.beginTransaction();
 	Autori autore = new Autori();
@@ -41,29 +41,13 @@ public static void inserisci() {
 	System.out.print("Biografia: ");
 	autore.setBiografia(sc.nextLine());
 
-	boolean flag = false;
-	do {
-		System.out.print("Data di nascita: ");
-		String dataInput = sc.nextLine();
-		LocalDate dataInizio = null;
-		if (dataInput.length() > 0) {
-			dataInizio = LocalDate.parse(dataInput);
-		}
-		System.out.print("Data di morte: ");
-		dataInput = sc.nextLine();
-		LocalDate dataFine = null;
-		if (dataInput.length() > 0) {
-			dataFine = LocalDate.parse(dataInput);
-		}
-		if (dataFine.isBefore(dataInizio)) {
-			System.out.println("ERRORE: data morte > data nascita!");
-			flag = true;
-		} else {
-			autore.setDataMorte(dataFine);
-			autore.setDataNascita(dataInizio);
-			flag = false;
-		} 
-	} while(flag);
+	System.out.print("Data di nascita: ");
+	autore.setDataNascita(sc.nextLine());
+	
+	System.out.print("Data di morte: ");
+	autore.setDataMorte(sc.nextLine());
+	
+
 
 	session.save(autore);
 	transaction.commit();

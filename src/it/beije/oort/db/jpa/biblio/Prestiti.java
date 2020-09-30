@@ -1,4 +1,4 @@
-package it.beije.oort.db.hybernate.biblioteca;
+package it.beije.oort.db.jpa.biblio;
 
 
 import javax.persistence.Column;
@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "prestiti")
-public class Prestito {
+public class Prestiti {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -83,8 +83,8 @@ public class Prestito {
 	public String toString() {
 		StringBuilder builder = new StringBuilder("prestito [");
 		builder.append("id: ").append(this.id)
-			.append(" - libro: ").append(this.libro)
-			.append(" - utente: ").append(this.utente)
+			.append(" - id_libro: ").append(this.libro)
+			.append(" - id_utente: ").append(this.utente)
 			.append(" - data inizio: ").append(this.dataInizio)
 			.append(" - data fine: ").append(this.dataFine)
 			.append(" - note: ").append(this.note).append("]");

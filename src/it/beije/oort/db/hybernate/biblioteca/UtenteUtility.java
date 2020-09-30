@@ -11,7 +11,7 @@ public class UtenteUtility {
 	public static List<Utente> visualizza() {
 
 		String hql = "SELECT u FROM Utente as u";
-		Session session = HybSessionFactory.openSession();
+		Session session = HybSessionFactorybiblio.openSession();
 		List<Utente> utenti = session.createQuery(hql).list();
 
 		session.close();
@@ -22,7 +22,7 @@ public class UtenteUtility {
 	public static void inserisci() {
 		Scanner sc = new  Scanner(System.in);
 
-		Session session = HybSessionFactory.openSession();
+		Session session = HybSessionFactorybiblio.openSession();
 
 		Transaction transaction = session.beginTransaction();
 		Utente utente = new Utente();

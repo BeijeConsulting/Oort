@@ -33,10 +33,10 @@ public class Autori {
 	private String cognome;
 
 	@Column(name = "data_nascita")
-	private LocalDate dataNascita;
+	private String dataNascita;
 
 	@Column(name = "data_morte")
-	private LocalDate dataMorte;
+	private String dataMorte;
 
 	@Column(name = "biografia")
 	private String biografia;
@@ -65,19 +65,19 @@ public class Autori {
 		this.cognome = cognome;
 	}
 
-	public LocalDate getDataNascita() {
+	public String getDataNascita() {
 		return dataNascita;
 	}
 
-	public void setDataNascita(LocalDate dataNascita) {
+	public void setDataNascita(String dataNascita) {
 		this.dataNascita = dataNascita;
 	}
 
-	public LocalDate getDataMorte() {
+	public String getDataMorte() {
 		return dataMorte;
 	}
 
-	public void setDataMorte(LocalDate dataMorte) {
+	public void setDataMorte(String dataMorte) {
 		this.dataMorte = dataMorte;
 	}
 

@@ -1,33 +1,38 @@
-package it.beije.oort.db.hybernate.biblioteca;
+package it.beije.oort.db.jpa.biblio;
 
 import java.util.List;
 import java.util.Scanner;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 
-public class LibroUtility {
 
-public static List<Libro> visualizza() {
 
-		String hql = "SELECT l FROM Libro as l";
-		Session session = HybSessionFactorybiblio.openSession();
-		List<Libro> libri = session.createQuery(hql).list();
+public class LibroUtil {
+	public static List<Libri> visualizza() {
 
-		session.close();
-
+		EntityManager entityManager = JPAFactoryBiblio.openEntity();
+		String jpql = "SELECT l FROM Libri as l";
+		Query query = entityManager.createQuery(jpql);
+		List<Libri> libri = query.getResultList();
+		System.out.println(libri.size());
+		for (Libri libro : libri) {
+			libro.toString();
+		}
+		entityManager.close();
 		return libri;
+	
 	}
 
 public static void inserisci() {
 	Scanner sc = new  Scanner(System.in);
+	EntityManager entityManager = JPAFactoryBiblio.openEntity();
+	EntityTransaction entityTransaction = entityManager.getTransaction();
+	entityTransaction.begin();
+	Libri libro = new Libri();
 
-	Session session = HybSessionFactorybiblio.openSession();
-
-	Transaction transaction = session.beginTransaction();
-	Libro libro = new Libro();
-
-	System.out.println("Inserimento libro:");
+	System.out.println("Inserimento libro..");
 
 	System.out.print("Titolo: ");
 	 libro.setTitolo(sc.nextLine());
@@ -39,7 +44,7 @@ public static void inserisci() {
 	libro.setAnno(sc.nextLine());	
 
 	int scelta = 0;
-	List<Autori> autori = AutoreUtility.visualizza();
+	List<Autore> autori = AutoreUtil.visualizza();
 	do {
 		for(int i = 0; i < autori.size(); i++) {
 			System.out.println(i + ") " + autori.get(i));
@@ -60,7 +65,7 @@ public static void inserisci() {
 	libro.setAutore(autori.get(scelta).getId());	
 
 	scelta = 0;
-	List<Editore> editori = EditoreUtility.visualizza();
+	List<Editori> editori = EditoreUtil.visualizza();
 	do {
 		for(int i = 0; i < editori.size(); i++) {
 			System.out.println(i + ") " + editori.get(i));
@@ -80,10 +85,10 @@ public static void inserisci() {
 
 	libro.setEditore(editori.get(scelta).getId());	
 
-	session.save(libro);
-	transaction.commit();
-
-	session.close();		
+	entityManager.persist(libro);
+	entityManager.getTransaction().commit();
+	entityManager.close();		
+	sc.close();
 	System.out.println("Libro inserito correttamente!");
 
 }
