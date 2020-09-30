@@ -31,12 +31,12 @@ public class Libro {
 	private int id_editore;
 	
 	@Column(name = "anno")
-	private LocalDate anno;
+	private String anno;
 	
 	
 	public Libro() {}
 	
-	public Libro(int id, String titolo, String descrizione, int id_autore, int id_editore, LocalDate anno) {
+	public Libro(int id, String titolo, String descrizione, int id_autore, int id_editore, String anno) {
 		this.id = id;
 		this.titolo = titolo;
 		this.descrizione = descrizione;
@@ -86,10 +86,10 @@ public class Libro {
 	}
 	
 	
-	public LocalDate getAnno() {
+	public String getAnno() {
 		return anno;
 	}
-	public void setAnno(LocalDate anno) {
+	public void setAnno(String anno) {
 		this.anno = anno;
 	}
 	
