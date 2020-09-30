@@ -32,8 +32,8 @@ public class Utente implements Databasable{
 		this(null, "","","","","","");
 	}
 	
-	public Utente(Integer id_utente, String nome, String cognome, String email,
-			String codice_fiscale, String telefono, String indirizzo) {
+	public Utente(Integer id_utente, String nome, String cognome, String codice_fiscale, 
+				String email, String telefono, String indirizzo) {
 		super();
 		this.id_utente = id_utente;
 		this.nome = nome;
