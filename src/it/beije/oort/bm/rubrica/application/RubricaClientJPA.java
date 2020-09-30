@@ -9,14 +9,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import it.beije.oort.bm.rubrica.Contatto;
 import it.beije.oort.bm.rubrica.database.Database;
-import it.beije.oort.bm.rubrica.database.HibernateDatabase;
+import it.beije.oort.bm.rubrica.database.JPADatabase;
 import it.beije.oort.bm.rubrica.utils.XmlParser;
 
-public class RubricaClient {
+public class RubricaClientJPA {
 	private static Database db;
 	private static BufferedReader in;
 	public static void main(String[] args) throws IOException, ParserConfigurationException, TransformerException {
-		db = HibernateDatabase.getDatabase();
+		db = JPADatabase.getDatabase();
 		List<Contatto> contacts;
 		String command;
 		in = new BufferedReader(new InputStreamReader(System.in));

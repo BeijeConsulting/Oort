@@ -2,20 +2,20 @@ package it.beije.oort.bm.rubrica.database;
 
 import java.util.List;
 
-import org.hibernate.query.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 import it.beije.oort.bm.rubrica.Contatto;
 
 public class JPADatabase implements Database{
 	private static JPADatabase istance;
-	private SessionFactory factory;
+	private EntityManagerFactory factory;
 	
 	
 	private JPADatabase() {
-		factory = new Configuration().configure().addAnnotatedClass(Contatto.class).buildSessionFactory();
+		factory = Persistence.createEntityManagerFactory("rubrica");
 	}
 	
 	@SuppressWarnings({ "unchecked" })
@@ -44,10 +44,10 @@ public class JPADatabase implements Database{
 			if(requireAnd) query.append(AND);
 			query.append(EMAIL_VAL);
 		}
-		Session s = getSession();
+		EntityManager s = getEntityManager();
 		List<Contatto> ret = null;
 		try {
-			Query<Contatto> results = s.createQuery(query.toString());
+			Query results = s.createQuery(query.toString());
 			for(int i = 0; i<vals.length;i++) {
 				if(selector[i]) results.setParameter(i+1, vals[i]);
 			}
@@ -62,10 +62,10 @@ public class JPADatabase implements Database{
 	
 	@Override
 	public boolean insert(Contatto c) {
-		Session s = getSession();
+		EntityManager s = getEntityManager();
 		try {
-			s.beginTransaction();
-			s.save(c);
+			s.getTransaction().begin();;
+			s.persist(c);
 			s.getTransaction().commit();
 		} catch(RuntimeException re) {
 			return false;
@@ -77,12 +77,12 @@ public class JPADatabase implements Database{
 	
 	@Override
 	public boolean delete(int id) {
-		Session s = getSession();
+		EntityManager s = getEntityManager();
 		try {
 			Contatto c = s.find(Contatto.class, id);
 			if(c != null) {
-				s.beginTransaction();
-				s.delete(c);
+				s.getTransaction().begin();
+				s.remove(c);
 				s.getTransaction().commit();
 			}
 		}catch(RuntimeException re) {
@@ -96,9 +96,10 @@ public class JPADatabase implements Database{
 	@Override
 	public boolean update(int id, boolean[] selector, String[] vals) {
 		if(vals.length != selector.length) throw new IllegalArgumentException();
-		Session s = getSession();
+		EntityManager s = getEntityManager();
 		try {
 			Contatto c = s.find(Contatto.class, id);
+			s.getTransaction().begin();
 			if(c != null) {
 				if(selector[0]) {
 					c.setCognome(vals[0]);
@@ -112,13 +113,12 @@ public class JPADatabase implements Database{
 				if(selector[3]) {
 					c.setEmail(vals[3]);
 				}
-				s.beginTransaction();
-				s.save(c);
 				s.getTransaction().commit();
 			} else {
 				return false;
 			}
 		}catch(RuntimeException re) {
+			re.printStackTrace();
 			return false;
 		}finally {
 			s.close();
@@ -126,13 +126,14 @@ public class JPADatabase implements Database{
 		return true;
 	}
 	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Contatto> selectAll() {
-		Session s = getSession();
+		EntityManager s = getEntityManager();
 		List<Contatto> ret = null;
 		try {
-			Query<Contatto> results = s.createQuery(SELECT);
+			Query results = s.createQuery(SELECT);
 			ret = results.getResultList();
 		} catch(RuntimeException re) {
 			re.printStackTrace();
@@ -142,8 +143,8 @@ public class JPADatabase implements Database{
 		return ret;
 	}
 	
-	private Session getSession() {
-		return factory.openSession();
+	private EntityManager getEntityManager() {
+		return factory.createEntityManager();
 	}
 	
 	public static JPADatabase getDatabase() {
