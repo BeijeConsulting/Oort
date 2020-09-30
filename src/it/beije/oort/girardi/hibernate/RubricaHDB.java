@@ -1,20 +1,31 @@
 package it.beije.oort.girardi.hibernate;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import it.beije.oort.girardi.dataBase.FromDB;
+import it.beije.oort.girardi.dataBase.RubricaDB;
 import it.beije.oort.girardi.dataBase.ToDB;
+import it.beije.oort.girardi.inOut.RubricaCSV;
+import it.beije.oort.girardi.inOut.RubricaXML;
 import it.beije.oort.rubrica.Contatto;
 
 
 public class RubricaHDB {
+	
 //1) VISUALIZZA
 // viualizza menù
 	public static void visualizzaMenu (Session session) {
@@ -50,7 +61,6 @@ public class RubricaHDB {
 		}
 	}
 	
-	
 //visualizza contatto tramite id:
 	public static void visualizzaId (Session session, int id) {
 		Contatto c = session.find(Contatto.class, id);
@@ -61,15 +71,16 @@ public class RubricaHDB {
 	}
 
 //visualizza tutti i contatti presenti nel db:
-	public static void visualizzaTutti (Session session) {
+	public static List<Contatto> visualizzaTutti (Session session) {
 		Scanner myInput = new Scanner(System.in);  
 		int count = 0;
 		//query HQL
 		String hql = "SELECT c FROM Contatto as c";
 		Query<Contatto> query = session.createQuery(hql);
-		System.out.println("# contatti presenti: " + query.list().size());
+		List<Contatto> listContatti = query.list();
+		System.out.println("# contatti presenti: " + listContatti.size());
 		System.out.println("ID, COGNOME, NOME, TELEFONO, EMAIL");
-		for (Contatto c : query.list()) {
+		for (Contatto c : listContatti) {
 			System.out.println(c.getId()+",  "+c.getCognome()+",  "+c.getNome() 
 									+",  "+c.getTelefono()+",  "+c.getEmail());
 			if (++count % 30 == 0) { //mostra 30 contatti alla volta
@@ -78,14 +89,14 @@ public class RubricaHDB {
 				if (!(si.contentEquals("1")))
 					break;
 			}
+			return listContatti;
 		}	
 	}
 	
-
 	
 	
 //2) MODIFICA / CANCELLA
-//cancella contatto tramite id:
+//cancella contatto o modifica contatto tramite id:
 	public static void CancModMenu (Session session) {
 		Scanner myInput = new Scanner(System.in);  //apre lo scanner
 		int id = 0;	
@@ -120,7 +131,6 @@ public class RubricaHDB {
 			System.out.println("inserimento non valido");
 		}
 	}
-	
 	
 //cancella contatto tramite id:
 	public static void cancellaId (Session session, int id) {
@@ -234,6 +244,74 @@ public class RubricaHDB {
 		
 	
 //4) Esporta rubrica
+	//menu
+		public static void menuExport (Session session) 
+				throws ParserConfigurationException, TransformerException, IOException {
+			Scanner myInput = new Scanner(System.in);  //apre lo scanner
+			int id = 0;	
+			String in = "";
+			
+			try {
+				System.out.println("digitare 1 o 2 per le seguenti azioni: ");
+				System.out.println("\t 1) esporta in formato csv");
+				System.out.println("\t 2) esporta in formato xml");
+				in = myInput.nextLine();
+				
+				switch (in) {
+				case "1":  // csv
+//					RubricaHDB.esportaCSV(session);
+					break;
+				case "2":  // xml
+//					RubricaHDB.esportaXML(sesssion);
+					break;
+				default:
+					System.out.println("");
+				}
+				
+			} catch (NumberFormatException nfe) {
+//					nfe.printStackTrace();
+				System.out.println("inserimento non valido");
+			} catch (InputMismatchException ime) {
+				ime.printStackTrace();
+				System.out.println("riprova");
+			} catch (NoSuchElementException nse) {
+				nse.printStackTrace();
+				System.out.println("riprova");
+			}
+		}
+		
+	//esporta in un file xml
+		public static void esportaXML (Session session) 
+			throws ParserConfigurationException, TransformerException, IOException {
+			List<Contatto> listContatti = new ArrayList<>();
+			
+			//prendo la lista dei Contatti dal database:
+//			listContatti = FromDB.selectContatti(session);
+			
+			//scrittura di un nuovo file xml con la List di Contatti:
+//			RubricaXML.writeContatti(listContatti, PATH_FILES + file_destinazione + ".xml");
+//			
+//			System.out.println("percorso file rubrica esportata: " + PATH_FILES 
+//													+ file_destinazione + ".xml");
+//			System.out.println("");
+//		}
+//
+//	//esporta in un file csv
+//		public static void esportaCSV (Session session) throws IOException {
+//			List<Contatto> listContatti = new ArrayList<>();
+//			
+//			//prendo la lista dei Contatti dal database:
+//			listContatti = FromDB.selectContatti(connection);
+//			
+//			//scrittura di un nuovo file csv con la List di Contatti:
+//			RubricaCSV.writeContatti(listContatti, PATH_FILES + file_destinazione + ".csv");
+//			
+//			System.out.println("percorso file rubrica esportata: " + PATH_FILES 
+//													+ file_destinazione + ".csv");
+//			System.out.println("");
+//		}
+//		
+//		
 	
 	
 		

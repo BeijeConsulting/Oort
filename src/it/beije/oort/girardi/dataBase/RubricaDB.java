@@ -7,13 +7,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+
+import org.hibernate.Session;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import it.beije.oort.db.DBManager;
+import it.beije.oort.girardi.hibernate.RubricaHDB;
 import it.beije.oort.girardi.inOut.RubricaCSV;
+import it.beije.oort.girardi.inOut.RubricaXML;
 import it.beije.oort.rubrica.Contatto;
 
 public class RubricaDB {
@@ -22,6 +30,7 @@ public class RubricaDB {
 
 	private static final String PATH_FILES = "C:\\Users\\Padawan05\\Desktop\\file_testo\\";
 	private static String file_destinazione = "RubricaFromDB";
+	
 	
 //1) Visualizzazione contatti -----------------------------------------
 	
@@ -63,10 +72,11 @@ public class RubricaDB {
 	}
 	
 //ricerca e visualizza contatto per ID:
-	public static void visualizzaId(Connection connection,int id) {
+	public static Contatto visualizzaId (Connection connection,int id) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		
+		Contatto c = null;
+	
 		try {	
 			ps = connection.prepareStatement("SELECT * FROM rubrica where id = ?");
 			ps.setInt(1, id);
@@ -76,11 +86,17 @@ public class RubricaDB {
 			System.out.println("ID, COGNOME, NOME, TELEFONO, EMAIL");	
 			System.out.println(rs.getString(1)+"   "+rs.getString(2)+"   "+
 					rs.getString(3)+"   "+rs.getString(4)+"   "+rs.getString(5));
+			//nome cognome telefono email
+			c = new Contatto(rs.getString(3),rs.getString(2), 
+									rs.getString(4), rs.getString(5));
 			
 			rs.close();
+			
+			
 		} catch (SQLException sqlException) {
 //			sqlException.printStackTrace();
 			System.out.println("Id non disponibile");
+			return c;
 		} finally {
 			try {
 				ps.close();
@@ -88,10 +104,9 @@ public class RubricaDB {
 				e.printStackTrace();
 			}
 		}
-
+		return c;
 	}
 
-	
 // viualizza rubrica o contatto da Database
 	public static void visualizza (Connection connection) {
 		Scanner myInput = new Scanner(System.in);  //apre lo scanner
@@ -132,13 +147,49 @@ public class RubricaDB {
 	
 	
 	
-	
-	
 //2) Modifica / Cancellazione ---------------------------------
+//cancella contatto o modifica contatto tramite id:
+	public static void CancModMenu  (Connection connection) {
+		Scanner myInput = new Scanner(System.in);  //apre lo scanner
+		int id = 0;	
+		String in = "";
+		
+		try {
+			System.out.println("digitare 1 o 2 per le seguenti azioni: ");
+			System.out.println("\t 1) cancella contatto");
+			System.out.println("\t 2) modifica contatto");
+			in = myInput.nextLine();
+			
+			switch (in) {
+			case "1": 
+				System.out.print("inserire l'id del contatto che si vuole cancellare: ");
+				id = (int) Integer.parseInt(myInput.nextLine());
+				RubricaDB.deleteId(connection, id);
+				break;
+				
+			case "2": 
+				System.out.print("inserire l'id del contatto che si vuole modificare: ");
+				id = (int) Integer.parseInt(myInput.nextLine());
+				RubricaDB.modificaContatto(connection, id);
+				break;
+				
+			default:
+				System.out.println("inserimento non valido");
+			}
+			System.out.println("");
+			
+		} catch (NumberFormatException nfe) {
+		//	nfe.printStackTrace();
+			System.out.println("inserimento non valido");
+		}
+	}
+
 //cancella id dal database
 	public static void deleteId(Connection connection,int id) {
-		PreparedStatement ps = null;
+		Contatto contatto = visualizzaId(connection, id);
+//			System.out.println("contatto da eliminare: " + contatto);
 		
+		PreparedStatement ps = null;
 		try {	
 			ps = connection.prepareStatement("DELETE FROM rubrica where id = ?");
 			ps.setInt(1, id);
@@ -157,36 +208,72 @@ public class RubricaDB {
 			}
 		}
 	}
-
-	
-// Cancellazione contatto dal Database
-	public static void cancellaContatto (Connection connection) {
-		Scanner myInput = new Scanner(System.in);  //apre lo scanner
-		int id = 0;		
-		
-			try {
-				System.out.print("inserire l'id del contatto che si vuole eliminare:");
-				id = (int) Integer.parseInt(myInput.nextLine());
-				
-				RubricaDB.deleteId(connection, id);
-				
-			} catch (NumberFormatException nfe) {
-//				nfe.printStackTrace();
-				System.out.println("inserimento non valido");
-			} catch (InputMismatchException ime) {
-				ime.printStackTrace();
-				System.out.println("riprova");
-			} catch (NoSuchElementException nse) {
-				nse.printStackTrace();
-				System.out.println("riprova");
-			}
-	}
-	
-	
 	
 // Modifica contatto dal Database
-	
-	
+	public static void modificaContatto (Connection connection,int id) {
+		Contatto contatto = visualizzaId(connection, id);
+//		System.out.println("contatto da modificare: " + contatto);
+		Scanner myInput = new Scanner(System.in);  //apre lo scanner
+		String input = ""; 
+		
+		//cognome, nome, telefono, email
+		System.out.println("inserire i campi che si voglioni modificare:");
+		System.out.println("(se non si intende modificare un campo premere invio)");
+		System.out.print("\t inserire il nome: ");
+		input = myInput.nextLine();
+		if (!(input.contentEquals("")))
+			contatto.setNome(input);
+		System.out.print("\t inserire il cognome: ");
+		input = myInput.nextLine();
+		if (!(input.contentEquals("")))
+			contatto.setCognome(input);
+		System.out.print("\t inserire il telefono: ");
+		input = myInput.nextLine();
+		if (!(input.contentEquals("")))
+			contatto.setTelefono(input);
+		System.out.print("\t inserire la email: ");
+		input = myInput.nextLine();
+		if (!(input.contentEquals("")))
+			contatto.setEmail(input);
+		
+		System.out.println("contatto aggiornato: " + contatto);
+		
+		if (contatto.getNome().trim().equals("") && contatto.getCognome().trim().equals("") &&
+			contatto.getTelefono().trim().equals("") && contatto.getEmail().trim().equals("") )
+			System.out.println("ALERT: il contatto è vuoto e non verrà inserito\n");
+		else {
+			RubricaDB.updateContatto(connection, contatto, id);
+			System.out.println("");
+		}
+	}
+
+//update contatto. 
+	public static void updateContatto(Connection connection,Contatto contatto, int id) {
+		PreparedStatement ps = null;
+		
+		try {	
+			ps = connection.prepareStatement("UPDATE rubrica set cognome = ?, nome = ?,"
+											+ " telefono = ?, email = ? where id = " + id);
+			ps.setString(1, contatto.getCognome());
+			ps.setString(2, contatto.getNome());
+			ps.setString(3, contatto.getTelefono());
+			ps.setString(4, contatto.getEmail());
+			
+			ps.execute();
+			
+			System.out.println("contatto modificato correttamente");
+			
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
 	
 	
 	
@@ -218,8 +305,59 @@ public class RubricaDB {
 	
 	
 	
-	
 //4) esporta rubrica
+//menu
+	public static void menuExport (Connection connection) 
+			throws ParserConfigurationException, TransformerException, IOException {
+		Scanner myInput = new Scanner(System.in);  //apre lo scanner
+		int id = 0;	
+		String in = "";
+		
+		try {
+			System.out.println("digitare 1 o 2 per le seguenti azioni: ");
+			System.out.println("\t 1) esporta in formato csv");
+			System.out.println("\t 2) esporta in formato xml");
+			in = myInput.nextLine();
+			
+			switch (in) {
+			case "1":  // csv
+				RubricaDB.esportaCSV(connection);
+				break;
+			case "2":  // xml
+				RubricaDB.esportaXML(connection);
+				break;
+			default:
+				System.out.println("");
+			}
+			
+		} catch (NumberFormatException nfe) {
+//				nfe.printStackTrace();
+			System.out.println("inserimento non valido");
+		} catch (InputMismatchException ime) {
+			ime.printStackTrace();
+			System.out.println("riprova");
+		} catch (NoSuchElementException nse) {
+			nse.printStackTrace();
+			System.out.println("riprova");
+		}
+	}
+	
+//esporta in un file xml
+	public static void esportaXML (Connection connection) 
+		throws ParserConfigurationException, TransformerException, IOException {
+		List<Contatto> listContatti = new ArrayList<>();
+		
+		//prendo la lista dei Contatti dal database:
+		listContatti = FromDB.selectContatti(connection);
+		
+		//scrittura di un nuovo file xml con la List di Contatti:
+		RubricaXML.writeContatti(listContatti, PATH_FILES + file_destinazione + ".xml");
+		
+		System.out.println("percorso file rubrica esportata: " + PATH_FILES 
+												+ file_destinazione + ".xml");
+		System.out.println("");
+	}
+
 //esporta in un file csv
 	public static void esportaCSV (Connection connection) throws IOException {
 		List<Contatto> listContatti = new ArrayList<>();
@@ -228,16 +366,19 @@ public class RubricaDB {
 		listContatti = FromDB.selectContatti(connection);
 		
 		//scrittura di un nuovo file csv con la List di Contatti:
-		RubricaCSV.writeContatti(listContatti, PATH_FILES + file_destinazione);
+		RubricaCSV.writeContatti(listContatti, PATH_FILES + file_destinazione + ".csv");
 		
-		System.out.println("percorso file rubrica esportata: " + PATH_FILES + file_destinazione );
+		System.out.println("percorso file rubrica esportata: " + PATH_FILES 
+												+ file_destinazione + ".csv");
 		System.out.println("");
 	}
 	
 	
+	
 // -------------- MAIN -----------------
 //Permette di gestire la rubrica di mySQL inserendo comandi da tastiera:
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) 
+			throws ParserConfigurationException, TransformerException, IOException {
 		//A) collegamento al DataBase (db):
 		Connection connection = null;
 		
@@ -279,7 +420,7 @@ public class RubricaDB {
 										
 				case "2" : 	//2) Modifica / Cancellazione
 					System.out.println("Hai selto di eseguire: " + menu[1]);
-					RubricaDB.cancellaContatto (connection);
+					RubricaDB.CancModMenu (connection);
 					break;
 										
 				case "3" :	//3) Inserimento contatto
@@ -289,7 +430,7 @@ public class RubricaDB {
 										
 				case "4" : 	//4) Esporta rubrica
 					System.out.println("Hai selto di eseguire: " + menu[3]);
-					RubricaDB.esportaCSV(connection);
+					RubricaDB.menuExport(connection);
 					break;
 
 				case "5" :	//5) Termina programma
