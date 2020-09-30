@@ -74,4 +74,14 @@ public class Utente implements IBibliotecaModel {
     public void setIndirizzo(String indirizzo) {
         this.indirizzo = indirizzo;
     }
+
+    @Override
+    public String toString() {
+        return  "Nome: " + nome +
+                ". Cognome: " + cognome +
+                " .Codice Fiscale: " + codice_fiscale +
+                " .Cellulare: " + cellulare +
+                ".\nEmail:  " + email +
+                ".\nIndirizzo: " + indirizzo;
+    }
 }

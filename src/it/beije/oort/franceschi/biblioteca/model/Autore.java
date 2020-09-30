@@ -73,4 +73,13 @@ public class Autore implements IBibliotecaModel {
     public void setData_morte(Date data_morte) {
         this.data_morte = data_morte;
     }
+
+    public String toString(){
+        return "ID: " + id +
+                ") Nome: " + nome +
+                ". Cognome: " + cognome +
+                ". Data di Nascita: " + data_nascita +
+                ". Data di Morte: " + data_morte +
+                ".\nBiografia: " + biografia;
+    }
 }

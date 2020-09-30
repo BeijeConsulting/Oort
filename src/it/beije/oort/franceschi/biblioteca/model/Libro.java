@@ -73,4 +73,14 @@ public class Libro implements IBibliotecaModel {
     public void setId_editore(int id_editore) {
         this.id_editore = id_editore;
     }
+
+    @Override
+    public String toString() {
+        return "ID: " + id +
+                ") Titolo: " + titolo +
+                ". Anno " + anno_pubblicazione +
+                ". ID Autore: " + id_autore +
+                ". ID Editore: " + id_editore +
+                ".\nDescrizione: " + descrizione;
+    }
 }

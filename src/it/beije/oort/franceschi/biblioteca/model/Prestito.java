@@ -11,20 +11,20 @@ public class Prestito implements IBibliotecaModel {
     @Column
     private int id;
 
-    @Column
-    private Date data_inizio;
+    @Column(name = "data_inizio")
+    private Date dataInizio;
 
-    @Column
-    private Date data_fine;
+    @Column(name = "data_fine")
+    private Date dataFine;
 
     @Column
     private String note;
 
-    @Column
-    private String cf_utente;
+    @Column(name = "cf_utente")
+    private String cfUtente;
 
-    @Column
-    private int id_libro;
+    @Column(name = "id_libro")
+    private int idLibro;
 
     public int getId() {
         return id;
@@ -34,20 +34,20 @@ public class Prestito implements IBibliotecaModel {
         this.id = id;
     }
 
-    public Date getData_inizio() {
-        return data_inizio;
+    public Date getDataInizio() {
+        return dataInizio;
     }
 
-    public void setData_inizio(Date data_inizio) {
-        this.data_inizio = data_inizio;
+    public void setDataInizio(Date data_inizio) {
+        this.dataInizio = data_inizio;
     }
 
-    public Date getData_fine() {
-        return data_fine;
+    public Date getDataFine() {
+        return dataFine;
     }
 
-    public void setData_fine(Date data_fine) {
-        this.data_fine = data_fine;
+    public void setDataFine(Date data_fine) {
+        this.dataFine = data_fine;
     }
 
     public String getNote() {
@@ -58,19 +58,29 @@ public class Prestito implements IBibliotecaModel {
         this.note = note;
     }
 
-    public String getCf_utente() {
-        return cf_utente;
+    public String getCfUtente() {
+        return cfUtente;
     }
 
-    public void setCf_utente(String cf_utente) {
-        this.cf_utente = cf_utente;
+    public void setCfUtente(String cf_utente) {
+        this.cfUtente = cf_utente;
     }
 
-    public int getId_libro() {
-        return id_libro;
+    public int getIdLibro() {
+        return idLibro;
     }
 
-    public void setId_libro(int id_libro) {
-        this.id_libro = id_libro;
+    public void setIdLibro(int id_libro) {
+        this.idLibro = id_libro;
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + id +
+                ") Data di Inizio Prestito: " + dataInizio +
+                ". Data di Fine Prestito: " + dataFine +
+                ". Codice Fiscale Utente: " + cfUtente +
+                ". ID Libro: " + idLibro +
+                ".\nNote: " + note;
     }
 }

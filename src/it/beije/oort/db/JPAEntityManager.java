@@ -9,7 +9,7 @@ import java.util.Map;
 public class JPAEntityManager {
     private JPAEntityManager(){}
 
-    private static Map<String, EntityManager> managerMap = new HashMap<>();
+    private static final Map<String, EntityManager> managerMap = new HashMap<>();
 
     public static EntityManager getEntityManager(String database){
         if (managerMap.get(database) == null){

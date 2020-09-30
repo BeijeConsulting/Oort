@@ -1,11 +1,15 @@
-package it.beije.oort.franceschi.biblioteca.controller;
+package it.beije.oort.franceschi.biblioteca.utils;
 
+import it.beije.oort.franceschi.biblioteca.controller.DatabaseManager;
+
+import java.sql.Date;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Utils {
-    //TODO: Anche lettura, modifica e cancellazione
+    public final static DatabaseManager db = new DatabaseManager(Config.getPersistenceUnitName());
+
     public static void showInstructions(){
         System.out.println("Comandi disponibili:");
         System.out.println("1) Aggiungi Libro");
@@ -13,6 +17,8 @@ public class Utils {
         System.out.println("3) Aggiungi Editore");
         System.out.println("4) Aggiungi Utente");
         System.out.println("5) Aggiungi Prestito");
+        System.out.println("6) Modifica Oggetti //WIP");
+        System.out.println("15) Mostra dettagli Autore");
         System.out.println("0) Esci");
         System.out.println("Scrivi il numero dell'operazione che intendi fare " +
                 "e poi premi INVIO.");
@@ -34,12 +40,15 @@ public class Utils {
         } catch (NoSuchElementException e){
             System.err.println("Input vuoto.");
         }
-        if (input >= 0 && input <= 5){
-            return input;
-        }
-        else {
-            System.err.println("Errore. Non hai inserito un numero nel range valido.");
-            return -1;
-        }
+        return input;
+    }
+
+    public static Date getDate(Scanner sc){
+        String dateString = sc.nextLine();
+        if (dateString.equalsIgnoreCase("")){
+            return null;
+        } else if (dateString.length() == 4){
+            return Date.valueOf(dateString + "-1-1");
+        } else return Date.valueOf(dateString);
     }
 }

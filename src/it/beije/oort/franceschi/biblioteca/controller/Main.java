@@ -1,38 +1,56 @@
 package it.beije.oort.franceschi.biblioteca.controller;
 
+import it.beije.oort.franceschi.biblioteca.model.IBibliotecaModel;
+import it.beije.oort.franceschi.biblioteca.utils.Utils;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     static final Scanner sc = new Scanner(System.in);
 
+    public static List<? extends IBibliotecaModel> resultList;
+
     public void run(){
         // Preparo le cose basilari, come mostrare le istruzioni e inizializzare le variabili
         int userChoice = -1;
-        JPADatabaseOperationsManager db = new JPADatabaseOperationsManager("Biblioorteca");
+
         Utils.showWelcome();
 
         // Loop principale del programma
         while (userChoice != 0){
             Utils.showInstructions();
-            /* Ottengo la selezione dell'utente e la converto in int
-               Preferisco gestire la conversione in un metodo a parte piuttosto che
-               usare nextInt così posso gestire le eccezioni a parte, senza intasare questo metodo.
-               Potrei forse prendere l'input in un altro metodo. Da testare: TODO
-               Inoltre, il metodo mi valida l'input
-            */
             userChoice = Utils.getUserInput(sc);
-            System.out.println(userChoice);
             if (userChoice < 0) continue;
 
             switch (userChoice){
                 case 1:
-
+                    ObjectCreator.creaLibro();
                     break;
-                case 2:
-
+                case 2:  // Aggiungi autore
+                    ObjectCreator.creaAutore();
                     break;
-
+                case 3:
+                    ObjectCreator.creaEditore();
+                    break;
+                case 4:
+                    ObjectCreator.creaUtente();
+                    break;
+                case 5:
+                    ObjectCreator.creaPrestito();
+                    break;
+                case 6:
+                    ProgramBasicOperations.update();
+                    break;
+                case 15:
+                    ProgramBasicOperations.showAuthorDetails();
+                    break;
+                default:
+                    System.err.println("Hai inserito un numero non presente nella lista di operazioni valide.");
+                    break;
             }
         }
     }
+
+
 }
