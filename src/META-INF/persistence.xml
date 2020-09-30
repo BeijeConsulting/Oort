@@ -6,9 +6,16 @@
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/rubrica?serverTimezone=CET"/>
 			<property name="javax.persistence.jdbc.user" value="root"/>
-			<property name="javax.persistence.jdbc.password" value="beije"/>
+			<property name="javax.persistence.jdbc.password" value="Beije05"/>
 		</properties>
 	</persistence-unit>
 	<persistence-unit name="OortBiblioteca">
+		<class>it.beije.oort.rubrica.Contatto</class>
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/biblioteca?serverTimezone=CET"/>
+			<property name="javax.persistence.jdbc.user" value="root"/>
+			<property name="javax.persistence.jdbc.password" value="Beije05"/>
+		</properties>
 	</persistence-unit>
 </persistence>
