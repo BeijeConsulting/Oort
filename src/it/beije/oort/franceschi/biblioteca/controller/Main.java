@@ -6,6 +6,7 @@ import it.beije.oort.franceschi.biblioteca.utils.Utils;
 import java.util.List;
 import java.util.Scanner;
 
+// todo DELETE E LIST
 public class Main {
     static final Scanner sc = new Scanner(System.in);
 
@@ -40,7 +41,7 @@ public class Main {
                     ObjectCreator.creaPrestito();
                     break;
                 case 6:
-                    ProgramBasicOperations.update();
+                    ObjectUpdater.update();
                     break;
                 case 15:
                     ProgramBasicOperations.showAuthorDetails();

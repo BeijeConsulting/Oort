@@ -27,10 +27,10 @@ public class ObjectCreator {
             System.out.println("ID Autore: [Obbligatorio. Scrivi \"-1\" per avere una lista di Autori]");
             int idAutore = Utils.getUserInput(sc);
             if (idAutore == -1){
-                Main.resultList = Utils.db.findAll(Autore.class);
+                Main.resultList = DatabaseManager.findAll(Autore.class);
                 Paginator.pageManager();
             } else {
-                if (Utils.db.exist(Autore.class, idAutore)){
+                if (DatabaseManager.exist(Autore.class, idAutore)){
                     libro.setId_autore(idAutore);
                     autoreSetted = true;
                 } else {
@@ -49,12 +49,12 @@ public class ObjectCreator {
         System.out.println("ID Editore: [Scrivi -1 per avere una lista di Editori]");
         int idEditore = Utils.getUserInput(sc);
         if (idEditore == -1){
-            Main.resultList = Utils.db.findAll(Editore.class);
+            Main.resultList = DatabaseManager.findAll(Editore.class);
             Paginator.pageManager();
             System.out.println("ID Editore:");
             idEditore = Utils.getUserInput(sc);
         }
-        if (Utils.db.exist(Autore.class, idEditore)){
+        if (DatabaseManager.exist(Autore.class, idEditore)){
             libro.setId_autore(idEditore);
         } else {
             System.err.println("Non hai inserito un ID valido.");
@@ -156,7 +156,7 @@ public class ObjectCreator {
             System.out.println("Codice Fiscale Utente: [Obbligatorio. Scrivi \"-1\" per avere una lista di Utenti]");
             String cfUtente = sc.nextLine();
             if (cfUtente.equalsIgnoreCase("-1")){
-                Main.resultList = Utils.db.findAll(Utente.class);
+                Main.resultList = DatabaseManager.findAll(Utente.class);
                 Paginator.pageManager();
             } else {
                 if (DatabaseManager.getUtenteFromCF(cfUtente) != null){
@@ -173,10 +173,10 @@ public class ObjectCreator {
             System.out.println("ID Libro: [Obbligatorio. Scrivi \"-1\" per avere una lista di Libri]");
             int idLibroPrestato = Utils.getUserInput(sc);
             if (idLibroPrestato == -1){
-                Main.resultList = Utils.db.findAll(Utente.class);
+                Main.resultList = DatabaseManager.findAll(Utente.class);
                 Paginator.pageManager();
             } else {
-                if (Utils.db.exist(Libro.class, idLibroPrestato)){
+                if (DatabaseManager.exist(Libro.class, idLibroPrestato)){
                     prestito.setIdLibro(idLibroPrestato);
                     idLibro = true;
                 } else {
@@ -200,7 +200,7 @@ public class ObjectCreator {
             System.out.println("Vuoi aggiungerlo al Database? [S]i - [N]o");
             selection = sc.nextLine().trim();
             if (selection.equalsIgnoreCase("s")) {
-                Utils.db.insert(obj);
+                DatabaseManager.insert(obj);
             } else if (selection.equalsIgnoreCase("n")) {
                 System.out.println("Ok, non aggiungo l'oggetto' al database.");
                 obj = null;
