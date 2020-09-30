@@ -25,15 +25,14 @@ import it.beije.oort.girardi.inOut.RubricaXML;
 import it.beije.oort.rubrica.Contatto;
 
 public class RubricaDB {
-	
-// ------------ METODI ------------
 
 	private static final String PATH_FILES = "C:\\Users\\Padawan05\\Desktop\\file_testo\\";
 	private static String file_destinazione = "RubricaFromDB";
+
 	
+// ------------ METODI ------------
 	
 //1) Visualizzazione contatti -----------------------------------------
-	
 //visualizza tutti i contatti nella lista:
 	public static void visualizzaTutti (Connection connection) {
 		Scanner myInput = new Scanner(System.in);  //apre lo scanner

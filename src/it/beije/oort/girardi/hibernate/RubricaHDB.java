@@ -26,6 +26,12 @@ import it.beije.oort.rubrica.Contatto;
 
 public class RubricaHDB {
 	
+	private static final String PATH_FILES = "C:\\Users\\Padawan05\\Desktop\\file_testo\\";
+	private static String file_destinazione = "RubricaFromDB";
+	
+	
+// ------------ METODI ------------
+	
 //1) VISUALIZZA
 // viualizza menù
 	public static void visualizzaMenu (Session session) {
@@ -71,13 +77,12 @@ public class RubricaHDB {
 	}
 
 //visualizza tutti i contatti presenti nel db:
-	public static List<Contatto> visualizzaTutti (Session session) {
+	public static void visualizzaTutti (Session session) {
 		Scanner myInput = new Scanner(System.in);  
 		int count = 0;
-		//query HQL
-		String hql = "SELECT c FROM Contatto as c";
-		Query<Contatto> query = session.createQuery(hql);
-		List<Contatto> listContatti = query.list();
+		
+		List<Contatto> listContatti = RubricaHDB.listContatti(session);
+		
 		System.out.println("# contatti presenti: " + listContatti.size());
 		System.out.println("ID, COGNOME, NOME, TELEFONO, EMAIL");
 		for (Contatto c : listContatti) {
@@ -89,8 +94,16 @@ public class RubricaHDB {
 				if (!(si.contentEquals("1")))
 					break;
 			}
-			return listContatti;
 		}	
+	}
+	
+//ridà la list dei Contatti
+	public static List<Contatto> listContatti (Session session) {
+		//query HQL
+		String hql = "SELECT c FROM Contatto as c";
+		Query<Contatto> query = session.createQuery(hql);
+		List<Contatto> listContatti = query.list();
+		return listContatti;
 	}
 	
 	
@@ -259,10 +272,10 @@ public class RubricaHDB {
 				
 				switch (in) {
 				case "1":  // csv
-//					RubricaHDB.esportaCSV(session);
+					RubricaHDB.esportaCSV(session);
 					break;
 				case "2":  // xml
-//					RubricaHDB.esportaXML(sesssion);
+					RubricaHDB.esportaXML(session);
 					break;
 				default:
 					System.out.println("");
@@ -286,38 +299,39 @@ public class RubricaHDB {
 			List<Contatto> listContatti = new ArrayList<>();
 			
 			//prendo la lista dei Contatti dal database:
-//			listContatti = FromDB.selectContatti(session);
+			listContatti = RubricaHDB.listContatti(session);
 			
 			//scrittura di un nuovo file xml con la List di Contatti:
-//			RubricaXML.writeContatti(listContatti, PATH_FILES + file_destinazione + ".xml");
-//			
-//			System.out.println("percorso file rubrica esportata: " + PATH_FILES 
-//													+ file_destinazione + ".xml");
-//			System.out.println("");
+			RubricaXML.writeContatti(listContatti, PATH_FILES + file_destinazione + ".xml");
+			
+			System.out.println("percorso file rubrica esportata: " + PATH_FILES 
+													+ file_destinazione + ".xml");
+			System.out.println("");
 		}
 
 //	//esporta in un file csv
-//		public static void esportaCSV (Session session) throws IOException {
-//			List<Contatto> listContatti = new ArrayList<>();
-//			
-//			//prendo la lista dei Contatti dal database:
-//			listContatti = FromDB.selectContatti(connection);
-//			
-//			//scrittura di un nuovo file csv con la List di Contatti:
-//			RubricaCSV.writeContatti(listContatti, PATH_FILES + file_destinazione + ".csv");
-//			
-//			System.out.println("percorso file rubrica esportata: " + PATH_FILES 
-//													+ file_destinazione + ".csv");
-//			System.out.println("");
-//		}
-//		
-//		
+		public static void esportaCSV (Session session) throws IOException {
+			List<Contatto> listContatti = new ArrayList<>();
+			
+			//prendo la lista dei Contatti dal database:
+			listContatti = RubricaHDB.listContatti(session);
+			
+			//scrittura di un nuovo file csv con la List di Contatti:
+			RubricaCSV.writeContatti(listContatti, PATH_FILES + file_destinazione + ".csv");
+			
+			System.out.println("percorso file rubrica esportata: " + PATH_FILES 
+													+ file_destinazione + ".csv");
+			System.out.println("");
+		}
+		
+		
 	
 	
 		
 // -------------- MAIN -----------------
 //Permette di gestire la rubrica di mySQL inserendo comandi da tastiera:
-	public static void main(String[] args) {
+	public static void main(String[] args) 
+		throws ParserConfigurationException, TransformerException, IOException {
 		//A) collegamento al DataBase (apro sessione):
 		System.out.println("INIZIO");
 		Session session = MyHibSessionFactory.openSession();
@@ -364,6 +378,7 @@ public class RubricaHDB {
 									
 			case "4" : 	//4) Esporta rubrica
 				System.out.println("Hai selto di eseguire: " + menu[3]);
+				RubricaHDB.menuExport(session);
 				break;
 	
 			case "5" :	//5) Termina programma
