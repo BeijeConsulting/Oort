@@ -249,7 +249,7 @@ public class MethodsForHB {
 			Session session = HybSessionFactory.openSession();
 			String hql = "SELECT c FROM Contatto as c";
 			Query<Contatto> query = session.createQuery(hql);
-			System.out.println("Il DB contiente " + query.list().size() + " contatti. Quanti se ne vogliono stampare? ");
+			System.out.println("\n Il DB contiente " + query.list().size() + " contatti. Quanti se ne vogliono stampare? ");
 			System.out.print("Inserire il numero scelto: ");
 			num = scan.nextLine();
 			int cont = Integer.parseInt(num);
@@ -275,23 +275,23 @@ public class MethodsForHB {
 					list2 = query.list();
 					int pagcont = 1;
 					
-					LOOP: for (int i = 0; i<list2.size();i+=cont)
-					for (int j = i; j<i+cont;j++) {
+					LOOP: for (int i = 0; i<list2.size();i+=cont) {
+							for (int j = i; j<i+cont;j++) {
 						System.out.format("%-10s%-30s%-30s%-30s%-55s\n",
 			            		"Id : "+ list2.get(j).getId(),
 			            "Nome: " + list2.get(j).getNome(),
 			            "Cognome: " + list2.get(j).getCognome(),
 			            "Telefono : " + list2.get(j).getTelefono(),
 			            "Email : " + list2.get(j).getEmail());
-						if(j==list2.size()-1) {
+						if(j==list2.size() - 1 ) {
 							System.out.println("Pagina n° " + pagcont);
-							System.out.println("\nNumero dei contatti terminato");
+							System.out.println("\n Numero dei contatti terminato");
 							return;
 						}	
-					
+							}
 						System.out.println("Pagina n° " + pagcont);
 						pagcont++;
-						System.out.println("\nSe vuoi vedere la prossima pagina contatti digita next , in caso contrario digita stop");
+						System.out.println("\n Se vuoi vedere la prossima pagina contatti digita next , in caso contrario digita stop");
 						String temp = "";
 						while(temp.toLowerCase()!="next" || temp.toLowerCase()!= "stop") {
 							temp = scan.next();
@@ -302,8 +302,9 @@ public class MethodsForHB {
 					}
 				}
 			}
-		}
 	}
+	}
+	
 	
 	//Metodo che richiama i metodi per la visualizzazione.
 	public static void show() {
