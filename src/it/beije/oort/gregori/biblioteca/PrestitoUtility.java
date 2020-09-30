@@ -107,5 +107,15 @@ public static void inserisci() {
 	
 	
 }
+
+public static void rimuovi() {
+	// TODO Auto-generated method stub
+	
+}
+
+public static void modifica() {
+	// TODO Auto-generated method stub
+	
+}
 	
 }

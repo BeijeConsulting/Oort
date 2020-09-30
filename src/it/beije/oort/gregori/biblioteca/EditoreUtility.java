@@ -41,5 +41,15 @@ public static void inserisci() {
 	session.close();		
 	System.out.println("Editore inserito correttamente!");
 }
+
+public static void rimuovi() {
+	// TODO Auto-generated method stub
+	
+}
+
+public static void modifica() {
+	// TODO Auto-generated method stub
+	
+}
 	
 }

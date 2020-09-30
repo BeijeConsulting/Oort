@@ -70,5 +70,15 @@ public static void inserisci() {
 	System.out.println("Autore inserito correttamente!");
 	
 }
+
+public static void rimuovi() {
+	// TODO Auto-generated method stub
+	
+}
+
+public static void modifica() {
+	// TODO Auto-generated method stub
+	
+}
 	
 }

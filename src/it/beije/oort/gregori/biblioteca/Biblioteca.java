@@ -33,10 +33,12 @@ public class Biblioteca {
 				break;
 			case 3:
 				System.out.println("Nice try!");
+				Biblioteca.modifica();
 				Biblioteca.showMenu();
 				break;
 			case 4:
-				System.out.println("Nice try!");
+				System.out.println("Not working!");
+				Biblioteca.rimuovi();
 				Biblioteca.showMenu();
 				break;
 			case 5:
@@ -53,6 +55,64 @@ public class Biblioteca {
 			default:
 				System.out.println("ERRORE: inserire una scelta valida!");
 				Biblioteca.showMenu();
+		}
+	}
+	
+private static void modifica() {
+	int scelta = Biblioteca.sceltaTabella();
+	
+	switch(scelta) {
+		case 1:
+			UtenteUtility.modifica();
+			break;
+		case 2:
+			LibroUtility.modifica();
+			break;
+		case 3:
+			EditoreUtility.modifica();
+			break;
+		case 4:
+			AutoreUtility.modifica();
+			break;
+		case 5:
+			PrestitoUtility.modifica();
+			break;
+		default:
+			System.out.println("ERRORE: how did you get here?");
+			break;
+	}
+	System.out.println("Modificare altro? (s per confermare)");
+	if(sc.nextLine().charAt(0) == 's') {
+		Biblioteca.modifica();
+	}
+}
+
+	private static void rimuovi() {
+		int scelta = Biblioteca.sceltaTabella();
+		
+		switch(scelta) {
+			case 1:
+				UtenteUtility.rimuovi();
+				break;
+			case 2:
+				LibroUtility.rimuovi();
+				break;
+			case 3:
+				EditoreUtility.rimuovi();
+				break;
+			case 4:
+				AutoreUtility.rimuovi();
+				break;
+			case 5:
+				PrestitoUtility.rimuovi();
+				break;
+			default:
+				System.out.println("ERRORE: how did you get here?");
+				break;
+		}
+		System.out.println("Rimuovere altro? (s per confermare)");
+		if(sc.nextLine().charAt(0) == 's') {
+			Biblioteca.rimuovi();
 		}
 	}
 	
