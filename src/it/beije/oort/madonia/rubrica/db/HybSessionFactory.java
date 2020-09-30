@@ -14,7 +14,7 @@ public class HybSessionFactory {
 	public static Session getSession() {
 		if (factory == null) {
 			Configuration configuration = new Configuration();
-			configuration = configuration.configure()
+			configuration = configuration.configure("/hibernate.cfg.xml")
 					.addAnnotatedClass(Contatto.class);
 			
 			factory = configuration.buildSessionFactory();
