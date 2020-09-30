@@ -80,8 +80,10 @@ public class Autore implements Databasable{
 	public void setData_morte(LocalDate data_morte) {
 		this.data_morte = data_morte;
 	}
-	
+
 	public String toString() {
-		return this.nome+" "+this.cognome;
+		return "Autore [id_autore=" + id_autore + ", nome=" + nome + ", cognome=" + cognome + "]";
 	}
+	
+
 }

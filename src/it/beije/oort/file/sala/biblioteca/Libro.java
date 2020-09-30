@@ -1,7 +1,5 @@
 package it.beije.oort.file.sala.biblioteca;
 
-import java.time.Year;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,7 +24,7 @@ public class Libro implements Databasable{
 	@Column
 	private String descrizione;
 	@Column
-	private Year anno;
+	private Short anno;
 	
 	public Libro() {
 		this(null, null, null, "", "", null);
@@ -37,7 +35,7 @@ public class Libro implements Databasable{
 	}
 	
 	public Libro(Integer id_libro, Integer id_autore,Integer id_editore,
-			String titolo, String descrizione, Year anno) {
+			String titolo, String descrizione, Short anno) {
 		this.id_libro=id_libro;
 		this.id_autore=id_autore;
 		this.id_editore=id_editore;
@@ -76,16 +74,17 @@ public class Libro implements Databasable{
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
 	}
-	public Year getAnno() {
+	public Short getAnno() {
 		return anno;
 	}
-	public void setAnno(Year anno) {
+	public void setAnno(Short anno) {
 		this.anno = anno;
 	}
-	
+
 	public String toString() {
-		return new StringBuilder("Titolo: ").append(this.titolo)
-				.append(" - Autore: ").append(this.id_autore)
-				.append(" - Anno: ").append(this.anno.toString()).toString();
+		return "Libro [id_libro=" + id_libro + ", id_autore=" + id_autore + ", titolo=" + titolo + ", anno=" + anno
+				+ "]";
 	}
+	
+	
 }

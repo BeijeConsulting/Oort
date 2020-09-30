@@ -101,9 +101,10 @@ public class Utente implements Databasable{
 	}
 
 	public String toString() {
-		return "Utente [nome=" + nome + ", cognome=" + cognome + ", email=" + email + ", codice_fiscale="
-				+ codice_fiscale + "]";
+		return "Utente [id_utente=" + id_utente + ", nome=" + nome + ", cognome=" + cognome + ", email=" + email + "]";
 	}
+
+	
 
 	
 	

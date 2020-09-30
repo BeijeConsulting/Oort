@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "editore")
+@Table(name = "editori")
 public class Editore implements Databasable{
 
 	@Id
@@ -48,9 +48,8 @@ public class Editore implements Databasable{
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
 	}
-	
+
 	public String toString() {
-		return this.denominazione;
+		return "Editore [id_editore=" + id_editore + ", denominazione=" + denominazione + "]";
 	}
-	
 }
