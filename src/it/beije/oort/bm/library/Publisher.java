@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "publisher")
-public class Publisher extends LibraryBean implements Comparable<Publisher>, Serializable {
+public class Publisher implements Comparable<Publisher>, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

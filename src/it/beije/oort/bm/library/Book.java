@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "book")
-public class Book extends LibraryBean implements Comparable<Book>, Serializable{
+public class Book implements Comparable<Book>, Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id

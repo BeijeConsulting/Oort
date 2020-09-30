@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+	
+	<persistence-unit name="library">
+		<class>it.beije.oort.bm.library.Author</class>
+		<class>it.beije.oort.bm.library.Book</class>
+		<class>it.beije.oort.bm.library.Loan</class>
+		<class>it.beije.oort.bm.library.Publisher</class>
+		<class>it.beije.oort.bm.library.User</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		
+	</persistence-unit>
+	
+	<persistence-unit name="rubrica">
+		<class>it.beije.oort.bm.rubrica.Contatto</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		
+	</persistence-unit>
+	
+	<persistence-unit name="rubricaTest">
+		<class>it.beije.oort.bm.dbclient.Contatto</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		
+	</persistence-unit>
+	
+	<persistence-unit name="rubricaIvo">
+		<class>it.beije.oort.rubrica.Contatto</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		
+	</persistence-unit>
+	
+	
+</persistence>
