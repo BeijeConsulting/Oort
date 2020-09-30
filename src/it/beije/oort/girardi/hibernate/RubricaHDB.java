@@ -294,8 +294,8 @@ public class RubricaHDB {
 //			System.out.println("percorso file rubrica esportata: " + PATH_FILES 
 //													+ file_destinazione + ".xml");
 //			System.out.println("");
-//		}
-//
+		}
+
 //	//esporta in un file csv
 //		public static void esportaCSV (Session session) throws IOException {
 //			List<Contatto> listContatti = new ArrayList<>();
