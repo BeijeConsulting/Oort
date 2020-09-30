@@ -1,20 +1,18 @@
 package it.beije.oort.file.sala.biblioteca;
 
 import java.util.Scanner;
-
-import it.beije.oort.file.sala.db.HibernateToolset;
-
 import java.util.List;
+import java.util.ArrayList;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 public class ScannerBiblioteca {
 	
 	private List<Databasable> list;
 	private Scanner s;
 	private static final String EXIT_TOKEN = ":Q";
-	StringBuilder sb = new StringBuilder("<----------Cosa desideri fare ?---------->\n");
+	StringBuilder sb = new StringBuilder("|--------------Cosa desideri fare?--------------|\n");
 	private String intro = sb.append("Digita 1 per inserire manualmente una nuova lista di libri.\n")
 			.append("Digita 2 per inserire manualmente una nuova lista di autori.\n")
 			.append("Digita 3 per inserire manualmente una nuova lista di editori.\n")
