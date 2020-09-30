@@ -409,11 +409,13 @@ public class BiblioClient {
 	
 	
 	public static boolean registraLibro() {
-		String titolo = "", anno = "", id_autore = "", id_editore = "";
+		String titolo = "", descrizione = "", anno = "", id_autore = "", id_editore = "";
 		
 		System.out.println("Digitare i campi del libro da inserire: ");				
 		System.out.print("titolo : ");
-		titolo = in.nextLine();					
+		titolo = in.nextLine();
+		System.out.print("descrizione : ");
+		descrizione = in.nextLine();
 		System.out.print("id_autore : ");
 		do{
 			try{		
@@ -446,7 +448,7 @@ public class BiblioClient {
 		anno = in.nextLine();
 		System.out.println();
 		
-		JPADBtools.insertLibro(titolo, Integer.parseInt(id_autore), Integer.parseInt(id_editore), anno);
+		JPADBtools.insertLibro(titolo, descrizione, Integer.parseInt(id_autore), Integer.parseInt(id_editore), anno);
 		System.out.println("Libro registrato con successo.\n");
 		return true;
 	}

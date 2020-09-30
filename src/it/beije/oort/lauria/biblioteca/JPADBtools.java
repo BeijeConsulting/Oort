@@ -70,6 +70,7 @@ public class JPADBtools {
 		for (Libro libro : libri) {				
 			System.out.println("id : " + libro.getId());
 			System.out.println("titolo : " + libro.getTitolo());
+			System.out.println("descrizione : " + libro.getDescrizione());
 			System.out.println("id autore : " + libro.getId_autore());
 			System.out.println("id editore : " + libro.getId_editore());
 			System.out.println("anno : " + libro.getAnno());
@@ -167,10 +168,11 @@ public class JPADBtools {
 	
 	
 	
-	public static void insertLibro(String titolo, int id_autore, int id_editore, String anno) {
+	public static void insertLibro(String titolo, String descrizione, int id_autore, int id_editore, String anno) {
 		//EntityManager entityManager = JEntityManagerFactory.openEntityManager("OortBiblioteca");
 		Libro libro = new Libro();
 		libro.setTitolo(titolo);
+		libro.setDescrizione(descrizione);
 		libro.setId_autore(id_autore);
 		libro.setId_editore(id_editore);
 		libro.setAnno(anno);
