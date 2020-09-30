@@ -1,5 +1,7 @@
 package it.beije.oort.kirolosmater.biblioteca;
 
+import static it.beije.oort.kirolosmater.biblioteca.LibraryManager.libraryPersistenceUnit;
+
 import java.util.Map;
 import java.util.Scanner;
 
@@ -13,9 +15,10 @@ import org.hibernate.Session;
 import it.beije.oort.rubrica.HybSessionFactory;
 
 public class LibraryManager {
-	static Map entityManagerFromPersistence = JPAEntityManagerSingleton
-			.getJpaEntityManager("OortBiblioteca");
-	static EntityManager entityManager = (EntityManager) entityManagerFromPersistence.get("OortBiblioteca");
+	
+	public static String libraryPersistenceUnit = "OortBiblioteca";
+	
+	static EntityManager entityManager = JPAEntityManagerSingleton.getEntityManager(libraryPersistenceUnit);
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

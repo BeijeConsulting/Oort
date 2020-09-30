@@ -1,6 +1,7 @@
 package it.beije.oort.kirolosmater.biblioteca;
 
 import java.util.Map;
+import static it.beije.oort.kirolosmater.biblioteca.LibraryManager.libraryPersistenceUnit;
 import java.util.Scanner;
 
 import javax.persistence.EntityManager;
@@ -13,10 +14,7 @@ import it.beije.oort.rubrica.HybSessionFactory;
 
 public class MetodiAutore {
 	
-	static Map entityManagerFromPersistence = JPAEntityManagerSingleton
-			.getJpaEntityManager("OortBiblioteca");
-	static EntityManager entityManager = (EntityManager) entityManagerFromPersistence.get("OortBiblioteca");
-	
+	static EntityManager entityManager = JPAEntityManagerSingleton.getEntityManager(libraryPersistenceUnit);
 	public static void menuAutore () {
 		Scanner inputFromUser = new Scanner(System.in);
 		System.out.println("inserisci 1 | Per visualizzare un autore in base al suo id");
@@ -69,7 +67,9 @@ public class MetodiAutore {
 //		//chiudo sessione
 //		session.close();
 //		return autoreOutput;
+		
 		Autore autore = entityManager.find(Autore.class, id);
+		System.out.println(autore == null);
 		return autore;
 	}
 }

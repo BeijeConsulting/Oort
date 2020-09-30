@@ -16,6 +16,8 @@ public class JPAEntityManagerSingleton {
 
 	private JPAEntityManagerSingleton() {}
 	
+	private static EntityManager entityManager;
+	
 	private static Map<String, EntityManager> entityManagerDB =  new HashMap<String, EntityManager>();
 	
 	public static Map getJpaEntityManager (String persistence) {
@@ -25,6 +27,16 @@ public class JPAEntityManagerSingleton {
 			entityManagerDB.put(persistence, entityManager);
 		}
 		return entityManagerDB;
+	}
+	
+	public static EntityManager getEntityManager (String persistence) {
+		if (entityManagerDB == null) {			
+			entityManagerDB = getJpaEntityManager (persistence);
+			
+		}
+		entityManager = entityManagerDB.get(persistence);
+		System.out.println("entityManager is null? " + entityManager == null);
+		return entityManager;
 	}
 	
 }
