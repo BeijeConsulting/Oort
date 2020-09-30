@@ -1,11 +1,11 @@
-package it.beije.oort.bassanelli.exercises.phonebookgenerator;
+package it.beije.oort.bassanelli.exercises.phonebook_generator;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ConsoleApplication {
+public class ConsolePhonebookApplication {
 
 	public static void main(String[] args) {
 

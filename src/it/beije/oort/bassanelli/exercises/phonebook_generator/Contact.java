@@ -1,4 +1,4 @@
-package it.beije.oort.bassanelli.exercises.phonebookgenerator;
+package it.beije.oort.bassanelli.exercises.phonebook_generator;
 
 import java.util.ArrayList;
 import java.util.List;
