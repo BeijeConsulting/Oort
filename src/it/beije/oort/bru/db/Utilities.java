@@ -6,6 +6,7 @@ import java.util.Map;
 
 import it.beije.oort.biblioteca.Autore;
 import it.beije.oort.biblioteca.Editore;
+import it.beije.oort.biblioteca.Libro;
 import it.beije.oort.files.Contatto;
 
 public class Utilities {
@@ -49,4 +50,10 @@ public class Utilities {
 		}
 		return lastID;
 	}
-}
+	
+	public static void printBooks(List<Libro> books) {
+		for (int i = 0; i < books.size(); i++) {
+			System.out.println(books.get(i));
+		}
+	}
+} 

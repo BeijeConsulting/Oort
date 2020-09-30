@@ -15,11 +15,13 @@ public class ClientBiblioteca {
 			System.out.println("1. Inserisci nuovo libro");
 			System.out.println("2. Registra nuovo utente");
 			System.out.println("3. Registra un prestito");
+			System.out.println("4. Cerca libro");
 			System.out.println("5. Esci");
 			try {
 				option = Integer.parseInt(keyboard.nextLine());
 				switch (option) {
 				case 1:
+					//INSERISCI NUOVO LIBRO NEL DATABASE
 					System.out.println("Inserisci titolo:");
 					String titolo = keyboard.nextLine();
 					System.out.println("Inserisci descrizione:");
@@ -30,6 +32,7 @@ public class ClientBiblioteca {
 					int lastAuthorID = Utilities.printAuthors(authors);
 					int idAutore = Integer.parseInt(keyboard.nextLine());
 					if (idAutore == -1) {
+						//INSERISCI NUOVO AUTORE SE NON PRESENTE
 						System.out.println("Inserisci nome:");
 						String nome = keyboard.nextLine();
 						System.out.println("Inserisci cognome:");
@@ -50,6 +53,7 @@ public class ClientBiblioteca {
 					int lastPublisherID = Utilities.printPublishers(publishers);
 					int idEditore = Integer.parseInt(keyboard.nextLine());
 					if (idEditore == -1) {
+						//INSERISCI NUOVO EDITORE SE NON PRESENTE 
 						System.out.println("Inserisci il nome della casa editrice:");
 						String denominazione = keyboard.nextLine();
 						System.out.println("Inserisci descrizione della casa editrice:");
@@ -62,8 +66,24 @@ public class ClientBiblioteca {
 					HDBUtilities.insertBook(titolo, descrizioneLibro, idAutore, idEditore, anno);
 					break;
 				case 2:
-					System.out.println("opzione non ancora disponibile");
+					//REGISTRAZIONE NUOVO UTENTE
+					System.out.println("Inserisci il nome dell'utente:");
+					String nome = keyboard.nextLine();
+					System.out.println("Inserisci il cognome dell'utente:");
+					String cognome = keyboard.nextLine();
+					System.out.println("Inserisci il numero di telefono:");
+					String telefono = keyboard.nextLine();
+					System.out.println("Inserisci l'email:");
+					String email = keyboard.nextLine();
+					System.out.println("Inserisci codice fiscale:");
+					String codice_fiscale = keyboard.nextLine();
+					System.out.println("Inserisci indirizzo:");
+					String indirizzo = keyboard.nextLine();
+					HDBUtilities.insertUser(nome, cognome, telefono, email, codice_fiscale, indirizzo);
+					System.out.println("Nuovo utente registrato.");
+					break;
 				case 3:
+					//REGISTRAZIONE NUOVO PRESTITO
 					System.out.println("opzione non ancora disponibile");
 				case 5:
 					System.out.println("Arrivederci!");

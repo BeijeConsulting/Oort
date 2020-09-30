@@ -11,6 +11,7 @@ import org.hibernate.query.Query;
 import it.beije.oort.biblioteca.Autore;
 import it.beije.oort.biblioteca.Editore;
 import it.beije.oort.biblioteca.Libro;
+import it.beije.oort.biblioteca.Utente;
 import it.beije.oort.files.Contatto;
 
 public class HDBUtilities {
@@ -114,6 +115,21 @@ public class HDBUtilities {
 		publisher.setDenominazione(denominazione);
 		publisher.setDescrizione(descrizione);
 		session.save(publisher);
+		transaction.commit();
+		session.close();
+	}
+	
+	public static void insertUser(String nome, String cognome, String telefono, String email, String codice_fiscale, String indirizzo) {
+		Session session = SessionFactorySingleton.openSession();
+		Transaction transaction = session.beginTransaction();
+		Utente user = new Utente();
+		user.setNome(nome);
+		user.setCognome(cognome);
+		user.setTelefono(telefono);
+		user.setEmail(email);
+		user.setCodice_fiscale(codice_fiscale);
+		user.setIndirizzo(indirizzo);
+		session.save(user);
 		transaction.commit();
 		session.close();
 	}

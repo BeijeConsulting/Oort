@@ -1,12 +1,30 @@
 package it.beije.oort.biblioteca;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "utenti")
 public class Utente {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
 	private int id;
+	@Column
 	private String cognome;
+	@Column
 	private String nome;
+	@Column
 	private String telefono;
+	@Column
 	private String email;
+	@Column
 	private String codice_fiscale;
+	@Column
 	private String indirizzo;
 	
 	public int getId() {

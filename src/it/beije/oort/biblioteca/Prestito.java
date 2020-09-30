@@ -1,10 +1,28 @@
 package it.beije.oort.biblioteca;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "prestiti")
 public class Prestito {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
 	private int id;
-	private Utente utente;
+	@Column
+	private int id_libro;
+	@Column
+	private int id_utente;
+	@Column
 	private String data_inzio;
+	@Column
 	private String data_fine;
+	@Column
 	private String note;
 	public int getId() {
 		return id;
@@ -12,11 +30,17 @@ public class Prestito {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Utente getUtente() {
-		return utente;
+	public int getId_libro() {
+		return id_libro;
 	}
-	public void setUtente(Utente utente) {
-		this.utente = utente;
+	public void setId_libro(int id_libro) {
+		this.id_libro = id_libro;
+	}
+	public int getId_utente() {
+		return id_utente;
+	}
+	public void setId_utente(int id_utente) {
+		this.id_utente = id_utente;
 	}
 	public String getData_inzio() {
 		return data_inzio;

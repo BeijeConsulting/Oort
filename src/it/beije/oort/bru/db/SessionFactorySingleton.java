@@ -7,7 +7,8 @@ import org.hibernate.cfg.Configuration;
 import it.beije.oort.biblioteca.Autore;
 import it.beije.oort.biblioteca.Editore;
 import it.beije.oort.biblioteca.Libro;
-import it.beije.oort.files.Contatto;
+import it.beije.oort.biblioteca.Prestito;
+import it.beije.oort.biblioteca.Utente;
 
 public class SessionFactorySingleton {
 	
@@ -18,7 +19,9 @@ public class SessionFactorySingleton {
 			Configuration configuration = new Configuration();
 			configuration.configure().addAnnotatedClass(Libro.class)
 						.addAnnotatedClass(Autore.class)
-						.addAnnotatedClass(Editore.class);
+						.addAnnotatedClass(Editore.class)
+						.addAnnotatedClass(Utente.class)
+						.addAnnotatedClass(Prestito.class);
 			factory = configuration.buildSessionFactory();
 		}
 		return factory.openSession();
