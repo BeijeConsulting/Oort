@@ -32,7 +32,7 @@ public class Libri {
 	private int editore;
 	
 	@Column
-	private LocalDate anno;
+	private int anno;
 
 	public int getId() {
 		return id;
@@ -74,11 +74,11 @@ public class Libri {
 		this.editore = editore;
 	}
 
-	public LocalDate getAnno() {
+	public int getAnno() {
 		return anno;
 	}
 
-	public void setAnno(LocalDate anno) {
+	public void setAnno(int anno) {
 		this.anno = anno;
 	}
 }

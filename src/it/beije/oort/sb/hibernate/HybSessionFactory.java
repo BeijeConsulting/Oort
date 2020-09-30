@@ -27,24 +27,6 @@ public class HybSessionFactory {
 		
 		return factory.openSession();
 	}
-	
-	public static Session openSessionBib() {
-		if (factory == null) {
-			//inizializzo configurazione
-			Configuration configuration = new Configuration();
-			configuration = configuration.configure("/hibernateBiblio.cfg.xml")
-					.addAnnotatedClass(Autori.class)
-					.addAnnotatedClass(Editori.class)
-					.addAnnotatedClass(Libri.class)
-					.addAnnotatedClass(Prestiti.class)
-					.addAnnotatedClass(Utenti.class);
-			
-			//chiedo generatore di sessioni
-			factory = configuration.buildSessionFactory();
 
-		}
-		
-		return factory.openSession();
-	}
 
 }
