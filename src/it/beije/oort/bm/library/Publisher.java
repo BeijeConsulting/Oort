@@ -35,6 +35,16 @@ public class Publisher implements Comparable<Publisher>, Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("| ").append("id: ").append(id).append(" | ")
+			.append("name : ").append(this.name).append(" |\n")
+			.append("\t| Description : ").append(this.description).append(" |");
+		
+		return builder.toString();
+	}
 	@Override
 	public int compareTo(Publisher p) {
 		return this.name.compareTo(p.getName());

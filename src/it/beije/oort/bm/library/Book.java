@@ -92,6 +92,19 @@ public class Book implements Comparable<Book>, Serializable{
 
 
 	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("| ").append("id: ").append(id).append(" | ")
+			.append("title : ").append(this.title).append(" | ")
+			.append("description : ").append(this.description).append(" | ")
+			.append("author : ").append(this.author).append(" | ")
+			.append("publisher : ").append(this.publisher).append(" |\n")
+			.append("\t| Biography : ").append(year).append(" |");
+		
+		return builder.toString();
+	}
+	
+	@Override
 	public int compareTo(Book b) {
 		int comp = this.title.compareTo(b.getTitle());
 		if(comp == 0) {

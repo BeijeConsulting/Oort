@@ -85,6 +85,15 @@ public class Loan implements Comparable<Loan>, Serializable {
 		this.notes = notes;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("| ").append("id: ").append(id).append(" | ")
+			.append("user: ").append(this.user).append(" | ")
+			.append("book : ").append(this.book).append(" |\n")
+			.append("\t| Notes : ").append(this.notes).append(" |");
+		return builder.toString();
+	}
 
 	@Override
 	public int compareTo(Loan l) {

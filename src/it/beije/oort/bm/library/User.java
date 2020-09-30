@@ -83,6 +83,19 @@ public class User implements Comparable<User>, Serializable{
 	}
 
 	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("| ").append("id: ").append(id).append(" | ")
+			.append("surname : ").append(this.surname).append(" | ")
+			.append("name : ").append(this.name).append(" | ")
+			.append("fiscal code : ").append(this.fc).append(" | ")
+			.append("address : ").append(this.address).append(" | ")
+			.append("phone n° : ").append(this.phone).append(" | ")
+			.append("e-mail : ").append(this.email).append(" |");	
+		return builder.toString();
+	}
+	
+	@Override
 	public int compareTo(User u) {
 		int comp = this.surname.compareTo(u.getSurname());
 		if(comp == 0) {

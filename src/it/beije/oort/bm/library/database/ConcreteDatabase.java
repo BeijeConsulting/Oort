@@ -1,25 +1,20 @@
 package it.beije.oort.bm.library.database;
 
 import java.util.List;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.query.Query;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+
 import it.beije.oort.bm.library.*;
 
 public class ConcreteDatabase implements Database {
 	private static ConcreteDatabase istance;
-	private SessionFactory factory;
+	private EntityManagerFactory factory;
 	
 	
 	private ConcreteDatabase() {
-		factory = new Configuration().configure("hibernate-library.cfg.xml")
-				.addAnnotatedClass(Author.class)
-				.addAnnotatedClass(Book.class)
-				.addAnnotatedClass(Loan.class)
-				.addAnnotatedClass(Publisher.class)
-				.addAnnotatedClass(User.class)
-				.buildSessionFactory();
+		factory = Persistence.createEntityManagerFactory("library");
 	}
 	
 	@Override
@@ -43,10 +38,10 @@ public class ConcreteDatabase implements Database {
 //			default:
 //				throw new IllegalArgumentException("Table " + table + " not found.");
 //		}
-		Session s = getSession();
+		EntityManager s = getEntityManager();
 		try {
-			s.beginTransaction();
-			s.save(data);
+			s.getTransaction().begin();
+			s.persist(data);
 			s.getTransaction().commit();
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -59,11 +54,11 @@ public class ConcreteDatabase implements Database {
 
 	@Override
 	public <T> boolean remove(Class<T> table, int id) {
-		Session s = getSession();
+		EntityManager s = getEntityManager();
 		try {
-			s.beginTransaction();
-			T elem = s.get(table, id);
-			s.delete(elem);
+			s.getTransaction().begin();
+			T elem = s.find(table, id);
+			s.remove(elem);
 			s.getTransaction().commit();
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -76,10 +71,10 @@ public class ConcreteDatabase implements Database {
 
 	@Override
 	public <T> boolean update(Class<T> type, int id, Object data) {
-		Session s = getSession();
+		EntityManager s = getEntityManager();
 		try {
-			s.beginTransaction();
-			Object elem = s.get(type, id);
+			s.getTransaction().begin();;
+			Object elem = s.find(type, id);
 			String t_name = type.getSimpleName();
 			switch(t_name) {
 			case USER:
@@ -128,7 +123,6 @@ public class ConcreteDatabase implements Database {
 			default:
 				throw new IllegalArgumentException("");
 			}
-			s.save(elem);
 			s.getTransaction().commit();
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -144,9 +138,9 @@ public class ConcreteDatabase implements Database {
 	public <T> List<T> getAll(Class<T> beanType) {
 		String query = "SELECT x FROM " + beanType.getSimpleName() + " AS x";
 		List<T> ret;
-		Session s = getSession();
+		EntityManager s = getEntityManager();
 		try {
-			Query<T> results = s.createQuery(query);
+			Query results = s.createQuery(query);
 			ret = results.getResultList();
 		}catch(RuntimeException re) {
 			re.printStackTrace();
@@ -157,22 +151,127 @@ public class ConcreteDatabase implements Database {
 		return ret;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T getRecord(int id, Class<T> beanType) {
-		Session s = getSession();
-		T elem = null;
-		try {
-			elem = s.find(beanType, id);
-		} catch(RuntimeException re){
-			re.printStackTrace();
-		}finally {
-			s.close();
+	public <T> List<T> searchRecord(Class<T> beanType, T data) {
+		String type = data.getClass().getSimpleName();
+		EntityManager s = getEntityManager();
+		List<T> ret = null;
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT x FROM ").append(type).append(" AS x WHERE ");
+		boolean requireAnd = false;
+		switch(type) {
+		case USER:
+			User user = (User) data;
+			if(!user.getSurname().equals("")) {
+				query.append("surname = ").append("\'").append(user.getSurname()).append("\'").append(" ");
+				requireAnd = true;
+			}
+			if(!user.getName().equals("")) {
+				if(requireAnd) query.append("AND ");
+				query.append("name = ").append("\'").append(user.getName()).append("\'").append(" ");
+				requireAnd = true;
+			}
+			if(!user.getFc().equals("")) {
+				if(requireAnd) query.append("AND ");
+				query.append("fc = ").append("\'").append(user.getFc()).append("\'").append(" ");
+				requireAnd = true;
+			}
+			if(!user.getAddress().equals("")) {
+				if(requireAnd) query.append("AND ");
+				query.append("address = ").append("\'").append(user.getAddress()).append("\'").append(" ");
+				requireAnd = true;
+			}
+			if(!user.getPhone().equals("")) {
+				if(requireAnd) query.append("AND ");
+				query.append("phone = ").append("\'").append(user.getPhone()).append("\'").append(" ");
+				requireAnd = true;
+			}
+			if(!user.getEmail().equals("")) {
+				if(requireAnd) query.append("AND ");
+				query.append("email = ").append("\'").append(user.getEmail()).append("\'").append(" ");
+			}
+			break;
+		case BOOK:
+			Book book = (Book) data;
+			if(!book.getTitle().equals("")) {
+				query.append("title = ").append("\'").append(book.getTitle()).append("\'").append(" ");
+				requireAnd = true;
+			}
+			if(book.getPublisher() != 0) {
+				if(requireAnd) query.append("AND ");
+				query.append("publisher = ").append(book.getPublisher()).append(" ");
+				requireAnd = true;
+			}
+			if(book.getAuthor() != 0) {
+				if(requireAnd) query.append("AND ");
+				query.append("author = ").append(book.getAuthor()).append(" ");
+				requireAnd = true;
+			}
+			if(!book.getYear().equals("")) {
+				if(requireAnd) query.append("AND ");
+				query.append("year = ").append("\'").append(book.getYear()).append("\'").append(" ");
+			}			
+			break;
+		case AUTHOR:
+			Author author = (Author) data;
+			if(!author.getSurname().equals("")) {
+				query.append("surname = ").append("\'").append(author.getSurname()).append("\'").append(" ");
+				requireAnd = true;
+			}
+			if(!author.getName().equals("")) {
+				if(requireAnd) query.append("AND ");
+				query.append("name = ").append("\'").append(author.getName()).append("\'").append(" ");
+				requireAnd = true;
+			}
+			if(author.getDate_of_birth() != null) {
+				if(requireAnd) query.append("AND ");
+				query.append("date_of_birth = ").append("\'").append(author.getDate_of_birth().toString()).append("\'").append(" ");
+				requireAnd = true;
+			}
+			if(author.getDate_of_death() != null) {
+				if(requireAnd) query.append("AND ");
+				query.append("date_of_death = ").append("\'").append(author.getDate_of_death().toString()).append("\'").append(" ");
+			}
+			break;
+		case LOAN:
+			Loan loan = (Loan) data;
+			if(loan.getBook() != 0) {
+				query.append("book = ").append(loan.getBook()).append(" ");
+				requireAnd = true;
+			}
+			if(loan.getUser() != 0) {
+				if(requireAnd) query.append("AND ");
+				query.append("user = ").append(loan.getUser()).append(" ");
+				requireAnd = true;
+			}
+			if(loan.getStart_date() != null) {
+				if(requireAnd) query.append("AND ");
+				query.append("start_date = ").append("\'").append(loan.getStart_date().toString()).append("\'").append(" ");
+				requireAnd = true;
+			}
+			if(loan.getEnd_date() != null) {
+				if(requireAnd) query.append("AND ");
+				query.append("end_date = ").append("\'").append(loan.getEnd_date()).append("\'").append(" ");
+			}	
+			break;
+		case PUBLISHER:
+			Publisher p = (Publisher) data;
+			if(!p.getName().equals("")) {
+				query.append("name = ").append("\'").append(p.getName()).append("\'").append(" ");
+			}
+			break;
+		default:
+			throw new IllegalArgumentException("Something went really wrong man.");
 		}
-		return elem;
+		Query results = s.createQuery(query.toString());
+		ret = results.getResultList();
+		s.close();
+		return ret;
 	}
 	
-	private Session getSession() {
-		return factory.openSession();
+	private EntityManager getEntityManager() {
+		return factory.createEntityManager();
 	}
 	
 	public static ConcreteDatabase getDatabase() {

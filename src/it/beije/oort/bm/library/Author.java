@@ -84,6 +84,18 @@ public class Author implements Comparable<Author>, Serializable {
 		this.biography = biography;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("| ").append("id: ").append(id).append(" | ")
+			.append("surname : ").append(this.surname).append(" | ")
+			.append("name : ").append(this.name).append(" | ")
+			.append("date of birth : ").append(this.date_of_birth).append(" | ")
+			.append("date of death : ").append(this.date_of_death).append(" |\n")
+			.append("\t| Biography : ").append(biography).append(" |");
+		
+		return builder.toString();
+	}
 
 	@Override
 	public int compareTo(Author a) {

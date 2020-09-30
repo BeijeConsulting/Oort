@@ -18,7 +18,7 @@ public interface Database {
 	
 	<T> List<T> getAll(Class<T> beanType);
 	
-	<T> T getRecord(int id, Class<T> beanType);
+	<T> List<T> searchRecord(Class<T> beanType, T data);
 	
 	
 }
