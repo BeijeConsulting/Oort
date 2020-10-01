@@ -12,7 +12,6 @@ import it.beije.oort.bru.db.biblioteca.Prestito;
 import it.beije.oort.bru.db.biblioteca.Utente;
 
 public class JPDBUtilities {
-	
 	public static Libro exportBook(String titolo) {
 		EntityManager entityManager = JPDBEntityManagerFactory.createEntityManager();
 		String jpql = "SELECT l FROM Libro AS l WHERE titolo = '" + titolo + "'";

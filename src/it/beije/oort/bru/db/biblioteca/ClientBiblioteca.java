@@ -7,7 +7,7 @@ import it.beije.oort.bru.db.Utilities;
 
 public class ClientBiblioteca {
 
-	public static void main(String[] args) {
+	public static void main(String args[]) {
 		int option = 0;
 		Scanner keyboard = new Scanner(System.in);
 		while (option != 4) {
