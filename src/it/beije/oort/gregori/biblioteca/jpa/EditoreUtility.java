@@ -97,7 +97,50 @@ public class EditoreUtility {
 	}
 	
 	public static void modifica() {
-		// TODO Auto-generated method stub
+		System.out.println("Modifica editore:");
+		Map<Integer, Editore> mapEditori = new HashMap<Integer, Editore>();
+		for(Editore editore : EditoreUtility.visualizza()) {
+			mapEditori.put(editore.getId(), editore);
+			System.out.println(editore);
+		}	
+		Scanner sc = new Scanner(System.in);
+		int id;
+		boolean flag = true;
+		do {
+			System.out.println("Scegli un id:");
+			id = 0;
+			try {
+				id = Integer.parseInt(sc.nextLine());
+			} catch (NumberFormatException e) {
+				System.out.println("ERRORE: inserire una chiave valida!");
+				flag = false;
+			}
+			if (!mapEditori.containsKey(id)) {
+				System.out.println("ERRORE: inserire una chiave valida!");
+				flag = false;
+			} 
+		} while(!flag);
+		
+		EntityManager entityManager = JPAEntityManager.createEntityManager();
+		
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		entityTransaction.begin();
+		
+		Editore editore = entityManager.find(Editore.class, id);
+		
+		System.out.println("Inserimento editore:");
+		
+		System.out.print("Denominazione: ");
+		editore.setDenominazione(sc.nextLine());
+		
+		System.out.print("Descrizione: ");
+		editore.setDescrizione(sc.nextLine());
+		
+		entityManager.persist(editore);
+		entityManager.getTransaction().commit();
+		
+		entityManager.close();	
+		System.out.println("Editore aggiornato correttamente!");
 		
 	}
 	
