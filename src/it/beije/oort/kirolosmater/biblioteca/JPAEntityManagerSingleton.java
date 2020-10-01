@@ -20,22 +20,20 @@ public class JPAEntityManagerSingleton {
 	
 	private static Map<String, EntityManager> entityManagerDB =  new HashMap<String, EntityManager>();
 	
-	public static Map getJpaEntityManager (String persistence) {
-		if (entityManagerDB == null) {			
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory(persistence);
-			EntityManager entityManager = factory.createEntityManager();
-			entityManagerDB.put(persistence, entityManager);
-		}
+	public static Map getJpaEntityManager (String persistence) {			
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory(persistence);
+		EntityManager entityManager = factory.createEntityManager();
+		entityManagerDB.put(persistence, entityManager);
 		return entityManagerDB;
 	}
 	
 	public static EntityManager getEntityManager (String persistence) {
-		if (entityManagerDB == null) {			
+		if (entityManagerDB.get(persistence) == null) {			
 			entityManagerDB = getJpaEntityManager (persistence);
 			
 		}
 		entityManager = entityManagerDB.get(persistence);
-		System.out.println("entityManager is null? " + entityManager == null);
+//		System.out.println("entityManager is null? " + entityManager == null);
 		return entityManager;
 	}
 	

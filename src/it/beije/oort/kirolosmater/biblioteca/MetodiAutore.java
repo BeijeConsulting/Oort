@@ -44,10 +44,17 @@ public class MetodiAutore {
 		int id = Integer.parseInt(lineFromInput);
 		System.out.println("hai inserito questo id: " + id);
 		System.out.println("questo è il record: ");
-		readRecordFromDb(id);
+		Autore autore = readRecordFromDb(id);
+		System.out.println("id : " + autore.getId());			
+		System.out.println("cognome : " + autore.getCognome());
+		System.out.println("nome : " + autore.getNome());
+		System.out.println("data_nascita : " + autore.getData_nascita());
+		System.out.println("data_morte : " + autore.getData_morte());
+		System.out.println("biografia: " + autore.getBiografia());
 	}
 	
 	public static Autore readRecordFromDb(int id) { 
+		
 		//apro sessione
 //		Session session = HybSessionFactory.openSession();
 //		System.out.println("session is open? " + session.isOpen());
@@ -69,7 +76,7 @@ public class MetodiAutore {
 //		return autoreOutput;
 		
 		Autore autore = entityManager.find(Autore.class, id);
-		System.out.println(autore == null);
+//		System.out.println(autore);
 		return autore;
 	}
 }
