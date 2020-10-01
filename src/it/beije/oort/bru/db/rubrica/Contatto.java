@@ -1,4 +1,4 @@
-package it.beije.oort.files;
+package it.beije.oort.bru.db.rubrica;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -8,11 +8,11 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
-import it.beije.oort.biblioteca.Autore;
-import it.beije.oort.biblioteca.Editore;
-import it.beije.oort.biblioteca.Libro;
-import it.beije.oort.biblioteca.Utente;
-import it.beije.oort.files.Contatto;
+import it.beije.oort.bru.db.biblioteca.Autore;
+import it.beije.oort.bru.db.biblioteca.Editore;
+import it.beije.oort.bru.db.biblioteca.Libro;
+import it.beije.oort.bru.db.biblioteca.Utente;
+import it.beije.oort.bru.db.rubrica.Contatto;
 
 public class HDBUtilities {
 	

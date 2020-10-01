@@ -1,4 +1,4 @@
-package it.beije.oort.biblioteca;
+package it.beije.oort.bru.db.biblioteca;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +19,7 @@ public class Prestito {
 	@Column
 	private int id_utente;
 	@Column
-	private String data_inzio;
+	private String data_inizio;
 	@Column
 	private String data_fine;
 	@Column
@@ -42,11 +42,11 @@ public class Prestito {
 	public void setId_utente(int id_utente) {
 		this.id_utente = id_utente;
 	}
-	public String getData_inzio() {
-		return data_inzio;
+	public String getData_inizio() {
+		return data_inizio;
 	}
-	public void setData_inzio(String data_inzio) {
-		this.data_inzio = data_inzio;
+	public void setData_inizio(String data_inizio) {
+		this.data_inizio = data_inizio;
 	}
 	public String getData_fine() {
 		return data_fine;

@@ -4,50 +4,58 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
-import it.beije.oort.biblioteca.Autore;
-import it.beije.oort.biblioteca.Editore;
-import it.beije.oort.biblioteca.Libro;
-import it.beije.oort.biblioteca.Prestito;
-import it.beije.oort.biblioteca.Utente;
+
+import it.beije.oort.bru.db.biblioteca.Autore;
+import it.beije.oort.bru.db.biblioteca.Editore;
+import it.beije.oort.bru.db.biblioteca.Libro;
+import it.beije.oort.bru.db.biblioteca.Prestito;
+import it.beije.oort.bru.db.biblioteca.Utente;
 
 public class JPDBUtilities {
 	
-	private static Libro exportBook(int idLibro) {
-		Libro book = new Libro();
+	public static Libro exportBook(String titolo) {
 		EntityManager entityManager = JPDBEntityManagerFactory.createEntityManager();
-		String jpql = "SELECT l FROM Libro as l WHERE id = " + idLibro;
+		String jpql = "SELECT l FROM Libro AS l WHERE titolo = '" + titolo + "'";
 		Query query = entityManager.createQuery(jpql);
-		book = (Libro) query.getSingleResult();
+		Libro book = (Libro) query.getSingleResult();
 		return book;
 	}
 	
-	private static Utente exportUser(int idUtente) {
-		Utente user = new Utente();
+	public static List<Prestito> exportLoans() {
 		EntityManager entityManager = JPDBEntityManagerFactory.createEntityManager();
-		String jpql = "SELECT u FROM Utente as u WHERE id = " + idUtente;
-		Query query = entityManager.createQuery(jpql);
-		user = (Utente) query.getSingleResult();
-		return user;
-	}
-	
-	//METODO PER SAPERE SE UN LIBRO E' DISPONIBILE O SE E' PRESO IN PRESTITO
-	
-	public static List<Autore> exportAuthors(List<Autore> authors) {
-		EntityManager entityManager = JPDBEntityManagerFactory.createEntityManager();
-		String jpql = "SELECT a from Autore a";
-		Query query = entityManager.createQuery(jpql);
-		List<Autore> exportedAuthors = query.getResultList();
+		String jpql2 = "SELECT p FROM Prestito p";
+		Query query = entityManager.createQuery(jpql2);
+		List<Prestito> loans = query.getResultList();
 		entityManager.close();
-		return exportedAuthors;
+		return loans;
 	}
 	
-	public static List<Editore> exportPublishers(List<Editore> publishers) {
+	public static boolean isAvalaible(int idUtente, int idLibro) {
+		List<Prestito> loans = exportLoans();
+		for (int i = 0; i < loans.size(); i++) {
+			if (loans.get(i).getId_libro() == idLibro) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public static List<Autore> exportAuthors() {
+		EntityManager entityManager = JPDBEntityManagerFactory.createEntityManager();
+		String jpql = "SELECT a FROM Autore a";
+		Query query = entityManager.createQuery(jpql);
+		List<Autore> authors = query.getResultList();
+		entityManager.close();
+		return authors;
+	}
+	
+	public static List<Editore> exportPublishers() {
 		EntityManager entityManager = JPDBEntityManagerFactory.createEntityManager();
 		String jpql = "SELECT e from Editore e";
 		Query query = entityManager.createQuery(jpql);
-		List <Editore> exportedPublishers = query.getResultList();
+		List <Editore> publishers = query.getResultList();
 		entityManager.close();
-		return exportedPublishers;
+		return publishers;
 	}
 	
 	public static void insertAuthor(String cognome, String nome, String data_nascita, String data_morte, String biografia) {
@@ -115,7 +123,7 @@ public class JPDBUtilities {
 		Prestito loan = new Prestito();
 		loan.setId_libro(idLibro);
 		loan.setId_utente(idUtente);
-		loan.setData_inzio(data_inizio);
+		loan.setData_inizio(data_inizio);
 		loan.setData_fine(data_fine);
 		loan.setNote(note);
 		entityManager.persist(loan);

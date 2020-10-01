@@ -4,11 +4,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import it.beije.oort.biblioteca.Autore;
-import it.beije.oort.biblioteca.Editore;
-import it.beije.oort.biblioteca.Libro;
-import it.beije.oort.biblioteca.Prestito;
-import it.beije.oort.biblioteca.Utente;
+import it.beije.oort.bru.db.biblioteca.Autore;
+import it.beije.oort.bru.db.biblioteca.Editore;
+import it.beije.oort.bru.db.biblioteca.Libro;
+import it.beije.oort.bru.db.biblioteca.Prestito;
+import it.beije.oort.bru.db.biblioteca.Utente;
 
 public class SessionFactorySingleton {
 	

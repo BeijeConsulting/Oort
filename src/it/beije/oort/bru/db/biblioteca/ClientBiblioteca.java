@@ -1,10 +1,7 @@
-package it.beije.oort.biblioteca;
+package it.beije.oort.bru.db.biblioteca;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import it.beije.oort.bru.db.HDBUtilities;
 import it.beije.oort.bru.db.JPDBUtilities;
 import it.beije.oort.bru.db.Utilities;
 
@@ -13,10 +10,10 @@ public class ClientBiblioteca {
 	public static void main(String[] args) {
 		int option = 0;
 		Scanner keyboard = new Scanner(System.in);
-		while (option != 5) {
+		while (option != 4) {
 			System.out.println("1. Registra nuovo libro");
 			System.out.println("2. Registra nuovo utente");
-			System.out.println("3. Registra un prestito");
+			System.out.println("3. Prendi in prestito un libro");
 			System.out.println("4. Esci");
 			try {
 				option = Integer.parseInt(keyboard.nextLine());
@@ -28,8 +25,8 @@ public class ClientBiblioteca {
 					System.out.println("Inserisci descrizione:");
 					String descrizioneLibro = keyboard.nextLine();
 					System.out.println("Scegli l'auotore dalla seguente lista (inserisci id). Se non è presente inserisci -1");
-					List<Autore> authors = new ArrayList<Autore>();
-					int lastAuthorID = Utilities.printAuthors(JPDBUtilities.exportAuthors(authors));
+					//List<Autore> authors = new ArrayList<Autore>();
+					int lastAuthorID = Utilities.printAuthors(JPDBUtilities.exportAuthors());
 					int idAutore = Integer.parseInt(keyboard.nextLine());
 					if (idAutore == -1) {
 						//INSERISCI NUOVO AUTORE SE NON PRESENTE
@@ -48,8 +45,8 @@ public class ClientBiblioteca {
 						idAutore = lastAuthorID + 1;
 					} 
 					System.out.println("Scegli l'editore dalla seguente lista (inserisci id). Se non è presente inserisci -1");
-					List<Editore> publishers = new ArrayList<Editore>();
-					int lastPublisherID = Utilities.printPublishers(JPDBUtilities.exportPublishers(publishers));
+					//List<Editore> publishers = new ArrayList<Editore>();
+					int lastPublisherID = Utilities.printPublishers(JPDBUtilities.exportPublishers());
 					int idEditore = Integer.parseInt(keyboard.nextLine());
 					if (idEditore == -1) {
 						//INSERISCI NUOVO EDITORE SE NON PRESENTE 
@@ -82,21 +79,30 @@ public class ClientBiblioteca {
 					System.out.println("Nuovo utente registrato.");
 					break;
 				case 3:
-					//REGISTRAZIONE NUOVO PRESTITO
-					System.out.println("Inserisci id utente:");
+					//CERCA UN LIBRO E VERIFICANE LA DISPONIBLITA'
+					System.out.println("Inserisci il tuo id utente per cercare un libro e verificarne la disponibilità:");
 					int idUtente = Integer.parseInt(keyboard.nextLine());
-					System.out.println("Scegli un libro da prendere in prestito dalla lista!");
-					List<Libro> books = new ArrayList<Libro>();
-					Utilities.printBooks(books);
-					int idLibro = Integer.parseInt(keyboard.nextLine());
-					System.out.println("Data inizio prestito:");
-					String data_inizio = keyboard.nextLine();
-					System.out.println("Data fine prestito:");
-					String data_fine = keyboard.nextLine();
-					System.out.println("Inserisci note aggiuntive:");
-					String note = keyboard.nextLine();
-					JPDBUtilities.insertLoan(idLibro, idUtente, data_inizio, data_fine, note);
-					System.out.println("Nuovo prestito registrato.");
+					System.out.println("Inserisci titolo del libro:");
+					titolo = keyboard.nextLine();
+					Libro book = JPDBUtilities.exportBook(titolo);
+					System.out.println(book);
+					int idLibro = book.getId();
+					List<Prestito> loans = JPDBUtilities.exportLoans();
+					//Non fa ancora il check sulle date, ma solo se il libro è preso in prestito da un altro utente.
+					boolean available = JPDBUtilities.isAvalaible(idUtente, idLibro);
+					if (available) {
+						//REGISTRA NUOVO PRESTITO
+						System.out.println("Data inizio prestito:");
+						String data_inizio = keyboard.nextLine();
+						System.out.println("Data fine prestito:");
+						String data_fine = keyboard.nextLine();
+						System.out.println("Inserisci note aggiuntive:");
+						String note = keyboard.nextLine();
+						JPDBUtilities.insertLoan(idLibro, idUtente, data_inizio, data_fine, note);
+						System.out.println("Nuovo prestito registrato.");
+					} else {
+						System.out.println("Libro non disponibile");
+					}
 					break;
 				case 4:
 					System.out.println("Arrivederci!");

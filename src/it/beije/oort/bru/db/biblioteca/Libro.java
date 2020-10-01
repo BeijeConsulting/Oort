@@ -1,4 +1,4 @@
-package it.beije.oort.biblioteca;
+package it.beije.oort.bru.db.biblioteca;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -59,5 +59,11 @@ public class Libro {
 	}
 	public void setAnno(int anno) {
 		this.anno = anno;
+	}
+	@Override
+	public String toString() {
+		StringBuilder line = new StringBuilder();
+		line.append(this.id).append(";").append(this.titolo).append(";").append(this.descrizione).append(";").append(this.anno);
+		return line.toString();
 	}
 }

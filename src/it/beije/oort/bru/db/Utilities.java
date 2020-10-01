@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import it.beije.oort.biblioteca.Autore;
-import it.beije.oort.biblioteca.Editore;
-import it.beije.oort.biblioteca.Libro;
-import it.beije.oort.files.Contatto;
+import it.beije.oort.bru.db.biblioteca.Autore;
+import it.beije.oort.bru.db.biblioteca.Editore;
+import it.beije.oort.bru.db.biblioteca.Libro;
+import it.beije.oort.bru.db.rubrica.Contatto;
 
 public class Utilities {
 	

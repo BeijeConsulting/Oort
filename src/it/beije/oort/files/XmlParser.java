@@ -20,6 +20,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import it.beije.oort.bru.db.rubrica.Contatto;
+
 public class XmlParser {
 	public static List<Contatto> readContatti(File fileXml) throws ParserConfigurationException, SAXException, IOException {
 		

@@ -1,4 +1,4 @@
-package it.beije.oort.bru.db;
+package it.beije.oort.bru.db.rubrica;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,7 +8,10 @@ import java.util.Map;
 import java.util.Scanner;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import it.beije.oort.files.Contatto;
+
+import it.beije.oort.bru.db.DBUtilities;
+import it.beije.oort.bru.db.HDBUtilities;
+import it.beije.oort.bru.db.Utilities;
 import it.beije.oort.files.CsvParser;
 import it.beije.oort.files.XmlParser;
 

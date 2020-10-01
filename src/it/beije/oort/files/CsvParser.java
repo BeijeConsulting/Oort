@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import it.beije.oort.bru.db.rubrica.Contatto;
+
 public class CsvParser {
 	public static List<Contatto> readContatti(File fileCsv) throws IOException {
 		List<Contatto> contatti = new ArrayList<Contatto>();

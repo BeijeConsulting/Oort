@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import it.beije.oort.files.Contatto;
+
+import it.beije.oort.bru.db.rubrica.Contatto;
 
 public class DBUtilities {
 	private static Connection getConnection() {

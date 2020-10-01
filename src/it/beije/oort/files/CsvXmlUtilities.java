@@ -9,6 +9,8 @@ import javax.xml.transform.TransformerException;
 
 import org.xml.sax.SAXException;
 
+import it.beije.oort.bru.db.rubrica.Contatto;
+
 public class CsvXmlUtilities {
 	public static void appendContacts(File sorgente, File destinazione) throws IOException, ParserConfigurationException, SAXException, TransformerException {
 //		CsvReader reader = new CsvReader();
