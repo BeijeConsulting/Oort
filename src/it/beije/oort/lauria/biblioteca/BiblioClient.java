@@ -162,10 +162,10 @@ public class BiblioClient {
 			if(notValid != -1) {
 				result = JPADBtools.selectLibri(i, j);
 				if(!result && i == 0) {
-					System.out.println("Non sono presenti prestiti di libri in biblioteca.");
+					System.out.println("Non sono presenti di libri in biblioteca.");
 					break;
 				}else if(!result && i > 0){
-					System.out.println("Fine lista prestiti di libri in biblioteca.");
+					System.out.println("Fine lista libri in biblioteca.");
 					break;
 				}
 			}
@@ -211,10 +211,10 @@ public class BiblioClient {
 			if(notValid != -1) {
 				result = JPADBtools.selectAutori(i, j);
 				if(!result && i == 0) {
-					System.out.println("Non sono presenti prestiti di libri in biblioteca.");
+					System.out.println("Non sono presenti autori di libri in biblioteca.");
 					break;
 				}else if(!result && i > 0){
-					System.out.println("Fine lista prestiti di libri in biblioteca.");
+					System.out.println("Fine lista autori di libri in biblioteca.");
 					break;
 				}
 			}
