@@ -74,6 +74,10 @@ public class ObjectCreator {
             }
         } while (!editoreSetted);
 
+//        if (Utils.isEmpty(libro)){
+//            System.err.println("Errore. Devi inserire almeno un campo.");
+//            libro = creaLibroNuovo();
+//        }
 
         return libro;
     }
@@ -223,6 +227,8 @@ public class ObjectCreator {
         boolean cfSetted = false;
         do{
             System.out.println("Codice Fiscale Utente: [Obbligatorio. Scrivi \"-1\" per avere una lista di Utenti]");
+            System.out.println("Nota: Dovrei aggiungere gli ID agli Utenti perché inserire il CF è pesante.");
+            // todo leggi sopra
             String cfUtente = sc.nextLine();
             if (cfUtente.equalsIgnoreCase("-1")){
                 Main.resultList = DatabaseManager.findAll(Utente.class);
@@ -242,7 +248,7 @@ public class ObjectCreator {
             System.out.println("ID Libro: [Obbligatorio. Scrivi \"-1\" per avere una lista di Libri]");
             int idLibroPrestato = Utils.getUserInput(sc);
             if (idLibroPrestato == -1){
-                Main.resultList = DatabaseManager.findAll(Utente.class);
+                Main.resultList = DatabaseManager.findAll(Libro.class);
                 Paginator.pageManager();
             } else {
                 if (DatabaseManager.exist(Libro.class, idLibroPrestato)){

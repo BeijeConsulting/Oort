@@ -1,6 +1,7 @@
 package it.beije.oort.franceschi.biblioteca.utils;
 
 import it.beije.oort.franceschi.biblioteca.controller.DatabaseManager;
+import it.beije.oort.franceschi.biblioteca.model.Libro;
 
 import java.sql.Date;
 import java.util.Scanner;
@@ -15,7 +16,7 @@ public class Utils {
         System.out.println("3) Aggiungi Editore");
         System.out.println("4) Aggiungi Utente");
         System.out.println("5) Aggiungi Prestito");
-        System.out.println("6) Modifica Oggetti //WIP");
+        System.out.println("6) Modifica Oggetti //Attenzione: Non funzionante");
         System.out.println("15) Mostra dettagli Autore");
         System.out.println("0) Esci");
         System.out.println("Scrivi il numero dell'operazione che intendi fare " +
@@ -53,5 +54,22 @@ public class Utils {
         } else if (dateString.length() == 4){
             return Date.valueOf(dateString + "-1-1");
         } else return Date.valueOf(dateString);
+    }
+
+    // Verifico che non sia vuoto
+    public static boolean isEmpty(Libro l){
+        nullRemover(l);
+        return l.getAnno_pubblicazione() == Date.valueOf("0000-01-01")
+                & l.getDescrizione().equalsIgnoreCase("")
+                & l.getTitolo().equalsIgnoreCase("")
+                & l.getId_editore() == 0
+                & l.getId_autore() == 0;
+    }
+
+    // Evito NullPointerException
+    public static void nullRemover(Libro l){
+        if (l.getAnno_pubblicazione() == null) l.setAnno_pubblicazione(Date.valueOf("0000-01-01"));
+        if (l.getTitolo() == null) l.setTitolo("");
+        if (l.getDescrizione() == null) l.setDescrizione("");
     }
 }
