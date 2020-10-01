@@ -1,0 +1,21 @@
+.selector{
+    display: inline-grid;
+    margin-bottom: 15px;
+}
+.selector label{
+    text-align: center;
+    width: fit-content;
+}
+
+select{
+    display: inline-block;
+    border-radius: 5px;
+    border: 1px solid black;
+    height: 30px;
+    width: 100%;
+    font-size: large;
+}
+
+.small-center-container{
+    margin-top: 20px !important;
+}

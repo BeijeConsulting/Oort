@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Biblioteca - Aggiungi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="..\style\main.css" rel="stylesheet">
+    <link href="..\style\biblioAdd.css" rel="stylesheet">
+    <link href="..\style\circles.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/e8e37b0541.js" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/png" href="../media/biblioteca.ico"/>
+    
+</head>
+<body>
+    <div class="home">
+        <a href="../index.html"><i class="fas fa-home"></i></a>
+    </div>
+    <div class="container">
+        <div class = "small-center-container">
+            <div class="header">
+                <h1><i>Biblioteca - Aggiungi</i></h1>
+                <h3>Aggiungi Elementi al Database della Biblioteca</h3>
+            </div>
+
+            <div class = "rubrica-form">
+                <form action="#">
+                    <div class="single-input selector">
+                        <label for="contattoSelector">Cosa vuoi aggiungere?</label>
+                        <select id="contattoSelector" name="contattoSelector">
+                            <option value="libri">Libri</option>
+                            <option value="autori">Autori</option>
+                            <option value="editori">Editori</option>
+                            <option value="utenti">Utenti</option>
+                            <option value="prestiti">Prestiti</option>
+                        </select>
+                    </div>
+
+                    <div class="single-input">
+                        <label for="nome">Nome: </label>
+                        <input type="text" name="nome" id="nome" required>
+                    </div>
+
+                    <div class="single-input">
+                        <label for="cognome">Cognome: </label>
+                        <input type="text" name="cognome" id="cognome">
+                    </div>
+
+                    <div class="single-input">
+                        <label for="telefono">Telefono: </label>
+                        <input type="text" name="telefono" id="telefono">
+                    </div>
+
+                    <div class="single-input">
+                        <label for="email">Email: </label>
+                        <input type="email" name="email" id="email">
+                    </div>
+                    <div class="submit">
+                        <input type="submit" value="Aggiungi">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <ul class="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</body>
+</html>

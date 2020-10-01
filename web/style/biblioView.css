@@ -1,0 +1,134 @@
+body{
+    font-family: 'Roboto', sans-serif;
+}
+
+.container{
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.small-center-container{
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 900px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    margin-top: 80px;
+    border-radius: 15px;
+    text-align: center;
+
+    -webkit-box-shadow: 9px 10px 28px -5px rgba(0,0,0,0.7);
+    -moz-box-shadow: 9px 10px 28px -5px rgba(0,0,0,0.7);
+    box-shadow: 9px 10px 28px -5px rgba(0,0,0,0.7);
+}
+table, th, td{
+    border-collapse: collapse;
+    border: 1px solid black;
+    border-radius: px;
+}
+
+table{
+    width: 100%;
+}
+
+th{
+    height: 50px;
+    color: white;
+    background-color: #008CBA;
+}
+tr{
+    height: 35px;
+}
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+.fa-minus-circle:hover{
+    cursor: pointer;
+    color: red;
+}
+
+.home{
+    background-color: lightcoral;
+    border-radius: 50px;
+    width: fit-content;
+    padding: 7px;
+}
+
+.home:hover{
+    background-color: red;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+.selector{
+    display: inline-grid;
+    margin-bottom: 15px;
+}
+.selector label{
+    text-align: center;
+    width: fit-content;
+}
+
+select{
+    display: inline-block;
+    border-radius: 5px;
+    border: 1px solid black;
+    height: 30px;
+    width: 100%;
+    font-size: large;
+}
+
+.fa-file-alt{
+    cursor: pointer;
+    color: black;
+}
+
+/* The Modal */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%; 
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4); 
+}
+  
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 12px;
+    width: 80%; 
+}
+
+#modal-title{
+    text-align: center;
+}
+
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+} 

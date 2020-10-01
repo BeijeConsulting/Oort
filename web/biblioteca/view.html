@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Biblioteca - Visualizza</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="..\style\biblioView.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/e8e37b0541.js" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/png" href="../media/rubrica.ico" />
+
+</head>
+
+<body>
+    <div class="home">
+        <a href="../index.html"><i class="fas fa-home"></i></a>
+    </div>
+    <div class="container">
+        <div class="small-center-container">
+            <div class="header">
+                <h1><i>Biblioteca - Visualizza</i></h1>
+                <h3>Leggi e Modifica le Tabelle della Biblioteca</h3>
+            </div>
+            <form action="#">
+                <div class="single-input selector">
+                    <label for="contattoSelector">Seleziona la Tabella da Visualizzare:</label>
+                    <select id="contattoSelector" name="contattoSelector">
+                        <option value="libri">Libri</option>
+                        <option value="autori">Autori</option>
+                        <option value="editori">Editori</option>
+                        <option value="utenti">Utenti</option>
+                        <option value="prestiti">Prestiti</option>
+                    </select>
+                </div>
+            </form>
+
+            <div class="contatti-list">
+                <table>
+                    <tr>
+                        <th>Titolo</th>
+                        <th>Autore</th>
+                        <th>Anno di Pubblicazione</th>
+                        <th>Editore</th>
+                        <th>Sinossi</th>
+                    </tr>
+                    <!-- tabella riempita da Java -->
+                    <tr>
+                        <td>Paolino</td>
+                        <td>Paperino</td>
+                        <td>3339845325</td>
+                        <td>paolino.paperino@paperopoli.pap</td>
+                        <td>
+                            <a id="modalBtn">
+                                <i class="far fa-file-alt"></i>
+                            </a>
+                        </td>
+                        <td><i class="fas fa-minus-circle"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Tabella</td>
+                        <td>Custom</td>
+                        <td>Dipendente</td>
+                        <td>Dalla selezione</td>
+                        <td>
+                            <a id="modalBtn-customIDdependingOnBook">
+                                <i class="far fa-file-alt"></i>
+                            </a>
+                        </td>
+                        <td><i class="fas fa-minus-circle"></i></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- The Modal -->
+    <div id="modal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3 id="modal-title">Io sono leggenda</h3>
+            <p id="modal-sinossi">E' il 1976. Robert Neville torna a casa dopo una giornata di duro lavoro. Cucina,
+                pulisce, ascolta un disco, si siede in poltrona e legge un libro. Eppure la sua non è una vita normale.
+                Soprattutto dopo il tramonto. Perché Neville è l'ultimo uomo sulla Terra. L'ultimo umano sopravvissuto,
+                in un mondo completamente popolato da vampiri. Nella solitudine che lo circonda, Robert esegue la sua
+                missione, studia il fenomeno e le superstizioni che lo circondano, cerca nuove strade per lo sterminio
+                delle creature delle tenebre. Durante la notte se ne sta rintanato nella sua roccaforte, assediato dai
+                morti viventi avidi del suo sangue. Ma con il sorgere del sole è lui a dominare un gioco crudele e di
+                meccanica ferocia, scandito dalle luci e dalle ombre di un tempo sempre uguale a sé stesso e che impone
+                la ripetizione di un rituale sanguinario. In questo mondo Neville, con la sua unicità, si è già
+                trasformato in leggenda.
+            </p>
+        </div>
+    </div>
+    <script>
+        // Sinossi script
+        var modal = document.getElementById("modal");
+
+        var btn = document.getElementById("modalBtn");
+
+        var span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+
+</html>
