@@ -46,6 +46,9 @@ public class LibraryManager {
 		case 1: MetodiAutore.menuAutore();
 			
 			break;
+		case 3: MetodiLibro.menuLibro();
+		
+			break;
 
 		default:
 			break;

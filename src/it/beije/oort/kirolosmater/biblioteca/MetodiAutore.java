@@ -1,5 +1,6 @@
 package it.beije.oort.kirolosmater.biblioteca;
 
+import java.util.List;
 import java.util.Map;
 import static it.beije.oort.kirolosmater.biblioteca.LibraryManager.libraryPersistenceUnit;
 import java.util.Scanner;
@@ -29,6 +30,10 @@ public class MetodiAutore {
 		case 1: visualizzaAutoreById();
 			
 			break;
+			
+		case 2: readRecordByStringFromInput();
+		
+			break;
 
 		default:
 			break;
@@ -50,33 +55,33 @@ public class MetodiAutore {
 		System.out.println("nome : " + autore.getNome());
 		System.out.println("data_nascita : " + autore.getData_nascita());
 		System.out.println("data_morte : " + autore.getData_morte());
-		System.out.println("biografia: " + autore.getBiografia());
+		System.out.println("biografia : " + autore.getBiografia());
 	}
 	
-	public static Autore readRecordFromDb(int id) { 
-		
-		//apro sessione
-//		Session session = HybSessionFactory.openSession();
-//		System.out.println("session is open? " + session.isOpen());
-//		String hql = "SELECT c FROM Autore as c WHERE id = " + id ;
-//		Autore autoreOutput = new Autore();
-//		Query<Autore> query = session.createQuery(hql);
-////		System.out.println(query.list().size());
-//		for (Autore autore : query.list()) {
-//			System.out.println("id : " + autore.getId());			
-//			System.out.println("cognome : " + autore.getCognome());
-//			System.out.println("nome : " + autore.getNome());
-//			System.out.println("data_nascita : " + autore.getData_nascita());
-//			System.out.println("data_morte : " + autore.getData_morte());
-//			System.out.println("biografia: " + autore.getBiografia());
-//			autoreOutput = autore;
-//		}
-//		//chiudo sessione
-//		session.close();
-//		return autoreOutput;
-		
+	public static Autore readRecordFromDb(int id) { 		
 		Autore autore = entityManager.find(Autore.class, id);
-//		System.out.println(autore);
 		return autore;
 	}
+	
+	public static void readRecordByStringFromInput () {
+		Scanner inputFromUser = new Scanner(System.in);
+		System.out.println("Inserisci il parametro da analizzare: ");
+		String parameter = inputFromUser.nextLine();
+		String stringRequest = "Inserisci la stringa iniziale: ";
+		System.out.println(stringRequest);
+		String lineFromInput = inputFromUser.nextLine();
+		String jpql = "SELECT c FROM Autore as c WHERE " + parameter + " LIKE '" + lineFromInput + "%'";
+		Query query = (Query) entityManager.createQuery(jpql);
+		List<Autore> autori = query.getResultList();
+		System.out.println(autori.size());
+		for (Autore autore : autori) {
+			System.out.println("id : " + autore.getId());			
+			System.out.println("cognome : " + autore.getCognome());
+			System.out.println("nome : " + autore.getNome());
+			System.out.println("data_nascita : " + autore.getData_nascita());
+			System.out.println("data_morte : " + autore.getData_morte());
+			System.out.println("biografia : " + autore.getBiografia());
+		}
+	}
+	
 }
