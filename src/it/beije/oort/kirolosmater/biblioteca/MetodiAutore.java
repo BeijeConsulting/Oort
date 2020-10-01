@@ -1,5 +1,7 @@
 package it.beije.oort.kirolosmater.biblioteca;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import static it.beije.oort.kirolosmater.biblioteca.LibraryManager.libraryPersistenceUnit;
@@ -27,15 +29,15 @@ public class MetodiAutore {
 		String lineFromInput = inputFromUser.nextLine();
 		int numberFromInput = Integer.parseInt(lineFromInput);
 		switch (numberFromInput) {
-		case 1: visualizzaAutoreById();
-			
+		case 1: visualizzaAutoreById();	
 			break;
 			
-		case 2: readRecordByStringFromInput();
-		
+		case 2: readRecordByStringFromInput();		
+			break;
+		case 4: inserimentoAutore();
 			break;
 
-		default:
+		default: System.out.println("Hai inserito un valore non valido");
 			break;
 		}
 		
@@ -73,7 +75,6 @@ public class MetodiAutore {
 		String jpql = "SELECT c FROM Autore as c WHERE " + parameter + " LIKE '" + lineFromInput + "%'";
 		Query query = (Query) entityManager.createQuery(jpql);
 		List<Autore> autori = query.getResultList();
-		System.out.println(autori.size());
 		for (Autore autore : autori) {
 			System.out.println("id : " + autore.getId());			
 			System.out.println("cognome : " + autore.getCognome());
@@ -84,4 +85,35 @@ public class MetodiAutore {
 		}
 	}
 	
+	public static void inserimentoAutore () {
+		//SCANNER
+		Scanner myObj = new Scanner(System.in);
+		System.out.println("Inserisci nome");
+		String nome = myObj.nextLine();
+		System.out.println("Inserisci cognome");
+		String cognome = myObj.nextLine();
+		System.out.println("Inserisci data di nascita in questo formato YYYY-MM-DD");
+		String data_nascita =  myObj.nextLine();
+		System.out.println("Inserisci data di morte in questo formato YYYY-MM-DD");
+		String data_morte =  myObj.nextLine();
+		System.out.println("Inserisci biografia");
+		String biografia = myObj.nextLine();
+		//INSERT
+		Autore autore = new Autore();
+		autore.setNome(nome);
+		autore.setCognome(cognome);
+		autore.setData_nascita(dateFromString(data_nascita));
+		autore.setData_morte(dateFromString(data_morte));
+		autore.setBiografia(biografia);
+		entityManager.getTransaction().begin();
+		entityManager.persist(autore);
+		entityManager.getTransaction().commit();
+		entityManager.close();
+	}
+	
+	public static LocalDate dateFromString (String str) {
+		DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate date = LocalDate.parse(str, f);
+		return date;
+	}
 }
