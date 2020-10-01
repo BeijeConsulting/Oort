@@ -81,6 +81,6 @@ public class Prestito implements IBibliotecaModel {
                 ". Data di Fine Prestito: " + dataFine +
                 ". Codice Fiscale Utente: " + cfUtente +
                 ". ID Libro: " + idLibro +
-                ".\nNote: " + note;
+                ".\n\tNote: " + note;
     }
 }

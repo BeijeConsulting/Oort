@@ -27,7 +27,8 @@ public class ObjectUpdater {
             case 1:
                 System.out.println("Inserisci l'ID del Libro da modificare.");
                 id = Utils.getUserInput(sc);
-                updateObject(Libro.class, id);
+                //updateObject(Libro.class, id);
+                TestMethodsHere.mergeBooks(id);
                 break;
             case 2:
                 System.out.println("Inserisci l'ID dell'Autore da modificare.");
@@ -57,6 +58,7 @@ public class ObjectUpdater {
 
     private static void updateObject(Class<? extends IBibliotecaModel> obj, int id){
         switch (obj.getSimpleName()){
+            // LIBRO
             case "Libro":
                 Libro libro = (Libro) DatabaseManager.select(obj, id);
                 if (libro == null){
@@ -64,10 +66,30 @@ public class ObjectUpdater {
                     break;
                 }
                 String in;
-                System.out.println("Modifica i campi. Premi invio senza scrivere nulla per NON modificare il campo.");
-                System.out.println("Titolo:");
+                System.out.println("Modifica i campi. Premi invio senza scrivere nulla per lasciare il campo invariato.");
+                // titolo
+                System.out.println("Titolo: [" + libro.getTitolo() + "]");
                 in = sc.nextLine();
                 if (!in.equalsIgnoreCase("")) libro.setTitolo(in);
+                // descrizione
+                System.out.println("Descrizione: [" + libro.getDescrizione() + "]");
+                in = sc.nextLine();
+                if (!in.equalsIgnoreCase("")) libro.setDescrizione(in);
+                // anno pubblicazione
+                System.out.println("Anno di Pubblicazione: [" + libro.getAnno_pubblicazione() + "]");
+                in = sc.nextLine();
+                if (!in.equalsIgnoreCase("")) libro.setAnno_pubblicazione(Utils.getDate(in));
+                // id autore
+                System.out.println("ID Autore: [" + libro.getId_autore() + "]");
+                in = sc.nextLine();
+                if (!in.equalsIgnoreCase("")){
+                    try{
+                        libro.setId_autore(Integer.parseInt(in));
+                    } catch (NumberFormatException e){
+                        System.err.println("Non hai inserito un numero valido.");
+                    }
+                }
+
                 break;
             case "Autore":
                 break;

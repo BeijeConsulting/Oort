@@ -11,6 +11,75 @@ public class ObjectCreator {
 
     private ObjectCreator(){}
 
+    // provo a ritornare un oggetto libro così da rendere il metodo più riutilizzbile
+    // todo verificare che almeno 1 campo sia presente
+    public static Libro creaLibroNuovo(){
+        Libro libro = new Libro();
+        System.out.println("Inserisci i dati del libro.");
+
+        // Sezione Titolo
+        System.out.println("Titolo:");
+        libro.setTitolo(sc.nextLine().trim());
+
+        // Sezione ID Autore
+        boolean autoreSetted = false;
+        do{
+            System.out.println("ID Autore: [Scrivi \"-1\" per avere una lista di Autori]");
+            int idAutore = 0;
+            try {
+                String input = sc.nextLine();
+                if (input.equalsIgnoreCase("")) break;
+                else idAutore = Integer.parseInt(input);
+            } catch (NumberFormatException e){
+                System.err.println("Devi inserire un numero.");
+            }
+            if (idAutore == -1){
+                Main.resultList = DatabaseManager.findAll(Autore.class);
+                Paginator.pageManager();
+            } else {
+                if (DatabaseManager.exist(Autore.class, idAutore)){
+                    libro.setId_autore(idAutore);
+                }
+                autoreSetted = true;
+            }
+        } while (!autoreSetted);
+
+        // Descrizione
+        System.out.println("Descrizione:");
+        libro.setDescrizione(sc.nextLine().trim());
+
+        System.out.println("Anno di Pubblicazione:");
+        libro.setAnno_pubblicazione(Utils.getDate(sc));
+
+        // Editore
+        boolean editoreSetted = false;
+        do{
+            System.out.println("ID Editore: [Scrivi -1 per avere una lista di Editori]");
+            int idEditore = 0;
+            try {
+                String input = sc.nextLine();
+                if (input.equalsIgnoreCase("")) break;
+                else idEditore = Integer.parseInt(input);
+            } catch (NumberFormatException e){
+                System.err.println("Devi inserire un numero.");
+            }
+            if (idEditore == -1){
+                Main.resultList = DatabaseManager.findAll(Editore.class);
+                Paginator.pageManager();
+            } else {
+                if (DatabaseManager.exist(Editore.class, idEditore)){
+                    libro.setId_editore(idEditore);
+                }
+                editoreSetted = true;
+            }
+        } while (!editoreSetted);
+
+
+        return libro;
+    }
+
+
+//  todo lasciare la possibilità di avere campi null, anche il titolo del libro per esempio. mi semplifica gli update
     public static void creaLibro(){
         Libro libro = new Libro();
         System.out.println("Inserisci i dati del libro che vuoi creare.");
@@ -194,7 +263,7 @@ public class ObjectCreator {
         addObjectToDb(prestito);
     }
 
-    private static void addObjectToDb(IBibliotecaModel obj){
+    public static void addObjectToDb(IBibliotecaModel obj){
         String selection = "";
         while (!selection.equalsIgnoreCase("s") && !selection.equalsIgnoreCase("n")) {
             System.out.println("Vuoi aggiungerlo al Database? [S]i - [N]o");

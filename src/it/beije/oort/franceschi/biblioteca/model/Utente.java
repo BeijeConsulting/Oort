@@ -81,7 +81,7 @@ public class Utente implements IBibliotecaModel {
                 ". Cognome: " + cognome +
                 " .Codice Fiscale: " + codice_fiscale +
                 " .Cellulare: " + cellulare +
-                ".\nEmail:  " + email +
-                ".\nIndirizzo: " + indirizzo;
+                ".\n\tEmail:  " + email +
+                ".\n\tIndirizzo: " + indirizzo;
     }
 }

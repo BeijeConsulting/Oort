@@ -3,8 +3,6 @@ package it.beije.oort.franceschi.biblioteca.utils;
 import it.beije.oort.franceschi.biblioteca.controller.DatabaseManager;
 
 import java.sql.Date;
-import java.util.InputMismatchException;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Utils {
@@ -30,21 +28,26 @@ public class Utils {
     }
 
     public static int getUserInput(Scanner sc){
-        int input = -1;
-        try{
-            if (sc.hasNext()){
-                input = sc.nextInt();
+        int input = -2;
+        String in;
+        if (sc.hasNext()){
+            in = sc.nextLine();
+            if (in.equalsIgnoreCase("")) return input;
+            else try{
+                input = Integer.parseInt(in);
+            } catch (NumberFormatException e){
+                System.err.println("Devi inserire un numero.");
             }
-        } catch (InputMismatchException inputMismatchException){
-           System.err.println("Devi inserire un input numerico.");
-        } catch (NoSuchElementException e){
-            System.err.println("Input vuoto.");
         }
         return input;
     }
 
     public static Date getDate(Scanner sc){
         String dateString = sc.nextLine();
+        return getDate(dateString);
+    }
+
+    public static Date getDate(String dateString){
         if (dateString.equalsIgnoreCase("")){
             return null;
         } else if (dateString.length() == 4){

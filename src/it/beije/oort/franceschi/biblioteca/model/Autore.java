@@ -80,6 +80,6 @@ public class Autore implements IBibliotecaModel {
                 ". Cognome: " + cognome +
                 ". Data di Nascita: " + data_nascita +
                 ". Data di Morte: " + data_morte +
-                ".\nBiografia: " + biografia;
+                ".\n\tBiografia: " + biografia;
     }
 }

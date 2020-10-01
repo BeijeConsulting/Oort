@@ -26,7 +26,7 @@ public class Main {
 
             switch (userChoice){
                 case 1:
-                    ObjectCreator.creaLibro();
+                    ObjectCreator.addObjectToDb(ObjectCreator.creaLibroNuovo());
                     break;
                 case 2:  // Aggiungi autore
                     ObjectCreator.creaAutore();

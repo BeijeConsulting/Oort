@@ -78,9 +78,9 @@ public class Libro implements IBibliotecaModel {
     public String toString() {
         return "ID: " + id +
                 ") Titolo: " + titolo +
-                ". Anno " + anno_pubblicazione +
+                ". Anno: " + anno_pubblicazione +
                 ". ID Autore: " + id_autore +
                 ". ID Editore: " + id_editore +
-                ".\nDescrizione: " + descrizione;
+                ".\n\tDescrizione: " + descrizione;
     }
 }

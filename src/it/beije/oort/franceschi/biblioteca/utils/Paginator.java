@@ -22,11 +22,11 @@ public class Paginator {
         String command = "";
 
         if (Main.resultList.size() <= 10){
-            listPage(page);
+            listPage(page, false);
             return;
         }
         while (!command.equals("esci")){
-            listPage(page);
+            listPage(page, true);
             command = sc.nextLine().trim();
             switch (command){
                 // Will only go next if there's actually some entries in the possible "next" page
@@ -48,8 +48,8 @@ public class Paginator {
      * Method which shows a specific page.
      * @param page The page to show.
      */
-    private static void listPage(int page) {
-        DBConsoleAppUtils.showPageNumber(page);
+    private static void listPage(int page, boolean showHeader) {
+        if (showHeader) DBConsoleAppUtils.showPageNumber(page);
         for (int i = (Config.getMaxEntriesPerPage() * page);
              i < (Config.getMaxEntriesPerPage()*(page+1)) && i < Main.resultList.size();
              i++) {
