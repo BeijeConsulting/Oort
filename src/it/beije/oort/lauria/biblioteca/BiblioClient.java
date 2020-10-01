@@ -2,7 +2,7 @@ package it.beije.oort.lauria.biblioteca;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class BiblioClient {
@@ -126,12 +126,13 @@ public class BiblioClient {
 			}while(!scelta.equalsIgnoreCase("3"));
 
 			in.close();
+			JPADBtools.entityManager.close();
 	}
 	
 	public static void menu() {
 		System.out.println("Digitare l'azione desiderata.");
 		System.out.println("1 - Visualizzazione.\n2 - Inserimento.\n3 - Esci.");
-		System.out.println("> ");
+		System.out.print("> ");
 	}
 	
 	public static void menuVisualizza() {
@@ -167,10 +168,8 @@ public class BiblioClient {
 					System.out.println("Fine lista prestiti di libri in biblioteca.");
 					break;
 				}
-//				else {
-//					JPADBtools.selectPrestiti(i, j);
-//				}
 			}
+
 			System.out.println("\nPer visualizzare la pagina successiva: premere INVIO.");
 			System.out.println("Per visualizzare la pagina precedente: premere < .");
 			System.out.println("Per tornare al menu principale: premere 0.");
@@ -218,9 +217,6 @@ public class BiblioClient {
 					System.out.println("Fine lista prestiti di libri in biblioteca.");
 					break;
 				}
-//				else {
-//					JPADBtools.selectPrestiti(i, j);
-//				}
 			}
 			System.out.println("\nPer visualizzare la pagina successiva: premere INVIO.");
 			System.out.println("Per visualizzare la pagina precedente: premere < .");
@@ -263,15 +259,12 @@ public class BiblioClient {
 			if(notValid != -1) {
 				result = JPADBtools.selectEditori(i, j);
 				if(!result && i == 0) {
-					System.out.println("Non sono presenti prestiti di libri in biblioteca.");
+					System.out.println("Non sono presenti editori di libri in biblioteca.");
 					break;
 				}else if(!result && i > 0){
-					System.out.println("Fine lista prestiti di libri in biblioteca.");
+					System.out.println("Fine lista editori di libri in biblioteca.");
 					break;
 				}
-//				else {
-//					JPADBtools.selectPrestiti(i, j);
-//				}
 			}
 			System.out.println("\nPer visualizzare la pagina successiva: premere INVIO.");
 			System.out.println("Per visualizzare la pagina precedente: premere < .");
@@ -314,15 +307,12 @@ public class BiblioClient {
 			if(notValid != -1) {
 				result = JPADBtools.selectUtenti(i, j);
 				if(!result && i == 0) {
-					System.out.println("Non sono presenti prestiti di libri in biblioteca.");
+					System.out.println("Non è stato registrato alcun utente in biblioteca.");
 					break;
 				}else if(!result && i > 0){
-					System.out.println("Fine lista prestiti di libri in biblioteca.");
+					System.out.println("Fine lista utenti registrati in biblioteca.");
 					break;
 				}
-//				else {
-//					JPADBtools.selectPrestiti(i, j);
-//				}
 			}
 			System.out.println("\nPer visualizzare la pagina successiva: premere INVIO.");
 			System.out.println("Per visualizzare la pagina precedente: premere < .");
@@ -371,9 +361,6 @@ public class BiblioClient {
 					System.out.println("Fine lista prestiti di libri in biblioteca.");
 					break;
 				}
-//				else {
-//					JPADBtools.selectPrestiti(i, j);
-//				}
 			}
 			System.out.println("\nPer visualizzare la pagina successiva: premere INVIO.");
 			System.out.println("Per visualizzare la pagina precedente: premere < .");
@@ -456,6 +443,7 @@ public class BiblioClient {
 
 	public static void registraAutore() {
 		String nome = "", cognome = "", biografia = "", data_n = "", data_m = "";
+		LocalDate data_nascita = null, data_morte = null;
 		
 		System.out.println("Digitare i campi dell'autore da inserire: ");				
 		System.out.print("nome : ");
@@ -465,11 +453,27 @@ public class BiblioClient {
 		
 		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd MM yyyy");
 		System.out.print("data di nascita (\"dd MM yyyy\") : ");
-		data_n = in.nextLine();		
-		LocalDate data_nascita = LocalDate.parse(data_n, f);
+		do {
+			data_n = in.nextLine();	
+			System.out.println("> ");
+			try{
+				data_nascita = LocalDate.parse(data_n, f);
+			}catch(DateTimeParseException e) {
+				System.out.println("Formato della data non compatibile. Riprovare digitando, nel seguente ordine, il giorno (dd), il mese(MM), l'anno (yyyy)");
+				data_nascita = null;
+			}
+		}while(data_nascita == null);
 		System.out.print("data di morte (\"dd MM yyyy\") : ");
-		data_m = in.nextLine();		
-		LocalDate data_morte = LocalDate.parse(data_m, f);
+		do {
+			data_m = in.nextLine();	
+			System.out.println("> ");
+			try{
+				data_morte = LocalDate.parse(data_m, f);
+			}catch(DateTimeParseException e) {
+				System.out.println("Formato della data non compatibile. Riprovare digitando, nel seguente ordine, il giorno (dd), il mese(MM), l'anno (yyyy)");
+				data_nascita = null;
+			}
+		}while(data_nascita == null);
 		
 		System.out.print("biografia : ");
 		biografia = in.nextLine();
@@ -515,6 +519,7 @@ public class BiblioClient {
 	
 	public static boolean registraPrestito() {
 		String id_libro = "", id_utente = "",  data_n = "", data_f = "", note = "";
+		LocalDate data_inizio = null, data_fine = null;
 		
 		System.out.println("Digitare i campi necessari alla registrazione del prestito: ");				
 		System.out.print("id_libro : ");
@@ -548,12 +553,29 @@ public class BiblioClient {
 		
 		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd MM yyyy");
 		System.out.print("data di inizio prestito (\"dd MM yyyy\") : ");
-		data_n = in.nextLine();		
-		LocalDate data_inizio = LocalDate.parse(data_n, f);
+		do {
+			data_n = in.nextLine();	
+			System.out.println("> ");
+			try{
+				data_inizio = LocalDate.parse(data_n, f);
+			}catch(DateTimeParseException e) {
+				System.out.println("Formato della data non compatibile. Riprovare digitando, nel seguente ordine, il giorno (dd), il mese(MM), l'anno (yyyy)");
+				data_inizio = null;
+			}
+		}while(data_inizio == null);
+
 		System.out.print("data di reso del libro (\"dd MM yyyy\") : ");
-		data_f = in.nextLine();		
-		LocalDate data_fine = LocalDate.parse(data_f, f);
-		
+
+		do {
+			data_f = in.nextLine();		
+			System.out.println("> ");
+			try{
+				data_fine = LocalDate.parse(data_f, f);
+			}catch(DateTimeParseException e) {
+				System.out.println("Formato della data non compatibile. Riprovare digitando, nel seguente ordine, il giorno (dd), il mese(MM), l'anno (yyyy)");
+				data_fine = null;
+			}
+		}while(data_fine == null);
 		System.out.print("note : ");
 		note = in.nextLine();
 		System.out.println();

@@ -67,12 +67,14 @@ public class JPADBtools {
 			return false;
 		}
 		System.out.println("In biblioteca sono presenti "+ libri.size() +" libri.");
-		for (Libro libro : libri) {				
+		for (Libro libro : libri) {			
+			Autore a = JPADBtools.entityManager.find(Autore.class, libro.getId_autore());
+			Editore e = JPADBtools.entityManager.find(Editore.class, libro.getId_editore()); 
 			System.out.println("id : " + libro.getId());
 			System.out.println("titolo : " + libro.getTitolo());
 			System.out.println("descrizione : " + libro.getDescrizione());
-			System.out.println("id autore : " + libro.getId_autore());
-			System.out.println("id editore : " + libro.getId_editore());
+			System.out.println("id autore : " + libro.getId_autore() + " ("+ a.getNome() +" "+a.getCognome() +")" );
+			System.out.println("id editore : " + libro.getId_editore() + " ("+ e.getDenominazione() +")" );
 			System.out.println("anno : " + libro.getAnno());
 		}
 		//entityManager.close();
@@ -151,10 +153,12 @@ public class JPADBtools {
 			return false;
 		}
 		//System.out.println(prestiti.size());
-		for (Prestito prestito : prestiti) {				
+		for (Prestito prestito : prestiti) {		
+			Libro l = JPADBtools.entityManager.find(Libro.class, prestito.getId_libro());
+			Utente u = JPADBtools.entityManager.find(Utente.class, prestito.getId_utente());
 			System.out.println("id : " + prestito.getId());
-			System.out.println("id_libro : " + prestito.getId_libro());
-			System.out.println("id_utente : " + prestito.getId_utente());
+			System.out.println("id_libro : " + prestito.getId_libro() + " ("+ l.getTitolo() +")" );
+			System.out.println("id_utente : " + prestito.getId_utente() + " ("+ u.getNome() +" "+u.getCognome() +")" );
 			System.out.println("data inizio prestito : " + prestito.getData_inizio().toString());
 			System.out.println("data fine prestito : " + prestito.getData_fine().toString());
 			System.out.println("note : " + prestito.getNote());
