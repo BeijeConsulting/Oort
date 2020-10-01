@@ -10,6 +10,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "libri")
 public class Libro {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -70,5 +71,48 @@ public class Libro {
 	}
 	public void setAnno(int anno) {
 		this.anno = anno;
+	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder().append("Libro [");
+
+		sb.append("titolo: ");
+		if(titolo == null) {
+			sb.append(titolo);
+		} else {
+			sb.append("\"").append(titolo).append("\"");
+		}
+
+		sb.append(" - ").append("descrizione: ");
+		if(descrizione == null) {
+			sb.append(descrizione);
+		} else {
+			sb.append("\"").append(descrizione).append("\"");
+		}
+
+		sb.append(" - ").append("autore: ");
+		if(idAutore == 0) {
+			sb.append("null");
+		} else {
+			sb.append("\"").append(idAutore).append("\"");
+		}
+
+		sb.append(" - ").append("editore: ");
+		if(idEditore == 0) {
+			sb.append("null");
+		} else {
+			sb.append("\"").append(idEditore).append("\"");
+		}
+
+		sb.append(" - ").append("anno: ");
+		if(anno == 0) {
+			sb.append("null");
+		} else {
+			sb.append("\"").append(anno).append("\"");
+		}
+
+		sb.append("]");
+
+		return sb.toString();
 	}
 }
