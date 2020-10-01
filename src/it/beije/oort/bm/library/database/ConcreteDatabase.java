@@ -1,5 +1,6 @@
 package it.beije.oort.bm.library.database;
 
+import java.sql.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -101,8 +102,8 @@ public class ConcreteDatabase implements Database {
 				Author oldA = (Author) elem;
 				if(!newA.getSurname().equals("")) oldA.setSurname(newA.getSurname());
 				if(!newA.getName().equals("")) oldA.setName(newA.getName());
-				if(newA.getDate_of_birth() != null) oldA.setDate_of_birth(newA.getDate_of_birth());
-				if(newA.getDate_of_death() != null) oldA.setDate_of_death(newA.getDate_of_death());
+				if(!newA.getDate_of_birth().equals("")) oldA.setDate_of_birth(Date.valueOf(newA.getDate_of_birth()));
+				if(!newA.getDate_of_death().equals("")) oldA.setDate_of_death(Date.valueOf(newA.getDate_of_death()));
 				if(!newA.getBiography().equals("")) oldA.setBiography(newA.getBiography());
 				break;
 			case LOAN:
@@ -110,8 +111,8 @@ public class ConcreteDatabase implements Database {
 				Loan oldL = (Loan) elem;
 				if(newL.getUser() != 0) oldL.setUser(newL.getUser());
 				if(newL.getBook() != 0) oldL.setBook(newL.getBook());
-				if(newL.getStart_date() != null) oldL.setStart_date(newL.getStart_date());
-				if(newL.getEnd_date() != null) oldL.setEnd_date(newL.getEnd_date());
+				if(!newL.getStart_date().equals("")) oldL.setStart_date(Date.valueOf(newL.getStart_date()));
+				if(!newL.getEnd_date().equals("")) oldL.setEnd_date(Date.valueOf(newL.getEnd_date()));
 				if(!newL.getNotes().equals("")) oldL.setNotes(newL.getNotes());
 				break;
 			case PUBLISHER:
@@ -224,14 +225,14 @@ public class ConcreteDatabase implements Database {
 				query.append("name = ").append("\'").append(author.getName()).append("\'").append(" ");
 				requireAnd = true;
 			}
-			if(author.getDate_of_birth() != null) {
+			if(!author.getDate_of_birth().equals("")) {
 				if(requireAnd) query.append("AND ");
-				query.append("date_of_birth = ").append("\'").append(author.getDate_of_birth().toString()).append("\'").append(" ");
+				query.append("date_of_birth = ").append("\'").append(author.getDate_of_birth()).append("\'").append(" ");
 				requireAnd = true;
 			}
-			if(author.getDate_of_death() != null) {
+			if(!author.getDate_of_death().equals("")) {
 				if(requireAnd) query.append("AND ");
-				query.append("date_of_death = ").append("\'").append(author.getDate_of_death().toString()).append("\'").append(" ");
+				query.append("date_of_death = ").append("\'").append(author.getDate_of_death()).append("\'").append(" ");
 			}
 			break;
 		case LOAN:

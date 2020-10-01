@@ -18,9 +18,9 @@ public class Author implements Comparable<Author>, Serializable {
 	@Column
 	private String name;
 	@Column
-	private Date date_of_birth;
+	private String date_of_birth;
 	@Column
-	private Date date_of_death;
+	private String date_of_death;
 	@Column
 	private String biography;
 	
@@ -55,23 +55,23 @@ public class Author implements Comparable<Author>, Serializable {
 	}
 
 
-	public Date getDate_of_birth() {
+	public String getDate_of_birth() {
 		return date_of_birth;
 	}
 
 
 	public void setDate_of_birth(Date date_of_birth) {
-		this.date_of_birth = date_of_birth;
+		this.date_of_birth = date_of_birth.toString();
 	}
 
 
-	public Date getDate_of_death() {
+	public String getDate_of_death() {
 		return date_of_death;
 	}
 
 
 	public void setDate_of_death(Date date_of_death) {
-		this.date_of_death = date_of_death;
+		this.date_of_death = date_of_death.toString();
 	}
 
 

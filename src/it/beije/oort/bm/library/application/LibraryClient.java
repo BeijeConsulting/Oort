@@ -4,14 +4,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Date;
-import java.text.DateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import it.beije.oort.bm.library.*;
-import it.beije.oort.bm.library.database.*;
+import it.beije.oort.bm.library.Author;
+import it.beije.oort.bm.library.Book;
+import it.beije.oort.bm.library.Loan;
+import it.beije.oort.bm.library.Publisher;
+import it.beije.oort.bm.library.User;
+import it.beije.oort.bm.library.database.ConcreteDatabase;
+import it.beije.oort.bm.library.database.Database;
 
 public class LibraryClient {
 	
@@ -40,10 +40,13 @@ public class LibraryClient {
 					searchRecord();
 					break;
 				case "3":
+					addRecord();
 					break;
 				case "4":
+					updateRecord();
 					break;
 				case "5":
+					deleteRecord();
 					break;
 				case "0":
 					System.out.println("See ya!");
@@ -53,6 +56,292 @@ public class LibraryClient {
 					System.out.println("What do you mean?");
 			}
 		}
+	}
+
+	private static void deleteRecord() throws IOException {
+		System.out.println("Which type of records do you want to delete?");
+		System.out.println();
+		System.out.println("1 - User record");
+		System.out.println("2 - Book record");
+		System.out.println("3 - Loan record");
+		System.out.println("4 - Author record");
+		System.out.println("5 - Pubisher record");
+		System.out.println("0 - Back");
+		String command = in.readLine();
+		System.out.println("Insert id");
+		int id = Integer.parseInt(in.readLine());
+		switch(command) {
+			case "1":
+				db.remove(User.class, id);
+				break;
+			case "2":
+				db.remove(Book.class, id);
+				break;
+			case "3":
+				db.remove(Loan.class, id);
+				break;
+			case "4":
+				db.remove(Author.class, id);
+				break;
+			case "5":
+				db.remove(Publisher.class, id);
+				break;
+			default:
+				throw new IllegalArgumentException("What do you mean?");
+		}
+		
+	}
+
+	private static void updateRecord() throws IOException {
+		System.out.println("Which type of records do you want to update?");
+		System.out.println();
+		System.out.println("1 - User record");
+		System.out.println("2 - Book record");
+		System.out.println("3 - Loan record");
+		System.out.println("4 - Author record");
+		System.out.println("5 - Pubisher record");
+		System.out.println("0 - Back");
+		String command = in.readLine();
+		String param;
+		int index;
+		Object elem = null;
+		switch(command) {
+		case "1":
+			User u = new User();
+			System.out.println("Insert id");
+			param = in.readLine();
+			u.setId(Integer.parseInt(param));
+			System.out.println("Insert surname");
+			u.setSurname(in.readLine());
+			System.out.println("Insert name");
+			u.setName(in.readLine());
+			System.out.println("Insert fiscal code");
+			u.setFc(in.readLine());
+			System.out.println("Insert address");
+			u.setAddress(in.readLine());
+			System.out.println("Insert email");
+			u.setEmail(in.readLine());
+			System.out.println("Insert phone");
+			u.setPhone(in.readLine());
+			elem = u;
+			break;
+		case "2":
+			Book b = new Book();
+			System.out.println("Insert id");
+			param = in.readLine();
+			b.setId(Integer.parseInt(param));
+			System.out.println("Insert title");
+			b.setTitle(in.readLine());
+			System.out.println("Insert year");
+			b.setYear(in.readLine());
+			System.out.println("Select an author");
+			List<Author> authors = db.getAll(Author.class);
+			for(int i = 1; i<=authors.size(); i++) {
+				System.out.println(i + " - " + authors.get(i-1).getName() + " " + authors.get(i-1).getSurname());
+			}
+			param = in.readLine();
+			index = Integer.parseInt(param);
+			if(index > 0 && index <= authors.size()) {
+				b.setAuthor(index);
+			}else {
+				//dopo
+			}
+			System.out.println("Select a publisher");
+			List<Publisher> publishers = db.getAll(Publisher.class);
+			for(int i = 1; i<=publishers.size(); i++) {
+				System.out.println(i + " - " + publishers.get(i-1).getName());
+			}
+			param = in.readLine();
+			index = Integer.parseInt(param);
+			if(index > 0 && index <= publishers.size()) {
+				b.setPublisher(index);
+			}else {
+				//dopo
+			}
+			elem = b;
+			break;
+		case "3":
+			Author a = new Author();
+			System.out.println("Insert id");
+			param = in.readLine();
+			a.setId(Integer.parseInt(param));
+			System.out.println("Insert surname");
+			a.setSurname(in.readLine());
+			System.out.println("Insert name");
+			a.setName(in.readLine());
+			System.out.println("Insert date of birth (YYYY-MM-dd)");
+			param = in.readLine();
+			if(!param.equals("")) {
+				Date tmpDate = Date.valueOf(param);
+				a.setDate_of_birth(tmpDate);
+			}
+			System.out.println("Insert date of death (YYYY-MM-dd)");
+			param = in.readLine();
+			if(!param.equals("")) {
+				Date tmpDate = Date.valueOf(param);
+				a.setDate_of_death(tmpDate);
+			}
+			elem = a;
+			break;
+		case "4":
+			Loan l = new Loan();
+			System.out.println("Insert id");
+			param = in.readLine();
+			l.setId(Integer.parseInt(param));
+			System.out.println("Insert user id");
+			l.setUser(Integer.parseInt(in.readLine()));
+			System.out.println("Insert book id");
+			l.setBook(Integer.parseInt(in.readLine()));
+			System.out.println("Insert start date (YYYY-MM-dd)");
+			param = in.readLine();
+			if(!param.equals("")) {
+				Date tmpDate = Date.valueOf(param);
+				l.setStart_date(tmpDate);
+			}
+			System.out.println("Insert end date (YYYY-MM-dd)");
+			param = in.readLine();
+			if(!param.equals("")) {
+				Date tmpDate = Date.valueOf(param);
+				l.setEnd_date(tmpDate);
+			}
+			elem = l;
+			break;
+		case "5":
+			Publisher p = new Publisher();
+			System.out.println("Insert id");
+			param = in.readLine();
+			p.setId(Integer.parseInt(param));
+			System.out.println("Insert publisher name");
+			p.setName(in.readLine());
+			elem = p;
+			break;
+		case "0":
+			break;
+		default:
+			System.out.println("What do you mean?");
+			return;
+		}
+		System.out.println(db.add(elem) ? "OK" : "FAIL");
+		
+	}
+
+	private static void addRecord() throws IOException {
+		System.out.println("Which type of records do you want to add?");
+		System.out.println();
+		System.out.println("1 - User record");
+		System.out.println("2 - Book record");
+		System.out.println("3 - Loan record");
+		System.out.println("4 - Author record");
+		System.out.println("5 - Pubisher record");
+		System.out.println("0 - Back");
+		String command = in.readLine();
+		String param;
+		int index;
+		Object elem = null;
+		switch(command) {
+		case "1":
+			User u = new User();
+			System.out.println("Insert surname");
+			u.setSurname(in.readLine());
+			System.out.println("Insert name");
+			u.setName(in.readLine());
+			System.out.println("Insert fiscal code");
+			u.setFc(in.readLine());
+			System.out.println("Insert address");
+			u.setAddress(in.readLine());
+			System.out.println("Insert email");
+			u.setEmail(in.readLine());
+			System.out.println("Insert phone");
+			u.setPhone(in.readLine());
+			elem = u;
+			break;
+		case "2":
+			Book b = new Book();
+			System.out.println("Insert title");
+			b.setTitle(in.readLine());
+			System.out.println("Insert year");
+			b.setYear(in.readLine());
+			System.out.println("Select an author");
+			List<Author> authors = db.getAll(Author.class);
+			for(int i = 1; i<=authors.size(); i++) {
+				System.out.println(i + " - " + authors.get(i-1).getName() + " " + authors.get(i-1).getSurname());
+			}
+			param = in.readLine();
+			index = Integer.parseInt(param);
+			if(index > 0 && index <= authors.size()) {
+				b.setAuthor(index);
+			}else {
+				//dopo
+			}
+			System.out.println("Select a publisher");
+			List<Publisher> publishers = db.getAll(Publisher.class);
+			for(int i = 1; i<=publishers.size(); i++) {
+				System.out.println(i + " - " + publishers.get(i-1).getName());
+			}
+			param = in.readLine();
+			index = Integer.parseInt(param);
+			if(index > 0 && index <= publishers.size()) {
+				b.setPublisher(index);
+			}else {
+				//dopo
+			}
+			elem = b;
+			break;
+		case "3":
+			Author a = new Author();
+			System.out.println("Insert surname");
+			a.setSurname(in.readLine());
+			System.out.println("Insert name");
+			a.setName(in.readLine());
+			System.out.println("Insert date of birth (YYYY-MM-dd)");
+			param = in.readLine();
+			if(!param.equals("")) {
+				Date tmpDate = Date.valueOf(param);
+				a.setDate_of_birth(tmpDate);
+			}
+			System.out.println("Insert date of death (YYYY-MM-dd)");
+			param = in.readLine();
+			if(!param.equals("")) {
+				Date tmpDate = Date.valueOf(param);
+				a.setDate_of_death(tmpDate);
+			}
+			elem = a;
+			break;
+		case "4":
+			Loan l = new Loan();
+			System.out.println("Insert user id");
+			l.setUser(Integer.parseInt(in.readLine()));
+			System.out.println("Insert book id");
+			l.setBook(Integer.parseInt(in.readLine()));
+			System.out.println("Insert start date (YYYY-MM-dd)");
+			param = in.readLine();
+			if(!param.equals("")) {
+				Date tmpDate = Date.valueOf(param);
+				l.setStart_date(tmpDate);
+			}
+			System.out.println("Insert end date (YYYY-MM-dd)");
+			param = in.readLine();
+			if(!param.equals("")) {
+				Date tmpDate = Date.valueOf(param);
+				l.setEnd_date(tmpDate);
+			}
+			elem = l;
+			break;
+		case "5":
+			Publisher p = new Publisher();
+			System.out.println("Insert publisher name");
+			p.setName(in.readLine());
+			System.out.println("Insert publisher description");
+			p.setDescription(in.readLine());
+			elem = p;
+			break;
+		case "0":
+			break;
+		default:
+			System.out.println("What do you mean?");
+			return;
+		}
+		System.out.println(db.add(elem) ? "OK" : "FAIL");
 	}
 
 	private static void searchRecord() throws IOException {
@@ -196,30 +485,42 @@ public class LibraryClient {
 			a.setName(in.readLine());
 			System.out.println("Insert date of birth (YYYY-MM-dd)");
 			param = in.readLine();
-//			if(!param.equals("")) {
-//				LocalDateTime tmpDate = LocalDateTime.parse(param, DateTimeFormatter.ofPattern("YYYY-MM-dd"));
-//				Date dob = new Date(tmpDate.toInstant(ZoneOffset.UTC).toEpochMilli());
-//				a.setDate_of_birth(dob);
-//			}else {
-//				a.setDate_of_birth(null);
-//			}
+			if(!param.equals("")) {
+				Date tmpDate = Date.valueOf(param);
+				a.setDate_of_birth(tmpDate);
+			}
 			System.out.println("Insert date of death (YYYY-MM-dd)");
 			param = in.readLine();
-//			if(!param.equals("")) {
-//				LocalDateTime tmpDate = LocalDateTime.parse(param, DateTimeFormatter.ofPattern("YYYY-MM-dd"));
-//				Date dod = new Date(tmpDate.toInstant(ZoneOffset.UTC).toEpochMilli());
-//				a.setDate_of_death(dod);
-//			}else {
-//				a.setDate_of_death(null);
-//			}
+			if(!param.equals("")) {
+				Date tmpDate = Date.valueOf(param);
+				a.setDate_of_death(tmpDate);
+			}
 			elem = (T)db.searchRecord(Author.class, a);
 			break;
 		case Database.LOAN:
 			Loan l = new Loan();
+			System.out.println("Insert user id");
+			l.setUser(Integer.parseInt(in.readLine()));
+			System.out.println("Insert book id");
+			l.setBook(Integer.parseInt(in.readLine()));
+			System.out.println("Insert start date (YYYY-MM-dd)");
+			param = in.readLine();
+			if(!param.equals("")) {
+				Date tmpDate = Date.valueOf(param);
+				l.setStart_date(tmpDate);
+			}
+			System.out.println("Insert end date (YYYY-MM-dd)");
+			param = in.readLine();
+			if(!param.equals("")) {
+				Date tmpDate = Date.valueOf(param);
+				l.setEnd_date(tmpDate);
+			}
 			elem = (T)db.searchRecord(Loan.class, l);
 			break;
 		case Database.PUBLISHER:
 			Publisher p = new Publisher();
+			System.out.println("Insert publisher name");
+			p.setName(in.readLine());
 			elem = (T)db.searchRecord(Publisher.class, p);
 			break;
 		default:
