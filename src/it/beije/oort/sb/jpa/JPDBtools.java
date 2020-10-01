@@ -251,6 +251,38 @@ public class JPDBtools {
 		if(temp==0) return 0;
 		return mapEdit.get(temp).getId();
 	}
+	
+	public static int sceltaPrestito() {
+		EntityManager entityManager = JpaEntityManagerFactory.entityManager("OortBiblioteca");
+		String jpql = "SELECT e FROM Prestiti as e";
+		Query query = entityManager.createQuery(jpql);
+		List<Prestiti> prestito = query.getResultList();
+		int count = 1;
+		Map<Integer, Prestiti> mapEdit = new HashMap<Integer, Prestiti>();
+		for(Prestiti e : prestito) {
+			System.out.println(count+") "+e.getLibro()+" prestato il "+e.getData_inizio());
+			mapEdit.put(count, e);
+			count++;
+		}
+		System.out.println("Inserisci il numero corrispondente al prestito scelto. Se non è presente il prestito voluto digita 0");
+		entityManager.close();
+		int temp = Integer.parseInt(sc.nextLine());
+		if(temp==0) return 0;
+		return mapEdit.get(temp).getId();
+	}
+	
+	
+	public static void delete(String classe, int indice) {
+		EntityManager entityManager = JpaEntityManagerFactory.entityManager("OortBiblioteca");
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		entityTransaction.begin();
+		String jpql = "SELECT e FROM "+classe+" as e where id = "+indice;
+		Query query = entityManager.createQuery(jpql);
+		entityManager.remove(query.getResultList().get(0));;
+		entityManager.getTransaction().commit();
+		System.out.println("Record cancellato");
+
+	}
 //	public static Editori ricercaEd(int indice) {
 //		EntityManager entityManager = JpaEntityManagerFactory.entityManager("OortBiblioteca");
 //		String jpql = "SELECT e FROM Editori as e where denominazione = '"+denominazione+"'";
@@ -261,11 +293,18 @@ public class JPDBtools {
 //		}
 //		return editori.get(0);
 //	}
-	
+	public static void insert(Object o) {
+		EntityManager entityManager = JpaEntityManagerFactory.entityManager("OortBiblioteca");
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		entityTransaction.begin();
+		entityManager.persist(o);
+		entityTransaction.commit();
+		entityManager.close();
+	}
 	
 	public static void main(String[] args) {
 
-//		EntityManagerFactory factory = Persistence.createEntityManagerFactory("OortRubrica");
+//		EntityManagerFa ctory factory = Persistence.createEntityManagerFactory("OortRubrica");
 //		EntityManager entityManager = factory.createEntityManager();
 	
 		//esempio SELECT
@@ -284,7 +323,8 @@ public class JPDBtools {
 //			System.out.println("cognome : " + contatto.getCognome());
 //			System.out.println("telefono : " + contatto.getTelefono());
 //			System.out.println("email : " + contatto.getEmail());
-//		}
+//		}d
+		delete("Autori", sceltaAutore());
 		
 		//esempio INSERT
 //		Contatto contatto = new Contatto();
@@ -292,18 +332,18 @@ public class JPDBtools {
 //		contatto.setCognome("Nanni");
 //		contatto.setEmail("gianna@nannino.it");
 //		contatto.setTelefono("3455661634");
-		EntityManager entityManager = JpaEntityManagerFactory.entityManager("OortBiblioteca");
-		//entityManager.getTransaction().begin();
-		EntityTransaction entityTransaction = entityManager.getTransaction();
-		entityTransaction.begin();
-		entityManager.persist(createPrestito());
-//		System.out.println("contatto id : " + contatto.getId());
-//		entityManager.persist(contatto);
-//		System.out.println("contatto id : " + contatto.getId());
-		entityManager.getTransaction().commit();
-		//entityManager.getTransaction().rollback();
-		
-		entityManager.close();
+//		EntityManager entityManager = JpaEntityManagerFactory.entityManager("OortBiblioteca");
+//		//entityManager.getTransaction().begin();
+//		EntityTransaction entityTransaction = entityManager.getTransaction();
+//		entityTransaction.begin();
+//		entityManager.persist(createPrestito());
+////		System.out.println("contatto id : " + contatto.getId());
+////		entityManager.persist(contatto);
+////		System.out.println("contatto id : " + contatto.getId());
+//		entityManager.getTransaction().commit();
+//		//entityManager.getTransaction().rollback();
+//		
+//		entityManager.close();
 	}
 
 }
