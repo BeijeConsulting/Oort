@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "autori")
-public class Autore {
+public class Autore extends MyEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

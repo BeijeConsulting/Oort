@@ -9,6 +9,7 @@ import javax.persistence.Query;
 
 import it.beije.oort.madonia.biblioteca.ebeans.Autore;
 import it.beije.oort.madonia.biblioteca.ebeans.Editore;
+import it.beije.oort.madonia.biblioteca.ebeans.MyEntity;
 import it.beije.oort.madonia.biblioteca.ebeans.Libro;
 import it.beije.oort.madonia.biblioteca.ebeans.Utente;
 
@@ -17,27 +18,11 @@ public class DatabaseBibliotecaManager {
 	
 	private static String persistenceUnitName = "OortBiblioteca";
 	
-	public static void inserisciEntity(Autore autore) {
-		inserisciEntity((Object) autore);
-	}
-	
-	public static void inserisciEntity(Editore editore) {
-		inserisciEntity((Object) editore);
-	}
-	
-	public static void inserisciEntity(Libro libro) {
-		inserisciEntity((Object) libro);
-	}
-	
-	public static void inserisciEntity(Utente utente) {
-		inserisciEntity((Object) utente);
-	}
-	
-	private static void inserisciEntity(Object o) {
+	public static void inserisciEntity(MyEntity ent) {
 		EntityManager eManager = JpaEntityManagerFactory.createEntityManager(persistenceUnitName);
 		try {
 			eManager.getTransaction().begin();
-			eManager.persist(o);
+			eManager.persist(ent);
 			eManager.getTransaction().commit();
 		} finally {
 			eManager.close();
@@ -57,12 +42,12 @@ public class DatabaseBibliotecaManager {
 		return mappa;
 	}
 	
-	private static Map<Integer, Object> lookUp(String jpql) {
+	private static Map<Integer, MyEntity> lookUp(String jpql) {
 		EntityManager eManager = JpaEntityManagerFactory.createEntityManager(persistenceUnitName);
-		Map<Integer, Object> mappa = new HashMap<Integer, Object>();
+		Map<Integer, MyEntity> mappa = new HashMap<Integer, MyEntity>();
 		try {
 			Query query = eManager.createQuery(jpql);
-			List<Object> lista = query.getResultList();
+			List<MyEntity> lista = query.getResultList();
 			for (int i = 0; i < lista.size(); i++) {
 				mappa.put(i+1,lista.get(i));
 			}

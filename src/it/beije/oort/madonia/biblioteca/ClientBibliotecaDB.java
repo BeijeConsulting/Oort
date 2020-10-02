@@ -2,12 +2,10 @@ package it.beije.oort.madonia.biblioteca;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 import it.beije.oort.madonia.biblioteca.db.DatabaseBibliotecaManager;
-import it.beije.oort.madonia.biblioteca.db.JpaEntityManagerFactory;
 import it.beije.oort.madonia.biblioteca.ebeans.Autore;
 import it.beije.oort.madonia.biblioteca.ebeans.Editore;
 import it.beije.oort.madonia.biblioteca.ebeans.Libro;
@@ -16,13 +14,13 @@ import it.beije.oort.madonia.biblioteca.ebeans.Utente;
 public class ClientBibliotecaDB {
 	
 	private final static Scanner sc = new Scanner(System.in);
-
+	
+	//TODO Gestione del prestito
 	public static void main(String[] args) {
 		System.out.println("Benvenuto alla gestione del DB della biblioteca Oort");
 		System.out.println();
 		
-		//menuPrincipale();
-		menuInserisciLibro();
+		menuPrincipale();
 		
 		System.out.println("Chiusura programma");
 	}
@@ -34,7 +32,12 @@ public class ClientBibliotecaDB {
 			System.out.println("*** MENU PRINCIPALE ***");
 			System.out.println("Cosa vuoi inserire?");
 			System.out.println("1 - AUTORE");
-			//System.out.println("2 - LIBRO");
+			System.out.println("2 - EDITORE");
+			System.out.println("3 - LIBRO");
+			//System.out.println("4 - PRESTITO");
+			System.out.println("PRESTITO NON IMPLEMENTATO");
+			System.out.println("5 - UTENTE");
+			
 			System.out.println("0 - CHIUDI PROGRAMMA");
 			
 			boolean comandoValido = false;
@@ -43,6 +46,18 @@ public class ClientBibliotecaDB {
 				switch (inputUtente) {
 				case "1":
 					ClientBibliotecaDB.menuInserisciAutore();
+					comandoValido = true;
+					break;
+				case "2":
+					ClientBibliotecaDB.menuInserisciEditore();
+					comandoValido = true;
+					break;
+				case "3":
+					ClientBibliotecaDB.menuInserisciLibro();
+					comandoValido = true;
+					break;
+				case "5":
+					ClientBibliotecaDB.menuInserisciUtente();
 					comandoValido = true;
 					break;
 				case "0":
@@ -213,7 +228,7 @@ public class ClientBibliotecaDB {
 				Map<Integer, Autore> mappaAutori = DatabaseBibliotecaManager.lookUp(new Autore());
 				System.out.println("Scegli l'autore dalla lista indicando il suo numero");
 				System.out.println("0) ANNULLA SCELTA");
-				stampaTabellaAutori(mappaAutori);
+				stampaTabella(mappaAutori);
 				
 				boolean isNumeroValido = false;
 				while (!isNumeroValido) {
@@ -239,7 +254,7 @@ public class ClientBibliotecaDB {
 				Map<Integer, Editore> mappaEditori = DatabaseBibliotecaManager.lookUp(new Editore());
 				System.out.println("Scegli l'editore dalla lista indicando il suo numero");
 				System.out.println("0) ANNULLA SCELTA");
-				stampaTabellaEditori(mappaEditori);
+				stampaTabella(mappaEditori);
 				
 				boolean isNumeroValido = false;
 				while (!isNumeroValido) {
@@ -356,7 +371,6 @@ public class ClientBibliotecaDB {
 					utente = new Utente();
 				}
 				
-				
 			} else if(inputUtente.equalsIgnoreCase("r")) {
 				utente = new Utente();
 				
@@ -379,11 +393,6 @@ public class ClientBibliotecaDB {
 				.append(autore.getCognome());
 		System.out.println(sb);
 	}
-	private static void stampaTabellaAutori(Map<Integer, Autore> mappa) {
-		for(int i = 0; i < mappa.size(); i++) {
-			stampaRigaLookUp(i + 1, mappa.get(i+1));
-		}
-	}
 	
 	private static void stampaRigaLookUp(int i, Editore editore) {
 		StringBuilder sb = new StringBuilder()
@@ -392,9 +401,15 @@ public class ClientBibliotecaDB {
 				.append(editore.getDenominazione());
 		System.out.println(sb);
 	}
-	private static void stampaTabellaEditori(Map<Integer, Editore> mappa) {
+
+	private static void stampaTabella(Map<Integer, ?> mappa) {
 		for(int i = 0; i < mappa.size(); i++) {
-			stampaRigaLookUp(i + 1, mappa.get(i+1));
+			Object obj = mappa.get(i + 1);
+			if (obj instanceof Autore) {
+				stampaRigaLookUp(i + 1, (Autore) obj);
+			} else if (obj instanceof Editore) {
+				stampaRigaLookUp(i + 1, (Editore) obj);
+			}
 		}
 	}
 }
