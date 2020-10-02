@@ -68,37 +68,29 @@ public class menuJpa {
 			JPDBtools.delete("Prestiti", JPDBtools.sceltaPrestito());
 		}
 	}
-	/*public static void menu(){
+	public static void menu(){
 		System.out.println("Buongiorno, questo è un comodo tool per gestire il DB di una Biblioteca \n");	
 		String concl = "";
 		while(!concl.equalsIgnoreCase("quit")) {
-			System.out.println("Cosa vuoi fare? Scegli tra: \n1)Ricerca:\t per visualizzare tutti i contatti con determinate caratteristiche; \n2)Modifica:\t per modificare un contatto già presente nel database;");
-			System.out.println("3)Cancella:\t per cancellare un contatto presente nel database; \n4)Inserisci:\t per inserire un nuovo contatto in fondo alla rubrica del database;");
-			System.out.println("5)Export:\t per salvare la rubrica su file (xml o csv); \n6)Import:\t per importare una rubrica; \n7)Quit:\t\t per concludere la sessione in corso.");
+			System.out.println("Cosa vuoi gestire? vuoi fare? Scegli tra: \n1)Autore; \n2)Libro; \n3)Prestito; \n4)Utente; \n5)Editore; \n6))Quit:\t\t per concludere la sessione in corso.");
 			System.out.println("\nDigita il numero corrispondente all'azione desiderata e premi INVIO");
 			switch(sc.nextLine().toLowerCase()) {
 			case "1" :
-				HDBtools.ricerca();
-				break;
-			case "4" :
-				HDBtools.insert();
-				System.out.println("Contatto inserito in fondo alla rubrica!\n");
+				menuAutore();
 				break;
 			case "2" :
-				HDBtools.update();
-				System.out.println("Contatto modificato!\n");
-				break;
-			case "5" :
-				HDBtools.export();
-				System.out.println("Rubrica salvata!\n");
+				menuLibro();
 				break;
 			case "3" :
-				HDBtools.delete();
+				menuPrestito();
 				break;
-			case "6":
-				HDBtools.importer();
+			case "4" :
+				menuUtente();
 				break;
-			case "7" :
+			case "5" :
+				menuEditore();
+				break;
+			case "6" :
 				concl = "quit";
 				System.out.println("Grazie per averci usato!");
 				break;
@@ -110,9 +102,9 @@ public class menuJpa {
 		sc.close();
 }
 	
-	*/
+	
 	public static void main(String[] args) {
-		menuPrestito();
+		menu();
 
 	}
 

@@ -1,6 +1,5 @@
 package it.beije.oort.sb.biblioteca;
 
-import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
