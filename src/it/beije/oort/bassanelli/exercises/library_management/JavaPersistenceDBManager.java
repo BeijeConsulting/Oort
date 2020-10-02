@@ -9,6 +9,15 @@ import javax.persistence.Query;
 public class JavaPersistenceDBManager {
 
 	public static final String SCHEMA_OORT_LIBRARY = "OortLibrary";
+	
+	private static void addObject(Object object) {
+		
+		EntityManager entityManager = JavaPersistenceSessionManager.getEntityManager(SCHEMA_OORT_LIBRARY);
+		entityManager.getTransaction().begin();
+		entityManager.persist(object);
+		entityManager.close();
+		
+	}
 
 	public static List<Book> getAllBooks() {
 
@@ -33,10 +42,12 @@ public class JavaPersistenceDBManager {
 
 	public static void addBook(Book book) {
 
-		EntityManager entityManager = JavaPersistenceSessionManager.getEntityManager(SCHEMA_OORT_LIBRARY);
-		entityManager.getTransaction().begin();
-		entityManager.persist(book);
-		entityManager.close();
+		addObject(book);
+		
+//		EntityManager entityManager = JavaPersistenceSessionManager.getEntityManager(SCHEMA_OORT_LIBRARY);
+//		entityManager.getTransaction().begin();
+//		entityManager.persist(book);
+//		entityManager.close();
 
 	}
 
