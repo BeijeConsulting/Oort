@@ -15,7 +15,6 @@ public class AutoreUtil {
 		String jpql = "SELECT a FROM Autore as a";
 		Query query = entityManager.createQuery(jpql);
 		List<Autore> autori = query.getResultList();
-		System.out.println(autori.size());
 		for (Autore autore : autori) {
 			autore.toString();
 		}
@@ -55,6 +54,27 @@ public static void inserisci() {
 	sc.close();
 	System.out.println("Autore inserito correttamente!");
 
+}
+
+public static void elimina() {
+	String id_value = "";
+	Scanner sc = new Scanner(System.in);
+	System.out.print("Inserire l'ID dell'autore da eliminare: ");
+	id_value = sc.nextLine();
+	EntityManager entityManager = JPAFactoryBiblio.openEntity();
+	EntityTransaction entityTransaction = entityManager.getTransaction();
+	entityTransaction.begin();
+	String jpql = ("SELECT a FROM Autore as a WHERE id = " + id_value) ;
+	Query query = entityManager.createQuery(jpql);
+	
+
+	entityManager.remove(query.getResultList().get(0));
+	entityManager.getTransaction().commit();
+	entityManager.close();	
+	sc.close();
+	System.out.println("Cancellato!");
+	
+	
 }
 
 }

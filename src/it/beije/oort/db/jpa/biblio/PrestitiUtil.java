@@ -12,7 +12,7 @@ public class PrestitiUtil {
 public static List<Prestiti> visualizza() {
 
 	EntityManager entityManager = JPAFactoryBiblio.openEntity();
-	String jpql = "SELECT e FROM Editori as e";
+	String jpql = "SELECT p FROM Prestiti as p";
 	Query query = entityManager.createQuery(jpql);
 	List<Prestiti> prestiti = query.getResultList();
 	System.out.println(prestiti.size());

@@ -31,7 +31,7 @@ public class GestioneBiblioteca {
 		System.out.println("\t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t |___________________| ");
 		System.out.println("Menu: ");
 		System.out.println("1) Visualizzatore.");
-		System.out.println("2) Ricerca.");
+//		System.out.println("2) Ricerca.");
 		System.out.println("3) Modifica.");
 		System.out.println("4) Rimozione.");
 		System.out.println("5) Inserimento.");
@@ -54,7 +54,7 @@ public class GestioneBiblioteca {
 				GestioneBiblioteca.showMenu();
 				break;
 			case 4:
-				System.out.println("Nice try!");
+				GestioneBiblioteca.elimina();
 				GestioneBiblioteca.showMenu();
 				break;
 			case 5:
@@ -84,19 +84,19 @@ public class GestioneBiblioteca {
 
 		switch(scelta) {
 			case 1:
-				UtenteUtility.inserisci();
+				UtentiUtil.inserisci();
 				break;
 			case 2:
-				LibroUtility.inserisci();
+				LibroUtil.inserisci();
 				break;
 			case 3:
-				EditoreUtility.inserisci();
+				EditoreUtil.inserisci();
 				break;
 			case 4:
-				AutoreUtility.inserisci();
+				AutoreUtil.inserisci();
 				break;
 			case 5:
-				PrestitoUtility.inserisci();
+				PrestitiUtil.inserisci();
 				break;
 			default:
 				System.out.println("ERRORE: how did you get here?");
@@ -113,23 +113,23 @@ public class GestioneBiblioteca {
 
 		switch(scelta) {
 			case 1:
-				List<Utente> utenti = UtenteUtility.visualizza();
+				List<Utenti> utenti = UtentiUtil.visualizza();
 				System.out.println("Campi presenti: " + utenti.size());
-				for(Utente utente : utenti) {
+				for(Utenti utente : utenti) {
 					System.out.println(utente);
 				}
 				break;
 			case 2:
-				List<Libro> libri = LibroUtility.visualizza();
+				List<Libri> libri = LibroUtil.visualizza();
 				System.out.println("Campi presenti: " + libri.size());
-				for(Libro libro : libri) {
+				for(Libri libro : libri) {
 					System.out.println(libro);
 				}
 				break;
 			case 3:
-				List<Editore> editori = EditoreUtility.visualizza();
+				List<Editori> editori = EditoreUtil.visualizza();
 				System.out.println("Campi presenti: " + editori.size());
-				for(Editore editore : editori) {
+				for(Editori editore : editori) {
 					System.out.println(editore);
 				}
 				break;
@@ -141,9 +141,9 @@ public class GestioneBiblioteca {
 				}
 				break;
 			case 5:
-				List<Prestito> prestiti = PrestitoUtility.visualizza();
+				List<Prestiti> prestiti = PrestitiUtil.visualizza();
 				System.out.println("Campi presenti: " + prestiti.size());
-				for(Prestito prenotazione : prestiti) {
+				for(Prestiti prenotazione : prestiti) {
 					System.out.println(prenotazione);
 				}
 				break;
@@ -155,6 +155,38 @@ public class GestioneBiblioteca {
 		if(scan.nextLine().charAt(0) == 's') {
 			GestioneBiblioteca.visualizza();
 		}
+	}
+	
+	private static void elimina() throws IOException, ParserConfigurationException, TransformerException {
+			int scelta = GestioneBiblioteca.sceltaTabella();
+			switch(scelta) {
+//			case 1:
+//				UtentiUtil.elimina();
+//				break;
+//			case 2:
+//				LibroUtil.inserisci();
+//				break;
+//			case 3:
+//				EditoreUtil.inserisci();
+//				break;
+			case 4:
+				AutoreUtil.elimina();
+				break;
+//			case 5:
+//				PrestitiUtil.inserisci();
+//				break;
+			default:
+				System.out.println("ERRORE: how did you get here?");
+				break;
+		}
+		System.out.print("Eliminare altro? (s/n): ");
+		String scel = scan.nextLine();
+		if(scel.equals("s")) {
+			GestioneBiblioteca.elimina();
+		} else
+			GestioneBiblioteca.showMenu();
+			
+			
 	}
 
 	private static int sceltaTabella() {

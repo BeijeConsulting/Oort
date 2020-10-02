@@ -13,7 +13,7 @@ public class UtentiUtil {
 	public static List<Utenti> visualizza() {
 
 		EntityManager entityManager = JPAFactoryBiblio.openEntity();
-		String jpql = "SELECT e FROM Editori as e";
+		String jpql = "SELECT u FROM Utenti as u";
 		Query query = entityManager.createQuery(jpql);
 		List<Utenti> utenti = query.getResultList();
 		System.out.println(utenti.size());
