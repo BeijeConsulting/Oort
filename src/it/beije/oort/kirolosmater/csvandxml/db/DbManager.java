@@ -7,7 +7,7 @@ import java.sql.Connection;
 
 import it.beije.oort.db.DBManager;
 import it.beije.oort.kirolosmater.csvandxml.*;
-import phonebookgenerator.Contact;
+import it.beije.oort.kirolosmater.rubrica.Contact;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;

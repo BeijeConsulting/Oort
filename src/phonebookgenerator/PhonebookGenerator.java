@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
+import it.beije.oort.kirolosmater.rubrica.Contact;
+
 public class PhonebookGenerator {
 
 	public static void main(String[] args) throws IOException, Exception {

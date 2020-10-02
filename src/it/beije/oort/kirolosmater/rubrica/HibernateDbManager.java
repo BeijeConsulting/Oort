@@ -1,4 +1,4 @@
-package it.beije.oort.kirolosmater.csvandxml.db;
+package it.beije.oort.kirolosmater.rubrica;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -19,7 +19,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
 import it.beije.oort.rubrica.*;
-import phonebookgenerator.Contact;
+
 public class HibernateDbManager {
 
 	public static void main(String[] args) {

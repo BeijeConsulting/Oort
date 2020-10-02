@@ -9,7 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import csvandxml.ContactXml;
-import phonebookgenerator.Contact;
+import it.beije.oort.kirolosmater.rubrica.Contact;
 
 import static csvandxml.CsvToXml.getContent;
 import static csvandxml.CsvToXml.listSplitter;
