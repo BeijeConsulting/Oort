@@ -15,6 +15,7 @@ public class JavaPersistenceDBManager {
 		EntityManager entityManager = JavaPersistenceSessionManager.getEntityManager(SCHEMA_OORT_LIBRARY);
 		entityManager.getTransaction().begin();
 		entityManager.persist(object);
+		entityManager.getTransaction().commit();
 		entityManager.close();
 		
 	}
@@ -47,6 +48,7 @@ public class JavaPersistenceDBManager {
 //		EntityManager entityManager = JavaPersistenceSessionManager.getEntityManager(SCHEMA_OORT_LIBRARY);
 //		entityManager.getTransaction().begin();
 //		entityManager.persist(book);
+//		entityManager.getTransaction().commit();
 //		entityManager.close();
 
 	}
@@ -77,6 +79,7 @@ public class JavaPersistenceDBManager {
 		EntityManager entityManager = JavaPersistenceSessionManager.getEntityManager(SCHEMA_OORT_LIBRARY);
 		entityManager.getTransaction().begin();
 		entityManager.persist(author);
+		entityManager.getTransaction().commit();
 		entityManager.close();
 
 	}
@@ -107,6 +110,7 @@ public class JavaPersistenceDBManager {
 		EntityManager entityManager = JavaPersistenceSessionManager.getEntityManager(SCHEMA_OORT_LIBRARY);
 		entityManager.getTransaction().begin();
 		entityManager.persist(publisher);
+		entityManager.getTransaction().commit();
 		entityManager.close();
 
 	}
@@ -137,6 +141,7 @@ public class JavaPersistenceDBManager {
 		EntityManager entityManager = JavaPersistenceSessionManager.getEntityManager(SCHEMA_OORT_LIBRARY);
 		entityManager.getTransaction().begin();
 		entityManager.persist(user);
+		entityManager.getTransaction().commit();
 		entityManager.close();
 
 	}
@@ -167,6 +172,7 @@ public class JavaPersistenceDBManager {
 		EntityManager entityManager = JavaPersistenceSessionManager.getEntityManager(SCHEMA_OORT_LIBRARY);
 		entityManager.getTransaction().begin();
 		entityManager.persist(borrow);
+		entityManager.getTransaction().commit();
 		entityManager.close();
 
 	}
