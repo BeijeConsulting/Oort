@@ -10,11 +10,11 @@
 		</properties>
 	</persistence-unit>
 	<persistence-unit name="OortBiblioteca">
-		<class>it.beije.oort.girardi.biblioteca.Autori</class>
-		<class>it.beije.oort.girardi.biblioteca.Editori</class>
-		<class>it.beije.oort.girardi.biblioteca.Libri</class>
-		<class>it.beije.oort.girardi.biblioteca.Prestiti</class>
-		<class>it.beije.oort.girardi.biblioteca.Utenti</class>
+		<class>it.beije.oort.girardi.biblioteca.Autore</class>
+		<class>it.beije.oort.girardi.biblioteca.Editore</class>
+		<class>it.beije.oort.girardi.biblioteca.Libro</class>
+		<class>it.beije.oort.girardi.biblioteca.Prestito</class>
+		<class>it.beije.oort.girardi.biblioteca.Utente</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/biblioteca?serverTimezone=CET"/>

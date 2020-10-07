@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "libri")
-public class Libri {
+public class Libro {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -34,9 +34,9 @@ public class Libri {
 	private LocalDate anno;
 	
 	
-	public Libri() {}
+	public Libro() {}
 	
-	public Libri(String titolo, String descrizione, String autore, 
+	public Libro(String titolo, String descrizione, String autore, 
 								String editore, LocalDate anno) {
 		this.titolo = titolo;
 		this.descrizione = descrizione;

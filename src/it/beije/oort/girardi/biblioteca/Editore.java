@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "editori")
-public class Editori {
+public class Editore {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -22,9 +22,9 @@ public class Editori {
 	@Column(name = "descrizione")
 	private String descrizione;
 
-	public Editori() {}
+	public Editore() {}
 
-	public Editori(String denominazione, String descrizione) {
+	public Editore(String denominazione, String descrizione) {
 		this.denominazione = denominazione;
 		this.descrizione = descrizione;
 	}

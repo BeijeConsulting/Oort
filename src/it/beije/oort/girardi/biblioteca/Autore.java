@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "autori")
-public class Autori {
+public class Autore {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -33,9 +33,9 @@ public class Autori {
 	@Column(name = "biografia")
 	private String biografia;
 	
-	public Autori() {}
+	public Autore() {}
 
-	public Autori(String nome, String cognome, LocalDate data_nascita, 
+	public Autore(String nome, String cognome, LocalDate data_nascita, 
 					LocalDate data_morte, String biografia) {
 		this.nome = nome;
 		this.cognome = cognome;
