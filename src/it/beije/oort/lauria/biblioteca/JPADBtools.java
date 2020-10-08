@@ -58,6 +58,29 @@ public class JPADBtools {
 	
 	public JPADBtools() {}
 
+	public static boolean selectContact(int i, int j) {
+		//EntityManager entityManager = JEntityManagerFactory.openEntityManager("OortBiblioteca");
+		String jpql = "SELECT l FROM Libro as l WHERE id > "+ i +" and id < "+ j;
+		Query query = entityManager.createQuery(jpql);
+		List<Libro> libri = query.getResultList();
+		if(libri.size() == 0) {
+			return false;
+		}
+		System.out.println("In biblioteca sono presenti "+ libri.size() +" libri.");
+		for (Libro libro : libri) {			
+			Autore a = JPADBtools.entityManager.find(Autore.class, libro.getId_autore());
+			Editore e = JPADBtools.entityManager.find(Editore.class, libro.getId_editore()); 
+			System.out.println("id : " + libro.getId());
+			System.out.println("titolo : " + libro.getTitolo());
+			System.out.println("descrizione : " + libro.getDescrizione());
+			System.out.println("id autore : " + libro.getId_autore() + " ("+ a.getNome() +" "+a.getCognome() +")" );
+			System.out.println("id editore : " + libro.getId_editore() + " ("+ e.getDenominazione() +")" );
+			System.out.println("anno : " + libro.getAnno());
+		}
+		//entityManager.close();
+		return true;
+	}
+	
 	public static boolean selectLibri(int i, int j) {
 		//EntityManager entityManager = JEntityManagerFactory.openEntityManager("OortBiblioteca");
 		String jpql = "SELECT l FROM Libro as l WHERE id > "+ i +" and id < "+ j;
